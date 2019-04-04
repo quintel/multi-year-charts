@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 import finalDemandSchema from '../data/charts/finalDemand';
-import { ScenarioJSON, requestScenario } from '../utils/api';
+import { ScenarioJSON, fetchQueriesForScenarios } from '../utils/api';
+import { scenariosToChartData } from '../utils/charts';
+
+import TestChart from './TestChart';
 
 const scenarios = [
   { year: 2020, id: 403896 },
@@ -14,20 +17,6 @@ interface MainState {
   ready: boolean;
   scenarios: ScenarioJSON[];
 }
-
-const fetchQueriesForScenarios = (
-  scenarioIDs: number[]
-): Promise<ScenarioJSON[]> => {
-  return new Promise((resolve, reject) => {
-    const responses = Promise.all(
-      scenarioIDs.map(id => {
-        return requestScenario(id, finalDemandSchema.series);
-      })
-    );
-
-    responses.then(resolve).catch(reject);
-  });
-};
 
 export default class Main extends Component<{}, MainState> {
   constructor(props: {}) {
@@ -64,12 +53,21 @@ export default class Main extends Component<{}, MainState> {
       <div>
         <h1>Main:</h1>
         <ul>{data}</ul>
+        <TestChart
+          series={scenariosToChartData(
+            this.state.scenarios,
+            finalDemandSchema.series
+          )}
+        />
       </div>
     );
   }
 
   loadData() {
-    fetchQueriesForScenarios(scenarios.map(({ id }) => id)).then(scenarios => {
+    fetchQueriesForScenarios(
+      scenarios.map(({ id }) => id),
+      finalDemandSchema.series
+    ).then(scenarios => {
       this.setState({
         ready: true,
         scenarios: scenarios

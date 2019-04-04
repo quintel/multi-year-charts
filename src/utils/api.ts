@@ -8,10 +8,10 @@ export interface GqueryJSON {
 
 export interface ScenarioJSON {
   readonly scenario: {
-    readonly area_code: string;
-    readonly end_year: number;
+    readonly areaCode: string;
+    readonly endYear: number;
     readonly id: number;
-    readonly start_year: number;
+    readonly startYear: number;
     readonly url: string;
   };
 
@@ -46,4 +46,23 @@ export const requestScenario = async (
   });
 
   return parseJSON(response);
+};
+
+/**
+ * Given an array of scenario IDs and a list of gqueries, returns a promise
+ * which provides the JSON responses of fetching all the scenarios.
+ */
+export const fetchQueriesForScenarios = (
+  scenarioIDs: number[],
+  gqueries: string[]
+): Promise<ScenarioJSON[]> => {
+  return new Promise((resolve, reject) => {
+    const responses = Promise.all(
+      scenarioIDs.map(id => {
+        return requestScenario(id, gqueries);
+      })
+    );
+
+    responses.then(resolve).catch(reject);
+  });
 };
