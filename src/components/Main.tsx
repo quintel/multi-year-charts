@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import finalDemandSchema from '../data/charts/finalDemand';
-import { ScenarioJSON, fetchQueriesForScenarios } from '../utils/api';
+import { ScenarioData, fetchQueriesForScenarios } from '../utils/api';
 import { scenariosToChartData } from '../utils/charts';
 
 import TestChart from './TestChart';
@@ -15,7 +15,7 @@ const scenarios = [
 
 interface MainState {
   ready: boolean;
-  scenarios: ScenarioJSON[];
+  scenarios: ScenarioData[];
 }
 
 export default class Main extends Component<{}, MainState> {
@@ -44,7 +44,7 @@ export default class Main extends Component<{}, MainState> {
 
       return (
         <li key={`scenario-${scenario.id}`}>
-          {scenario.end_year}:{scenario.id} {series.join(' ')}
+          {scenario.endYear}:{scenario.id} {series.join(' ')}
         </li>
       );
     });

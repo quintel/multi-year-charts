@@ -1,4 +1,4 @@
-import { ScenarioJSON } from './api';
+import { ScenarioData } from './api';
 import 'apexcharts';
 
 export interface ChartSeries {
@@ -11,16 +11,16 @@ export interface ChartSeries {
  * the scenario data into data for a single axis in an Apex chart.
  */
 export const scenariosToChartData = (
-  scenarios: ScenarioJSON[],
+  scenarios: ScenarioData[],
   gqueries: string[]
 ): ChartSeries => {
   const sorted = scenarios.slice().sort((a, b) => {
-    return a.scenario.end_year - b.scenario.end_year;
+    return a.scenario.endYear - b.scenario.endYear;
   });
 
   return {
     categories: sorted.map(scenarioData => {
-      return scenarioData.scenario.end_year;
+      return scenarioData.scenario.endYear;
     }),
     data: gqueries.map(gquery => ({
       name: gquery,

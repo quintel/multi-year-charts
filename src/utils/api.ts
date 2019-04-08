@@ -1,12 +1,12 @@
 import 'whatwg-fetch';
 
-export interface GqueryJSON {
+export interface GqueryData {
   readonly present: number;
   readonly future: number;
   readonly unit: string;
 }
 
-export interface ScenarioJSON {
+export interface ScenarioData {
   readonly scenario: {
     readonly areaCode: string;
     readonly endYear: number;
@@ -15,7 +15,7 @@ export interface ScenarioJSON {
     readonly url: string;
   };
 
-  readonly gqueries: Record<string, GqueryJSON>;
+  readonly gqueries: Record<string, GqueryData>;
 }
 
 const endpoint = process.env.REACT_APP_ETENGINE_URL;
@@ -25,11 +25,22 @@ const headers = {
   'Content-Type': 'application/json'
 };
 
-/**
- * Passes the JSON response to the promise.
- */
-const parseJSON = (response: Response): Promise<ScenarioJSON> => {
-  return response.json();
+const camelCaseScenario = (json: {
+  scenario: Record<string, number | string>;
+  gqueries: Record<string, GqueryData>;
+}): ScenarioData => {
+  const { scenario, gqueries } = json;
+
+  return {
+    gqueries,
+    scenario: {
+      areaCode: scenario.area_code as string,
+      endYear: scenario.end_year as number,
+      id: scenario.id as number,
+      startYear: scenario.start_year as number,
+      url: scenario.url as string
+    }
+  };
 };
 
 /**
@@ -38,14 +49,14 @@ const parseJSON = (response: Response): Promise<ScenarioJSON> => {
 export const requestScenario = async (
   id: number,
   gqueries: string[] = []
-): Promise<ScenarioJSON> => {
+): Promise<ScenarioData> => {
   const response = await fetch(`${endpoint}/api/v3/scenarios/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ gqueries }),
     headers
   });
 
-  return parseJSON(response);
+  return camelCaseScenario(await response.json());
 };
 
 /**
@@ -55,7 +66,7 @@ export const requestScenario = async (
 export const fetchQueriesForScenarios = (
   scenarioIDs: number[],
   gqueries: string[]
-): Promise<ScenarioJSON[]> => {
+): Promise<ScenarioData[]> => {
   return new Promise((resolve, reject) => {
     const responses = Promise.all(
       scenarioIDs.map(id => {
