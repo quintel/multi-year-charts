@@ -1,4 +1,4 @@
-import { ScenarioData } from './api';
+import { ScenarioData } from './api/types';
 import 'apexcharts';
 
 export interface ChartSeries {

@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import finalDemandSchema from '../data/charts/finalDemand';
-import { ScenarioData, fetchQueriesForScenarios } from '../utils/api';
-import { scenariosToChartData } from '../utils/charts';
+import charts from '../data/charts';
+import { ScenarioData } from '../utils/api/types';
+import { ScenarioIDData } from '../store/types';
 
-import TestChart from './TestChart';
+import { apiFetch, setScenarios } from '../store/actions';
 
-const scenarios = [
+import ChartContainer from './ChartContainer';
+
+const scenarios: ScenarioIDData[] = [
   { year: 2020, id: 403896 },
   { year: 2030, id: 403897 },
   { year: 2040, id: 403898 },
   { year: 2050, id: 403862 }
 ];
 
+interface MainProps {
+  setScenarios: (scenarios: ScenarioIDData[]) => {};
+  apiFetch: () => {};
+}
+
 interface MainState {
   ready: boolean;
   scenarios: ScenarioData[];
 }
 
-export default class Main extends Component<{}, MainState> {
-  constructor(props: {}) {
+class Main extends Component<MainProps, MainState> {
+  constructor(props: MainProps) {
     super(props);
 
     this.state = {
@@ -28,50 +36,25 @@ export default class Main extends Component<{}, MainState> {
     };
   }
 
+  componentWillMount() {
+    this.props.setScenarios(scenarios);
+  }
+
   componentDidMount() {
-    this.loadData();
+    this.props.apiFetch();
   }
 
   render() {
-    if (!this.state.ready) {
-      return <h1>Main (not ready)</h1>;
-    }
-
-    const data = this.state.scenarios.map(({ scenario, gqueries }) => {
-      const series = finalDemandSchema.series.map(
-        serie => `${serie}=${gqueries[serie].future}`
-      );
-
-      return (
-        <li key={`scenario-${scenario.id}`}>
-          {scenario.endYear}:{scenario.id} {series.join(' ')}
-        </li>
-      );
-    });
-
     return (
       <div>
         <h1>Main:</h1>
-        <ul>{data}</ul>
-        <TestChart
-          series={scenariosToChartData(
-            this.state.scenarios,
-            finalDemandSchema.series
-          )}
-        />
+        <ChartContainer charts={charts} />
       </div>
     );
   }
-
-  loadData() {
-    fetchQueriesForScenarios(
-      scenarios.map(({ id }) => id),
-      finalDemandSchema.series
-    ).then(scenarios => {
-      this.setState({
-        ready: true,
-        scenarios: scenarios
-      });
-    });
-  }
 }
+
+export default connect(
+  null,
+  { apiFetch, setScenarios }
+)(Main);

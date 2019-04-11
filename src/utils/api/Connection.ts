@@ -1,30 +1,16 @@
 import 'whatwg-fetch';
 
-export interface GqueryData {
-  readonly present: number;
-  readonly future: number;
-  readonly unit: string;
-}
-
-export interface ScenarioData {
-  readonly scenario: {
-    readonly areaCode: string;
-    readonly endYear: number;
-    readonly id: number;
-    readonly startYear: number;
-    readonly url: string;
-  };
-
-  readonly gqueries: Record<string, GqueryData>;
-}
-
-const endpoint = process.env.REACT_APP_ETENGINE_URL;
+import { GqueryData, ScenarioData } from './types';
 
 const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json'
 };
 
+/**
+ * Receives data for an ETEngine scenario and converts scenario keys to
+ * camel-case.
+ */
 const camelCaseScenario = (json: {
   scenario: Record<string, number | string>;
   gqueries: Record<string, GqueryData>;
@@ -46,7 +32,8 @@ const camelCaseScenario = (json: {
 /**
  * Fetches data about a scenario from ETEngine.
  */
-export const requestScenario = async (
+const requestScenario = async (
+  endpoint: string,
   id: number,
   gqueries: string[] = []
 ): Promise<ScenarioData> => {
@@ -63,17 +50,50 @@ export const requestScenario = async (
  * Given an array of scenario IDs and a list of gqueries, returns a promise
  * which provides the JSON responses of fetching all the scenarios.
  */
-export const fetchQueriesForScenarios = (
+const fetchQueriesForScenarios = (
+  endpoint: string,
   scenarioIDs: number[],
   gqueries: string[]
 ): Promise<ScenarioData[]> => {
   return new Promise((resolve, reject) => {
     const responses = Promise.all(
       scenarioIDs.map(id => {
-        return requestScenario(id, gqueries);
+        return requestScenario(endpoint, id, gqueries);
       })
     );
 
     responses.then(resolve).catch(reject);
   });
 };
+
+/**
+ * Encapsulates one or more ETEngine scenarios and sends requests to the API
+ * as-needed.
+ */
+export default class APIConnection {
+  endpoint: string;
+  scenarios: number[];
+
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
+    this.scenarios = [];
+  }
+
+  setScenarios(scenarios: number[]) {
+    this.scenarios = scenarios;
+  }
+
+  async sendRequest(gqueries: string[]): Promise<ScenarioData[]> {
+    if (this.scenarios.length === 0) {
+      return Promise.reject(
+        'Cannot send API requests until one or more scenario IDs have been set.'
+      );
+    }
+
+    return await fetchQueriesForScenarios(
+      this.endpoint,
+      this.scenarios,
+      gqueries
+    );
+  }
+}
