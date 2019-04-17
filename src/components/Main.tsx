@@ -8,6 +8,7 @@ import { ScenarioIDData } from '../store/types';
 import { apiFetch, setScenarios } from '../store/actions';
 
 import ChartContainer from './ChartContainer';
+import MainNav from './MainNav';
 
 const scenarios: ScenarioIDData[] = [
   { year: 2020, id: 403896 },
@@ -47,8 +48,14 @@ class Main extends Component<MainProps, MainState> {
   render() {
     return (
       <div>
-        <h1>Main:</h1>
-        <ChartContainer charts={charts} />
+        <MainNav />
+        <div className="container">
+          <div className="columns">
+            <div className="column is-full">
+              <ChartContainer charts={charts} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

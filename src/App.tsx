@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
+
+import './App.sass';
 import Main from './components/Main';
 
 import { Provider } from 'react-redux';

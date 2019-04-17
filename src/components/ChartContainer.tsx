@@ -11,9 +11,16 @@ interface ChartContainerState {
   currentChart?: string;
 }
 
-const renderChartTab = (chart: ChartSchema, onClick: (key: string) => void) => (
-  <li key={`chart-selector-${chart.key}`}>
-    <button onClick={() => onClick(chart.key)}>{chart.key}</button>
+const renderChartTab = (
+  chart: ChartSchema,
+  onClick: (key: string) => void,
+  isActive: boolean
+) => (
+  <li
+    key={`chart-selector-${chart.key}`}
+    className={isActive ? 'is-active' : ''}
+  >
+    <a onClick={() => onClick(chart.key)}>{chart.key}</a>
   </li>
 );
 
@@ -38,11 +45,7 @@ export default class ChartContainer extends Component<
     return (
       <div className="chart-container">
         {this.renderAvailableChartTabs()}
-        <h2> {currentChart.key}</h2>
-        <div
-          className="chart"
-          style={{ border: '1px solid #ddd', width: '800px', height: '550px' }}
-        >
+        <div className="chart" style={{ width: '960px', height: '550px' }}>
           <ChartWrapper chart={currentChart} />
         </div>
       </div>
@@ -63,11 +66,17 @@ export default class ChartContainer extends Component<
 
   private renderAvailableChartTabs() {
     return (
-      <ul className="available-charts">
-        {this.props.charts.map(chart =>
-          renderChartTab(chart, this.setCurrentChart)
-        )}
-      </ul>
+      <div className="tabs">
+        <ul>
+          {this.props.charts.map(chart =>
+            renderChartTab(
+              chart,
+              this.setCurrentChart,
+              this.currentChart() === chart
+            )
+          )}
+        </ul>
+      </div>
     );
   }
 

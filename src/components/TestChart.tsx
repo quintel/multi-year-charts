@@ -47,7 +47,7 @@ export default class TestChart extends Component<TestChartProps> {
         options={chartOptions(this.props.series.categories)}
         series={this.props.series.data}
         type="area"
-        width="800"
+        width="960"
         height="500"
       />
     );

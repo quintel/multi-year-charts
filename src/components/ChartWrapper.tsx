@@ -37,7 +37,6 @@ class ChartWrapper extends Component<ChartWrapperProps> {
   render() {
     return (
       <div>
-        <h4>{this.props.chart.key}</h4>
         {canRenderChart(this.props.chart, this.props.scenarios) ? (
           <TestChart
             series={scenariosToChartData(
@@ -53,8 +52,9 @@ class ChartWrapper extends Component<ChartWrapperProps> {
   }
 
   private renderLoading() {
-    return <div>Loading...</div>;
+    return <progress className="progress is-info is-primary" max="100" />;
   }
+
   componentDidMount() {
     this.props.addQueries(this.props.chart.series);
   }
