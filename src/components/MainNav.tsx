@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 const MainNav = () => (
   <nav
-    className="navbar is-light"
+    className="navbar is-dark"
     role="navigation"
     aria-label="main navigation"
   >
     <div className="container">
       <div className="navbar-brand">
         <div className="navbar-item">
-          <strong>Multi-Year Charts</strong>
+          <b>Multi-Year Charts</b>
         </div>
         <a
           role="button"
@@ -25,9 +25,7 @@ const MainNav = () => (
 
       <div className="navbar-menu">
         <div className="navbar-end">
-          <div className="navbar-item">
-            <a className="button is-light">← Back to the ETM</a>
-          </div>
+          <a className="navbar-item">← Back to the ETM</a>
         </div>
       </div>
     </div>

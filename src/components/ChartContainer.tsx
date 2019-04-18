@@ -16,12 +16,13 @@ const renderChartTab = (
   onClick: (key: string) => void,
   isActive: boolean
 ) => (
-  <li
+  <a
+    onClick={() => onClick(chart.key)}
     key={`chart-selector-${chart.key}`}
-    className={isActive ? 'is-active' : ''}
+    className={`navbar-item ${isActive ? 'is-active' : ''}`}
   >
-    <a onClick={() => onClick(chart.key)}>{chart.key}</a>
-  </li>
+    {chart.key}
+  </a>
 );
 
 /**
@@ -45,8 +46,10 @@ export default class ChartContainer extends Component<
     return (
       <div className="chart-container">
         {this.renderAvailableChartTabs()}
-        <div className="chart" style={{ width: '960px', height: '550px' }}>
-          <ChartWrapper chart={currentChart} />
+        <div className="container">
+          <div className="chart">
+            <ChartWrapper chart={currentChart} />
+          </div>
         </div>
       </div>
     );
@@ -66,17 +69,19 @@ export default class ChartContainer extends Component<
 
   private renderAvailableChartTabs() {
     return (
-      <div className="tabs">
-        <ul>
-          {this.props.charts.map(chart =>
-            renderChartTab(
-              chart,
-              this.setCurrentChart,
-              this.currentChart() === chart
-            )
-          )}
-        </ul>
-      </div>
+      <nav className="navbar is-light">
+        <div className="container">
+          <div className="navbar-start">
+            {this.props.charts.map(chart =>
+              renderChartTab(
+                chart,
+                this.setCurrentChart,
+                this.currentChart() === chart
+              )
+            )}
+          </div>
+        </div>
+      </nav>
     );
   }
 

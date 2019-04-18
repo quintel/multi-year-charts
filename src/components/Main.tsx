@@ -49,13 +49,7 @@ class Main extends Component<MainProps, MainState> {
     return (
       <div>
         <MainNav />
-        <div className="container">
-          <div className="columns">
-            <div className="column is-full">
-              <ChartContainer charts={charts} />
-            </div>
-          </div>
-        </div>
+        <ChartContainer charts={charts} />
       </div>
     );
   }
