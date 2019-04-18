@@ -12,7 +12,13 @@ interface TestChartProps {
  * xaxis which should correspond to the year.
  */
 const chartOptions = (categories: number[]): ApexCharts.ApexOptions => ({
-  chart: { stacked: true },
+  chart: {
+    stacked: true,
+    animations: {
+      speed: 350,
+      animateGradually: { enabled: false }
+    }
+  },
   dataLabels: { enabled: false },
   stroke: {
     curve: 'smooth',
