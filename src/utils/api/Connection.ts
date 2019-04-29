@@ -4,7 +4,8 @@ import {
   GqueryData,
   InputCollectionData,
   ScenarioData,
-  ScenarioIndexedInputData
+  ScenarioIndexedInputData,
+  ScenarioIndexedScenarioData
 } from './types';
 
 const headers = {
@@ -70,7 +71,7 @@ const fetchQueriesForScenarios = (
   endpoint: string,
   scenarioIDs: number[],
   gqueries: string[]
-): Promise<ScenarioData[]> => {
+): Promise<ScenarioIndexedScenarioData> => {
   return new Promise((resolve, reject) => {
     const responses = Promise.all(
       scenarioIDs.map(id => {
@@ -78,7 +79,11 @@ const fetchQueriesForScenarios = (
       })
     );
 
-    responses.then(resolve).catch(reject);
+    responses
+      .then((data: ScenarioData[]) => {
+        resolve(indexByScenario(scenarioIDs, data));
+      })
+      .catch(reject);
   });
 };
 
@@ -136,7 +141,7 @@ export default class APIConnection {
     this.scenarios = scenarios;
   }
 
-  async sendRequest(gqueries: string[]): Promise<ScenarioData[]> {
+  async sendRequest(gqueries: string[]): Promise<ScenarioIndexedScenarioData> {
     if (this.scenarios.length === 0) {
       return Promise.reject(
         'Cannot send API requests until one or more scenario IDs have been set.'

@@ -1,4 +1,4 @@
-import { ScenarioData } from './api/types';
+import { ScenarioIndexedScenarioData } from './api/types';
 import 'apexcharts';
 
 export interface ChartSeries {
@@ -11,10 +11,10 @@ export interface ChartSeries {
  * the scenario data into data for a single axis in an Apex chart.
  */
 export const scenariosToChartData = (
-  scenarios: ScenarioData[],
+  scenarios: ScenarioIndexedScenarioData,
   gqueries: string[]
 ): ChartSeries => {
-  const sorted = scenarios.slice().sort((a, b) => {
+  const sorted = Object.values(scenarios).sort((a, b) => {
     return a.scenario.endYear - b.scenario.endYear;
   });
 

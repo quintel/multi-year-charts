@@ -30,4 +30,5 @@ export interface InputCollectionData {
   [key: string]: InputData;
 }
 
+export type ScenarioIndexedScenarioData = Record<number, ScenarioData>;
 export type ScenarioIndexedInputData = Record<number, InputCollectionData>;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import charts from '../data/charts';
-import { ScenarioData } from '../utils/api/types';
+import { ScenarioIndexedScenarioData } from '../utils/api/types';
 import { ScenarioIDData } from '../store/types';
 
 import { apiFetch, setScenarios } from '../store/actions';
@@ -19,12 +19,13 @@ const scenarios: ScenarioIDData[] = [
 
 interface MainProps {
   setScenarios: (scenarios: ScenarioIDData[]) => {};
+  fetchInputs: () => {};
   apiFetch: () => {};
 }
 
 interface MainState {
   ready: boolean;
-  scenarios: ScenarioData[];
+  scenarios: ScenarioIndexedScenarioData;
 }
 
 class Main extends Component<MainProps, MainState> {

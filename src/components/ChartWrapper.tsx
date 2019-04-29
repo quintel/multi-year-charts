@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { AppState } from '../store/reducers';
 import { ChartSchema } from '../data/charts';
-import { ScenarioData } from '../utils/api/types';
+import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import TestChart from './TestChart';
 import { scenariosToChartData } from '../utils/charts';
@@ -13,7 +13,7 @@ import { addQueries, apiFetch, removeQueries } from '../store/actions';
 
 interface ChartWrapperProps {
   chart: ChartSchema;
-  scenarios: ScenarioData[];
+  scenarios: ScenarioIndexedScenarioData;
   addQueries: (keys: string[]) => void;
   apiFetch: () => {};
   removeQueries: (keys: string[]) => void;
@@ -23,13 +23,18 @@ interface ChartWrapperProps {
  * Returns whether the scenario data has all of the values needed to render the
  * chart.
  */
-const canRenderChart = (series: ChartSchema, scenarios: ScenarioData[]) => {
-  if (scenarios.length === 0) {
+const canRenderChart = (
+  series: ChartSchema,
+  scenarios: ScenarioIndexedScenarioData
+) => {
+  const ids = Object.keys(scenarios);
+
+  if (ids.length === 0) {
     return false;
   }
 
   return series.series.every(series =>
-    scenarios.every(scenario => scenario.gqueries.hasOwnProperty(series))
+    ids.every(id => scenarios[parseInt(id, 10)].gqueries.hasOwnProperty(series))
   );
 };
 

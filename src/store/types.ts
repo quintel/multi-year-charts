@@ -1,4 +1,9 @@
-import { ScenarioData, InputCollectionData } from '../utils/api/types';
+import {
+  ScenarioData,
+  InputCollectionData,
+  ScenarioIndexedScenarioData,
+  ScenarioIndexedInputData
+} from '../utils/api/types';
 
 /**
  * API
@@ -60,12 +65,12 @@ interface SwapQueriesAction {
 
 interface UpdateAPIDataAction {
   type: typeof TypeKeys.UPDATE_API_DATA;
-  payload: ScenarioData[];
+  payload: ScenarioIndexedScenarioData;
 }
 
 interface UpdateAPIInputsAction {
   type: typeof TypeKeys.UPDATE_INPUT_DATA;
-  payload: InputCollectionData;
+  payload: ScenarioIndexedInputData;
 }
 
 export type ActionTypes =
