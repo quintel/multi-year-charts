@@ -1,7 +1,8 @@
 import { ActionTypes, TypeKeys, ScenarioIDData, QueriesList } from './types';
-import { ScenarioData } from '../utils/api/types';
+import { InputCollectionData, ScenarioData } from '../utils/api/types';
 
 export interface AppState {
+  inputData: InputCollectionData;
   requestInProgress: boolean;
   scenarios: ScenarioIDData[];
   scenarioData: ScenarioData[];
@@ -9,6 +10,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
+  inputData: {},
   requestInProgress: false,
   scenarioData: [],
   scenarios: [],
@@ -89,6 +91,17 @@ export default function(state = initialState, action: ActionTypes) {
       return { ...state, scenarios: action.payload };
     }
 
+    case TypeKeys.UPDATE_API_DATA: {
+      return {
+        ...state,
+        scenarioData: action.payload
+      };
+    }
+
+    case TypeKeys.UPDATE_INPUT_DATA: {
+      return { ...state, inputData: action.payload };
+    }
+
     /**
      * Query tracking
      */
@@ -109,13 +122,6 @@ export default function(state = initialState, action: ActionTypes) {
       return {
         ...state,
         queries: addQueries(removeQueries(state.queries, remove), add)
-      };
-    }
-
-    case TypeKeys.UPDATE_API_DATA: {
-      return {
-        ...state,
-        scenarioData: action.payload
       };
     }
 

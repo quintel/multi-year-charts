@@ -1,6 +1,11 @@
 import 'whatwg-fetch';
 
-import { GqueryData, ScenarioData } from './types';
+import {
+  GqueryData,
+  InputCollectionData,
+  ScenarioData,
+  ScenarioIndexedInputData
+} from './types';
 
 const headers = {
   Accept: 'application/json',
@@ -27,6 +32,17 @@ const camelCaseScenario = (json: {
       url: scenario.url as string
     }
   };
+};
+
+/**
+ * Receives a list of scenario IDs and data corresponding to each scenario and
+ * return a record of the data indexed by the ID.
+ */
+const indexByScenario = <T>(scenarioIDs: number[], data: T[]) => {
+  const byScenario: Record<number, T> = {};
+  scenarioIDs.map((id, index) => (byScenario[id] = data[index]));
+
+  return byScenario;
 };
 
 /**
@@ -67,6 +83,43 @@ const fetchQueriesForScenarios = (
 };
 
 /**
+ * Fetches the complete list of inputs available for a scenario, including
+ * custom values set by the creator of the scenario.
+ */
+const fetchInputsForScenario = async (
+  endpoint: string,
+  id: number
+): Promise<InputCollectionData> => {
+  const response = await fetch(
+    `${endpoint}/api/v3/scenarios/${id}/inputs.json`,
+    { headers }
+  );
+
+  return await response.json();
+};
+
+/**
+ * Fetches the complete list of inputs available for a list of scenarios,
+ * returning a promise which yields the result of each request.
+ */
+const fetchInputsForScenarios = (
+  endpoint: string,
+  scenarioIDs: number[]
+): Promise<ScenarioIndexedInputData> => {
+  return new Promise((resolve, reject) => {
+    const responses = Promise.all(
+      scenarioIDs.map(id => fetchInputsForScenario(endpoint, id))
+    );
+
+    responses
+      .then((data: InputCollectionData[]) => {
+        resolve(indexByScenario(scenarioIDs, data));
+      })
+      .catch(reject);
+  });
+};
+
+/**
  * Encapsulates one or more ETEngine scenarios and sends requests to the API
  * as-needed.
  */
@@ -95,5 +148,15 @@ export default class APIConnection {
       this.scenarios,
       gqueries
     );
+  }
+
+  async fetchInputs(): Promise<ScenarioIndexedInputData> {
+    if (this.scenarios.length === 0) {
+      return Promise.reject(
+        'Cannot send API requests until one or more scenario IDs have been set.'
+      );
+    }
+
+    return await fetchInputsForScenarios(this.endpoint, this.scenarios);
   }
 }

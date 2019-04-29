@@ -15,3 +15,19 @@ export interface ScenarioData {
 
   readonly gqueries: Record<string, GqueryData>;
 }
+
+/** @todo share_group should be camel-cased */
+export interface InputData {
+  min: number;
+  max: number;
+  default: number;
+  user?: number;
+  disabled: boolean;
+  share_group?: string;
+}
+
+export interface InputCollectionData {
+  [key: string]: InputData;
+}
+
+export type ScenarioIndexedInputData = Record<number, InputCollectionData>;

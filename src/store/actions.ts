@@ -41,3 +41,10 @@ export const swapQueries = (add: string[], remove: string[]): ActionTypes => ({
 export const apiFetch = () => ({
   type: TypeKeys.API_FETCH
 });
+
+/**
+ * Requests the list of inputs and values from the ETEngine API.
+ */
+export const fetchInputs = () => ({
+  type: TypeKeys.FETCH_INPUTS
+});

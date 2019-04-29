@@ -27,6 +27,15 @@ const sendRequest = (
   });
 };
 
+const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>) => {
+  conn.fetchInputs().then(data => {
+    dispatch({
+      type: TypeKeys.UPDATE_INPUT_DATA,
+      payload: data
+    });
+  });
+};
+
 /**
  * Creates Redux middleware which listens for actions which request data from
  * the API and triggers requests as needed. Results from ETEngine are then
@@ -44,6 +53,11 @@ const createAPIMiddleware = () => {
 
       case TypeKeys.API_FETCH: {
         sendRequest(conn, dispatch, getState);
+        break;
+      }
+
+      case TypeKeys.FETCH_INPUTS: {
+        fetchInputs(conn, dispatch);
         break;
       }
     }

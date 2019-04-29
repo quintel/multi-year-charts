@@ -1,4 +1,4 @@
-import { ScenarioData } from '../utils/api/types';
+import { ScenarioData, InputCollectionData } from '../utils/api/types';
 
 /**
  * API
@@ -15,14 +15,20 @@ export enum TypeKeys {
   ADD_QUERIES = 'ADD_QUERIES',
   API_FETCH = 'API_FETCH',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
+  FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
   SET_SCENARIOS = 'SET_SCENARIOS',
   SWAP_QUERIES = 'SWAP_QUERIES',
-  UPDATE_API_DATA = 'UPDATE_API_DATA'
+  UPDATE_API_DATA = 'UPDATE_API_DATA',
+  UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA'
 }
 
 interface APIFetchAction {
   type: typeof TypeKeys.API_FETCH;
+}
+
+interface APIFetchInputsAction {
+  type: typeof TypeKeys.FETCH_INPUTS;
 }
 
 interface APIRequestFinishedAction {
@@ -57,11 +63,18 @@ interface UpdateAPIDataAction {
   payload: ScenarioData[];
 }
 
+interface UpdateAPIInputsAction {
+  type: typeof TypeKeys.UPDATE_INPUT_DATA;
+  payload: InputCollectionData;
+}
+
 export type ActionTypes =
   | APIFetchAction
+  | APIFetchInputsAction
   | APIRequestFinishedAction
   | SetScenariosAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
-  | UpdateAPIDataAction;
+  | UpdateAPIDataAction
+  | UpdateAPIInputsAction;
