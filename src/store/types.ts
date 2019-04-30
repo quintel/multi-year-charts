@@ -1,6 +1,4 @@
 import {
-  ScenarioData,
-  InputCollectionData,
   ScenarioIndexedScenarioData,
   ScenarioIndexedInputData
 } from '../utils/api/types';
