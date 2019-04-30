@@ -83,3 +83,15 @@ export type ActionTypes =
   | RemoveQueriesAction
   | UpdateAPIDataAction
   | UpdateAPIInputsAction;
+
+/**
+ * State
+ */
+
+export interface AppState {
+  inputData: ScenarioIndexedInputData;
+  requestInProgress: boolean;
+  scenarios: ScenarioIDData[];
+  scenarioData: ScenarioIndexedScenarioData;
+  queries: QueriesList;
+}

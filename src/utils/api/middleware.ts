@@ -2,7 +2,7 @@ import { AnyAction, Dispatch, Middleware } from 'redux';
 
 import Connection from './Connection';
 import { ScenarioIDData, TypeKeys } from '../../store/types';
-import { AppState } from '../../store/reducers';
+import { AppState } from '../../store/types';
 
 /**
  * Handles fetching data from ETEngine and dispatching events back to Redux.

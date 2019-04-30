@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { AppState } from '../store/reducers';
+import { AppState } from '../store/types';
 import { ChartSchema } from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 

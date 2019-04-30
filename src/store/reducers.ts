@@ -1,16 +1,4 @@
-import { ActionTypes, TypeKeys, ScenarioIDData, QueriesList } from './types';
-import {
-  ScenarioIndexedScenarioData,
-  ScenarioIndexedInputData
-} from '../utils/api/types';
-
-export interface AppState {
-  inputData: ScenarioIndexedInputData;
-  requestInProgress: boolean;
-  scenarios: ScenarioIDData[];
-  scenarioData: ScenarioIndexedScenarioData;
-  queries: QueriesList;
-}
+import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
   inputData: {},
