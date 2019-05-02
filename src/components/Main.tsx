@@ -8,6 +8,7 @@ import { ScenarioIDData } from '../store/types';
 import { apiFetch, setScenarios } from '../store/actions';
 
 import ChartContainer from './ChartContainer';
+import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
 
 const scenarios: ScenarioIDData[] = [
@@ -19,7 +20,6 @@ const scenarios: ScenarioIDData[] = [
 
 interface MainProps {
   setScenarios: (scenarios: ScenarioIDData[]) => {};
-  fetchInputs: () => {};
   apiFetch: () => {};
 }
 
@@ -51,6 +51,7 @@ class Main extends Component<MainProps, MainState> {
       <div>
         <MainNav />
         <ChartContainer charts={charts} />
+        <InputsSummary />
       </div>
     );
   }
