@@ -1,5 +1,6 @@
 export default {
   key: 'renewables',
+  slug: 'renewables',
   series: [
     'final_demand_of_renewable_electricity_from_other',
     'final_demand_of_renewable_electricity_from_solar',

@@ -1,5 +1,6 @@
 export default {
   key: 'final_demand',
+  slug: 'final-demand',
   series: [
     'final_demand_in_agriculture',
     'final_demand_in_buildings',

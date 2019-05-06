@@ -4,6 +4,7 @@ import renewables from './charts/renewables';
 
 export interface ChartSchema {
   key: string;
+  slug: string;
   series: string[];
 }
 

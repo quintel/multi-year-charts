@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import charts from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 import { ScenarioIDData } from '../store/types';
@@ -10,7 +12,7 @@ import { apiFetch, setScenarios } from '../store/actions';
 import ChartContainer from './ChartContainer';
 import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
-import ScenarioEditor from './ScenarioEditor';
+import SubNav from './SubNav';
 
 const scenarios: ScenarioIDData[] = [
   { year: 2020, id: 403896 },
@@ -50,9 +52,23 @@ class Main extends Component<MainProps, MainState> {
   render() {
     return (
       <div>
-        <MainNav />
-        <ChartContainer charts={charts} />
-        <InputsSummary />
+        <Router>
+          <MainNav />
+          <SubNav charts={charts} />
+          <div>
+            <Route path="/" exact component={ChartContainer} />
+            <Route
+              path="/charts/:slug"
+              render={props => (
+                <ChartContainer
+                  activeChart={props.match.params.slug}
+                  charts={charts}
+                />
+              )}
+            />
+            <Route path="/inputs" component={InputsSummary} />
+          </div>
+        </Router>
       </div>
     );
   }

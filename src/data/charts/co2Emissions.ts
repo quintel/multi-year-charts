@@ -1,5 +1,6 @@
 export default {
   key: 'co2_emissions',
+  slug: 'co2-emissions',
   series: [
     'primary_co2_final_demand_in_agriculture',
     'primary_co2_final_demand_in_buildings',

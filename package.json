@@ -15,6 +15,7 @@
     "react-aria-modal": "^4.0.0",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "typescript": "^3.4.1"
   },
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/react-aria-modal": "^2.12.1",
     "@types/react-redux": "^7.0.6",
+    "@types/react-router-dom": "^4.3.3",
     "@typescript-eslint/eslint-plugin": "^1.5.0",
     "@typescript-eslint/parser": "^1.5.0",
     "eslint-config-prettier": "^4.1.0",
