@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import ScenarioEditor from './ScenarioEditor';
 import { AppState } from '../store/types';
 
 import {
@@ -8,15 +9,24 @@ import {
   ScenarioIndexedScenarioData
 } from '../utils/api/types';
 
-import { fetchInputs } from '../store/actions';
+import { apiFetch, fetchInputs } from '../store/actions';
 import sortScenarios from '../utils/sortScenarios';
 import inputDefinitions from '../data/inputs.json';
 
 interface InputsSummaryProps {
-  fetchInputs: () => {};
+  apiFetch: () => void;
+  fetchInputs: () => void;
   inputData: ScenarioIndexedInputData;
   scenarioData: ScenarioIndexedScenarioData;
 }
+
+interface InputsSummaryState {
+  // When the editor settings are present, they describe the scenario ID and
+  // input key which should be opened in the modal.
+  editorSettings: { isOpen: boolean; scenarioID?: number; inputKey?: string };
+}
+
+type OpenModalFunc = (scenarioID: number, inputKey: string) => void;
 
 /**
  * A rudimentary formatter for input values.
@@ -54,22 +64,14 @@ const modifiedInputs = (
 };
 
 /**
- * Links to the correct slide in ETModel for the given scenario and input,
- * allowing the user to make further changes.
- */
-const urlForInput = (scenarioID: number, input: { key: string }) =>
-  `${process.env.REACT_APP_ETMODEL_URL}/scenarios/${scenarioID}/reopen?input=${
-    input.key
-  }`;
-
-/**
  * Returns HTML for a single row in the input summary, representing an input and
  * the values in each scenario.
  */
 const renderInput = (
   input: { name: string; key: string; unit: string },
   inputData: ScenarioIndexedInputData,
-  scenarioIDs: number[]
+  scenarioIDs: number[],
+  onClick: OpenModalFunc
 ) => {
   return (
     <tr key={`input - ${input.key} `}>
@@ -85,12 +87,7 @@ const renderInput = (
 
         return (
           <td key={`input - val - ${id} -${input.key} `} className={className}>
-            <a
-              href={urlForInput(id, input)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={className}
-            >
+            <a onClick={() => onClick(id, input.key)} className={className}>
               {formatInputValue(value, input)}
             </a>
           </td>
@@ -110,7 +107,8 @@ const renderSlide = (
     input_elements: { name: string; key: string; unit: string }[];
   },
   inputData: ScenarioIndexedInputData,
-  scenarios: number[]
+  scenarios: number[],
+  onClick: OpenModalFunc
 ) => {
   const inputs = modifiedInputs(slide.input_elements, inputData);
 
@@ -124,7 +122,7 @@ const renderSlide = (
         <th colSpan={5}>{slide.path.join(' → ')}</th>
       </tr>
       {slide.input_elements.map(element =>
-        renderInput(element, inputData, scenarios)
+        renderInput(element, inputData, scenarios, onClick)
       )}
     </React.Fragment>
   );
@@ -135,12 +133,23 @@ const renderSlide = (
  * with links to open the scenarios allowing the user to make further
  * adjustment.
  */
-class InputsSummary extends Component<InputsSummaryProps, {}> {
+class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
+  state = { editorSettings: { isOpen: false, scenarioID: 0, inputKey: '' } };
+
+  constructor(props: InputsSummaryProps) {
+    super(props);
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
   render() {
     return (
       <div className="container">
-        <h2>Inputs summary:</h2>
         {this.dataIsLoaded() ? this.renderInputs() : this.renderLoading()}
+        {this.state.editorSettings.isOpen ? (
+          <ScenarioEditor {...this.scenarioEditorProps()} />
+        ) : null}
       </div>
     );
   }
@@ -151,8 +160,11 @@ class InputsSummary extends Component<InputsSummaryProps, {}> {
     }
   }
 
+  /**
+   * Determines if all the data needed to show the InputSummary has been loaded.
+   */
   private dataIsLoaded() {
-    return (
+    return !!(
       Object.keys(this.props.inputData).length &&
       Object.keys(this.props.scenarioData).length
     );
@@ -178,7 +190,8 @@ class InputsSummary extends Component<InputsSummaryProps, {}> {
             renderSlide(
               definition,
               this.props.inputData,
-              sortedScenarios.map(({ scenario: { id } }) => id)
+              sortedScenarios.map(({ scenario: { id } }) => id),
+              this.openModal
             )
           )}
         </tbody>
@@ -189,6 +202,31 @@ class InputsSummary extends Component<InputsSummaryProps, {}> {
   private renderLoading() {
     return <progress className="progress is-info is-primary" max="100" />;
   }
+
+  /**
+   * Returns props for the ScenarioEditor modal.
+   */
+  private scenarioEditorProps() {
+    return {
+      ...this.state.editorSettings,
+      endYear: this.props.scenarioData[this.state.editorSettings.scenarioID]
+        .scenario.endYear,
+      onClose: this.closeModal
+    };
+  }
+
+  private openModal(scenarioID: number, inputKey: string) {
+    this.setState({ editorSettings: { isOpen: true, scenarioID, inputKey } });
+  }
+
+  private closeModal() {
+    this.props.fetchInputs();
+    this.props.apiFetch();
+
+    this.setState({
+      editorSettings: { isOpen: false, scenarioID: 0, inputKey: '' }
+    });
+  }
 }
 
 const mapStateToProps = (state: AppState) => ({
@@ -198,5 +236,5 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps,
-  { fetchInputs }
+  { apiFetch, fetchInputs }
 )(InputsSummary);

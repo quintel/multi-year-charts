@@ -10,6 +10,7 @@ import { apiFetch, setScenarios } from '../store/actions';
 import ChartContainer from './ChartContainer';
 import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
+import ScenarioEditor from './ScenarioEditor';
 
 const scenarios: ScenarioIDData[] = [
   { year: 2020, id: 403896 },

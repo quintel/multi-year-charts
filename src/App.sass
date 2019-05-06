@@ -6,12 +6,37 @@ $body-color: hsl(0, 0%, 4%)
 @import "bulma/sass/base/_all.sass"
 @import "bulma/sass/components/navbar.sass"
 @import "bulma/sass/components/tabs.sass"
+@import "bulma/sass/elements/button.sass"
 @import "bulma/sass/elements/container.sass"
 @import "bulma/sass/elements/progress.sass"
 @import "bulma/sass/elements/table.sass"
+@import "bulma/sass/elements/title.sass"
 
 html, body
   -webkit-font-smoothing: auto
 
 .chart-container .navbar
   margin-bottom: 1rem
+
+.scenario-editor
+  background: white
+  border-radius: 5px
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.1)
+  margin-top: 2rem
+  overflow: hidden
+  width: 700px
+
+  iframe
+    height: 600px
+    width: 100%
+
+  header, footer
+    line-height: 1
+    padding: 1rem
+
+  header
+    border-bottom: 1px solid $grey-lighter
+
+  footer
+    border-top: 1px solid $grey-lighter
+    margin-top: -6px
