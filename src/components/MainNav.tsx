@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const MainNav = () => (
   <nav
@@ -25,7 +25,9 @@ const MainNav = () => (
 
       <div className="navbar-menu">
         <div className="navbar-end">
-          <a className="navbar-item">← Back to the ETM</a>
+          <a className="navbar-item" href={process.env.REACT_APP_ETMODEL_URL}>
+            ← Back to the ETM
+          </a>
         </div>
       </div>
     </div>
