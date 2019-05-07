@@ -1,4 +1,4 @@
-import { ActionTypes, TypeKeys, ScenarioIDData } from './types';
+import { ActionTypes, TypeKeys } from './types';
 
 /**
  * Adds one or more query keys to the list of queries which should be fetched
@@ -21,7 +21,7 @@ export const removeQueries = (queries: string[]): ActionTypes => ({
 /**
  * Sets the list of scenarios which are to be fetched from ETEngine.
  */
-export const setScenarios = (scenarios: ScenarioIDData[]): ActionTypes => ({
+export const setScenarios = (scenarios: number[]): ActionTypes => ({
   type: TypeKeys.SET_SCENARIOS,
   payload: scenarios
 });

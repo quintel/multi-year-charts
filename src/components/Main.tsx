@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import charts from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
-import { ScenarioIDData } from '../store/types';
 
 import { setScenarios } from '../store/actions';
 
@@ -14,15 +13,10 @@ import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
 import SubNav from './SubNav';
 
-const scenarios: ScenarioIDData[] = [
-  { year: 2020, id: 403896 },
-  { year: 2030, id: 403897 },
-  { year: 2040, id: 403898 },
-  { year: 2050, id: 403862 }
-];
+const scenarios = [403896, 403897, 403898, 403862];
 
 interface MainProps {
-  setScenarios: (scenarios: ScenarioIDData[]) => {};
+  setScenarios: (scenarios: number[]) => {};
 }
 
 interface MainState {

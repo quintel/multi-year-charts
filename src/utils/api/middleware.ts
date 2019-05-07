@@ -1,7 +1,7 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 
 import Connection from './Connection';
-import { ScenarioIDData, TypeKeys } from '../../store/types';
+import { TypeKeys } from '../../store/types';
 import { AppState } from '../../store/types';
 
 /**
@@ -47,7 +47,7 @@ const createAPIMiddleware = () => {
   const api: Middleware = ({ dispatch, getState }) => next => action => {
     switch (action.type) {
       case TypeKeys.SET_SCENARIOS: {
-        conn.setScenarios(action.payload.map((s: ScenarioIDData) => s.id));
+        conn.setScenarios(action.payload.map((id: number) => id));
         break;
       }
 

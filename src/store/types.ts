@@ -7,11 +7,6 @@ import {
  * API
  */
 
-export interface ScenarioIDData {
-  id: number;
-  year: number;
-}
-
 export type QueriesList = Record<string, number>;
 
 export enum TypeKeys {
@@ -40,7 +35,7 @@ interface APIRequestFinishedAction {
 
 interface SetScenariosAction {
   type: typeof TypeKeys.SET_SCENARIOS;
-  payload: ScenarioIDData[];
+  payload: number[];
 }
 
 interface AddQueriesAction {
@@ -89,7 +84,7 @@ export type ActionTypes =
 export interface AppState {
   inputData: ScenarioIndexedInputData;
   requestInProgress: boolean;
-  scenarios: ScenarioIDData[];
+  scenarios: number[];
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
 }
