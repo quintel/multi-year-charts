@@ -7,7 +7,7 @@ import charts from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 import { ScenarioIDData } from '../store/types';
 
-import { apiFetch, setScenarios } from '../store/actions';
+import { setScenarios } from '../store/actions';
 
 import ChartContainer from './ChartContainer';
 import InputsSummary from './InputsSummary';
@@ -23,7 +23,6 @@ const scenarios: ScenarioIDData[] = [
 
 interface MainProps {
   setScenarios: (scenarios: ScenarioIDData[]) => {};
-  apiFetch: () => {};
 }
 
 interface MainState {
@@ -43,10 +42,6 @@ class Main extends Component<MainProps, MainState> {
 
   componentWillMount() {
     this.props.setScenarios(scenarios);
-  }
-
-  componentDidMount() {
-    this.props.apiFetch();
   }
 
   render() {
@@ -76,5 +71,5 @@ class Main extends Component<MainProps, MainState> {
 
 export default connect(
   null,
-  { apiFetch, setScenarios }
+  { setScenarios }
 )(Main);

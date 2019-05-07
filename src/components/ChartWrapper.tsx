@@ -15,7 +15,7 @@ interface ChartWrapperProps {
   chart: ChartSchema;
   scenarios: ScenarioIndexedScenarioData;
   addQueries: (keys: string[]) => void;
-  apiFetch: () => {};
+  apiFetch: () => void;
   removeQueries: (keys: string[]) => void;
 }
 
@@ -62,6 +62,7 @@ class ChartWrapper extends Component<ChartWrapperProps> {
 
   componentDidMount() {
     this.props.addQueries(this.props.chart.series);
+    this.props.apiFetch();
   }
 
   componentDidUpdate(prevProps: ChartWrapperProps) {

@@ -158,6 +158,10 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
     if (Object.values(this.props.inputData).length === 0) {
       this.props.fetchInputs();
     }
+
+    if (Object.values(this.props.scenarioData).length === 0) {
+      this.props.apiFetch();
+    }
   }
 
   /**
