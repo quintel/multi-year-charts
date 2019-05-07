@@ -13,10 +13,9 @@ import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
 import SubNav from './SubNav';
 
-const scenarios = [403896, 403897, 403898, 403862];
-
 interface MainProps {
-  setScenarios: (scenarios: number[]) => {};
+  scenarioIDs: number[];
+  setScenarios: (scenarios: number[]) => void;
 }
 
 interface MainState {
@@ -35,13 +34,13 @@ class Main extends Component<MainProps, MainState> {
   }
 
   componentWillMount() {
-    this.props.setScenarios(scenarios);
+    this.props.setScenarios(this.props.scenarioIDs);
   }
 
   render() {
     return (
       <div>
-        <Router>
+        <Router basename={`/${this.props.scenarioIDs.join(',')}`}>
           <MainNav />
           <SubNav charts={charts} />
           <div>
