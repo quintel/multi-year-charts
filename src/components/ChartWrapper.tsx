@@ -6,7 +6,7 @@ import { AppState } from '../store/types';
 import { ChartSchema } from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
-import TestChart from './TestChart';
+import Chart from './Chart';
 import { scenariosToChartData } from '../utils/charts';
 
 import { addQueries, apiFetch, removeQueries } from '../store/actions';
@@ -43,7 +43,7 @@ class ChartWrapper extends Component<ChartWrapperProps> {
     return (
       <div>
         {canRenderChart(this.props.chart, this.props.scenarios) ? (
-          <TestChart
+          <Chart
             series={scenariosToChartData(
               this.props.scenarios,
               this.props.chart.series
