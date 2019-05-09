@@ -28,3 +28,14 @@ export const scenariosToChartData = (
     }))
   };
 };
+
+export const translateChartData = (
+  series: ChartSeries,
+  translate: (key: string) => string
+): ChartSeries => {
+  const newData = series.data.map(seriesData => {
+    return { ...seriesData, name: translate(seriesData.name) };
+  });
+
+  return { ...series, data: newData };
+};

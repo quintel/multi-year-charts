@@ -3,6 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 import { ChartSchema } from '../data/charts';
 
+import translate from '../utils/translate';
+import translations from '../data/locales/nl.json';
+
 const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
   return (
     <nav id="subnav" className="navbar is-light">
@@ -15,7 +18,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
               key={`subnav-chart-${chart.slug}`}
               to={`/charts/${chart.slug}`}
             >
-              {chart.key}
+              {translate(`chart.${chart.key}`, translations)}
             </NavLink>
           ))}
         </div>
@@ -25,7 +28,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
             className="navbar-item"
             to="/inputs"
           >
-            Slider settings
+            {translate('app.sliderSettings', translations)}
           </NavLink>
         </div>
       </div>

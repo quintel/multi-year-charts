@@ -10,7 +10,6 @@ export default {
     'final_demand_of_renewable_heat_from_geothermal_and_ambient',
     'final_demand_of_renewable_hydrogen',
     'final_demand_of_renewable_liquid_biofuels',
-    'final_demand_of_renewable_solid_biofuels',
-    'total_final_demand_of_renewables'
+    'final_demand_of_renewable_solid_biofuels'
   ]
 };

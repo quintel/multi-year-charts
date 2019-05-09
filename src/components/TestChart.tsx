@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
-import { ChartSeries } from '../utils/charts';
+import { ChartSeries, translateChartData } from '../utils/charts';
+
+import translate from '../utils/translate';
+import translations from '../data/locales/nl.json';
 
 interface TestChartProps {
   series: ChartSeries;
@@ -37,7 +40,7 @@ const chartOptions = (categories: number[]): ApexCharts.ApexOptions => ({
   xaxis: {
     type: 'categories',
     categories,
-    title: { text: 'Year' }
+    title: { text: translate('misc.year', translations) }
   },
   yaxis: {
     labels: {
@@ -48,10 +51,15 @@ const chartOptions = (categories: number[]): ApexCharts.ApexOptions => ({
 
 export default class TestChart extends Component<TestChartProps> {
   render() {
+    const translatedSeries = translateChartData(
+      this.props.series,
+      (key: string) => translate(`series.${key}`, translations)
+    )
+
     return (
       <Chart
         options={chartOptions(this.props.series.categories)}
-        series={this.props.series.data}
+        series={translatedSeries.data}
         type="area"
         height="500"
       />
