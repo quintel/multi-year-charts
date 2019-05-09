@@ -10,11 +10,29 @@ interface TestChartProps {
   series: ChartSeries;
 }
 
+type UnitFormatter = (val: number) => string;
+
+const createUnitFormatter = (unit: string): UnitFormatter => {
+  switch (unit) {
+    case 'MJ':
+      return val => `${(val / 1000000000).toFixed(2)} PJ`;
+    case 'kg':
+      // "kg" gqueries are for primary CO2 which wrongly return kg as the unit
+      // when it should be MT.
+      return val => `${val.toFixed(2)} MT`;
+    default:
+      return val => `${val.toFixed(2)} ${unit}`;
+  }
+};
+
 /**
  * Creates options for the Apex chart. Receives a list of categories for the
  * xaxis which should correspond to the year.
  */
-const chartOptions = (categories: number[]): ApexCharts.ApexOptions => ({
+const chartOptions = (
+  categories: number[],
+  formatter: UnitFormatter
+): ApexCharts.ApexOptions => ({
   chart: {
     stacked: true,
     animations: {
@@ -44,7 +62,7 @@ const chartOptions = (categories: number[]): ApexCharts.ApexOptions => ({
   },
   yaxis: {
     labels: {
-      formatter: val => `${(val / 1000000000).toFixed(2)} MT`
+      formatter
     }
   }
 });
@@ -54,11 +72,16 @@ export default class TestChart extends Component<TestChartProps> {
     const translatedSeries = translateChartData(
       this.props.series,
       (key: string) => translate(`series.${key}`, translations)
-    )
+    );
+
+    const options = chartOptions(
+      this.props.series.categories,
+      createUnitFormatter(this.props.series.unit)
+    );
 
     return (
       <Chart
-        options={chartOptions(this.props.series.categories)}
+        options={options}
         series={translatedSeries.data}
         type="area"
         height="500"

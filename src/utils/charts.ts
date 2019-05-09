@@ -6,6 +6,7 @@ import sortScenarios from './sortScenarios';
 export interface ChartSeries {
   categories: number[];
   data: ApexAxisChartSeries;
+  unit: string;
 }
 
 /**
@@ -18,6 +19,8 @@ export const scenariosToChartData = (
 ): ChartSeries => {
   const sorted = sortScenarios(Object.values(scenarios));
 
+  const unit = Object.values(scenarios)[0].gqueries[gqueries[0]].unit;
+
   return {
     categories: sorted.map(scenarioData => {
       return scenarioData.scenario.endYear;
@@ -25,7 +28,8 @@ export const scenariosToChartData = (
     data: gqueries.map(gquery => ({
       name: gquery,
       data: sorted.map(scenarioData => scenarioData.gqueries[gquery].future)
-    }))
+    })),
+    unit
   };
 };
 
