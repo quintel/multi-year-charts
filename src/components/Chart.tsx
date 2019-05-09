@@ -42,7 +42,7 @@ const chartOptions = (
   },
   dataLabels: { enabled: false },
   stroke: {
-    curve: 'smooth',
+    curve: 'straight',
     width: 2
   },
   fill: {
