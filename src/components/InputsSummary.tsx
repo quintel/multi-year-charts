@@ -193,7 +193,7 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
     );
 
     return (
-      <table className="table is-fullwidth">
+      <table className="inputs-summary table is-fullwidth">
         <thead>
           <tr>
             <th>Input</th>
