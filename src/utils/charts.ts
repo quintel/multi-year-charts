@@ -18,16 +18,20 @@ export const scenariosToChartData = (
   gqueries: string[]
 ): ChartSeries => {
   const sorted = sortScenarios(Object.values(scenarios));
-
-  const unit = Object.values(scenarios)[0].gqueries[gqueries[0]].unit;
+  const firstScenario = Object.values(scenarios)[0];
+  const unit = firstScenario.gqueries[gqueries[0]].unit;
 
   return {
-    categories: sorted.map(scenarioData => {
-      return scenarioData.scenario.endYear;
-    }),
+    categories: [firstScenario.scenario.startYear].concat(
+      sorted.map(scenarioData => {
+        return scenarioData.scenario.endYear;
+      })
+    ),
     data: gqueries.map(gquery => ({
       name: gquery,
-      data: sorted.map(scenarioData => scenarioData.gqueries[gquery].future)
+      data: [firstScenario.gqueries[gquery].present].concat(
+        sorted.map(scenarioData => scenarioData.gqueries[gquery].future)
+      )
     })),
     unit
   };
