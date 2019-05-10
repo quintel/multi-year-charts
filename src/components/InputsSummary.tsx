@@ -34,12 +34,21 @@ type OpenModalFunc = (scenarioID: number, inputKey: string) => void;
 const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
   const [, fraction] = value.toString().split('.');
   let precision = 0;
+  let { unit } = inputDefinition;
 
   if (fraction) {
     precision = Math.min(fraction.length, 2);
   }
 
-  return `${value.toFixed(precision)}${inputDefinition.unit}`;
+  if (unit === '#') {
+    unit = '';
+  }
+
+  return (
+    <React.Fragment>
+      {value.toFixed(precision)} <small>{unit}</small>
+    </React.Fragment>
+  );
 };
 
 /**
@@ -90,7 +99,7 @@ const renderInput = (
         }
 
         return (
-          <td key={`input-val-${id}-${input.key}`} className={className}>
+          <td key={`input-val-${id}-${input.key}`}>
             <a onClick={() => onClick(id, input.key)} className={className}>
               {formatInputValue(value, input)}
             </a>
