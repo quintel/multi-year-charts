@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Loading from './Loading';
 import ScenarioEditor from './ScenarioEditor';
 import { AppState } from '../store/types';
 
@@ -159,7 +160,7 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
   render() {
     return (
       <div className="container">
-        {this.dataIsLoaded() ? this.renderInputs() : this.renderLoading()}
+        {this.dataIsLoaded() ? this.renderInputs() : <Loading />}
         {this.state.editorSettings.isOpen ? (
           <ScenarioEditor {...this.scenarioEditorProps()} />
         ) : null}
@@ -215,10 +216,6 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
         </tbody>
       </table>
     );
-  }
-
-  private renderLoading() {
-    return <progress className="progress is-info is-primary" max="100" />;
   }
 
   /**

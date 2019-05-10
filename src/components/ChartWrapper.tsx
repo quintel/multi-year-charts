@@ -7,6 +7,7 @@ import { ChartSchema } from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import Chart from './Chart';
+import Loading from './Loading';
 import { scenariosToChartData } from '../utils/charts';
 
 import { addQueries, apiFetch, removeQueries } from '../store/actions';
@@ -50,14 +51,10 @@ class ChartWrapper extends Component<ChartWrapperProps> {
             )}
           />
         ) : (
-          this.renderLoading()
+          <Loading />
         )}
       </div>
     );
-  }
-
-  private renderLoading() {
-    return <progress className="progress is-info is-primary" max="100" />;
   }
 
   componentDidMount() {
