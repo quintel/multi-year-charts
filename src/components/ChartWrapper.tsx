@@ -41,19 +41,17 @@ const canRenderChart = (
 
 class ChartWrapper extends Component<ChartWrapperProps> {
   render() {
+    if (!canRenderChart(this.props.chart, this.props.scenarios)) {
+      return <Loading />;
+    }
+
     return (
-      <div>
-        {canRenderChart(this.props.chart, this.props.scenarios) ? (
-          <Chart
-            series={scenariosToChartData(
-              this.props.scenarios,
-              this.props.chart.series
-            )}
-          />
-        ) : (
-          <Loading />
+      <Chart
+        series={scenariosToChartData(
+          this.props.scenarios,
+          this.props.chart.series
         )}
-      </div>
+      />
     );
   }
 
