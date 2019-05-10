@@ -5,6 +5,9 @@
 
   "misc.year": "Year",
 
+  "scenarioEditor.title": "Editing {year} scenario",
+  "scenarioEditor.finish": "Finish editing",
+
   "chart.final_demand": "Final demand",
   "chart.co2_emissions": "Primary CO2 Emissions",
   "chart.renewables": "Renewables",
