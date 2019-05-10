@@ -74,8 +74,12 @@ const renderInput = (
   onClick: OpenModalFunc
 ) => {
   return (
-    <tr key={`input - ${input.key} `}>
+    <tr key={`input-${input.key} `}>
       <td>{input.name}</td>
+      <td key={`input-val-present-${input.key}`} className="start-year">
+        {formatInputValue(inputData[scenarioIDs[0]][input.key].default, input)}
+      </td>
+
       {scenarioIDs.map(id => {
         let value = inputData[id][input.key].user;
         let className = '';
@@ -86,7 +90,7 @@ const renderInput = (
         }
 
         return (
-          <td key={`input - val - ${id} -${input.key} `} className={className}>
+          <td key={`input-val-${id}-${input.key}`} className={className}>
             <a onClick={() => onClick(id, input.key)} className={className}>
               {formatInputValue(value, input)}
             </a>
@@ -117,9 +121,9 @@ const renderSlide = (
   }
 
   return (
-    <React.Fragment key={`slide - ${slide.path.join()} `}>
+    <React.Fragment key={`slide-${slide.path.join()} `}>
       <tr>
-        <th colSpan={5}>{slide.path.join(' → ')}</th>
+        <th colSpan={6}>{slide.path.join(' → ')}</th>
       </tr>
       {slide.input_elements.map(element =>
         renderInput(element, inputData, scenarios, onClick)
@@ -184,8 +188,9 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
         <thead>
           <tr>
             <th>Input</th>
+            <th>{sortedScenarios[0].scenario.startYear}</th>
             {sortedScenarios.map(({ scenario: { endYear } }) => (
-              <th key={`year - ${endYear} `}>{endYear}</th>
+              <th key={`year-${endYear} `}>{endYear}</th>
             ))}
           </tr>
         </thead>
