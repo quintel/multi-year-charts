@@ -83,11 +83,18 @@ const renderInput = (
   scenarioIDs: number[],
   onClick: OpenModalFunc
 ) => {
+  const firstInputData = inputData[scenarioIDs[0]][input.key];
+
+  if (!firstInputData) {
+    // The input doesn't exist in ETEngine; skip it.
+    return null;
+  }
+
   return (
     <tr key={`input-${input.key} `}>
       <td>{input.name}</td>
       <td key={`input-val-present-${input.key}`} className="start-year">
-        {formatInputValue(inputData[scenarioIDs[0]][input.key].default, input)}
+        {formatInputValue(firstInputData.default, input)}
       </td>
 
       {scenarioIDs.map(id => {
