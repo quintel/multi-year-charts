@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import charts from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
@@ -9,7 +9,6 @@ import { ScenarioIndexedScenarioData } from '../utils/api/types';
 import { setScenarios } from '../store/actions';
 
 import ChartContainer from './ChartContainer';
-import ExternalRedirect from './ExternalRedirect';
 import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
 import SubNav from './SubNav';
@@ -48,11 +47,7 @@ class Main extends Component<MainProps, MainState> {
             <Route
               path="/"
               exact
-              render={() => (
-                <ExternalRedirect
-                  to={`${process.env.REACT_APP_ETMODEL_URL}/multi-year-charts`}
-                />
-              )}
+              render={() => <Redirect to={`/charts/${charts[0].slug}`} />}
             />
             <Route
               path="/charts/:slug"
