@@ -9,6 +9,7 @@ import { ScenarioIndexedScenarioData } from '../utils/api/types';
 import { setScenarios } from '../store/actions';
 
 import ChartContainer from './ChartContainer';
+import ExternalRedirect from './ExternalRedirect';
 import InputsSummary from './InputsSummary';
 import MainNav from './MainNav';
 import SubNav from './SubNav';
@@ -44,7 +45,15 @@ class Main extends Component<MainProps, MainState> {
           <MainNav />
           <SubNav charts={charts} />
           <div>
-            <Route path="/" exact component={ChartContainer} />
+            <Route
+              path="/"
+              exact
+              render={() => (
+                <ExternalRedirect
+                  to={`${process.env.REACT_APP_ETMODEL_URL}/multi-year-charts`}
+                />
+              )}
+            />
             <Route
               path="/charts/:slug"
               render={props => (
