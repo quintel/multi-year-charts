@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 
 import charts from '../data/charts';
-import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import { setScenarios } from '../store/actions';
 
@@ -18,21 +17,7 @@ interface MainProps {
   setScenarios: (scenarios: number[]) => void;
 }
 
-interface MainState {
-  ready: boolean;
-  scenarios: ScenarioIndexedScenarioData;
-}
-
-class Main extends Component<MainProps, MainState> {
-  constructor(props: MainProps) {
-    super(props);
-
-    this.state = {
-      ready: false,
-      scenarios: []
-    };
-  }
-
+class Main extends Component<MainProps> {
   componentWillMount() {
     this.props.setScenarios(this.props.scenarioIDs);
   }
