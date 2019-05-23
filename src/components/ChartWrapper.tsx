@@ -42,7 +42,11 @@ const canRenderChart = (
 class ChartWrapper extends Component<ChartWrapperProps> {
   render() {
     if (!canRenderChart(this.props.chart, this.props.scenarios)) {
-      return <Loading />;
+      return (
+        <div className="loading-chart">
+          <Loading />
+        </div>
+      );
     }
 
     return (
