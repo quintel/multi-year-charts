@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { AppState } from '../store/types';
-import { ChartSchema } from '../data/charts';
+import { FlattenedChartSchema } from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import Chart from './Chart';
@@ -13,7 +13,8 @@ import { scenariosToChartData } from '../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../store/actions';
 
 interface ChartWrapperProps {
-  chart: ChartSchema;
+  activeVariant?: string;
+  chart: FlattenedChartSchema;
   scenarios: ScenarioIndexedScenarioData;
   addQueries: (keys: string[]) => void;
   apiFetch: () => void;
@@ -25,7 +26,7 @@ interface ChartWrapperProps {
  * chart.
  */
 const canRenderChart = (
-  series: ChartSchema,
+  chart: FlattenedChartSchema,
   scenarios: ScenarioIndexedScenarioData
 ) => {
   const ids = Object.keys(scenarios);
@@ -34,7 +35,7 @@ const canRenderChart = (
     return false;
   }
 
-  return series.series.every(series =>
+  return chart.series.every(series =>
     ids.every(id => scenarios[parseInt(id, 10)].gqueries.hasOwnProperty(series))
   );
 };
@@ -64,10 +65,12 @@ class ChartWrapper extends Component<ChartWrapperProps> {
     this.props.apiFetch();
   }
 
-  componentDidUpdate(prevProps: ChartWrapperProps) {
-    if (prevProps.chart.key !== this.props.chart.key) {
-      this.props.removeQueries(prevProps.chart.series);
-      this.props.addQueries(this.props.chart.series);
+  componentDidUpdate({ chart: oldChart }: ChartWrapperProps) {
+    const { chart } = this.props;
+
+    if (oldChart.key !== chart.key) {
+      this.props.removeQueries(oldChart.series);
+      this.props.addQueries(chart.series);
       this.props.apiFetch();
     }
   }

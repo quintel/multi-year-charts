@@ -3,11 +3,39 @@ import 'apexcharts';
 
 import sortScenarios from './sortScenarios';
 
+import { ChartSchema, FlattenedChartSchema } from '../data/charts';
+
 export interface ChartSeries {
   categories: number[];
   data: ApexAxisChartSeries;
   unit: string;
 }
+
+/**
+ * Given a chart and (optional) variant names, returns a new data structure
+ * containing the chart and variant slug, and the series needed to render the
+ * chart.
+ */
+export const flattenChart = (
+  chart: ChartSchema,
+  variantSlug?: string
+): FlattenedChartSchema => {
+  let variant;
+
+  if (variantSlug) {
+    variant = chart.variants.find(variant => variant.slug === variantSlug);
+  }
+
+  variant = variant || chart.variants[0];
+
+  return {
+    key: `${chart.key}-${variant.key}`,
+    chartKey: chart.key,
+    variantKey: variant.key,
+    slug: `${chart.slug}/${variant.slug}`,
+    series: variant.series
+  };
+};
 
 /**
  * Given a collection of ScenarioJSON and the key of a gquery, transformed

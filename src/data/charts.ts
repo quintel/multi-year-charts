@@ -5,6 +5,18 @@ import renewables from './charts/renewables';
 export interface ChartSchema {
   key: string;
   slug: string;
+  variants: {
+    key: string;
+    slug: string;
+    series: string[];
+  }[];
+}
+
+export interface FlattenedChartSchema {
+  key: string;
+  chartKey: string;
+  variantKey: string;
+  slug: string;
   series: string[];
 }
 

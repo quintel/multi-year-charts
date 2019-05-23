@@ -35,7 +35,18 @@ class Main extends Component<MainProps> {
               render={() => <Redirect to={`/charts/${charts[0].slug}`} />}
             />
             <Route
+              path="/charts/:cslug/:vslug"
+              render={props => (
+                <ChartContainer
+                  activeChart={props.match.params.cslug}
+                  activeVariant={props.match.params.vslug}
+                  charts={charts}
+                />
+              )}
+            />
+            <Route
               path="/charts/:slug"
+              exact
               render={props => (
                 <ChartContainer
                   activeChart={props.match.params.slug}
