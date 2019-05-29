@@ -1,10 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { ChartSchema } from '../data/charts';
+import LocaleMessage from './LocaleMessage';
 
-import translate from '../utils/translate';
-import translations from '../data/locales/nl.json';
+import { ChartSchema } from '../data/charts';
 
 const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
   return (
@@ -14,7 +13,7 @@ const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
       key={`subnav-chart-${chart.slug}`}
       to={`/charts/${chart.slug}`}
     >
-      {translate(`chart.${chart.key}`, translations)}
+      <LocaleMessage id={`chart.${chart.key}`} />
     </NavLink>
   );
 };
@@ -30,7 +29,7 @@ const MultiVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
         activeClassName="is-active"
         to={url}
       >
-        {translate(`chart.variant.${variant.key}`, translations)}
+        <LocaleMessage id={`chart.variant.${variant.key}`} />
       </NavLink>
     );
   });
@@ -42,7 +41,7 @@ const MultiVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
         activeClassName="is-active"
         to={`/charts/${chart.slug}`}
       >
-        {translate(`chart.${chart.key}`, translations)}
+        <LocaleMessage id={`chart.${chart.key}`} />
       </NavLink>
       <div className="navbar-dropdown is-boxed">{variantItems}</div>
     </div>
@@ -70,7 +69,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
             className="navbar-item"
             to="/inputs"
           >
-            {translate('app.sliderSettings', translations)}
+            <LocaleMessage id="app.sliderSettings" />
           </NavLink>
         </div>
       </div>

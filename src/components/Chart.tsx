@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import ApexCharts from 'apexcharts';
-import Chart from 'react-apexcharts';
+import ApexChart from 'react-apexcharts';
 import { ChartSeries, translateChartData } from '../utils/charts';
 
-import translate from '../utils/translate';
-import translations from '../data/locales/nl.json';
+import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
 
 interface TestChartProps {
   series: ChartSeries;
@@ -33,7 +32,8 @@ const createUnitFormatter = (unit: string): UnitFormatter => {
  */
 const chartOptions = (
   categories: number[],
-  formatter: UnitFormatter
+  formatter: UnitFormatter,
+  translate: TranslateFunc
 ): ApexCharts.ApexOptions => ({
   chart: {
     stacked: true,
@@ -60,7 +60,7 @@ const chartOptions = (
   xaxis: {
     type: 'categories',
     categories,
-    title: { text: translate('misc.year', translations) }
+    title: { text: translate('misc.year') }
   },
   yaxis: {
     labels: {
@@ -69,25 +69,25 @@ const chartOptions = (
   }
 });
 
-export default class TestChart extends Component<TestChartProps> {
-  render() {
-    const translatedSeries = translateChartData(
-      this.props.series,
-      (key: string) => translate(`series.${key}`, translations)
-    );
+const Chart = (props: TestChartProps) => {
+  const { translate } = useContext(LocaleContext);
 
-    const options = chartOptions(
-      this.props.series.categories,
-      createUnitFormatter(this.props.series.unit)
-    );
+  return (
+    <ApexChart
+      options={chartOptions(
+        props.series.categories,
+        createUnitFormatter(props.series.unit),
+        translate
+      )}
+      series={
+        translateChartData(props.series, (key: string) =>
+          translate(`series.${key}`)
+        ).data
+      }
+      type="area"
+      height="500"
+    />
+  );
+};
 
-    return (
-      <Chart
-        options={options}
-        series={translatedSeries.data}
-        type="area"
-        height="500"
-      />
-    );
-  }
-}
+export default Chart;

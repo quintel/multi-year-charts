@@ -1,8 +1,7 @@
 import React from 'react';
 import AriaModal from 'react-aria-modal';
 
-import translate from '../utils/translate';
-import translations from '../data/locales/nl.json';
+import LocaleMessage from './LocaleMessage';
 
 interface ScenarioEditorProps {
   endYear: number;
@@ -37,15 +36,16 @@ const ScenarioEditor = (props: ScenarioEditorProps) => {
       <div className="scenario-editor">
         <header>
           <h2 className="title is-6">
-            {translate('scenarioEditor.title', translations, {
-              year: props.endYear.toString()
-            })}
+            <LocaleMessage
+              id="scenarioEditor.title"
+              values={{ year: props.endYear.toString() }}
+            />
           </h2>
         </header>
         <iframe src={urlForInput(props.scenarioID, props.inputKey)} />
         <footer>
           <button className="button is-info" onClick={props.onClose}>
-            {translate('scenarioEditor.finish', translations)}
+            <LocaleMessage id="scenarioEditor.finish" />
           </button>
         </footer>
       </div>

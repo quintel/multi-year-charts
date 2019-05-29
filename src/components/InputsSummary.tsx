@@ -10,9 +10,13 @@ import {
   ScenarioIndexedScenarioData
 } from '../utils/api/types';
 
+import LocaleContext from '../utils/LocaleContext';
+
 import { apiFetch, fetchInputs } from '../store/actions';
 import sortScenarios from '../utils/sortScenarios';
-import inputDefinitions from '../data/inputs.json';
+
+import nlInputs from '../data/inputs/nl.json';
+import enInputs from '../data/inputs/en.json';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
@@ -212,14 +216,19 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
           </tr>
         </thead>
         <tbody>
-          {inputDefinitions.map(definition =>
-            renderSlide(
-              definition,
-              this.props.inputData,
-              sortedScenarios.map(({ scenario: { id } }) => id),
-              this.openModal
-            )
-          )}
+          <LocaleContext.Consumer>
+            {state =>
+              (state.currentLocale === 'nl' ? nlInputs : enInputs).map(
+                definition =>
+                  renderSlide(
+                    definition,
+                    this.props.inputData,
+                    sortedScenarios.map(({ scenario: { id } }) => id),
+                    this.openModal
+                  )
+              )
+            }
+          </LocaleContext.Consumer>
         </tbody>
       </table>
     );

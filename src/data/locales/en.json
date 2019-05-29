@@ -1,0 +1,62 @@
+{
+  "app.title": "Multi-Year Charts",
+  "app.backToETM": "Back to the ETM",
+  "app.sliderSettings": "Slider settings",
+  "app.language": "Language",
+
+  "misc.year": "Year",
+
+  "scenarioEditor.title": "Edit {year} scenario",
+  "scenarioEditor.finish": "Finish editing",
+
+  "chart.final_demand": "Final demand",
+  "chart.co2_emissions": "Primary CO2 emissions",
+  "chart.renewables": "Renewables",
+
+  "chart.variant.by_sector": "By sector",
+  "chart.variant.by_carrier": "By carrier",
+
+  "series.final_demand_in_agriculture": "Agriculture",
+  "series.final_demand_in_buildings": "Buildings",
+  "series.final_demand_in_households": "Households",
+  "series.final_demand_in_industry": "Industry",
+  "series.final_demand_in_other_and_energy_sector": "Other and energy sector",
+  "series.final_demand_in_transport": "Transport",
+
+  "series.final_demand_of_coal_and_derivatives": "Coal and coal products",
+  "series.final_demand_of_fossil_electricity": "Fossil electricity",
+  "series.final_demand_of_fossil_heat": "Fossil heat",
+  "series.final_demand_of_green_gas": "Green gas",
+  "series.final_demand_of_heat": "Heat",
+  "series.final_demand_of_hydrogen": "Hydrogen",
+  "series.final_demand_of_liquid_biofuels": "Liquid biofuels",
+  "series.final_demand_of_natural_gas_and_derivatives": "Natural gas and gas products",
+  "series.final_demand_of_oil_and_derivatives": "Oil and oil producs",
+  "series.final_demand_of_renewable_electricity": "Renewable electricity",
+  "series.final_demand_of_renewable_heat": "Renewable heat",
+  "series.final_demand_of_solid_biofuels": "Solid biofuiels",
+
+  "series.primary_co2_final_demand_in_agriculture": "Agriculture",
+  "series.primary_co2_final_demand_in_buildings": "Buildings",
+  "series.primary_co2_final_demand_in_households": "Households",
+  "series.primary_co2_final_demand_in_industry": "Industry",
+  "series.primary_co2_final_demand_in_other_and_energy_sector": "Other and energy sector",
+  "series.primary_co2_final_demand_in_transport": "Transport",
+
+  "series.primary_co2_final_demand_of_coal_and_derivatives": "Coal and coal producs",
+  "series.primary_co2_final_demand_of_electricity": "Electricity",
+  "series.primary_co2_final_demand_of_heat": "Heat",
+  "series.primary_co2_final_demand_of_hydrogen": "Hydrogen",
+  "series.primary_co2_final_demand_of_natural_gas_and_derivatives": "Gas and gas products",
+  "series.primary_co2_final_demand_of_oil_and_derivatives": "Oil and oil producs",
+
+  "series.final_demand_of_renewable_electricity_from_other": "Electricity from other renewable sources",
+  "series.final_demand_of_renewable_electricity_from_solar": "Electricity from solar PV",
+  "series.final_demand_of_renewable_electricity_from_wind": "Electricity from wind",
+  "series.final_demand_of_renewable_gaseous_biofuels": "Gaseous biofuels",
+  "series.final_demand_of_renewable_heat_from_biomass": "Heat from biomass",
+  "series.final_demand_of_renewable_heat_from_geothermal_and_ambient": "Heat from geothermal and ambient sources",
+  "series.final_demand_of_renewable_hydrogen": "Renewable hydrogen",
+  "series.final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
+  "series.final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels"
+}
