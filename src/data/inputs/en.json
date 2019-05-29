@@ -1,168 +1,207 @@
 [
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Hernieuwbaarheid",
-      "CO2-uitstoot, vergeleken met 1990"
+      "translation missing: en.tabs.targets",
+      "Renewability",
+      "CO2 emissions, compared to 1990"
     ],
     "input_elements": [
       {
         "key": "policy_sustainability_co2_emissions",
         "unit": "%",
-        "name": "CO2-uitstoot"
+        "name": "CO2 emissions"
       }
     ]
   },
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Hernieuwbaarheid",
-      "Hernieuwbaarheid"
+      "translation missing: en.tabs.targets",
+      "Renewability",
+      "Renewables"
     ],
     "input_elements": [
       {
         "key": "policy_sustainability_renewable_percentage",
         "unit": "%",
-        "name": "Percentage hernieuwbaar"
+        "name": "Renewable percentage"
       }
     ]
   },
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Energie-import",
-      "Energie-import uit het buitenland"
+      "translation missing: en.tabs.targets",
+      "Dependence",
+      "Foreign energy imports"
     ],
     "input_elements": [
       {
         "key": "policy_dependence_max_dependence",
         "unit": "%",
-        "name": "Max import energie"
+        "name": "Max energy imports"
       },
       {
         "key": "policy_dependence_max_electricity_dependence",
         "unit": "%",
-        "name": "Max import elektriciteit"
+        "name": "Max electricity imports"
       }
     ]
   },
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Kosten",
-      "Energie"
+      "translation missing: en.tabs.targets",
+      "Cost",
+      "Energy"
     ],
     "input_elements": [
       {
         "key": "policy_cost_total_energy_cost",
         "unit": "%",
-        "name": "Totale energie kosten"
+        "name": "Total energy cost"
       }
     ]
   },
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Kosten",
-      "Elektriciteit"
+      "translation missing: en.tabs.targets",
+      "Cost",
+      "Electricity"
     ],
     "input_elements": [
       {
         "key": "policy_cost_electricity_cost",
         "unit": "%",
-        "name": "Kosten elektriciteit"
+        "name": "Electricity cost"
       }
     ]
   },
   {
     "path": [
-      "translation missing: nl.tabs.targets",
-      "Gebruik landoppervlak",
-      "Windmolens"
+      "translation missing: en.tabs.targets",
+      "Area use",
+      "Wind turbines"
     ],
     "input_elements": [
       {
         "key": "policy_area_onshore_land",
         "unit": "km2",
-        "name": "Wind op land"
+        "name": "Inland wind"
       },
       {
         "key": "policy_area_onshore_coast",
         "unit": "km",
-        "name": "Wind aan kust"
+        "name": "Coastal wind"
       },
       {
         "key": "policy_area_offshore",
         "unit": "km2",
-        "name": "Wind op zee"
+        "name": "Offshore wind"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Applicaties"
+      "Demand",
+      "Passenger transport",
+      "Applications"
     ],
     "input_elements": [
       {
         "key": "transport_useful_demand_passenger_kms",
         "unit": "%",
-        "name": "Passagiersvervoer"
+        "name": "Passenger transport"
       },
       {
         "key": "transport_cars_share",
         "unit": "%",
-        "name": "Auto's"
+        "name": "Cars"
       },
       {
         "key": "transport_passenger_trains_share",
         "unit": "%",
-        "name": "Treinen"
+        "name": "Trains"
       },
       {
         "key": "transport_trams_share",
         "unit": "%",
-        "name": "Trams/metro's"
+        "name": "Trams/metros"
       },
       {
         "key": "transport_busses_share",
         "unit": "%",
-        "name": "Bussen"
+        "name": "Busses"
       },
       {
         "key": "transport_motorcycles_share",
         "unit": "%",
-        "name": "Motorfietsen"
+        "name": "Motorcycles"
       },
       {
         "key": "transport_bicycles_share",
         "unit": "%",
-        "name": "Fietsen"
+        "name": "Bicycles"
       },
       {
         "key": "transport_planes_share",
         "unit": "%",
-        "name": "Binnenlandse vliegtuigen"
+        "name": "Domestic planes"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie auto's"
+      "Demand",
+      "Households",
+      "Population & housing stock"
+    ],
+    "input_elements": [
+      {
+        "key": "households_number_of_inhabitants",
+        "unit": "mln",
+        "name": "Population"
+      },
+      {
+        "key": "households_number_of_apartments",
+        "unit": "#",
+        "name": "Apartment"
+      },
+      {
+        "key": "households_number_of_corner_houses",
+        "unit": "#",
+        "name": "Corner house"
+      },
+      {
+        "key": "households_number_of_detached_houses",
+        "unit": "#",
+        "name": "Detached house"
+      },
+      {
+        "key": "households_number_of_semi_detached_houses",
+        "unit": "#",
+        "name": "Semi-detached house"
+      },
+      {
+        "key": "households_number_of_terraced_houses",
+        "unit": "#",
+        "name": "Terraced house"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Demand",
+      "Passenger transport",
+      "Car technology"
     ],
     "input_elements": [
       {
         "key": "transport_car_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "transport_car_using_hydrogen_share",
         "unit": "%",
-        "name": "Waterstof"
+        "name": "Hydrogen"
       },
       {
         "key": "transport_car_using_diesel_mix_share",
@@ -172,7 +211,7 @@
       {
         "key": "transport_car_using_gasoline_mix_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_car_using_lpg_share",
@@ -182,60 +221,21 @@
       {
         "key": "transport_car_using_compressed_natural_gas_share",
         "unit": "%",
-        "name": "Gas onder druk (CNG)"
+        "name": "Compressed gas"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Bevolking & huizenvoorraad"
-    ],
-    "input_elements": [
-      {
-        "key": "households_number_of_inhabitants",
-        "unit": "mln",
-        "name": "Aantal inwoners"
-      },
-      {
-        "key": "households_number_of_apartments",
-        "unit": "#",
-        "name": "Appartement"
-      },
-      {
-        "key": "households_number_of_corner_houses",
-        "unit": "#",
-        "name": "Hoekhuis"
-      },
-      {
-        "key": "households_number_of_detached_houses",
-        "unit": "#",
-        "name": "Vrijstaand huis"
-      },
-      {
-        "key": "households_number_of_semi_detached_houses",
-        "unit": "#",
-        "name": "Twee-onder-een-kapwoning"
-      },
-      {
-        "key": "households_number_of_terraced_houses",
-        "unit": "#",
-        "name": "Rijtjeshuis"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie passagierstreinen"
+      "Demand",
+      "Passenger transport",
+      "Train technology"
     ],
     "input_elements": [
       {
         "key": "transport_passenger_train_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "transport_passenger_train_using_diesel_mix_share",
@@ -245,124 +245,124 @@
       {
         "key": "transport_passenger_train_using_coal_share",
         "unit": "%",
-        "name": "Kolen"
+        "name": "Coal"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Isolatie"
+      "Demand",
+      "Households",
+      "Insulation"
     ],
     "input_elements": [
       {
         "key": "households_insulation_level_apartments",
         "unit": "%",
-        "name": "Appartement"
+        "name": "Apartment"
       },
       {
         "key": "households_insulation_level_corner_houses",
         "unit": "%",
-        "name": "Hoekhuis"
+        "name": "Corner house"
       },
       {
         "key": "households_insulation_level_detached_houses",
         "unit": "%",
-        "name": "Vrijstaand huis"
+        "name": "Detached house"
       },
       {
         "key": "households_insulation_level_semi_detached_houses",
         "unit": "%",
-        "name": "Twee-onder-een-kapwoning"
+        "name": "Semi-detached house"
       },
       {
         "key": "households_insulation_level_terraced_houses",
         "unit": "%",
-        "name": "Rijtjeshuis"
+        "name": "Terraced house"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Ruimteverwarming & warm water"
+      "Demand",
+      "Households",
+      "Space heating & hot water"
     ],
     "input_elements": [
       {
         "key": "households_heater_combined_network_gas_share",
         "unit": "%",
-        "name": "HR combiketel"
+        "name": "Condensing combi boiler"
       },
       {
         "key": "households_heater_district_heating_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       },
       {
         "key": "households_heater_heatpump_air_water_electricity_share",
         "unit": "%",
-        "name": "Luchtwarmtepomp"
+        "name": "Heat pump (air)"
       },
       {
         "key": "households_heater_heatpump_ground_water_electricity_share",
         "unit": "%",
-        "name": "Bodemwarmtepomp"
+        "name": "Heat pump (ground)"
       },
       {
         "key": "households_heater_hybrid_heatpump_air_water_electricity_share",
         "unit": "%",
-        "name": "Hybride warmtepomp (gas)"
+        "name": "Hybrid heat pump (gas)"
       },
       {
         "key": "households_heater_hybrid_hydrogen_heatpump_air_water_electricity_share",
         "unit": "%",
-        "name": "Hybride warmtepomp (waterstof)"
+        "name": "Hybrid heat pump (hydrogen)"
       },
       {
         "key": "households_heater_wood_pellets_share",
         "unit": "%",
-        "name": "Houtpelletkachel"
+        "name": "Wood pellet stove"
       },
       {
         "key": "households_heater_electricity_share",
         "unit": "%",
-        "name": "Elektrische kachel/bijstook"
+        "name": "Electric heater"
       },
       {
         "key": "households_heater_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "households_heater_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "households_heater_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie bussen"
+      "Demand",
+      "Passenger transport",
+      "Bus technology"
     ],
     "input_elements": [
       {
         "key": "transport_bus_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "transport_bus_using_hydrogen_share",
         "unit": "%",
-        "name": "Waterstof"
+        "name": "Hydrogen"
       },
       {
         "key": "transport_bus_using_diesel_mix_share",
@@ -372,69 +372,50 @@
       {
         "key": "transport_bus_using_gasoline_mix_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_bus_using_lng_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       },
       {
         "key": "transport_bus_using_compressed_natural_gas_share",
         "unit": "%",
-        "name": "Gas onder druk (CNG)"
+        "name": "Compressed gas"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie motorfietsen"
+      "Demand",
+      "Passenger transport",
+      "Motorcycle technology"
     ],
     "input_elements": [
       {
         "key": "transport_motorcycle_using_gasoline_mix_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_motorcycle_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Zonnepanelen"
-    ],
-    "input_elements": [
-      {
-        "key": "households_solar_pv_solar_radiation_market_penetration",
-        "unit": "%",
-        "name": "PV zonnepanelen"
-      },
-      {
-        "key": "households_water_heater_solar_thermal_share",
-        "unit": "%",
-        "name": "Zonthermische collectoren"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie fietsen"
+      "Demand",
+      "Passenger transport",
+      "Bicycle technology"
     ],
     "input_elements": [
       {
         "key": "transport_bicycle_using_human_power_share",
         "unit": "%",
-        "name": "Fiets"
+        "name": "Bike"
       },
       {
         "key": "transport_bicycle_using_electricity_share",
@@ -445,44 +426,39 @@
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Koeling"
+      "Demand",
+      "Households",
+      "Solar panels"
     ],
     "input_elements": [
       {
-        "key": "households_cooling_heatpump_ground_water_electricity_share",
+        "key": "households_solar_pv_solar_radiation_market_penetration",
         "unit": "%",
-        "name": "Bodemwarmtepomp"
+        "name": "PV panels"
       },
       {
-        "key": "households_cooling_heatpump_air_water_electricity_share",
+        "key": "households_water_heater_solar_thermal_share",
         "unit": "%",
-        "name": "Luchtwarmtepomp"
-      },
-      {
-        "key": "households_cooling_airconditioning_electricity_share",
-        "unit": "%",
-        "name": "Airconditioning"
+        "name": "Solar thermal collectors"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Passagiersvervoer",
-      "Technologie binnenlandse luchtvaart"
+      "Demand",
+      "Passenger transport",
+      "Domestic aviation technology"
     ],
     "input_elements": [
       {
         "key": "transport_plane_using_kerosene_share",
         "unit": "%",
-        "name": "Kerosine"
+        "name": "Kerosene"
       },
       {
         "key": "transport_plane_using_gasoline_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_plane_using_bio_ethanol_share",
@@ -493,9 +469,33 @@
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Koken"
+      "Demand",
+      "Households",
+      "Cooling"
+    ],
+    "input_elements": [
+      {
+        "key": "households_cooling_heatpump_ground_water_electricity_share",
+        "unit": "%",
+        "name": "Heat pump (ground)"
+      },
+      {
+        "key": "households_cooling_heatpump_air_water_electricity_share",
+        "unit": "%",
+        "name": "Heat pump (air)"
+      },
+      {
+        "key": "households_cooling_airconditioning_electricity_share",
+        "unit": "%",
+        "name": "Airconditioning"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Demand",
+      "Households",
+      "Cooking"
     ],
     "input_elements": [
       {
@@ -506,56 +506,56 @@
       {
         "key": "households_cooker_resistive_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "households_cooker_halogen_electricity_share",
         "unit": "%",
-        "name": "Halogeen"
+        "name": "Halogen"
       },
       {
         "key": "households_cooker_induction_electricity_share",
         "unit": "%",
-        "name": "Inductie"
+        "name": "Induction"
       },
       {
         "key": "households_cooker_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassa"
+        "name": "Biomass"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Apparaten"
+      "Demand",
+      "Households",
+      "Appliances"
     ],
     "input_elements": [
       {
         "key": "households_appliances_dishwasher_electricity_efficiency",
         "unit": "%",
-        "name": "Vaatwasser"
+        "name": "Dish washer"
       },
       {
         "key": "households_appliances_fridge_freezer_electricity_efficiency",
         "unit": "%",
-        "name": "Koelkast / Vriezer"
+        "name": "Fridge / Freezer"
       },
       {
         "key": "households_appliances_washing_machine_electricity_efficiency",
         "unit": "%",
-        "name": "Wasmachine"
+        "name": "Washing machine"
       },
       {
         "key": "households_appliances_clothes_dryer_electricity_efficiency",
         "unit": "%",
-        "name": "Droger"
+        "name": "Dryer"
       },
       {
         "key": "households_appliances_television_electricity_efficiency",
         "unit": "%",
-        "name": "Televisie"
+        "name": "Television"
       },
       {
         "key": "households_appliances_computer_media_electricity_efficiency",
@@ -565,214 +565,214 @@
       {
         "key": "households_appliances_vacuum_cleaner_electricity_efficiency",
         "unit": "%",
-        "name": "Stofzuiger"
+        "name": "Vacuum cleaner"
       },
       {
         "key": "households_appliances_other_electricity_efficiency",
         "unit": "%",
-        "name": "Overig"
+        "name": "Other"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Verlichting"
+      "Demand",
+      "Households",
+      "Lighting"
     ],
     "input_elements": [
       {
         "key": "households_lighting_incandescent_electricity_share",
         "unit": "%",
-        "name": "Gloeilamp"
+        "name": "Incandescent"
       },
       {
         "key": "households_lighting_efficient_fluorescent_electricity_share",
         "unit": "%",
-        "name": "Spaarlamp"
+        "name": "Low-energy light bulb"
       },
       {
         "key": "households_lighting_led_electricity_share",
         "unit": "%",
-        "name": "LED-lamp"
+        "name": "LED"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Welvaart"
+      "Demand",
+      "Households",
+      "Prosperity"
     ],
     "input_elements": [
       {
         "key": "households_useful_demand_hot_water_share",
         "unit": "%",
-        "name": "Warmwatervraag"
+        "name": "Hot water"
       },
       {
         "key": "households_useful_demand_electric_appliances",
         "unit": "%",
-        "name": "Apparaten"
+        "name": "Electric appliances"
       },
       {
         "key": "households_useful_demand_lighting",
         "unit": "%",
-        "name": "Verlichting"
+        "name": "Lighting"
       },
       {
         "key": "households_useful_demand_cooking_per_person",
         "unit": "%",
-        "name": "Koken"
+        "name": "Cooking"
       },
       {
         "key": "households_useful_demand_heat_per_person",
         "unit": "%",
-        "name": "Warmtevraag"
+        "name": "Heating demand"
       },
       {
         "key": "households_useful_demand_for_cooling",
         "unit": "%",
-        "name": "Koudevraag"
+        "name": "Cooling demand"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Gedrag"
+      "Demand",
+      "Households",
+      "Behavior"
     ],
     "input_elements": [
       {
         "key": "households_behavior_standby_killer_turn_off_appliances",
         "unit": "%",
-        "name": "Apparaten uitzetten"
+        "name": "Turn off appliances"
       },
       {
         "key": "households_behavior_turn_off_the_light",
         "unit": "%",
-        "name": "Lichten uitzetten"
+        "name": "Turn off the light"
       },
       {
         "key": "households_behavior_close_windows_turn_off_heating",
         "unit": "%",
-        "name": "Verwarming uitzetten"
+        "name": "Turn down heating"
       },
       {
         "key": "households_behavior_low_temperature_washing",
         "unit": "%",
-        "name": "Wassen op lage temperatuur"
+        "name": "Low-temperature washing"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Klimaat"
+      "Demand",
+      "Households",
+      "Climate"
     ],
     "input_elements": [
       {
         "key": "households_climate_influence",
         "unit": "degC",
-        "name": "Buitentemperatuur"
+        "name": "Outdoor temperature"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Huishoudens",
-      "Koude winter"
+      "Demand",
+      "Households",
+      "Cold snap"
     ],
     "input_elements": [
       {
         "key": "settings_heat_curve_set",
         "unit": "boolean",
-        "name": "translation missing: nl.input_elements.settings_heat_curve_set"
+        "name": "translation missing: en.input_elements.settings_heat_curve_set"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Isolatie"
+      "Demand",
+      "Buildings",
+      "Insulation"
     ],
     "input_elements": [
       {
         "key": "buildings_insulation_level",
         "unit": "%",
-        "name": "Isolatie"
+        "name": "Insulation"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Ruimteverwarming"
+      "Demand",
+      "Buildings",
+      "Space heating"
     ],
     "input_elements": [
       {
         "key": "buildings_space_heater_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "buildings_space_heater_collective_heatpump_water_water_ts_electricity_share",
         "unit": "%",
-        "name": "El. warmtepomp WKO"
+        "name": "Heat pump with TS"
       },
       {
         "key": "buildings_space_heater_heatpump_air_water_network_gas_share",
         "unit": "%",
-        "name": "Gaswarmtepomp"
+        "name": "Gas-fired heat pump"
       },
       {
         "key": "buildings_space_heater_electricity_share",
         "unit": "%",
-        "name": "Elektrische kachel/bijstook"
+        "name": "Electric heater"
       },
       {
         "key": "buildings_space_heater_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "buildings_space_heater_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "buildings_space_heater_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "buildings_space_heater_district_heating_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Koeling"
+      "Demand",
+      "Buildings",
+      "Cooling"
     ],
     "input_elements": [
       {
         "key": "buildings_cooling_collective_heatpump_water_water_ts_electricity_share",
         "unit": "%",
-        "name": "El. warmtepomp WKO"
+        "name": "Heat pump with TS"
       },
       {
         "key": "buildings_cooling_heatpump_air_water_network_gas_share",
         "unit": "%",
-        "name": "Gaswarmtepomp"
+        "name": "Gas-fired heat pump"
       },
       {
         "key": "buildings_cooling_airconditioning_share",
@@ -782,146 +782,146 @@
       {
         "key": "buildings_cooling_collective_cooling_network_electricity_share",
         "unit": "%",
-        "name": "Koudenetwerk"
+        "name": "Cooling network"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Apparaten"
+      "Demand",
+      "Buildings",
+      "Appliances"
     ],
     "input_elements": [
       {
         "key": "buildings_useful_demand_for_appliances",
         "unit": "%",
-        "name": "Apparaten efficiëntie"
+        "name": "Appliances efficiency"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Verlichting"
+      "Demand",
+      "Buildings",
+      "Lighting"
     ],
     "input_elements": [
       {
         "key": "buildings_lighting_standard_fluorescent_electricity_share",
         "unit": "%",
-        "name": "Conventionele TL-buis"
+        "name": "Fluorescent tube"
       },
       {
         "key": "buildings_lighting_efficient_fluorescent_electricity_share",
         "unit": "%",
-        "name": "Hoge opbrengst TL-buis"
+        "name": "High-performance fluorescent tube"
       },
       {
         "key": "buildings_lighting_led_electricity_share",
         "unit": "%",
-        "name": "LED-buis"
+        "name": "LED-tube"
       },
       {
         "key": "buildings_lighting_savings_from_motion_detection_light",
         "unit": "%",
-        "name": "Bewegingsdetectie"
+        "name": "Motion detection"
       },
       {
         "key": "buildings_lighting_savings_from_daylight_control_light",
         "unit": "%",
-        "name": "Daglicht afhankelijke regeling"
+        "name": "Daylight-dependent control"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Zonnepanelen"
+      "Demand",
+      "Buildings",
+      "Solar panels"
     ],
     "input_elements": [
       {
         "key": "buildings_solar_pv_solar_radiation_market_penetration",
         "unit": "%",
-        "name": "Zonnepanelen"
+        "name": "Solar panels"
       },
       {
         "key": "buildings_space_heater_solar_thermal_share",
         "unit": "%",
-        "name": "Zonthermische panelen"
+        "name": "Solar thermal panels"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Gebouwen",
-      "Groei van de vraag"
+      "Demand",
+      "Buildings",
+      "Demand growth"
     ],
     "input_elements": [
       {
         "key": "number_of_buildings",
         "unit": "%",
-        "name": "Aantal gebouwen"
+        "name": "Number of buildings"
       },
       {
         "key": "buildings_useful_demand_electricity",
         "unit": "%",
-        "name": "Elektriciteit per gebouw"
+        "name": "Electricity per building"
       },
       {
         "key": "buildings_useful_demand_for_space_heating",
         "unit": "%",
-        "name": "Warmte per gebouw"
+        "name": "Heat per building"
       },
       {
         "key": "buildings_useful_demand_cooling",
         "unit": "%",
-        "name": "Koeling per gebouw"
+        "name": "Cooling per building"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Vrachtvervoer",
-      "Applicaties"
+      "Demand",
+      "Freight transport",
+      "Applications"
     ],
     "input_elements": [
       {
         "key": "transport_useful_demand_freight_tonne_kms",
         "unit": "%",
-        "name": "Vrachtvervoer"
+        "name": "Freight transport"
       },
       {
         "key": "transport_trucks_share",
         "unit": "%",
-        "name": "Vrachtwagens"
+        "name": "Trucks"
       },
       {
         "key": "transport_freight_trains_share",
         "unit": "%",
-        "name": "Treinen"
+        "name": "Trains"
       },
       {
         "key": "transport_ships_share",
         "unit": "%",
-        "name": "Binnenvaartschepen"
+        "name": "Domestic navigation"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Vrachtvervoer",
-      "Technologie vrachtwagens"
+      "Demand",
+      "Freight transport",
+      "Truck technology"
     ],
     "input_elements": [
       {
         "key": "transport_truck_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "transport_truck_using_diesel_mix_share",
@@ -931,36 +931,36 @@
       {
         "key": "transport_truck_using_hydrogen_share",
         "unit": "%",
-        "name": "Waterstof"
+        "name": "Hydrogen"
       },
       {
         "key": "transport_truck_using_gasoline_mix_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_truck_using_compressed_natural_gas_share",
         "unit": "%",
-        "name": "Gas onder druk (CNG)"
+        "name": "Compressed gas"
       },
       {
         "key": "transport_truck_using_lng_mix_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Vrachtvervoer",
-      "Technologie goederentreinen"
+      "Demand",
+      "Freight transport",
+      "Train technology"
     ],
     "input_elements": [
       {
         "key": "transport_freight_train_using_electricity_share",
         "unit": "%",
-        "name": "Elektrisch"
+        "name": "Electric"
       },
       {
         "key": "transport_freight_train_using_diesel_mix_share",
@@ -971,9 +971,9 @@
   },
   {
     "path": [
-      "Vraag",
-      "Vrachtvervoer",
-      "Technologie binnenvaartschepen"
+      "Demand",
+      "Freight transport",
+      "Domestic navigation technology"
     ],
     "input_elements": [
       {
@@ -984,92 +984,92 @@
       {
         "key": "transport_ship_using_lng_mix_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Internationaal transport",
-      "Internationaal transport"
+      "Demand",
+      "International transport",
+      "International transport"
     ],
     "input_elements": [
       {
         "key": "bunkers_allocated_percentage_aviation",
         "unit": "%",
-        "name": "Internationale luchtvaart"
+        "name": "International aviation"
       },
       {
         "key": "bunkers_allocated_percentage_shipping",
         "unit": "%",
-        "name": "Internationale scheepvaart"
+        "name": "International navigation"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
+      "Demand",
       "Transport",
-      "Efficiëntieverbeteringen"
+      "Efficiency improvement"
     ],
     "input_elements": [
       {
         "key": "transport_vehicle_using_electricity_efficiency",
         "unit": "%",
-        "name": "Elektrische voertuigen"
+        "name": "Electric vehicles"
       },
       {
         "key": "transport_vehicle_using_hydrogen_efficiency",
         "unit": "%",
-        "name": "Waterstofvoertuigen"
+        "name": "Hydrogen vehicles"
       },
       {
         "key": "transport_vehicle_combustion_engine_efficiency",
         "unit": "%",
-        "name": "Brandstofvoertuigen"
+        "name": "Combustion engine vehicles"
       },
       {
         "key": "transport_trains_efficiency",
         "unit": "%",
-        "name": "Treinen"
+        "name": "Trains"
       },
       {
         "key": "transport_ships_efficiency",
         "unit": "%",
-        "name": "Schepen"
+        "name": "Ships"
       },
       {
         "key": "transport_planes_efficiency",
         "unit": "%",
-        "name": "Vliegtuigen"
+        "name": "Airplanes"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Internationaal transport",
-      "Mobiliteitsgroei"
+      "Demand",
+      "International transport",
+      "Mobility growth"
     ],
     "input_elements": [
       {
         "key": "bunkers_useful_demand_planes",
         "unit": "%",
-        "name": "Internationale luchtvaart"
+        "name": "International aviation"
       },
       {
         "key": "bunkers_useful_demand_ships",
         "unit": "%",
-        "name": "Internationale scheepvaart"
+        "name": "International navigation"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Internationaal transport",
-      "Technologie internationale scheepvaart"
+      "Demand",
+      "International transport",
+      "International navigation technology"
     ],
     "input_elements": [
       {
@@ -1086,61 +1086,61 @@
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "CO2-afvang en -opslag"
+      "Demand",
+      "Industry",
+      "Carbon capture and storage (CCS)"
     ],
     "input_elements": [
       {
         "key": "industry_ccs_in_industry",
         "unit": "%",
-        "name": "% van directe emissies afgevangen en opgeslagen"
+        "name": "% of direct emissions captured and stored"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Staal"
+      "Demand",
+      "Industry",
+      "Steel"
     ],
     "input_elements": [
       {
         "key": "industry_steel_production",
         "unit": "%",
-        "name": "Staal"
+        "name": "Steel"
       },
       {
         "key": "industry_steel_blastfurnace_current_consumption_useable_heat_share",
         "unit": "%",
-        "name": "Hoogoven"
+        "name": "Blast furnace"
       },
       {
         "key": "industry_steel_blastfurnace_bat_consumption_useable_heat_share",
         "unit": "%",
-        "name": "Hoogoven BAT"
+        "name": "Blast furnace BAT"
       },
       {
         "key": "industry_steel_hisarna_consumption_useable_heat_share",
         "unit": "%",
-        "name": "Cycloonoven"
+        "name": "Cyclone furnace"
       },
       {
         "key": "industry_steel_electricfurnace_electricity_share",
         "unit": "%",
-        "name": "Elektrische oven (recycling)"
+        "name": "Electric furnace (recycling)"
       },
       {
         "key": "energy_steel_hisarna_transformation_coal_woodpellets_share",
         "unit": "%",
-        "name": "Biomassa in cycloonoven"
+        "name": "Biomass in cyclone furnace"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
+      "Demand",
+      "Industry",
       "Aluminium"
     ],
     "input_elements": [
@@ -1152,389 +1152,389 @@
       {
         "key": "industry_aluminium_electrolysis_current_electricity_share",
         "unit": "%",
-        "name": "Elektrolyse"
+        "name": "Electrolysis"
       },
       {
         "key": "industry_aluminium_electrolysis_bat_electricity_share",
         "unit": "%",
-        "name": "Elektrolyse BAT"
+        "name": "Electrolysis BAT"
       },
       {
         "key": "industry_aluminium_carbothermalreduction_electricity_share",
         "unit": "%",
-        "name": "Carbothermische reductie"
+        "name": "Carbothermal reduction"
       },
       {
         "key": "industry_aluminium_smeltoven_electricity_share",
         "unit": "%",
-        "name": "Smeltoven (recycling)"
+        "name": "Smelt oven (recycling)"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Overige metalen"
+      "Demand",
+      "Industry",
+      "Other metals"
     ],
     "input_elements": [
       {
         "key": "industry_other_metals_production",
         "unit": "%",
-        "name": "Overige metalen"
+        "name": "Other metals"
       },
       {
         "key": "industry_other_metals_process_electricity_efficiency",
         "unit": "%",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "industry_other_metals_process_heat_useable_heat_efficiency",
         "unit": "%",
-        "name": "Warmte"
+        "name": "Heat"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Raffinaderijen"
+      "Demand",
+      "Industry",
+      "Refineries"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_chemical_refineries",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_chemical_refineries_electricity_efficiency",
         "unit": "%",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "industry_useful_demand_for_chemical_refineries_useable_heat_efficiency",
         "unit": "%",
-        "name": "Warmte"
+        "name": "Heat"
       },
       {
         "key": "industry_chemicals_refineries_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "industry_chemicals_refineries_burner_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "industry_chemicals_refineries_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "industry_chemicals_refineries_burner_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "industry_final_demand_for_chemical_refineries_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       },
       {
         "key": "industry_chemicals_refineries_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Kunstmest"
+      "Demand",
+      "Industry",
+      "Fertilizers"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_chemical_fertilizers",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_chemical_fertilizers_electricity_efficiency",
         "unit": "%/year",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "industry_useful_demand_for_chemical_fertilizers_useable_heat_efficiency",
         "unit": "%/year",
-        "name": "Warmte"
-      },
-      {
-        "key": "industry_chemicals_fertilizers_burner_network_gas_share",
-        "unit": "%",
-        "name": "Gasketel"
+        "name": "Heat"
       },
       {
         "key": "industry_chemicals_fertilizers_steam_methane_reformer_hydrogen_share",
         "unit": "%",
-        "name": "Lokale stoomreforming met aardgas"
+        "name": "Local steam methane reforming"
       },
       {
-        "key": "industry_chemicals_fertilizers_burner_crude_oil_share",
+        "key": "industry_chemicals_fertilizers_burner_network_gas_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "industry_chemicals_fertilizers_hydrogen_network_share",
         "unit": "%",
-        "name": "Centrale H2 netwerk"
+        "name": "Central H2 network"
+      },
+      {
+        "key": "industry_chemicals_fertilizers_burner_crude_oil_share",
+        "unit": "%",
+        "name": "Oil-fired heater"
       },
       {
         "key": "industry_chemicals_fertilizers_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "industry_chemicals_fertilizers_burner_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "industry_final_demand_for_chemical_fertilizers_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       },
       {
         "key": "industry_chemicals_fertilizers_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Chemie"
+      "Demand",
+      "Industry",
+      "Chemicals"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_chemical_other",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_chemical_other_electricity_efficiency",
         "unit": "%/year",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "industry_useful_demand_for_chemical_other_useable_heat_efficiency",
         "unit": "%/year",
-        "name": "Warmte"
+        "name": "Heat"
       },
       {
         "key": "industry_chemicals_other_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "industry_chemicals_other_burner_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "industry_chemicals_other_burner_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "industry_chemicals_other_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "industry_chemicals_other_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       },
       {
         "key": "industry_chemicals_other_heater_electricity_share",
         "unit": "%",
-        "name": "Elektrische stoomketel"
+        "name": "Electric boiler"
       },
       {
         "key": "industry_chemicals_other_steam_recompression_electricity_share",
         "unit": "%",
-        "name": "Stoomrecompressie"
+        "name": "Mechanical vapour recompression"
       },
       {
         "key": "industry_chemicals_other_heatpump_water_water_electricity_share",
         "unit": "%",
-        "name": "Warmtepomp"
+        "name": "Heat pump"
       },
       {
         "key": "industry_final_demand_for_chemical_other_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Centrale ICT"
+      "Demand",
+      "Industry",
+      "Central ICT"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_other_ict",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_other_ict_efficiency",
         "unit": "%",
-        "name": "Efficiëntieverbetering"
+        "name": "Efficiency improvement"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Voedsel"
+      "Demand",
+      "Industry",
+      "Food"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_other_food",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_other_food_efficiency",
         "unit": "%",
-        "name": "Efficiëntieverbetering"
+        "name": "Efficiency improvement"
       },
       {
         "key": "industry_other_food_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "industry_other_food_burner_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "industry_other_food_burner_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "industry_other_food_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "industry_other_food_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       },
       {
         "key": "industry_other_food_heater_electricity_share",
         "unit": "%",
-        "name": "Elektrische stoomketel"
+        "name": "Electric boiler"
       },
       {
         "key": "industry_final_demand_for_other_food_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Papier"
+      "Demand",
+      "Industry",
+      "Paper"
     ],
     "input_elements": [
       {
         "key": "industry_useful_demand_for_other_paper",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_useful_demand_for_other_paper_efficiency",
         "unit": "%",
-        "name": "Efficiëntieverbetering"
+        "name": "Efficiency improvement"
       },
       {
         "key": "industry_other_paper_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "industry_other_paper_burner_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "industry_other_paper_burner_coal_share",
         "unit": "%",
-        "name": "Kolenketel"
+        "name": "Coal-fired heater"
       },
       {
         "key": "industry_other_paper_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "industry_other_paper_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       },
       {
         "key": "industry_other_paper_heater_electricity_share",
         "unit": "%",
-        "name": "Elektrische stoomketel"
+        "name": "Electric boiler"
       },
       {
         "key": "industry_final_demand_for_other_paper_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Industrie",
-      "Overig"
+      "Demand",
+      "Industry",
+      "Other"
     ],
     "input_elements": [
       {
         "key": "industry_aggregated_other_industry_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassa"
+        "name": "Biomass"
       },
       {
         "key": "industry_useful_demand_for_aggregated_other",
         "unit": "%",
-        "name": "Grootte"
+        "name": "Size"
       },
       {
         "key": "industry_aggregated_other_industry_electricity_share",
         "unit": "%",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "industry_aggregated_other_industry_crude_oil_share",
         "unit": "%",
-        "name": "Olie"
+        "name": "Oil"
       },
       {
         "key": "industry_aggregated_other_industry_network_gas_share",
@@ -1544,628 +1544,628 @@
       {
         "key": "industry_aggregated_other_industry_coal_share",
         "unit": "%",
-        "name": "Kolen"
+        "name": "Coal"
       },
       {
         "key": "industry_aggregated_other_industry_useable_heat_share",
         "unit": "%",
-        "name": "Warmte"
+        "name": "Heat"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Landbouw",
-      "Groei van de vraag"
+      "Demand",
+      "Agriculture",
+      "Demand growth"
     ],
     "input_elements": [
       {
         "key": "agriculture_useful_demand_electricity",
         "unit": "%",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "agriculture_useful_demand_useable_heat",
         "unit": "%",
-        "name": "Warmte"
+        "name": "Heat"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Landbouw",
-      "Warmte"
+      "Demand",
+      "Agriculture",
+      "Heat"
     ],
     "input_elements": [
       {
         "key": "agriculture_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired heater"
       },
       {
         "key": "agriculture_burner_crude_oil_share",
         "unit": "%",
-        "name": "Olieketel"
+        "name": "Oil-fired heater"
       },
       {
         "key": "agriculture_burner_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassaketel"
+        "name": "Biomass-fired heater"
       },
       {
         "key": "agriculture_heatpump_water_water_ts_electricity_share",
         "unit": "%",
-        "name": "El. warmtepomp WKO"
+        "name": "Heat pump with TS"
       },
       {
         "key": "agriculture_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired heater"
       },
       {
         "key": "agriculture_geothermal_share",
         "unit": "%",
-        "name": "Geothermisch"
+        "name": "Geothermal"
       },
       {
         "key": "agriculture_final_demand_steam_hot_water_share",
         "unit": "%",
-        "name": "Warmtenet"
+        "name": "District heating"
       }
     ]
   },
   {
     "path": [
-      "Vraag",
-      "Overig",
-      "Groei van de vraag"
+      "Demand",
+      "Other",
+      "Demand growth"
     ],
     "input_elements": [
       {
         "key": "other_useful_demand_electricity",
         "unit": "%",
-        "name": "Elektriciteit"
+        "name": "Electricity"
       },
       {
         "key": "other_useful_demand_useable_heat",
         "unit": "%",
-        "name": "Warmte"
+        "name": "Heat"
       },
       {
         "key": "other_useful_demand_non_energetic",
         "unit": "%",
-        "name": "Niet-energetisch"
+        "name": "Non-energetic"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Elektriciteit",
-      "Kolencentrales"
+      "Supply",
+      "Electricity",
+      "Coal plants"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_ultra_supercritical_coal",
         "unit": "MW",
-        "name": "Poederkolen"
+        "name": "Pulverized coal"
       },
       {
         "key": "capacity_of_energy_power_ultra_supercritical_cofiring_coal",
         "unit": "MW",
-        "name": "Poederkolen met bijstook"
+        "name": "Pulverized coal with co-firing"
       },
       {
         "key": "capacity_of_energy_power_ultra_supercritical_ccs_coal",
         "unit": "MW",
-        "name": "Poederkolen CCS"
+        "name": "Pulverized coal CCS"
       },
       {
         "key": "capacity_of_energy_power_combined_cycle_coal",
         "unit": "MW",
-        "name": "Kolenvergassing"
+        "name": "Coal IGCC"
       },
       {
         "key": "capacity_of_energy_power_combined_cycle_ccs_coal",
         "unit": "MW",
-        "name": "Kolenvergassing CCS"
+        "name": "Coal IGCC CCS"
       },
       {
         "key": "capacity_of_energy_power_ultra_supercritical_oxyfuel_ccs_lignite",
         "unit": "MW",
-        "name": "Bruinkolen 'oxyfuel' CCS"
+        "name": "Lignite oxyfuel CCS"
       },
       {
         "key": "capacity_of_energy_power_supercritical_coal",
         "unit": "MW",
-        "name": "Kolen conventioneel"
+        "name": "Coal conventional"
       },
       {
         "key": "capacity_of_energy_power_ultra_supercritical_lignite",
         "unit": "MW",
-        "name": "Bruinkolen"
+        "name": "Coal Lignite"
       },
       {
         "key": "capacity_of_energy_chp_ultra_supercritical_lignite",
         "unit": "MW",
-        "name": "Bruinkoolcentrale met warmtelevering (WKK)"
+        "name": "Lignite plant for district heat (CHP)"
       },
       {
         "key": "capacity_of_energy_chp_ultra_supercritical_coal",
         "unit": "MW",
-        "name": "Kolencentrale met warmtelevering (WKK)"
+        "name": "Coal plant for district heat (CHP)"
       },
       {
         "key": "capacity_of_energy_chp_ultra_supercritical_cofiring_coal",
         "unit": "MW",
-        "name": "Bijstookkolencentrale met warmtelevering (WKK)"
+        "name": "Co-firing coal plant for district heat (CHP)"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Elektriciteit",
-      "Gascentrales"
+      "Supply",
+      "Electricity",
+      "Gas plants"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_combined_cycle_network_gas",
         "unit": "MW",
-        "name": "Gas STEG"
+        "name": "Gas CCGT"
       },
       {
         "key": "capacity_of_energy_power_combined_cycle_ccs_network_gas",
         "unit": "MW",
-        "name": "Gas STEG CCS"
+        "name": "Gas CCGT CCS"
       },
       {
         "key": "capacity_of_energy_power_turbine_network_gas",
         "unit": "MW",
-        "name": "Gasturbine"
+        "name": "Gas turbine"
       },
       {
         "key": "capacity_of_energy_power_ultra_supercritical_network_gas",
         "unit": "MW",
-        "name": "Gas conventioneel"
+        "name": "Gas conventional"
       },
       {
         "key": "capacity_of_energy_power_engine_network_gas",
         "unit": "MW",
-        "name": "Gasmotor"
+        "name": "Gas combustion engine"
       },
       {
         "key": "capacity_of_energy_chp_combined_cycle_network_gas",
         "unit": "MW",
-        "name": "Gascentrale met warmtelevering (WKK)"
+        "name": "Gas plant for district heat (CHP)"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Elektriciteit",
-      "Oliecentrales"
+      "Supply",
+      "Electricity",
+      "Oil plants"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_ultra_supercritical_crude_oil",
         "unit": "MW",
-        "name": "Oliecentrale"
+        "name": "Oil-fired"
       },
       {
         "key": "capacity_of_energy_power_engine_diesel",
         "unit": "MW",
-        "name": "Dieselgenerator"
+        "name": "Diesel generator"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Elektriciteit",
-      "Kerncentrale"
+      "Supply",
+      "Electricity",
+      "Nuclear plants"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_nuclear_gen2_uranium_oxide",
         "unit": "MW",
-        "name": "Kern conventioneel"
+        "name": "Nuclear conventional"
       },
       {
         "key": "capacity_of_energy_power_nuclear_gen3_uranium_oxide",
         "unit": "MW",
-        "name": "Kern 3e Gen"
+        "name": "Nuclear 3rd Gen"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Windmolens"
+      "Supply",
+      "Renewable electricity",
+      "Wind turbines"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_wind_turbine_inland",
         "unit": "MW",
-        "name": "Op land"
+        "name": "Onshore inland"
       },
       {
         "key": "capacity_of_energy_power_wind_turbine_coastal",
         "unit": "MW",
-        "name": "Aan kust"
+        "name": "Onshore coast"
       },
       {
         "key": "capacity_of_energy_power_wind_turbine_offshore",
         "unit": "MW",
-        "name": "Op zee"
+        "name": "Offshore"
       },
       {
         "key": "flh_of_energy_power_wind_turbine_inland",
         "unit": "#",
-        "name": "Op land"
+        "name": "Onshore inland"
       },
       {
         "key": "flh_of_energy_power_wind_turbine_coastal",
         "unit": "#",
-        "name": "Aan kust"
+        "name": "Onshore coastal"
       },
       {
         "key": "flh_of_energy_power_wind_turbine_offshore",
         "unit": "#",
-        "name": "Op zee"
+        "name": "Offshore"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Waterkracht"
+      "Supply",
+      "Renewable electricity",
+      "Hydro electric"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_hydro_river",
         "unit": "MW",
-        "name": "Rivier"
+        "name": "River"
       },
       {
         "key": "capacity_of_energy_power_hydro_mountain",
         "unit": "MW",
-        "name": "Bergen"
+        "name": "Mountain"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Geothermisch"
-    ],
-    "input_elements": [
-      {
-        "key": "capacity_of_energy_power_geothermal",
-        "unit": "MW",
-        "name": "Geothermisch elektrisch"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Waterstofcentrales"
+      "Supply",
+      "Renewable electricity",
+      "Hydrogen plants"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_turbine_hydrogen",
         "unit": "MW",
-        "name": "Waterstofturbine"
+        "name": "Hydrogen turbine"
       },
       {
         "key": "capacity_of_energy_power_combined_cycle_hydrogen",
         "unit": "MW",
-        "name": "Waterstofcentrale (STEG)"
+        "name": "Hydrogen plant (CCGT)"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Zonne-energie"
+      "Supply",
+      "Renewable electricity",
+      "Geothermal"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_power_geothermal",
+        "unit": "MW",
+        "name": "Geothermal electric"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Renewable electricity",
+      "Solar power"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_solar_pv_solar_radiation",
         "unit": "MW",
-        "name": "Zonnecentrales PV"
+        "name": "Solar PV plants"
       },
       {
         "key": "capacity_of_energy_power_solar_csp_solar_radiation",
         "unit": "MW",
-        "name": "Geconcentreerde zonnestroom"
+        "name": "Concentrated solar power"
       },
       {
         "key": "flh_of_solar_pv_solar_radiation",
         "unit": "",
-        "name": "PV zonnepanelen"
+        "name": "Solar PV panels"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Hernieuwbare elektriciteit",
-      "Afvalverbrandingscentrales"
+      "Supply",
+      "Renewable electricity",
+      "Waste power"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_power_supercritical_waste_mix",
         "unit": "MW",
-        "name": "Afvalverbranding"
+        "name": "Waste incinerator"
       },
       {
         "key": "capacity_of_energy_chp_supercritical_waste_mix",
         "unit": "MW",
-        "name": "Afval-WKK"
+        "name": "Waste CHP"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Warmtenetten",
-      "Warmtenet huishoudens"
+      "Supply",
+      "Heat networks",
+      "Heat network households"
     ],
     "input_elements": [
       {
         "key": "households_collective_chp_network_gas_share",
         "unit": "%",
-        "name": "Gas WKK"
+        "name": "Gas CHP"
       },
       {
         "key": "households_collective_chp_biogas_share",
         "unit": "%",
-        "name": "Biogas WKK"
+        "name": "Biogas CHP"
       },
       {
         "key": "households_collective_geothermal_share",
         "unit": "%",
-        "name": "Geothermisch"
+        "name": "Geothermal"
       },
       {
         "key": "households_collective_heatpump_water_water_electricity_share",
         "unit": "%",
-        "name": "Collectieve warmtepomp"
+        "name": "Collective heat pump"
       },
       {
         "key": "households_collective_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired burner"
       },
       {
         "key": "households_collective_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired burner"
       },
       {
         "key": "households_collective_chp_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassa WKK"
+        "name": "Biomass CHP"
       },
       {
         "key": "households_heat_network_connection_steam_hot_water_share",
         "unit": "%",
-        "name": "Grootschalige warmte en restwarmte"
+        "name": "Large-scale heat and residual heat"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Warmtenetten",
-      "Warmtenet gebouwen"
+      "Supply",
+      "Heat networks",
+      "Heat network buildings"
     ],
     "input_elements": [
       {
         "key": "buildings_collective_chp_wood_pellets_share",
         "unit": "%",
-        "name": "Biomassa-WKK"
+        "name": "Biomass CHP"
       },
       {
         "key": "buildings_chp_engine_biogas_share",
         "unit": "%",
-        "name": "Biogas-WKK"
+        "name": "Biogas CHP"
       },
       {
         "key": "buildings_collective_chp_network_gas_share",
         "unit": "%",
-        "name": "Gas-WKK"
+        "name": "Gas CHP"
       },
       {
         "key": "buildings_collective_geothermal_share",
         "unit": "%",
-        "name": "Geothermisch"
+        "name": "Geothermal"
       },
       {
         "key": "buildings_collective_heatpump_water_water_electricity_share",
         "unit": "%",
-        "name": "Collectieve warmtepomp"
+        "name": "Collective heat pump"
       },
       {
         "key": "buildings_collective_burner_network_gas_share",
         "unit": "%",
-        "name": "Gasketel"
+        "name": "Gas-fired burner"
       },
       {
         "key": "buildings_collective_burner_hydrogen_share",
         "unit": "%",
-        "name": "Waterstofketel"
+        "name": "H2-fired burner"
       },
       {
         "key": "buildings_heat_network_connection_steam_hot_water_share",
         "unit": "%",
-        "name": "Grootschalige warmte en restwarmte"
+        "name": "Large-scale heat and residual heat"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Warmtenetten",
-      "Warmtenet industrie"
+      "Supply",
+      "Heat networks",
+      "Heat network industry"
     ],
     "input_elements": [
       {
         "key": "capacity_of_industry_chp_combined_cycle_gas_power_fuelmix",
         "unit": "MW",
-        "name": "Gas WKK"
+        "name": "Gas CHP"
       },
       {
         "key": "capacity_of_industry_chp_turbine_gas_power_fuelmix",
         "unit": "MW",
-        "name": "Gasturbine-WKK"
+        "name": "Gas turbine CHP"
       },
       {
         "key": "capacity_of_industry_chp_engine_gas_power_fuelmix",
         "unit": "MW",
-        "name": "Gasmotor-WKK"
+        "name": "Gas motor CHP"
       },
       {
         "key": "capacity_of_industry_chp_ultra_supercritical_coal",
         "unit": "MW",
-        "name": "Kolen-WKK"
+        "name": "Coal CHP"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Warmtenetten",
-      "Warmtenet landbouw"
+      "Supply",
+      "Heat networks",
+      "Heat network agriculture"
     ],
     "input_elements": [
       {
         "key": "capacity_of_agriculture_chp_engine_network_gas",
         "unit": "MW",
-        "name": "Gas-WKK"
+        "name": "Gas CHP"
       },
       {
         "key": "capacity_of_agriculture_chp_engine_biogas",
         "unit": "MW",
-        "name": "Biogas-WKK"
+        "name": "Biogas CHP"
       },
       {
         "key": "capacity_of_agriculture_chp_supercritical_wood_pellets",
         "unit": "MW",
-        "name": "Houtsnipper-WKK"
+        "name": "Wood chip CHP"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Warmtenetten",
-      "Grootschalige warmte en restwarmte"
+      "Supply",
+      "Heat networks",
+      "Large-scale heat and residual heat"
     ],
     "input_elements": [
       {
         "key": "volume_of_imported_heat",
         "unit": "PJ",
-        "name": "Geïmporteerde (rest)warmte"
+        "name": "Imported (residual) heat"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_wood_pellets",
         "unit": "MW",
-        "name": "Grootschalige biomassaketel"
+        "name": "Large-scale biomass-fired heater"
       },
       {
         "key": "co2_emissions_of_imported_heat",
         "unit": "kg/GJ",
-        "name": "CO2-uitstoot van geïmporteerde (rest)warmte"
+        "name": "CO2-emissions of imported (residual) heat"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_geothermal",
         "unit": "MW",
-        "name": "Grootschalige geothermie"
+        "name": "Large-scale geothermal heater"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_waste_mix",
         "unit": "MW",
-        "name": "Grootschalige afvalketel"
+        "name": "Large-scale waste-fired heater"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_network_gas",
         "unit": "MW",
-        "name": "Grootschalige gasketel"
+        "name": "Large-scale gas-fired heater"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_coal",
         "unit": "MW",
-        "name": "Grootschalige kolenketel"
+        "name": "Large-scale coal-fired heater"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_oil",
         "unit": "MW",
-        "name": "Grootschalige olieketel"
+        "name": "Large-scale oil-fired heater"
       },
       {
         "key": "energy_import_steam_hot_water_preset_demands",
         "unit": "PJ",
-        "name": "Geïmporteerde warmte"
+        "name": "Imported heat"
       },
       {
         "key": "capacity_of_energy_heater_for_heat_network_lignite",
         "unit": "MW",
-        "name": "Grootschalige bruinkoolketel"
+        "name": "Large-scale lignite-fired heater"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Waterstof",
-      "Waterstofproductie"
+      "Supply",
+      "Hydrogen",
+      "Hydrogen production"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_hydrogen_wind_turbine_offshore",
         "unit": "MW",
-        "name": "Windmolen op zee voor H2"
+        "name": "Offshore wind turbine for H2"
       },
       {
         "key": "capacity_of_energy_hydrogen_solar_pv_solar_radiation",
         "unit": "MW",
-        "name": "Zonnecentrale PV voor H2"
+        "name": "Solar PV plant for H2"
       },
       {
         "key": "capacity_of_energy_hydrogen_steam_methane_reformer",
         "unit": "MW",
-        "name": "Stoomreforming met aardgas"
+        "name": "Steam methane reforming"
       },
       {
         "key": "capacity_of_energy_hydrogen_steam_methane_reformer_ccs",
         "unit": "MW",
-        "name": "Stoomreforming met aardgas + CCS"
-      },
-      {
-        "key": "energy_local_electrolysis_hydrogen_share",
-        "unit": "%",
-        "name": "Lokale elektrolyse"
+        "name": "Steam methane reforming + CCS"
       },
       {
         "key": "capacity_of_energy_hydrogen_biomass_gasification",
         "unit": "MW",
-        "name": "Biomassavergassing"
+        "name": "Biomass gasification"
+      },
+      {
+        "key": "energy_local_electrolysis_hydrogen_share",
+        "unit": "%",
+        "name": "Local electrolysis"
       },
       {
         "key": "flh_of_energy_hydrogen_wind_turbine_offshore",
         "unit": "#",
-        "name": "Windmolen op zee voor H2"
+        "name": "Offshore wind turbine for H2"
       },
       {
         "key": "capacity_of_energy_imported_hydrogen_baseload",
@@ -2175,53 +2175,53 @@
       {
         "key": "capacity_of_energy_hydrogen_biomass_gasification_ccs",
         "unit": "MW",
-        "name": "Biomassavergassing CCS"
+        "name": "Biomass gasification CCS"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Waterstof",
-      "Waterstoftransport"
+      "Supply",
+      "Hydrogen",
+      "Hydrogen transport"
     ],
     "input_elements": [
       {
         "key": "energy_transport_hydrogen_pipelines_share",
         "unit": "%",
-        "name": "H2 leidingen"
+        "name": "H2 pipelines"
       },
       {
         "key": "energy_transport_hydrogen_compressed_trucks_share",
         "unit": "%",
-        "name": "H2 onder druk in vrachtwagens"
+        "name": "Compressed H2 in trucks"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Waterstof",
-      "CO2-emissies van geïmporteerde waterstof"
+      "Supply",
+      "Hydrogen",
+      "CO2 emissions of imported hydrogen"
     ],
     "input_elements": [
       {
         "key": "co2_emissions_of_imported_hydrogen_present",
         "unit": "kg/MWh",
-        "name": "Huidige import"
+        "name": "Present import"
       },
       {
         "key": "co2_emissions_of_imported_hydrogen_future",
         "unit": "kg/MWh",
-        "name": "Toekomstige import"
+        "name": "Future import"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Transportbrandstoffen",
-      "Wegverkeer"
+      "Supply",
+      "Transport fuels",
+      "Road transport"
     ],
     "input_elements": [
       {
@@ -2237,7 +2237,7 @@
       {
         "key": "transport_road_mixer_gasoline_gasoline_share",
         "unit": "%",
-        "name": "Benzine"
+        "name": "Gasoline"
       },
       {
         "key": "transport_road_mixer_gasoline_ethanol_share",
@@ -2247,7 +2247,7 @@
       {
         "key": "transport_road_mixer_lng_lng_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       },
       {
         "key": "transport_road_mixer_lng_bio_lng_share",
@@ -2258,9 +2258,9 @@
   },
   {
     "path": [
-      "Aanbod",
-      "Transportbrandstoffen",
-      "Treinverkeer"
+      "Supply",
+      "Transport fuels",
+      "Rail transport"
     ],
     "input_elements": [
       {
@@ -2277,9 +2277,9 @@
   },
   {
     "path": [
-      "Aanbod",
-      "Transportbrandstoffen",
-      "Binnenlandse scheepvaart"
+      "Supply",
+      "Transport fuels",
+      "Domestic navigation"
     ],
     "input_elements": [
       {
@@ -2295,166 +2295,166 @@
       {
         "key": "transport_shipping_mixer_diesel_lng_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       },
       {
         "key": "transport_shipping_mixer_diesel_bio_lng_share",
         "unit": "%",
-        "name": "Bio-LNG"
+        "name": "Bio LNG"
       },
       {
         "key": "transport_shipping_mixer_diesel_heavy_fuel_oil_share",
         "unit": "%",
-        "name": "Zware stookolie"
+        "name": "Heavy fuel oil"
       },
       {
         "key": "transport_shipping_mixer_lng_lng_share",
         "unit": "%",
-        "name": "Vloeibaar aardgas (LNG)"
+        "name": "LNG"
       },
       {
         "key": "transport_shipping_mixer_lng_bio_lng_share",
         "unit": "%",
-        "name": "Bio-LNG"
+        "name": "Bio LNG"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Transportbrandstoffen",
-      "Internationale luchtvaart"
+      "Supply",
+      "Transport fuels",
+      "International aviation"
     ],
     "input_elements": [
       {
         "key": "bunkers_plane_using_kerosene_share",
         "unit": "%",
-        "name": "Kerosine"
+        "name": "Kerosene"
       },
       {
         "key": "bunkers_plane_using_bio_kerosene_share",
         "unit": "%",
-        "name": "Bio-kerosine"
+        "name": "Bio-kerosene"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Biomassa",
-      "(Groen)gas in gasnetwerk"
+      "Supply",
+      "Biomass",
+      "(Green) gas in gas network"
     ],
     "input_elements": [
       {
         "key": "natural_gas_total_share",
         "unit": "%",
-        "name": "Aardgas"
+        "name": "Natural gas"
       },
       {
         "key": "green_gas_total_share",
         "unit": "%",
-        "name": "Groengas"
+        "name": "Green gas"
       },
       {
         "key": "energy_treatment_natural_gas_share",
         "unit": "%",
-        "name": "Aardgas"
+        "name": "Natural gas"
       },
       {
         "key": "energy_regasification_lng_share",
         "unit": "%",
-        "name": "Hervergast LNG"
+        "name": "Regasified LNG"
       },
       {
         "key": "energy_distribution_greengas_share",
         "unit": "%",
-        "name": "Groengas"
+        "name": "Green gas"
       },
       {
         "key": "energy_regasification_bio_lng_share",
         "unit": "%",
-        "name": "Hervergast bio LNG"
+        "name": "Regasified bio LNG"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Biomassa",
-      "Biobrandstoffen productie"
+      "Supply",
+      "Biomass",
+      "Biofuel production"
     ],
     "input_elements": [
       {
         "key": "bio_ethanol_from_beet_sugar_share",
         "unit": "%",
-        "name": "Suikerbieten"
+        "name": "Sugar beets"
       },
       {
         "key": "bio_ethanol_from_cane_sugar_share",
         "unit": "%",
-        "name": "Suikerriet"
+        "name": "Sugar cane"
       },
       {
         "key": "biodiesel_from_waste_fats_share",
         "unit": "%",
-        "name": "Restvetten"
+        "name": "Waste fats"
       },
       {
         "key": "bio_ethanol_from_wheat_share",
         "unit": "%",
-        "name": "Tarwe"
+        "name": "Wheat"
       },
       {
         "key": "bio_ethanol_from_corn_share",
         "unit": "%",
-        "name": "Maïs"
+        "name": "Corn"
       },
       {
         "key": "biodiesel_from_rape_seed_share",
         "unit": "%",
-        "name": "Koolzaad"
+        "name": "Rapeseed"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Biomassa",
-      "Biokolen en bio-olie in energiecentrales"
+      "Supply",
+      "Biomass",
+      "Biocoal and bio-oil in energy plants"
     ],
     "input_elements": [
       {
         "key": "co_firing_coal_share",
         "unit": "%",
-        "name": "Steenkool"
+        "name": "Coal"
       },
       {
         "key": "co_firing_biocoal_share",
         "unit": "%",
-        "name": "Biokolen"
+        "name": "Biocoal"
       },
       {
         "key": "energy_mixer_for_gas_power_fuel_natural_gas_share",
         "unit": "%",
-        "name": "Gas uit gas netwerk"
+        "name": "Gas from gas network"
       },
       {
         "key": "energy_mixer_for_gas_power_fuel_bio_oil_share",
         "unit": "%",
-        "name": "Bio-olie"
+        "name": "Bio-oil"
       },
       {
         "key": "energy_mixer_for_gas_power_fuel_crude_oil_share",
         "unit": "%",
-        "name": "Olie"
+        "name": "Oil"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Biomassa",
-      "CO2-uitstoot van biomassa"
+      "Supply",
+      "Biomass",
+      "CO2 emissions of biomass"
     ],
     "input_elements": [
       {
@@ -2465,12 +2465,12 @@
       {
         "key": "climate_relevant_co2_biomass_liquid_present",
         "unit": "%",
-        "name": "Vloeibaar"
+        "name": "Liquid"
       },
       {
         "key": "climate_relevant_co2_biomass_solid_present",
         "unit": "%",
-        "name": "Vast"
+        "name": "Solid"
       },
       {
         "key": "climate_relevant_co2_biomass_gas_future",
@@ -2480,95 +2480,95 @@
       {
         "key": "climate_relevant_co2_biomass_liquid_future",
         "unit": "%",
-        "name": "Vloeibaar"
+        "name": "Liquid"
       },
       {
         "key": "climate_relevant_co2_biomass_solid_future",
         "unit": "%",
-        "name": "Vast"
+        "name": "Solid"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Ketenanalyse",
-      "Kolen"
+      "Supply",
+      "Fuel chain emissions",
+      "Coal"
     ],
     "input_elements": [
       {
         "key": "coal_from_south_africa_share",
         "unit": "%",
-        "name": "Zuid-Afrika"
+        "name": "South Africa"
       },
       {
         "key": "coal_from_north_america_share",
         "unit": "%",
-        "name": "Noord-Amerika"
+        "name": "North America"
       },
       {
         "key": "coal_from_australia_share",
         "unit": "%",
-        "name": "Australië"
+        "name": "Australia"
       },
       {
         "key": "coal_from_eastern_europe_share",
         "unit": "%",
-        "name": "Oost-Europa"
+        "name": "Eastern Europe"
       },
       {
         "key": "coal_from_russia_share",
         "unit": "%",
-        "name": "Rusland"
+        "name": "Russia"
       },
       {
         "key": "coal_from_south_america_share",
         "unit": "%",
-        "name": "Zuid-Amerika"
+        "name": "South America"
       },
       {
         "key": "coal_from_east_asia_share",
         "unit": "%",
-        "name": "Oost-Azië"
+        "name": "East Asia"
       }
     ]
   },
   {
     "path": [
-      "Aanbod",
-      "Ketenanalyse",
-      "Aardgas"
+      "Supply",
+      "Fuel chain emissions",
+      "Natural gas"
     ],
     "input_elements": [
       {
         "key": "gas_from_algeria_share",
         "unit": "%",
-        "name": "Algerije"
+        "name": "Algeria"
       },
       {
         "key": "gas_from_nederlands_share",
         "unit": "%",
-        "name": "Nederland"
+        "name": "Netherlands"
       },
       {
         "key": "gas_from_norway_share",
         "unit": "%",
-        "name": "Noorwegen"
+        "name": "Norway"
       },
       {
         "key": "gas_from_russia_share",
         "unit": "%",
-        "name": "Rusland"
+        "name": "Russia"
       },
       {
         "key": "lng_from_algeria_share",
         "unit": "%",
-        "name": "Algerije"
+        "name": "Algeria"
       },
       {
         "key": "lng_from_norway_share",
         "unit": "%",
-        "name": "Noorwegen"
+        "name": "Norway"
       },
       {
         "key": "lng_from_qatar_share",
@@ -2584,20 +2584,20 @@
   },
   {
     "path": [
-      "Aanbod",
-      "Ketenanalyse",
+      "Supply",
+      "Fuel chain emissions",
       "Uranium"
     ],
     "input_elements": [
       {
         "key": "uranium_from_kazachstan_share",
         "unit": "%",
-        "name": "Kazachstan"
+        "name": "Kazakhstan"
       },
       {
         "key": "uranium_from_australia_share",
         "unit": "%",
-        "name": "Australië"
+        "name": "Australia"
       },
       {
         "key": "uranium_from_canada_share",
@@ -2608,51 +2608,51 @@
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Opslag",
-      "Opslag in thuisbatterijen"
+      "Flexibility",
+      "Storage",
+      "Storage in household batteries"
     ],
     "input_elements": [
       {
         "key": "households_flexibility_p2p_electricity_market_penetration",
         "unit": "%",
-        "name": "Batterijen in huishoudens"
+        "name": "Batteries in households"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Opslag",
-      "Opslag in elektrische auto's"
+      "Flexibility",
+      "Storage",
+      "Storage in electric vehicles"
     ],
     "input_elements": [
       {
         "key": "transport_car_using_electricity_availability",
         "unit": "%",
-        "name": "Beschikbaarheid"
+        "name": "Availability"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Opslag",
-      "Opslag in stuwmeren"
+      "Flexibility",
+      "Storage",
+      "Storage in reservoirs"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_flexibility_pumped_storage_electricity",
         "unit": "MW",
-        "name": "Stuwmeren"
+        "name": "Reservoirs"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Conversie",
-      "Conversie naar waterstof"
+      "Flexibility",
+      "Conversion",
+      "Conversion to hydrogen"
     ],
     "input_elements": [
       {
@@ -2664,52 +2664,52 @@
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Conversie",
-      "Conversie naar warmte voor huishoudens"
+      "Flexibility",
+      "Conversion",
+      "Conversion to heat for households"
     ],
     "input_elements": [
       {
         "key": "households_flexibility_p2h_electricity_market_penetration",
         "unit": "%",
-        "name": "Power-to-heat elektrische boiler"
+        "name": "Power-to-heat electric boiler"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Conversie",
-      "Conversie naar warmte voor industrie"
+      "Flexibility",
+      "Conversion",
+      "Conversion to heat for industry"
     ],
     "input_elements": [
       {
         "key": "capacity_of_industry_chemicals_other_flexibility_p2h_electricity",
         "unit": "MW",
-        "name": "Power-to-heat voor chemie"
+        "name": "Power-to-heat for chemical"
       },
       {
         "key": "capacity_of_industry_chemicals_refineries_flexibility_p2h_electricity",
         "unit": "MW",
-        "name": "Power-to-heat voor raffinaderijen"
+        "name": "Power-to-heat for refineries"
       },
       {
         "key": "capacity_of_industry_other_food_flexibility_p2h_electricity",
         "unit": "MW",
-        "name": "Power-to-heat voor voedsel"
+        "name": "Power-to-heat for food"
       },
       {
         "key": "capacity_of_industry_other_paper_flexibility_p2h_electricity",
         "unit": "MW",
-        "name": "Power-to-heat voor papier"
+        "name": "Power-to-heat for paper"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Conversie",
-      "Conversie naar kerosine voor luchtvaart"
+      "Flexibility",
+      "Conversion",
+      "Conversion to kerosene for aviation"
     ],
     "input_elements": [
       {
@@ -2720,12 +2720,12 @@
       {
         "key": "flexibility_p2l_point_source_CO",
         "unit": "%",
-        "name": "Puntbron CO"
+        "name": "Point source CO"
       },
       {
         "key": "flexibility_p2l_point_source_CO2",
         "unit": "%",
-        "name": "Puntbron CO2"
+        "name": "Point source CO2"
       },
       {
         "key": "flexibility_p2l_direct_air_capture",
@@ -2735,165 +2735,179 @@
       {
         "key": "flexibility_p2l_co2_reduction_industry",
         "unit": "%",
-        "name": "Industrie"
+        "name": "Industry"
       },
       {
         "key": "flexibility_p2l_co2_reduction_bunkers",
         "unit": "%",
-        "name": "Internationaal transport"
+        "name": "International transport"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Netbelasting",
-      "Vraagsturing - Elektrische auto's"
+      "Flexibility",
+      "Net load",
+      "Demand response - Electric vehicles"
     ],
     "input_elements": [
       {
         "key": "transport_car_using_electricity_home_charging_share",
         "unit": "%",
-        "name": "Thuisladen"
+        "name": "Charging at home"
       },
       {
         "key": "transport_car_using_electricity_hybrid_charging_share",
         "unit": "%",
-        "name": "Overal laden"
+        "name": "Charging everywhere"
       },
       {
         "key": "transport_car_using_electricity_fast_charging_share",
         "unit": "%",
-        "name": "Snelladen"
+        "name": "Fast charging"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
-      "Netbelasting",
-      "Vraagsturing - Warmtepompen"
+      "Flexibility",
+      "Net load",
+      "Demand response - Heat pumps"
     ],
     "input_elements": [
       {
-        "key": "households_flexibility_space_heating_buffer_size_heatpump_air_water_electricity",
-        "unit": "kWh",
-        "name": "Luchtwarmtepomp"
-      },
-      {
         "key": "households_flexibility_water_heating_buffer_size_heatpump_air_water_electricity",
         "unit": "kWh",
-        "name": "Luchtwarmtepomp"
+        "name": "Heat pump (air)"
       },
       {
-        "key": "households_flexibility_space_heating_cop_cutoff",
-        "unit": "#",
-        "name": "Ruimteverwarming"
+        "key": "households_flexibility_space_heating_buffer_size_heatpump_air_water_electricity",
+        "unit": "kWh",
+        "name": "Heat pump (air)"
       },
       {
         "key": "households_flexibility_space_heating_buffer_size_heatpump_ground_water_electricity",
         "unit": "kWh",
-        "name": "Bodemwarmtepomp"
+        "name": "Heat pump ground"
+      },
+      {
+        "key": "households_flexibility_space_heating_cop_cutoff",
+        "unit": "#",
+        "name": "Space heating"
       },
       {
         "key": "households_flexibility_water_heating_buffer_size_heatpump_ground_water_electricity",
         "unit": "kWh",
-        "name": "Bodemwarmtepomp"
-      },
-      {
-        "key": "households_flexibility_water_heating_cop_cutoff",
-        "unit": "#",
-        "name": "Warm water"
+        "name": "Heat pump ground"
       },
       {
         "key": "households_flexibility_space_heating_buffer_size_hybrid_heatpump_air_water_electricity",
         "unit": "kWh",
-        "name": "Hybride warmtepomp"
+        "name": "Hybrid heat pump"
       },
       {
         "key": "households_flexibility_water_heating_buffer_size_hybrid_heatpump_air_water_electricity",
         "unit": "kWh",
-        "name": "Hybride warmtepomp"
+        "name": "Hybrid heat pump"
+      },
+      {
+        "key": "households_flexibility_water_heating_cop_cutoff",
+        "unit": "#",
+        "name": "Hot water"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
+      "Flexibility",
       "Import/Export",
-      "Interconnectiecapaciteit"
+      "Interconnector capacity"
     ],
     "input_elements": [
       {
         "key": "interconnectors_interconnector_capacity",
         "unit": "MW",
-        "name": "Interconnectiecapaciteit"
+        "name": "Interconnector capacity"
       },
       {
         "key": "interconnectors_availability_for_import",
         "unit": "%",
-        "name": "Beschikbaar voor import"
+        "name": "Availability for import"
       },
       {
         "key": "interconnectors_availability_for_export",
         "unit": "%",
-        "name": "Beschikbaar voor export"
+        "name": "Availability for export"
       }
     ]
   },
   {
     "path": [
-      "Flexibiliteit",
+      "Flexibility",
       "Import/Export",
-      "CO2-emissies van geïmporteerde elektriciteit"
+      "CO2 emissions of imported electricity"
     ],
     "input_elements": [
       {
         "key": "co2_emissions_of_imported_electricity_present",
         "unit": "g/kWh",
-        "name": "Huidige import"
+        "name": "Present import"
       },
       {
         "key": "co2_emissions_of_imported_electricity_future",
         "unit": "g/kWh",
-        "name": "Toekomstige import"
+        "name": "Future import"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Brandstofprijzen",
-      "Brandstof voor verbranding"
+      "Costs",
+      "Fuel prices",
+      "Combustion fuel"
     ],
     "input_elements": [
       {
         "key": "costs_gas",
         "unit": " €/MWh",
-        "name": "Aardgas"
+        "name": "Natural gas"
       },
       {
         "key": "costs_oil",
         "unit": "$/barrel",
-        "name": "Olie"
+        "name": "Oil"
       },
       {
         "key": "costs_coal",
         "unit": "$/tonne",
-        "name": "Kolen"
+        "name": "Coal"
       },
       {
         "key": "costs_biomass",
         "unit": " €/tonne",
-        "name": "Biomassa"
+        "name": "Biomass"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Brandstofprijzen",
-      "Brandstof voor kerncentrales"
+      "Costs",
+      "Merit order",
+      "Merit order"
+    ],
+    "input_elements": [
+      {
+        "key": "settings_enable_merit_order",
+        "unit": "boolean",
+        "name": "translation missing: en.input_elements.settings_enable_merit_order"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs",
+      "Fuel prices",
+      "Nuclear fuel"
     ],
     "input_elements": [
       {
@@ -2905,309 +2919,295 @@
   },
   {
     "path": [
-      "Kosten",
-      "Merit order",
-      "Merit order"
-    ],
-    "input_elements": [
-      {
-        "key": "settings_enable_merit_order",
-        "unit": "boolean",
-        "name": "translation missing: nl.input_elements.settings_enable_merit_order"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Kosten",
+      "Costs",
       "Transport",
-      "Investeringen elektrische auto's"
+      "Investments electric cars"
     ],
     "input_elements": [
       {
         "key": "investment_costs_electric_cars",
         "unit": "euro",
-        "name": "Extra investering per elektrische auto"
+        "name": "Extra investment per electric car"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Verbrandingscentrales",
-      "Investeringen"
+      "Costs",
+      "Combustion plants",
+      "Investment"
     ],
     "input_elements": [
       {
         "key": "investment_costs_combustion_gas_plant",
         "unit": "%",
-        "name": "Gas- en waterstofcentrales"
+        "name": "Gas and hydrogen plants"
       },
       {
         "key": "investment_costs_combustion_oil_plant",
         "unit": "%",
-        "name": "Oliecentrale"
+        "name": "Oil plant"
       },
       {
         "key": "investment_costs_combustion_coal_plant",
         "unit": "%",
-        "name": "Kolencentrale"
+        "name": "Coal plant"
       },
       {
         "key": "investment_costs_combustion_biomass_plants",
         "unit": "%",
-        "name": "Biomassacentrale"
+        "name": "Biomass plant"
       },
       {
         "key": "investment_costs_combustion_waste_incinerator",
         "unit": "%",
-        "name": "Afvalverbranding"
+        "name": "Waste incinerator"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Verbrandingscentrales",
-      "Onderhoud en beheer"
+      "Costs",
+      "Combustion plants",
+      "Operations and maintenance"
     ],
     "input_elements": [
       {
         "key": "om_costs_combustion_gas_plant",
         "unit": "%",
-        "name": "Gascentrale"
+        "name": "Gas plant"
       },
       {
         "key": "om_costs_combustion_oil_plant",
         "unit": "%",
-        "name": "Oliecentrale"
+        "name": "Oil plant"
       },
       {
         "key": "om_costs_combustion_coal_plant",
         "unit": "%",
-        "name": "Kolencentrale"
+        "name": "Coal plant"
       },
       {
         "key": "om_costs_combustion_biomass_plant",
         "unit": "%",
-        "name": "Biomassacentrale"
+        "name": "Biomass plant"
       },
       {
         "key": "om_costs_combustion_waste_incinerator",
         "unit": "%",
-        "name": "Afvalverbranding"
+        "name": "Waste incinerator"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Kerncentrales",
-      "Investeringen"
+      "Costs",
+      "Nuclear plants",
+      "Investment"
     ],
     "input_elements": [
       {
         "key": "investment_costs_nuclear_nuclear_plant",
         "unit": "%",
-        "name": "Kerncentrale"
+        "name": "Nuclear plant"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Kerncentrales",
-      "Onderhoud en beheer"
+      "Costs",
+      "Nuclear plants",
+      "Operations and maintenance"
     ],
     "input_elements": [
       {
         "key": "om_costs_nuclear_nuclear_plant",
         "unit": "%",
-        "name": "Kerncentrale"
+        "name": "Nuclear plant"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Geïmporteerde elektriciteit",
-      "Kosten van geïmporteerde elektriciteit"
+      "Costs",
+      "Imported electricity",
+      "Costs of imported electricity"
     ],
     "input_elements": [
       {
         "key": "costs_imported_electricity",
         "unit": "€/MWh",
-        "name": "Kosten van geïmporteerde elektriciteit"
+        "name": "Costs of imported electricity"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Windmolens",
-      "Investeringen"
+      "Costs",
+      "Wind turbines",
+      "Investment"
     ],
     "input_elements": [
       {
         "key": "investment_costs_wind_onshore",
         "unit": "%",
-        "name": "Op land"
+        "name": "Onshore"
       },
       {
         "key": "investment_costs_wind_offshore",
         "unit": "%",
-        "name": "Op zee"
+        "name": "Offshore"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Waterstof",
-      "Waterstofimport"
+      "Costs",
+      "Hydrogen",
+      "Hydrogen import"
     ],
     "input_elements": [
       {
         "key": "costs_hydrogen",
         "unit": "€/MWh",
-        "name": "Waterstof (import)"
+        "name": "Hydrogen (import)"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Windmolens",
-      "Onderhoud en beheer"
-    ],
-    "input_elements": [
-      {
-        "key": "om_costs_wind_onshore",
-        "unit": "%",
-        "name": "Op land"
-      },
-      {
-        "key": "om_costs_wind_offshore",
-        "unit": "%",
-        "name": "Op zee"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Kosten",
-      "Waterstof",
-      "Waterstofopslag"
+      "Costs",
+      "Hydrogen",
+      "Hydrogen storage"
     ],
     "input_elements": [
       {
         "key": "costs_hydrogen_storage",
         "unit": "€/MWh",
-        "name": "Waterstofopslagkosten"
+        "name": "Hydrogen storage costs"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Waterstof",
-      "Waterstoftransport"
+      "Costs",
+      "Wind turbines",
+      "Operations and maintenance"
+    ],
+    "input_elements": [
+      {
+        "key": "om_costs_wind_onshore",
+        "unit": "%",
+        "name": "Onshore"
+      },
+      {
+        "key": "om_costs_wind_offshore",
+        "unit": "%",
+        "name": "Offshore"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs",
+      "Hydrogen",
+      "Hydrogen transport"
     ],
     "input_elements": [
       {
         "key": "costs_hydrogen_transport_pipelines",
         "unit": "€/MWh",
-        "name": "Totale kosten H2 leidingen"
+        "name": "Total costs H2 pipelines"
       },
       {
         "key": "costs_hydrogen_transport_compressed_trucks",
         "unit": "€/MWh",
-        "name": "Totale kosten H2 onder druk in vrachtwagens"
+        "name": "Total costs H2 compressed trucks"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Waterkracht",
-      "Investeringen"
+      "Costs",
+      "Hydro electric",
+      "Investment"
     ],
     "input_elements": [
       {
         "key": "investment_costs_water_river",
         "unit": "%",
-        "name": "Rivier"
+        "name": "River"
       },
       {
         "key": "investment_costs_water_mountains",
         "unit": "%",
-        "name": "Bergen"
+        "name": "Mountains"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Waterkracht",
-      "Onderhoud en beheer"
+      "Costs",
+      "Hydro electric",
+      "Operations and maintenance"
     ],
     "input_elements": [
       {
         "key": "om_costs_water_river",
         "unit": "%",
-        "name": "Rivier"
+        "name": "River"
       },
       {
         "key": "om_costs_water_mountains",
         "unit": "%",
-        "name": "Bergen"
+        "name": "Mountains"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Zonnestroom",
-      "Investeringen"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_solar_solar_panels",
-        "unit": "%",
-        "name": "Zonnepanelen"
-      },
-      {
-        "key": "investment_costs_solar_concentrated_solar_power",
-        "unit": "%",
-        "name": "Geconcentreerde zonnestroom"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Kosten",
-      "Flexibiliteit",
-      "Investeringskosten opslag elektriciteit"
+      "Costs",
+      "Flexibility",
+      "Investment costs storage electricity"
     ],
     "input_elements": [
       {
         "key": "investment_costs_households_flexibility_p2p_electricity",
         "unit": "%",
-        "name": "Batterijen in huishoudens"
+        "name": "Household batteries"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Flexibiliteit",
-      "Investeringskosten conversie elektriciteit"
+      "Costs",
+      "Solar power",
+      "Investment"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_solar_solar_panels",
+        "unit": "%",
+        "name": "Solar panels"
+      },
+      {
+        "key": "investment_costs_solar_concentrated_solar_power",
+        "unit": "%",
+        "name": "Concentrated solar power"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs",
+      "Flexibility",
+      "Investment costs conversion electricity"
     ],
     "input_elements": [
       {
         "key": "investment_costs_flexibility_p2h_electricity",
         "unit": "%",
-        "name": "Elektrische boilers"
+        "name": "Power-to-heat electric boilers"
       },
       {
         "key": "investment_costs_hydrogen_electrolysis",
@@ -3218,245 +3218,245 @@
   },
   {
     "path": [
-      "Kosten",
-      "Geothermie",
-      "Investeringen"
+      "Costs",
+      "Geothermal",
+      "Investment"
     ],
     "input_elements": [
       {
         "key": "investment_costs_earth_geothermal_electricity",
         "unit": "%",
-        "name": "Stroom uit aardwarmte"
+        "name": "Geothermal electricity"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Geothermie",
-      "Onderhoud en beheer"
+      "Costs",
+      "Geothermal",
+      "Operations and maintenance"
     ],
     "input_elements": [
       {
         "key": "om_costs_earth_geothermal_electricity",
         "unit": "%",
-        "name": "Stroom uit aardwarmte"
+        "name": "Geothermal electricity"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Elektriciteitsnet",
-      "Kosten elektriciteitsinfrastructuur"
+      "Costs",
+      "Infrastructure",
+      "Electricity infrastructure costs"
     ],
     "input_elements": [
       {
         "key": "costs_infrastructure_electricity_lv_net",
         "unit": "€/kW",
-        "name": "Investering laagspanningsnet"
+        "name": "Costs new low voltage net"
       },
       {
         "key": "costs_infrastructure_electricity_lv_mv_trafo",
         "unit": "€/kW",
-        "name": "Investering ls-ms-transformator"
+        "name": "Costs new lv-mv transformator"
       },
       {
         "key": "costs_infrastructure_electricity_mv_net",
         "unit": "€/kW",
-        "name": "Investering middenspanningsnet"
+        "name": "Costs new medium voltage net"
       },
       {
         "key": "costs_infrastructure_electricity_mv_hv_trafo",
         "unit": "€/kW",
-        "name": "Investering ms-hs-transformator"
+        "name": "Costs new low mv-hv transformator"
       },
       {
         "key": "costs_infrastructure_electricity_hv_net",
         "unit": "€/kW",
-        "name": "Investering hoogspanningsnet"
+        "name": "Costs new high voltage net"
       },
       {
         "key": "costs_infrastructure_electricity_interconnector_net",
         "unit": "€/kW",
-        "name": "Investering in interconnectienet"
+        "name": "Costs new interconnector net"
       },
       {
         "key": "costs_infrastructure_electricity_offshore_net",
         "unit": "€/kW",
-        "name": "Investering in net wind op zee"
+        "name": "Costs new offshore net"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Elektriciteitsnet",
-      "Benuttingsgraad netwerken"
+      "Costs",
+      "Infrastructure",
+      "Usage of networks"
     ],
     "input_elements": [
       {
         "key": "costs_infrastructure_useable_spare_capacity",
         "unit": "%",
-        "name": "Gebruik technische capaciteitsruimte"
+        "name": "Use of technical spare capacity"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "CO2-uitstoot",
-      "Prijzen"
+      "Costs",
+      "CO2 emissions",
+      "Prices"
     ],
     "input_elements": [
       {
         "key": "costs_co2",
         "unit": "€/tonne",
-        "name": "CO2 prijs"
+        "name": "CO2 price"
       },
       {
         "key": "costs_co2_free_allocation",
         "unit": "%",
-        "name": "Vrije rechten"
+        "name": "Free allocation"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "CO2-uitstoot",
-      "CCS in de energie sector"
+      "Costs",
+      "CO2 emissions",
+      "CCS in energy sector"
     ],
     "input_elements": [
       {
         "key": "investment_costs_co2_ccs",
         "unit": "%",
-        "name": "Investeringskosten CCS"
+        "name": "CCS Investment"
       },
       {
         "key": "om_costs_co2_ccs",
         "unit": "%",
-        "name": "CCS Onderhoud & Beheer"
+        "name": "CCS Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "CO2-uitstoot",
-      "CCS in de industrie"
+      "Costs",
+      "CO2 emissions",
+      "CCS in industry"
     ],
     "input_elements": [
       {
         "key": "costs_ccs_per_ton_in_industry",
         "unit": "euro/tonne",
-        "name": "CCS-kosten"
+        "name": "CCS cost"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Werkgelegenheid",
-      "Binnenlands"
+      "Costs",
+      "Employment",
+      "Local"
     ],
     "input_elements": [
       {
         "key": "employment_fraction_production",
         "unit": "%",
-        "name": "Productie-aandeel"
+        "name": "Production share"
       },
       {
         "key": "employment_local_fraction",
         "unit": "%",
-        "name": "Binnenlandse arbeid (productiefase)"
+        "name": "Local production labor"
       },
       {
         "key": "employment_economic_multiplier",
         "unit": "x",
-        "name": "Economische 'multiplier'"
+        "name": "Economic multiplier"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Warmte",
-      "Verwarmingstechnologieën"
+      "Costs",
+      "Heat",
+      "Heating technologies"
     ],
     "input_elements": [
       {
         "key": "investment_costs_micro_chp",
         "unit": "%",
-        "name": "Micro-WKK"
+        "name": "Micro-CHP"
       },
       {
         "key": "investment_costs_households_storage_space_heating",
         "unit": "€/kWh",
-        "name": "Bufferkosten ruimteverwarming"
+        "name": "Space heater buffers"
       },
       {
         "key": "investment_costs_fuel_cell",
         "unit": "%",
-        "name": "Brandstofcel"
+        "name": "Fuel cell"
       },
       {
         "key": "investment_costs_households_storage_water_heating",
         "unit": "€/kWh",
-        "name": "Boilerkosten tapwater"
+        "name": "Water heater buffers"
       },
       {
         "key": "investment_costs_electric_heat_pumps",
         "unit": "%",
-        "name": "Elektrische warmtepompen"
+        "name": "Electric heat pumps"
       },
       {
         "key": "investment_costs_gas_heat_pumps",
         "unit": "%",
-        "name": "Gaswarmtepompen"
+        "name": "Gas-fired heat pumps"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Warmte",
-      "Warmtenet"
+      "Costs",
+      "Heat",
+      "Heat network"
     ],
     "input_elements": [
       {
         "key": "investment_costs_heat_network_households",
         "unit": "€",
-        "name": "Investeringskosten per huis"
+        "name": "Investment costs per house"
       },
       {
         "key": "om_costs_heat_network_households",
         "unit": "€/year",
-        "name": "O&M kosten per huis"
+        "name": "O&M costs per house"
       },
       {
         "key": "investment_costs_heat_network_buildings",
         "unit": "€",
-        "name": "Investeringskosten per capaciteit (11kW)"
+        "name": "Investment costs per capacity (11kW)"
       },
       {
         "key": "om_costs_heat_network_buildings",
         "unit": "€/year",
-        "name": "O&M kosten per capaciteit (11kW)"
+        "name": "O&M costs per capacity (11kW)"
       }
     ]
   },
   {
     "path": [
-      "Kosten",
-      "Warmte",
-      "Geïmporteerde (rest)warmte"
+      "Costs",
+      "Heat",
+      "Imported (residual) heat"
     ],
     "input_elements": [
       {
         "key": "costs_imported_heat",
         "unit": "€/GJ",
-        "name": "Geïmporteerde (rest)warmte"
+        "name": "Imported (residual) heat"
       }
     ]
   }
