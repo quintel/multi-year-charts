@@ -29,6 +29,7 @@ export default {
         'final_demand_of_oil_and_derivatives',
         'final_demand_of_renewable_electricity',
         'final_demand_of_renewable_heat',
+        'final_demand_of_solar_thermal',
         'final_demand_of_solid_biofuels'
       ]
     }
