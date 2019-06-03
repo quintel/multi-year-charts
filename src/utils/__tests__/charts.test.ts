@@ -13,7 +13,8 @@ const chartFixture: ChartSchema = {
     {
       key: 'variant_two',
       slug: 'variant-two',
-      series: ['d', 'e', 'f']
+      series: ['d', 'e', 'f'],
+      displayAs: 'table'
     }
   ]
 };
@@ -24,7 +25,8 @@ it('returns the first variant when none is named', () => {
     chartKey: 'my_chart',
     variantKey: 'variant_one',
     slug: 'my-chart/variant-one',
-    series: ['a', 'b', 'c']
+    series: ['a', 'b', 'c'],
+    displayAs: 'chart'
   });
 });
 
@@ -34,7 +36,8 @@ it('returns the first variant when wanting "variant-one', () => {
     chartKey: 'my_chart',
     variantKey: 'variant_one',
     slug: 'my-chart/variant-one',
-    series: ['a', 'b', 'c']
+    series: ['a', 'b', 'c'],
+    displayAs: 'chart'
   });
 });
 
@@ -44,7 +47,8 @@ it('returns the second variant when wanting "variant-two', () => {
     chartKey: 'my_chart',
     variantKey: 'variant_two',
     slug: 'my-chart/variant-two',
-    series: ['d', 'e', 'f']
+    series: ['d', 'e', 'f'],
+    displayAs: 'table'
   });
 });
 
@@ -54,6 +58,7 @@ it('returns the first variant when an invalid name is given', () => {
     chartKey: 'my_chart',
     variantKey: 'variant_one',
     slug: 'my-chart/variant-one',
-    series: ['a', 'b', 'c']
+    series: ['a', 'b', 'c'],
+    displayAs: 'chart'
   });
 });
