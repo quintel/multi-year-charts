@@ -9,6 +9,7 @@ export interface ChartSchema {
     key: string;
     slug: string;
     series: string[];
+    displayAs?: 'chart' | 'table';
   }[];
 }
 
@@ -18,6 +19,7 @@ export interface FlattenedChartSchema {
   variantKey: string;
   slug: string;
   series: string[];
+  displayAs: 'chart' | 'table';
 }
 
 export default [finalDemand, co2Emissions, renewables];

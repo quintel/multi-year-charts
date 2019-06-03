@@ -7,6 +7,7 @@ import { FlattenedChartSchema } from '../data/charts';
 import { ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import Chart from './Chart';
+import ChartTable from './ChartTable';
 import Loading from './Loading';
 import { scenariosToChartData } from '../utils/charts';
 
@@ -50,14 +51,16 @@ class ChartWrapper extends Component<ChartWrapperProps> {
       );
     }
 
-    return (
-      <Chart
-        series={scenariosToChartData(
-          this.props.scenarios,
-          this.props.chart.series
-        )}
-      />
+    const series = scenariosToChartData(
+      this.props.scenarios,
+      this.props.chart.series
     );
+
+    if (this.props.chart.displayAs === 'table') {
+      return <ChartTable series={series} />;
+    }
+
+    return <Chart series={series} />;
   }
 
   componentDidMount() {

@@ -1,3 +1,32 @@
+import { TranslateFunc } from './LocaleContext';
+
+/**
+ * Given a translate function, returns a new function which namespaces all calls
+ * to the original function.
+ *
+ * For example:
+ *
+ *    // Translation ID sent to the original translate function will be prefixed
+ *    // with "series."
+ *    const s = namespacedTranslate(translate, 'series')
+ *
+ *    s('final_demand') // => looks up "series.final_demand"
+ */
+export const namespacedTranslate = (
+  translate: TranslateFunc,
+  namespace: string
+): TranslateFunc => {
+  return (key: string, values: Record<string, string> = {}) => {
+    const translated = translate(`${namespace}.${key}`, values);
+
+    if (translated === `${namespace}.${key}`) {
+      return key;
+    }
+
+    return translated;
+  };
+};
+
 /**
  * Provided a translation key and a record containing all the translation
  * strings, retrieves and formats a translation.

@@ -1,30 +1,21 @@
 import React, { useContext } from 'react';
 import ApexCharts from 'apexcharts';
 import ApexChart from 'react-apexcharts';
-import { ChartSeries, translateChartData } from '../utils/charts';
+
+import {
+  ChartSeries,
+  UnitFormatter,
+  createUnitFormatter,
+  translateChartData
+} from '../utils/charts';
+
+import { namespacedTranslate } from '../utils/translate';
 
 import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
 
-interface TestChartProps {
+export interface ChartProps {
   series: ChartSeries;
 }
-
-type UnitFormatter = (val: number) => string;
-
-const createUnitFormatter = (unit: string): UnitFormatter => {
-  switch (unit) {
-    case 'MJ':
-      return val => `${(val / 1000000000).toFixed(2)} PJ`;
-    case 'kg':
-      // "kg" gqueries are for primary CO2 which wrongly return kg as the unit
-      // when it should be MT.
-      return val => `${val.toFixed(2)} MT`;
-    case 'tonne':
-      return val => `${(val / 1000000).toFixed(2)} MT`;
-    default:
-      return val => `${val.toFixed(2)} ${unit}`;
-  }
-};
 
 /**
  * Creates options for the Apex chart. Receives a list of categories for the
@@ -69,7 +60,7 @@ const chartOptions = (
   }
 });
 
-const Chart = (props: TestChartProps) => {
+const Chart = (props: ChartProps) => {
   const { translate } = useContext(LocaleContext);
 
   return (
@@ -80,8 +71,9 @@ const Chart = (props: TestChartProps) => {
         translate
       )}
       series={
-        translateChartData(props.series, (key: string) =>
-          translate(`series.${key}`)
+        translateChartData(
+          props.series,
+          namespacedTranslate(translate, 'series')
         ).data
       }
       type="area"
