@@ -14,8 +14,8 @@ import nlTranslations from './data/locales/nl.json';
 import enTranslations from './data/locales/en.json';
 
 const curryTranslate = (messages: Record<string, string>) => {
-  const curried: TranslateFunc = (id, data = {}) => {
-    return translate(id, messages, data);
+  const curried: TranslateFunc = (id, values = {}) => {
+    return translate(id, messages, values);
   };
 
   return curried;
