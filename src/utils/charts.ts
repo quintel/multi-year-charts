@@ -80,10 +80,6 @@ export const createUnitFormatter = (unit: string): UnitFormatter => {
   switch (unit) {
     case 'MJ':
       return val => `${(val / 1000000000).toFixed(2)} PJ`;
-    case 'kg':
-      // "kg" gqueries are for primary CO2 which wrongly return kg as the unit
-      // when it should be MT.
-      return val => `${val.toFixed(2)} MT`;
     case 'tonne':
       return val => `${(val / 1000000).toFixed(2)} MT`;
     default:
