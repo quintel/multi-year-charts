@@ -43,13 +43,13 @@
   "series.solar_thermal": "Zonthermie",
   "series.solid_biofuels": "Vaste biobrandstoffen",
 
-  "series.final_demand_of_renewable_electricity_from_other": "Elektriciteit uit overige hernieuwbare bronnen",
-  "series.final_demand_of_renewable_electricity_from_solar": "Elektriciteit uit zon",
-  "series.final_demand_of_renewable_electricity_from_wind": "Elektriciteit uit wind",
-  "series.final_demand_of_renewable_gaseous_biofuels": "Gasvormige biobrandstoffen",
-  "series.final_demand_of_renewable_heat_from_biomass": "Warmte uit biomassa",
-  "series.final_demand_of_renewable_heat_from_geothermal_and_ambient": "Warmte uit geothermie en omgevingswarmte",
-  "series.final_demand_of_renewable_hydrogen": "Hernieuwbare waterstof",
-  "series.final_demand_of_renewable_liquid_biofuels": "Vloeibare biobrandstoffen",
-  "series.final_demand_of_renewable_solid_biofuels": "Vaste biobrandstoffen"
+  "series.myc_final_demand_of_renewable_electricity_from_other": "Elektriciteit uit overige hernieuwbare bronnen",
+  "series.myc_final_demand_of_renewable_electricity_from_solar": "Elektriciteit uit zon",
+  "series.myc_final_demand_of_renewable_electricity_from_wind": "Elektriciteit uit wind",
+  "series.myc_final_demand_of_renewable_gaseous_biofuels": "Gasvormige biobrandstoffen",
+  "series.myc_final_demand_of_renewable_heat_from_biomass": "Warmte uit biomassa",
+  "series.myc_final_demand_of_renewable_heat_from_geothermal_and_ambient": "Warmte uit geothermie en omgevingswarmte",
+  "series.myc_final_demand_of_renewable_hydrogen": "Hernieuwbare waterstof",
+  "series.myc_final_demand_of_renewable_liquid_biofuels": "Vloeibare biobrandstoffen",
+  "series.myc_final_demand_of_renewable_solid_biofuels": "Vaste biobrandstoffen"
 }

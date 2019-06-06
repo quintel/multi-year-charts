@@ -43,13 +43,13 @@
   "series.solar_thermal": "Solar thermal",
   "series.solid_biofuels": "Solid biofuiels",
 
-  "series.final_demand_of_renewable_electricity_from_other": "Electricity from other renewable sources",
-  "series.final_demand_of_renewable_electricity_from_solar": "Electricity from solar PV",
-  "series.final_demand_of_renewable_electricity_from_wind": "Electricity from wind",
-  "series.final_demand_of_renewable_gaseous_biofuels": "Gaseous biofuels",
-  "series.final_demand_of_renewable_heat_from_biomass": "Heat from biomass",
-  "series.final_demand_of_renewable_heat_from_geothermal_and_ambient": "Heat from geothermal and ambient sources",
-  "series.final_demand_of_renewable_hydrogen": "Renewable hydrogen",
-  "series.final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
-  "series.final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels"
+  "series.myc_final_demand_of_renewable_electricity_from_other": "Electricity from other renewable sources",
+  "series.myc_final_demand_of_renewable_electricity_from_solar": "Electricity from solar PV",
+  "series.myc_final_demand_of_renewable_electricity_from_wind": "Electricity from wind",
+  "series.myc_final_demand_of_renewable_gaseous_biofuels": "Gaseous biofuels",
+  "series.myc_final_demand_of_renewable_heat_from_biomass": "Heat from biomass",
+  "series.myc_final_demand_of_renewable_heat_from_geothermal_and_ambient": "Heat from geothermal and ambient sources",
+  "series.myc_final_demand_of_renewable_hydrogen": "Renewable hydrogen",
+  "series.myc_final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
+  "series.myc_final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels"
 }
