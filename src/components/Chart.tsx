@@ -29,9 +29,11 @@ const chartOptions = (
   chart: {
     stacked: true,
     animations: {
-      speed: 350,
-      animateGradually: { enabled: false }
-    }
+      enabled: false,
+    },
+    brush: { enabled: false },
+    toolbar: { show: false },
+    zoom: { enabled: false },
   },
   dataLabels: { enabled: false },
   stroke: {
@@ -48,10 +50,28 @@ const chartOptions = (
       stops: [20, 100, 100, 100]
     }
   },
+  tooltip: { x: { format: 'yyyy' } },
   xaxis: {
-    type: 'categories',
-    categories,
-    title: { text: translate('misc.year') }
+    type: 'datetime',
+    categories: categories.map(year => new Date(year, 1, 1).getTime()),
+    tickAmount: categories[categories.length - 1] - categories[0],
+    axisBorder: { show: false },
+    axisTicks: { offsetX: -1, color: '#cfd4d9' },
+    title: { text: translate('misc.year') },
+    labels: {
+      showDuplicates: false,
+      offsetX: -1,
+      formatter: (val, timestamp) => {
+        const year = new Date(timestamp).getFullYear();
+
+        if (categories.indexOf(year) !== -1) {
+          // Only label years for which we have data.
+          return year.toString();
+        }
+
+        return '';
+      }
+    }
   },
   yaxis: {
     labels: {
