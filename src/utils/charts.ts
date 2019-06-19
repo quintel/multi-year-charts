@@ -1,5 +1,4 @@
 import { ScenarioIndexedScenarioData } from './api/types';
-import 'apexcharts';
 
 import sortScenarios from './sortScenarios';
 
@@ -8,7 +7,7 @@ import { TranslateFunc } from '../utils/LocaleContext';
 
 export interface ChartSeries {
   categories: number[];
-  data: ApexAxisChartSeries;
+  data: { name: string, data: number[] }[];
   unit: string;
 }
 

@@ -13,16 +13,8 @@ import {
 
 interface Row {
   name: string;
-  data: number[] | { x: string; y: number }[];
+  data: number[];
 }
-
-const rowValue = (value: number | { x: string; y: number }) => {
-  if (typeof value === 'number') {
-    return value;
-  } else {
-    return value.y;
-  }
-};
 
 /**
  * Creates a table row representing a single series and the data for each year.
@@ -30,7 +22,7 @@ const rowValue = (value: number | { x: string; y: number }) => {
 const renderRow = (series: Row, format: UnitFormatter) => {
   // Avoids TypeScript complaining about a lack of a call signature for
   // series.data.map.
-  const formattedData = [...series.data].map(rowValue).map(format);
+  const formattedData = [...series.data].map(format);
   let rowClass = '';
 
   if (formattedData.every(val => val === formattedData[0])) {
