@@ -83,7 +83,7 @@ const Chart = (props: ChartProps) => {
     <ApexChart
       options={chartOptions(
         props.series.categories,
-        props.series.formatter, // createUnitFormatter(props.series.unit),
+        props.series.formatter,
         translate
       )}
       series={
