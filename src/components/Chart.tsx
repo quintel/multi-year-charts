@@ -2,12 +2,8 @@ import React, { useContext } from 'react';
 import ApexCharts from 'apexcharts';
 import ApexChart from 'react-apexcharts';
 
-import {
-  ChartSeries,
-  UnitFormatter,
-  createUnitFormatter,
-  translateChartData
-} from '../utils/charts';
+import { ChartSeries, translateChartData } from '../utils/charts';
+import { UnitFormatter } from '../utils/units';
 
 import { namespacedTranslate } from '../utils/translate';
 
@@ -29,11 +25,11 @@ const chartOptions = (
   chart: {
     stacked: true,
     animations: {
-      enabled: false,
+      enabled: false
     },
     brush: { enabled: false },
     toolbar: { show: false },
-    zoom: { enabled: false },
+    zoom: { enabled: false }
   },
   dataLabels: { enabled: false },
   stroke: {
@@ -87,7 +83,7 @@ const Chart = (props: ChartProps) => {
     <ApexChart
       options={chartOptions(
         props.series.categories,
-        createUnitFormatter(props.series.unit),
+        props.series.formatter, // createUnitFormatter(props.series.unit),
         translate
       )}
       series={

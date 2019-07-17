@@ -1,14 +1,15 @@
-import { ScenarioIndexedScenarioData } from './api/types';
+import { ScenarioIndexedScenarioData, ScenarioData } from './api/types';
 
 import sortScenarios from './sortScenarios';
 
 import { ChartSchema, FlattenedChartSchema } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
+import { createScalingFormatter, UnitFormatter } from './units';
 
 export interface ChartSeries {
   categories: number[];
-  data: { name: string, data: number[] }[];
-  unit: string;
+  data: { name: string; data: number[] }[];
+  formatter: UnitFormatter;
 }
 
 /**
@@ -39,6 +40,29 @@ export const flattenChart = (
 };
 
 /**
+ * Given a collection of ScenarioData and a list of gquery names, extracts the
+ * maximum value of the gqueries in any of the scenarios.
+ */
+const maxValueFromScenarios = (
+  scenarios: ScenarioData[],
+  gqueries: string[]
+) => {
+  let maxValue = 0;
+
+  gqueries.forEach(gquery => {
+    scenarios.forEach(scenario => {
+      const value = scenario.gqueries[gquery].future;
+
+      if (value > maxValue) {
+        maxValue = value;
+      }
+    });
+  });
+
+  return maxValue;
+};
+
+/**
  * Given a collection of ScenarioJSON and the key of a gquery, transformed
  * the scenario data into data for a single axis in an Apex chart.
  */
@@ -49,6 +73,9 @@ export const scenariosToChartData = (
   const sorted = sortScenarios(Object.values(scenarios));
   const firstScenario = Object.values(scenarios)[0];
   const unit = firstScenario.gqueries[gqueries[0]].unit;
+
+  const maxValue = maxValueFromScenarios(sorted, gqueries);
+  const formatter = createScalingFormatter(maxValue, unit);
 
   return {
     categories: [firstScenario.scenario.startYear].concat(
@@ -62,28 +89,8 @@ export const scenariosToChartData = (
         sorted.map(scenarioData => scenarioData.gqueries[gquery].future)
       )
     })),
-    unit
+    formatter
   };
-};
-
-/**
- * Represent a function which can be called to format a query value with the
- * unit.
- */
-export type UnitFormatter = (val: number) => string;
-
-/**
- * Given a unit name, creates a function which can format values with that unit.
- */
-export const createUnitFormatter = (unit: string): UnitFormatter => {
-  switch (unit) {
-    case 'MJ':
-      return val => `${(val / 1000000000).toFixed(2)} PJ`;
-    case 'tonne':
-      return val => `${(val / 1000000).toFixed(2)} MT`;
-    default:
-      return val => `${val.toFixed(2)} ${unit}`;
-  }
 };
 
 /**

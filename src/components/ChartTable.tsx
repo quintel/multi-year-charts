@@ -5,11 +5,8 @@ import { ChartProps } from './Chart';
 import LocaleContext from '../utils/LocaleContext';
 import { namespacedTranslate } from '../utils/translate';
 
-import {
-  UnitFormatter,
-  createUnitFormatter,
-  translateChartData
-} from '../utils/charts';
+import { translateChartData } from '../utils/charts';
+import { UnitFormatter } from '../utils/units';
 
 interface Row {
   name: string;
@@ -49,7 +46,6 @@ const renderRow = (series: Row, format: UnitFormatter) => {
 };
 
 const ChartTable: FC<ChartProps> = ({ series }) => {
-  const formatter = createUnitFormatter(series.unit);
   const { translate } = useContext(LocaleContext);
 
   const translatedData = translateChartData(
@@ -67,7 +63,9 @@ const ChartTable: FC<ChartProps> = ({ series }) => {
           ))}
         </tr>
       </thead>
-      <tbody>{translatedData.data.map(d => renderRow(d, formatter))}</tbody>
+      <tbody>
+        {translatedData.data.map(d => renderRow(d, series.formatter))}
+      </tbody>
     </table>
   );
 };
