@@ -6,6 +6,8 @@ import Main from './components/Main';
 import { Provider } from 'react-redux';
 import store from './store';
 
+import DocumentTitle from 'react-document-title';
+
 import LocaleContext, { TranslateFunc } from './utils/LocaleContext';
 import idsFromPathname from './utils/idsFromPathname';
 import translate from './utils/translate';
@@ -47,9 +49,11 @@ class App extends Component {
         <LocaleContext.Provider
           value={{ ...this.state, setLocale: this.setLocale }}
         >
-          <div className="App">
-            <Main scenarioIDs={idsFromPathname(window.location.pathname)} />
-          </div>
+          <DocumentTitle title={this.state.translate('app.title')}>
+            <div className="App">
+              <Main scenarioIDs={idsFromPathname(window.location.pathname)} />
+            </div>
+          </DocumentTitle>
         </LocaleContext.Provider>
       </Provider>
     );
