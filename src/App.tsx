@@ -25,7 +25,11 @@ const curryTranslate = (messages: Record<string, string>) => {
 
 const localeFromURL = (params: string) => {
   const url = new URL(params);
-  return url.searchParams.get('locale') || 'nl';
+  return (
+    url.searchParams.get('locale') ||
+    window.localStorage.getItem('selected-locale') ||
+    'nl'
+  );
 };
 
 const initialLocale = localeFromURL(window.location.href);
@@ -67,6 +71,8 @@ class App extends Component {
       currentLocale = 'en';
       messages = enTranslations;
     }
+
+    window.localStorage.setItem('selected-locale', currentLocale);
 
     this.setState({ currentLocale, translate: curryTranslate(messages) });
   }
