@@ -12,7 +12,7 @@ export default {
         'myc_primary_co2_in_industry',
         'myc_primary_co2_in_other_and_energy_sector',
         'myc_primary_co2_in_transport',
-        'myc_primary_co2_non_energetic_and_delayed_emissions'
+        'myc_primary_co2_in_non_energetic_and_delayed_emissions'
       ]
     }
   ]
