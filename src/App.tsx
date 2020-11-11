@@ -11,6 +11,7 @@ import DocumentTitle from 'react-document-title';
 import LocaleContext, { TranslateFunc } from './utils/LocaleContext';
 import idsFromPathname from './utils/idsFromPathname';
 import translate from './utils/translate';
+import selectLocale from './utils/selectLocale';
 
 import nlTranslations from './data/locales/nl.json';
 import enTranslations from './data/locales/en.json';
@@ -23,16 +24,7 @@ const curryTranslate = (messages: Record<string, string>) => {
   return curried;
 };
 
-const localeFromURL = (params: string) => {
-  const url = new URL(params);
-  return (
-    url.searchParams.get('locale') ||
-    window.localStorage.getItem('selected-locale') ||
-    'nl'
-  );
-};
-
-const initialLocale = localeFromURL(window.location.href);
+const initialLocale = selectLocale(window.location.href, ['en', 'nl']);
 
 class App extends Component {
   state = {
