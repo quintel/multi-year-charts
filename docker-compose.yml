@@ -1,0 +1,21 @@
+# # This Compose file is used for development. Multi Year Charts does not have a production Node
+# # environment; it is a single page app compiled by Create React App and deployed to Netlify.
+version: '2'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - 'node_modules:/usr/src/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - HOST=0.0.0.0
+      - NODE_ENV=development
+
+volumes:
+  node_modules:
