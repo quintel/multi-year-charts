@@ -22,7 +22,6 @@ export default {
         'myc_final_demand_of_fossil_electricity',
         'myc_final_demand_of_fossil_heat',
         'myc_final_demand_of_green_gas',
-        'myc_final_demand_of_heat',
         'myc_final_demand_of_hydrogen',
         'myc_final_demand_of_liquid_biofuels',
         'myc_final_demand_of_natural_gas_and_derivatives',
