@@ -4,17 +4,6 @@ import { env } from 'process';
 import { config } from 'dotenv';
 import axios from 'axios';
 
-interface Input {
-  key: string;
-  unit: string;
-  name: string;
-}
-
-interface Slide {
-  path: string[];
-  input_elements: Input[];
-}
-
 config({ silent: true });
 
 const endpoint = env.REACT_APP_ETMODEL_URL;
@@ -29,7 +18,7 @@ if (!endpoint) {
  * Fetches input definitions from a URL, returning a Promise which yields the
  * parsed JSON data.
  */
-const fetchInputs = async (url: string, locale: string): Promise<Slide[]> => {
+const fetchInputs = async (url, locale) => {
   const res = await axios.get(url, { headers: { 'Accept-Language': locale } });
   return res.data;
 };
@@ -37,15 +26,14 @@ const fetchInputs = async (url: string, locale: string): Promise<Slide[]> => {
 /**
  * Removes HTML elements from a string.
  */
-const removeHTMLFromString = (str: string) => str.replace(/<\/?[^>]*>/g, '');
+const removeHTMLFromString = str => str.replace(/<\/?[^>]*>/g, '');
 
 /**
  * Removes HTML elements from an input name.
  */
-const removeHTMLFromInput = (input: Input) => {
-  const newInput = { ...input };
+const removeHTMLFromInput = input => {
+  const newInput = Object.assign({}, input);
   newInput.name = removeHTMLFromString(newInput.name);
-
   return newInput;
 };
 
@@ -53,11 +41,10 @@ const removeHTMLFromInput = (input: Input) => {
  * Receives the data from ETEngine and removes any HTML elements from paths and
  * input names.
  */
-const removeHTML = (data: Slide[]) => {
+const removeHTML = data => {
   return data.map(slide => {
     return {
       path: slide.path.map(removeHTMLFromString),
-      // eslint-disable-next-line @typescript-eslint/camelcase
       input_elements: slide.input_elements.map(removeHTMLFromInput)
     };
   });

@@ -25,7 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "update-inputs": "tsc scripts/updateInputs.ts && node scripts/updateInputs.js; rm -f scripts/updateInputs.js"
+    "update-inputs": "node scripts/updateInputs.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"
