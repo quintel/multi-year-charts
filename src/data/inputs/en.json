@@ -1,105 +1,6 @@
 [
   {
     "path": [
-      "translation missing: en.tabs.targets",
-      "Renewability",
-      "CO2 emissions, compared to 1990"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_sustainability_co2_emissions",
-        "unit": "%",
-        "name": "CO2 emissions"
-      }
-    ]
-  },
-  {
-    "path": [
-      "translation missing: en.tabs.targets",
-      "Renewability",
-      "Renewables"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_sustainability_renewable_percentage",
-        "unit": "%",
-        "name": "Renewable percentage"
-      }
-    ]
-  },
-  {
-    "path": [
-      "translation missing: en.tabs.targets",
-      "Dependence",
-      "Foreign energy imports"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_dependence_max_dependence",
-        "unit": "%",
-        "name": "Max energy imports"
-      },
-      {
-        "key": "policy_dependence_max_electricity_dependence",
-        "unit": "%",
-        "name": "Max electricity imports"
-      }
-    ]
-  },
-  {
-    "path": [
-      "translation missing: en.tabs.targets",
-      "Cost",
-      "Energy"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_cost_total_energy_cost",
-        "unit": "%",
-        "name": "Total energy cost"
-      }
-    ]
-  },
-  {
-    "path": [
-      "translation missing: en.tabs.targets",
-      "Cost",
-      "Electricity"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_cost_electricity_cost",
-        "unit": "%",
-        "name": "Electricity cost"
-      }
-    ]
-  },
-  {
-    "path": [
-      "translation missing: en.tabs.targets",
-      "Area use",
-      "Wind turbines"
-    ],
-    "input_elements": [
-      {
-        "key": "policy_area_onshore_land",
-        "unit": "km2",
-        "name": "Inland wind"
-      },
-      {
-        "key": "policy_area_onshore_coast",
-        "unit": "km",
-        "name": "Coastal wind"
-      },
-      {
-        "key": "policy_area_offshore",
-        "unit": "km2",
-        "name": "Offshore wind"
-      }
-    ]
-  },
-  {
-    "path": [
       "Demand",
       "Passenger transport",
       "Applications"
@@ -160,28 +61,33 @@
         "name": "Population"
       },
       {
-        "key": "households_number_of_apartments",
+        "key": "households_number_of_residences",
         "unit": "#",
+        "name": "Residences"
+      },
+      {
+        "key": "households_apartments_share",
+        "unit": "%",
         "name": "Apartment"
       },
       {
-        "key": "households_number_of_corner_houses",
-        "unit": "#",
+        "key": "households_corner_houses_share",
+        "unit": "%",
         "name": "Corner house"
       },
       {
-        "key": "households_number_of_detached_houses",
-        "unit": "#",
+        "key": "households_detached_houses_share",
+        "unit": "%",
         "name": "Detached house"
       },
       {
-        "key": "households_number_of_semi_detached_houses",
-        "unit": "#",
+        "key": "households_semi_detached_houses_share",
+        "unit": "%",
         "name": "Semi-detached house"
       },
       {
-        "key": "households_number_of_terraced_houses",
-        "unit": "#",
+        "key": "households_terraced_houses_share",
+        "unit": "%",
         "name": "Terraced house"
       }
     ]
@@ -236,6 +142,11 @@
         "key": "transport_passenger_train_using_electricity_share",
         "unit": "%",
         "name": "Electric"
+      },
+      {
+        "key": "transport_passenger_train_using_hydrogen_share",
+        "unit": "%",
+        "name": "Hydrogen"
       },
       {
         "key": "transport_passenger_train_using_diesel_mix_share",
@@ -293,7 +204,12 @@
       {
         "key": "households_heater_combined_network_gas_share",
         "unit": "%",
-        "name": "Condensing combi boiler"
+        "name": "Condensing combi boiler (gas)"
+      },
+      {
+        "key": "households_heater_combined_hydrogen_share",
+        "unit": "%",
+        "name": "Condensing combi boiler (hydrogen)"
       },
       {
         "key": "households_heater_district_heating_steam_hot_water_share",
@@ -321,9 +237,14 @@
         "name": "Hybrid heat pump (hydrogen)"
       },
       {
+        "key": "households_heater_heatpump_pvt_electricity_share",
+        "unit": "%",
+        "name": "Heat pump (PVT)"
+      },
+      {
         "key": "households_heater_wood_pellets_share",
         "unit": "%",
-        "name": "Wood pellet stove"
+        "name": "Wood pellet boiler"
       },
       {
         "key": "households_heater_electricity_share",
@@ -408,25 +329,6 @@
   {
     "path": [
       "Demand",
-      "Passenger transport",
-      "Bicycle technology"
-    ],
-    "input_elements": [
-      {
-        "key": "transport_bicycle_using_human_power_share",
-        "unit": "%",
-        "name": "Bike"
-      },
-      {
-        "key": "transport_bicycle_using_electricity_share",
-        "unit": "%",
-        "name": "E-bike"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Demand",
       "Households",
       "Solar panels"
     ],
@@ -447,23 +349,18 @@
     "path": [
       "Demand",
       "Passenger transport",
-      "Domestic aviation technology"
+      "Bicycle technology"
     ],
     "input_elements": [
       {
-        "key": "transport_plane_using_kerosene_share",
+        "key": "transport_bicycle_using_human_power_share",
         "unit": "%",
-        "name": "Kerosene"
+        "name": "Bike"
       },
       {
-        "key": "transport_plane_using_gasoline_share",
+        "key": "transport_bicycle_using_electricity_share",
         "unit": "%",
-        "name": "Gasoline"
-      },
-      {
-        "key": "transport_plane_using_bio_ethanol_share",
-        "unit": "%",
-        "name": "Bio-ethanol"
+        "name": "E-bike"
       }
     ]
   },
@@ -488,6 +385,30 @@
         "key": "households_cooling_airconditioning_electricity_share",
         "unit": "%",
         "name": "Airconditioning"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Demand",
+      "Passenger transport",
+      "Domestic aviation technology"
+    ],
+    "input_elements": [
+      {
+        "key": "transport_plane_using_kerosene_share",
+        "unit": "%",
+        "name": "Kerosene"
+      },
+      {
+        "key": "transport_plane_using_gasoline_share",
+        "unit": "%",
+        "name": "Gasoline"
+      },
+      {
+        "key": "transport_plane_using_bio_ethanol_share",
+        "unit": "%",
+        "name": "Bio-ethanol"
       }
     ]
   },
@@ -602,7 +523,7 @@
     "path": [
       "Demand",
       "Households",
-      "Prosperity"
+      "Development of demand"
     ],
     "input_elements": [
       {
@@ -669,34 +590,6 @@
   {
     "path": [
       "Demand",
-      "Households",
-      "Climate"
-    ],
-    "input_elements": [
-      {
-        "key": "households_climate_influence",
-        "unit": "degC",
-        "name": "Outdoor temperature"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Demand",
-      "Households",
-      "Cold snap"
-    ],
-    "input_elements": [
-      {
-        "key": "settings_heat_curve_set",
-        "unit": "boolean",
-        "name": "translation missing: en.input_elements.settings_heat_curve_set"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Demand",
       "Buildings",
       "Insulation"
     ],
@@ -718,7 +611,32 @@
       {
         "key": "buildings_space_heater_network_gas_share",
         "unit": "%",
-        "name": "Gas-fired heater"
+        "name": "Condensing combi boiler (gas)"
+      },
+      {
+        "key": "buildings_space_heater_combined_hydrogen_share",
+        "unit": "%",
+        "name": "Condensing combi boiler (hydrogen)"
+      },
+      {
+        "key": "buildings_space_heater_district_heating_steam_hot_water_share",
+        "unit": "%",
+        "name": "District heating"
+      },
+      {
+        "key": "buildings_space_heater_heatpump_air_water_network_gas_share",
+        "unit": "%",
+        "name": "Heat pump (gas)"
+      },
+      {
+        "key": "buildings_space_heater_heatpump_air_water_electricity_share",
+        "unit": "%",
+        "name": "Heat pump (air)"
+      },
+      {
+        "key": "buildings_heater_hybrid_heatpump_air_water_electricity_share",
+        "unit": "%",
+        "name": "Hybrid heat pump (gas)"
       },
       {
         "key": "buildings_space_heater_collective_heatpump_water_water_ts_electricity_share",
@@ -726,24 +644,9 @@
         "name": "Heat pump with TS"
       },
       {
-        "key": "buildings_space_heater_heatpump_air_water_network_gas_share",
-        "unit": "%",
-        "name": "Gas-fired heat pump"
-      },
-      {
         "key": "buildings_space_heater_electricity_share",
         "unit": "%",
         "name": "Electric heater"
-      },
-      {
-        "key": "buildings_space_heater_coal_share",
-        "unit": "%",
-        "name": "Coal-fired heater"
-      },
-      {
-        "key": "buildings_space_heater_crude_oil_share",
-        "unit": "%",
-        "name": "Oil-fired heater"
       },
       {
         "key": "buildings_space_heater_wood_pellets_share",
@@ -751,9 +654,14 @@
         "name": "Biomass-fired heater"
       },
       {
-        "key": "buildings_space_heater_district_heating_steam_hot_water_share",
+        "key": "buildings_space_heater_crude_oil_share",
         "unit": "%",
-        "name": "District heating"
+        "name": "Oil-fired heater"
+      },
+      {
+        "key": "buildings_space_heater_coal_share",
+        "unit": "%",
+        "name": "Coal-fired heater"
       }
     ]
   },
@@ -765,14 +673,19 @@
     ],
     "input_elements": [
       {
+        "key": "buildings_cooling_heatpump_air_water_network_gas_share",
+        "unit": "%",
+        "name": "Heat pump (gas)"
+      },
+      {
+        "key": "buildings_cooling_heatpump_air_water_electricity_share",
+        "unit": "%",
+        "name": "Heat pump (air)"
+      },
+      {
         "key": "buildings_cooling_collective_heatpump_water_water_ts_electricity_share",
         "unit": "%",
         "name": "Heat pump with TS"
-      },
-      {
-        "key": "buildings_cooling_heatpump_air_water_network_gas_share",
-        "unit": "%",
-        "name": "Gas-fired heat pump"
       },
       {
         "key": "buildings_cooling_airconditioning_share",
@@ -857,7 +770,7 @@
     "path": [
       "Demand",
       "Buildings",
-      "Demand growth"
+      "Development of demand"
     ],
     "input_elements": [
       {
@@ -905,6 +818,11 @@
         "name": "Trains"
       },
       {
+        "key": "transport_vans_share",
+        "unit": "%",
+        "name": "Vans"
+      },
+      {
         "key": "transport_ships_share",
         "unit": "%",
         "name": "Domestic navigation"
@@ -924,14 +842,14 @@
         "name": "Electric"
       },
       {
-        "key": "transport_truck_using_diesel_mix_share",
-        "unit": "%",
-        "name": "Diesel"
-      },
-      {
         "key": "transport_truck_using_hydrogen_share",
         "unit": "%",
         "name": "Hydrogen"
+      },
+      {
+        "key": "transport_truck_using_diesel_mix_share",
+        "unit": "%",
+        "name": "Diesel"
       },
       {
         "key": "transport_truck_using_gasoline_mix_share",
@@ -939,14 +857,53 @@
         "name": "Gasoline"
       },
       {
-        "key": "transport_truck_using_compressed_natural_gas_share",
-        "unit": "%",
-        "name": "Compressed gas"
-      },
-      {
         "key": "transport_truck_using_lng_mix_share",
         "unit": "%",
         "name": "LNG"
+      },
+      {
+        "key": "transport_truck_using_compressed_natural_gas_share",
+        "unit": "%",
+        "name": "Compressed gas"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Demand",
+      "Freight transport",
+      "Van technology"
+    ],
+    "input_elements": [
+      {
+        "key": "transport_van_using_electricity_share",
+        "unit": "%",
+        "name": "Electric"
+      },
+      {
+        "key": "transport_van_using_hydrogen_share",
+        "unit": "%",
+        "name": "Hydrogen"
+      },
+      {
+        "key": "transport_van_using_diesel_mix_share",
+        "unit": "%",
+        "name": "Diesel"
+      },
+      {
+        "key": "transport_van_using_gasoline_mix_share",
+        "unit": "%",
+        "name": "Gasoline"
+      },
+      {
+        "key": "transport_van_using_lpg_share",
+        "unit": "%",
+        "name": "LPG"
+      },
+      {
+        "key": "transport_van_using_compressed_natural_gas_share",
+        "unit": "%",
+        "name": "Compressed gas"
       }
     ]
   },
@@ -961,6 +918,11 @@
         "key": "transport_freight_train_using_electricity_share",
         "unit": "%",
         "name": "Electric"
+      },
+      {
+        "key": "transport_freight_train_using_hydrogen_share",
+        "unit": "%",
+        "name": "Hydrogen"
       },
       {
         "key": "transport_freight_train_using_diesel_mix_share",
@@ -1010,45 +972,6 @@
   {
     "path": [
       "Demand",
-      "Transport",
-      "Efficiency improvement"
-    ],
-    "input_elements": [
-      {
-        "key": "transport_vehicle_using_electricity_efficiency",
-        "unit": "%",
-        "name": "Electric vehicles"
-      },
-      {
-        "key": "transport_vehicle_using_hydrogen_efficiency",
-        "unit": "%",
-        "name": "Hydrogen vehicles"
-      },
-      {
-        "key": "transport_vehicle_combustion_engine_efficiency",
-        "unit": "%",
-        "name": "Combustion engine vehicles"
-      },
-      {
-        "key": "transport_trains_efficiency",
-        "unit": "%",
-        "name": "Trains"
-      },
-      {
-        "key": "transport_ships_efficiency",
-        "unit": "%",
-        "name": "Ships"
-      },
-      {
-        "key": "transport_planes_efficiency",
-        "unit": "%",
-        "name": "Airplanes"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Demand",
       "International transport",
       "Mobility growth"
     ],
@@ -1088,20 +1011,6 @@
     "path": [
       "Demand",
       "Industry",
-      "Carbon capture and storage (CCS)"
-    ],
-    "input_elements": [
-      {
-        "key": "industry_ccs_in_industry",
-        "unit": "%",
-        "name": "% of direct emissions captured and stored"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Demand",
-      "Industry",
       "Steel"
     ],
     "input_elements": [
@@ -1111,29 +1020,29 @@
         "name": "Steel"
       },
       {
-        "key": "industry_steel_blastfurnace_current_consumption_useable_heat_share",
+        "key": "industry_steel_blastfurnace_bof_share",
         "unit": "%",
         "name": "Blast furnace"
       },
       {
-        "key": "industry_steel_blastfurnace_bat_consumption_useable_heat_share",
+        "key": "industry_steel_dri_network_gas_share",
         "unit": "%",
-        "name": "Blast furnace BAT"
+        "name": "DRI (network gas)"
       },
       {
-        "key": "industry_steel_hisarna_consumption_useable_heat_share",
+        "key": "industry_steel_dri_hydrogen_share",
+        "unit": "%",
+        "name": "DRI (hydrogen)"
+      },
+      {
+        "key": "industry_steel_cyclonefurnace_bof_share",
         "unit": "%",
         "name": "Cyclone furnace"
       },
       {
-        "key": "industry_steel_electricfurnace_electricity_share",
+        "key": "industry_steel_scrap_hbi_eaf_share",
         "unit": "%",
-        "name": "Electric furnace (recycling)"
-      },
-      {
-        "key": "energy_steel_hisarna_transformation_coal_woodpellets_share",
-        "unit": "%",
-        "name": "Biomass in cyclone furnace"
+        "name": "Recycling / HBI"
       }
     ]
   },
@@ -1246,6 +1155,11 @@
         "key": "industry_chemicals_refineries_burner_hydrogen_share",
         "unit": "%",
         "name": "H2-fired heater"
+      },
+      {
+        "key": "capacity_of_industry_chemicals_refineries_flexibility_p2h_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler for gas and H2 heaters"
       }
     ]
   },
@@ -1272,24 +1186,24 @@
         "name": "Heat"
       },
       {
-        "key": "industry_chemicals_fertilizers_steam_methane_reformer_hydrogen_share",
-        "unit": "%",
-        "name": "Local steam methane reforming"
-      },
-      {
         "key": "industry_chemicals_fertilizers_burner_network_gas_share",
         "unit": "%",
         "name": "Gas-fired heater"
       },
       {
-        "key": "industry_chemicals_fertilizers_hydrogen_network_share",
+        "key": "industry_chemicals_fertilizers_steam_methane_reformer_hydrogen_share",
         "unit": "%",
-        "name": "Central H2 network"
+        "name": "Local steam methane reforming"
       },
       {
         "key": "industry_chemicals_fertilizers_burner_crude_oil_share",
         "unit": "%",
         "name": "Oil-fired heater"
+      },
+      {
+        "key": "industry_chemicals_fertilizers_hydrogen_network_share",
+        "unit": "%",
+        "name": "Central H2 network"
       },
       {
         "key": "industry_chemicals_fertilizers_burner_wood_pellets_share",
@@ -1310,6 +1224,11 @@
         "key": "industry_chemicals_fertilizers_burner_hydrogen_share",
         "unit": "%",
         "name": "H2-fired heater"
+      },
+      {
+        "key": "capacity_of_industry_chemicals_fertilizers_flexibility_p2h_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler for gas and H2 heaters"
       }
     ]
   },
@@ -1327,12 +1246,12 @@
       },
       {
         "key": "industry_useful_demand_for_chemical_other_electricity_efficiency",
-        "unit": "%/year",
+        "unit": "%",
         "name": "Electricity"
       },
       {
         "key": "industry_useful_demand_for_chemical_other_useable_heat_efficiency",
-        "unit": "%/year",
+        "unit": "%",
         "name": "Heat"
       },
       {
@@ -1379,6 +1298,36 @@
         "key": "industry_final_demand_for_chemical_other_steam_hot_water_share",
         "unit": "%",
         "name": "District heating"
+      },
+      {
+        "key": "capacity_of_industry_chemicals_other_flexibility_p2h_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler for gas and H2 heaters"
+      },
+      {
+        "key": "industry_chemicals_other_wood_pellets_non_energetic_share",
+        "unit": "%",
+        "name": "Biomass"
+      },
+      {
+        "key": "industry_chemicals_other_hydrogen_non_energetic_share",
+        "unit": "%",
+        "name": "Hydrogen"
+      },
+      {
+        "key": "industry_chemicals_other_network_gas_non_energetic_share",
+        "unit": "%",
+        "name": "Network gas"
+      },
+      {
+        "key": "industry_chemicals_other_crude_oil_non_energetic_share",
+        "unit": "%",
+        "name": "Oil"
+      },
+      {
+        "key": "industry_chemicals_other_coal_non_energetic_share",
+        "unit": "%",
+        "name": "Coal"
       }
     ]
   },
@@ -1452,6 +1401,11 @@
         "key": "industry_final_demand_for_other_food_steam_hot_water_share",
         "unit": "%",
         "name": "District heating"
+      },
+      {
+        "key": "capacity_of_industry_other_food_flexibility_p2h_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler for gas and H2 heaters"
       }
     ]
   },
@@ -1506,6 +1460,11 @@
         "key": "industry_final_demand_for_other_paper_steam_hot_water_share",
         "unit": "%",
         "name": "District heating"
+      },
+      {
+        "key": "capacity_of_industry_other_paper_flexibility_p2h_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler for gas and H2 heaters"
       }
     ]
   },
@@ -1516,6 +1475,11 @@
       "Other"
     ],
     "input_elements": [
+      {
+        "key": "industry_aggregated_other_industry_hydrogen_share",
+        "unit": "%",
+        "name": "Hydrogen"
+      },
       {
         "key": "industry_aggregated_other_industry_wood_pellets_share",
         "unit": "%",
@@ -1556,8 +1520,62 @@
   {
     "path": [
       "Demand",
+      "Industry",
+      "Heat network sources"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_industry_chp_combined_cycle_gas_power_fuelmix",
+        "unit": "MW",
+        "name": "Gas CHP (CCGT)"
+      },
+      {
+        "key": "capacity_of_industry_chp_turbine_gas_power_fuelmix",
+        "unit": "MW",
+        "name": "Gas turbine CHP"
+      },
+      {
+        "key": "capacity_of_industry_chp_engine_gas_power_fuelmix",
+        "unit": "MW",
+        "name": "Gas motor CHP"
+      },
+      {
+        "key": "capacity_of_industry_chp_ultra_supercritical_coal",
+        "unit": "MW",
+        "name": "Coal CHP"
+      },
+      {
+        "key": "capacity_of_industry_chp_wood_pellets",
+        "unit": "MW",
+        "name": "Biomass CHP"
+      },
+      {
+        "key": "capacity_of_industry_heat_burner_coal",
+        "unit": "MW",
+        "name": "Coal heater"
+      },
+      {
+        "key": "capacity_of_industry_heat_burner_crude_oil",
+        "unit": "MW",
+        "name": "Oil heater"
+      },
+      {
+        "key": "capacity_of_industry_heat_burner_lignite",
+        "unit": "MW",
+        "name": "Lignite heater"
+      },
+      {
+        "key": "capacity_of_industry_heat_well_geothermal",
+        "unit": "MW",
+        "name": "Geothermal heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Demand",
       "Agriculture",
-      "Demand growth"
+      "Development of demand"
     ],
     "input_elements": [
       {
@@ -1620,7 +1638,7 @@
     "path": [
       "Demand",
       "Other",
-      "Demand growth"
+      "Development of demand"
     ],
     "input_elements": [
       {
@@ -1658,24 +1676,9 @@
         "name": "Pulverized coal with co-firing"
       },
       {
-        "key": "capacity_of_energy_power_ultra_supercritical_ccs_coal",
-        "unit": "MW",
-        "name": "Pulverized coal CCS"
-      },
-      {
         "key": "capacity_of_energy_power_combined_cycle_coal",
         "unit": "MW",
         "name": "Coal IGCC"
-      },
-      {
-        "key": "capacity_of_energy_power_combined_cycle_ccs_coal",
-        "unit": "MW",
-        "name": "Coal IGCC CCS"
-      },
-      {
-        "key": "capacity_of_energy_power_ultra_supercritical_oxyfuel_ccs_lignite",
-        "unit": "MW",
-        "name": "Lignite oxyfuel CCS"
       },
       {
         "key": "capacity_of_energy_power_supercritical_coal",
@@ -1685,7 +1688,7 @@
       {
         "key": "capacity_of_energy_power_ultra_supercritical_lignite",
         "unit": "MW",
-        "name": "Coal Lignite"
+        "name": "Coal lignite"
       },
       {
         "key": "capacity_of_energy_chp_ultra_supercritical_lignite",
@@ -1717,11 +1720,6 @@
         "name": "Gas CCGT"
       },
       {
-        "key": "capacity_of_energy_power_combined_cycle_ccs_network_gas",
-        "unit": "MW",
-        "name": "Gas CCGT CCS"
-      },
-      {
         "key": "capacity_of_energy_power_turbine_network_gas",
         "unit": "MW",
         "name": "Gas turbine"
@@ -1739,7 +1737,12 @@
       {
         "key": "capacity_of_energy_chp_combined_cycle_network_gas",
         "unit": "MW",
-        "name": "Gas plant for district heat (CHP)"
+        "name": "Large-scale gas plant for district heat (CHP)"
+      },
+      {
+        "key": "capacity_of_energy_chp_local_engine_network_gas",
+        "unit": "MW",
+        "name": "Small-scale gas plant for district heat (CHP)"
       }
     ]
   },
@@ -1778,6 +1781,11 @@
         "key": "capacity_of_energy_power_nuclear_gen3_uranium_oxide",
         "unit": "MW",
         "name": "Nuclear 3rd Gen"
+      },
+      {
+        "key": "merit_order_subtype_of_energy_power_nuclear_uranium_oxide",
+        "unit": "boolean",
+        "name": ""
       }
     ]
   },
@@ -1804,19 +1812,9 @@
         "name": "Offshore"
       },
       {
-        "key": "flh_of_energy_power_wind_turbine_inland",
-        "unit": "#",
-        "name": "Onshore inland"
-      },
-      {
-        "key": "flh_of_energy_power_wind_turbine_coastal",
-        "unit": "#",
-        "name": "Onshore coastal"
-      },
-      {
-        "key": "flh_of_energy_power_wind_turbine_offshore",
-        "unit": "#",
-        "name": "Offshore"
+        "key": "capacity_of_energy_battery_wind_turbine_inland",
+        "unit": "MW",
+        "name": "Onshore inland with battery system"
       }
     ]
   },
@@ -1824,7 +1822,36 @@
     "path": [
       "Supply",
       "Renewable electricity",
-      "Hydro electric"
+      "Solar power"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_power_solar_pv_solar_radiation",
+        "unit": "MW",
+        "name": "Solar PV plants"
+      },
+      {
+        "key": "capacity_of_energy_power_solar_pv_offshore",
+        "unit": "MW",
+        "name": "Solar PV plants offshore"
+      },
+      {
+        "key": "capacity_of_energy_battery_solar_pv_solar_radiation",
+        "unit": "MW",
+        "name": "Solar PV plants with battery system"
+      },
+      {
+        "key": "capacity_of_energy_power_solar_csp_solar_radiation",
+        "unit": "MW",
+        "name": "Concentrated solar power"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Renewable electricity",
+      "Hydroelectric power"
     ],
     "input_elements": [
       {
@@ -1836,6 +1863,44 @@
         "key": "capacity_of_energy_power_hydro_mountain",
         "unit": "MW",
         "name": "Mountain"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Renewable electricity",
+      "Biomass plants"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_chp_local_wood_pellets",
+        "unit": "MW",
+        "name": "Biomass CHP"
+      },
+      {
+        "key": "capacity_of_energy_chp_local_engine_biogas",
+        "unit": "MW",
+        "name": "Biogas CHP"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Renewable electricity",
+      "Waste power"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_power_supercritical_waste_mix",
+        "unit": "MW",
+        "name": "Waste incinerator"
+      },
+      {
+        "key": "capacity_of_energy_chp_supercritical_waste_mix",
+        "unit": "MW",
+        "name": "Waste CHP"
       }
     ]
   },
@@ -1875,253 +1940,136 @@
   {
     "path": [
       "Supply",
-      "Renewable electricity",
-      "Solar power"
+      "Merit order",
+      "Merit order"
     ],
     "input_elements": [
       {
-        "key": "capacity_of_energy_power_solar_pv_solar_radiation",
-        "unit": "MW",
-        "name": "Solar PV plants"
-      },
-      {
-        "key": "capacity_of_energy_power_solar_csp_solar_radiation",
-        "unit": "MW",
-        "name": "Concentrated solar power"
-      },
-      {
-        "key": "flh_of_solar_pv_solar_radiation",
-        "unit": "",
-        "name": "Solar PV panels"
+        "key": "settings_enable_merit_order",
+        "unit": "boolean",
+        "name": ""
       }
     ]
   },
   {
     "path": [
       "Supply",
-      "Renewable electricity",
-      "Waste power"
+      "District heating",
+      "Heat sources"
     ],
     "input_elements": [
       {
-        "key": "capacity_of_energy_power_supercritical_waste_mix",
+        "key": "capacity_of_energy_heat_well_geothermal",
         "unit": "MW",
-        "name": "Waste incinerator"
-      },
-      {
-        "key": "capacity_of_energy_chp_supercritical_waste_mix",
-        "unit": "MW",
-        "name": "Waste CHP"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Heat networks",
-      "Heat network households"
-    ],
-    "input_elements": [
-      {
-        "key": "households_collective_chp_network_gas_share",
-        "unit": "%",
-        "name": "Gas CHP"
-      },
-      {
-        "key": "households_collective_chp_biogas_share",
-        "unit": "%",
-        "name": "Biogas CHP"
-      },
-      {
-        "key": "households_collective_geothermal_share",
-        "unit": "%",
         "name": "Geothermal"
       },
       {
-        "key": "households_collective_heatpump_water_water_electricity_share",
-        "unit": "%",
-        "name": "Collective heat pump"
-      },
-      {
-        "key": "households_collective_burner_network_gas_share",
-        "unit": "%",
-        "name": "Gas-fired burner"
-      },
-      {
-        "key": "households_collective_burner_hydrogen_share",
-        "unit": "%",
-        "name": "H2-fired burner"
-      },
-      {
-        "key": "households_collective_chp_wood_pellets_share",
-        "unit": "%",
-        "name": "Biomass CHP"
-      },
-      {
-        "key": "households_heat_network_connection_steam_hot_water_share",
-        "unit": "%",
-        "name": "Large-scale heat and residual heat"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Heat networks",
-      "Heat network buildings"
-    ],
-    "input_elements": [
-      {
-        "key": "buildings_collective_chp_wood_pellets_share",
-        "unit": "%",
-        "name": "Biomass CHP"
-      },
-      {
-        "key": "buildings_chp_engine_biogas_share",
-        "unit": "%",
-        "name": "Biogas CHP"
-      },
-      {
-        "key": "buildings_collective_chp_network_gas_share",
-        "unit": "%",
-        "name": "Gas CHP"
-      },
-      {
-        "key": "buildings_collective_geothermal_share",
-        "unit": "%",
-        "name": "Geothermal"
-      },
-      {
-        "key": "buildings_collective_heatpump_water_water_electricity_share",
-        "unit": "%",
-        "name": "Collective heat pump"
-      },
-      {
-        "key": "buildings_collective_burner_network_gas_share",
-        "unit": "%",
-        "name": "Gas-fired burner"
-      },
-      {
-        "key": "buildings_collective_burner_hydrogen_share",
-        "unit": "%",
-        "name": "H2-fired burner"
-      },
-      {
-        "key": "buildings_heat_network_connection_steam_hot_water_share",
-        "unit": "%",
-        "name": "Large-scale heat and residual heat"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Heat networks",
-      "Heat network industry"
-    ],
-    "input_elements": [
-      {
-        "key": "capacity_of_industry_chp_combined_cycle_gas_power_fuelmix",
+        "key": "capacity_of_energy_heat_solar_thermal",
         "unit": "MW",
-        "name": "Gas CHP"
+        "name": "Solar thermal"
       },
       {
-        "key": "capacity_of_industry_chp_turbine_gas_power_fuelmix",
-        "unit": "MW",
-        "name": "Gas turbine CHP"
+        "key": "share_of_industry_chemicals_other_reused_residual_heat",
+        "unit": "%",
+        "name": "Chemical industry"
       },
       {
-        "key": "capacity_of_industry_chp_engine_gas_power_fuelmix",
-        "unit": "MW",
-        "name": "Gas motor CHP"
+        "key": "share_of_industry_chemicals_fertilizers_reused_residual_heat",
+        "unit": "%",
+        "name": "Fertilizer industry"
       },
       {
-        "key": "capacity_of_industry_chp_ultra_supercritical_coal",
-        "unit": "MW",
-        "name": "Coal CHP"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Heat networks",
-      "Heat network agriculture"
-    ],
-    "input_elements": [
-      {
-        "key": "capacity_of_agriculture_chp_engine_network_gas",
-        "unit": "MW",
-        "name": "Gas CHP"
+        "key": "share_of_industry_chemicals_refineries_reused_residual_heat",
+        "unit": "%",
+        "name": "Refineries"
       },
       {
-        "key": "capacity_of_agriculture_chp_engine_biogas",
-        "unit": "MW",
-        "name": "Biogas CHP"
+        "key": "share_of_industry_other_ict_reused_residual_heat",
+        "unit": "%",
+        "name": "Central ICT"
       },
-      {
-        "key": "capacity_of_agriculture_chp_supercritical_wood_pellets",
-        "unit": "MW",
-        "name": "Wood chip CHP"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Heat networks",
-      "Large-scale heat and residual heat"
-    ],
-    "input_elements": [
       {
         "key": "volume_of_imported_heat",
-        "unit": "PJ",
-        "name": "Imported (residual) heat"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_wood_pellets",
-        "unit": "MW",
-        "name": "Large-scale biomass-fired heater"
-      },
-      {
-        "key": "co2_emissions_of_imported_heat",
-        "unit": "kg/GJ",
-        "name": "CO2-emissions of imported (residual) heat"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_geothermal",
-        "unit": "MW",
-        "name": "Large-scale geothermal heater"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_waste_mix",
-        "unit": "MW",
-        "name": "Large-scale waste-fired heater"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_network_gas",
-        "unit": "MW",
-        "name": "Large-scale gas-fired heater"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_coal",
-        "unit": "MW",
-        "name": "Large-scale coal-fired heater"
-      },
-      {
-        "key": "capacity_of_energy_heater_for_heat_network_oil",
-        "unit": "MW",
-        "name": "Large-scale oil-fired heater"
-      },
-      {
-        "key": "energy_import_steam_hot_water_preset_demands",
         "unit": "PJ",
         "name": "Imported heat"
       },
       {
-        "key": "capacity_of_energy_heater_for_heat_network_lignite",
+        "key": "co2_emissions_of_imported_heat",
+        "unit": "kg/GJ",
+        "name": "CO2 emissions of imported heat"
+      },
+      {
+        "key": "capacity_of_energy_heat_heatpump_water_water_electricity",
         "unit": "MW",
-        "name": "Large-scale lignite-fired heater"
+        "name": "Collective heat pump"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_network_gas",
+        "unit": "MW",
+        "name": "Gas heater (network gas)"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_hydrogen",
+        "unit": "MW",
+        "name": "Hydrogen heater"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_wood_pellets",
+        "unit": "MW",
+        "name": "Biomass heater"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_waste_mix",
+        "unit": "MW",
+        "name": "Waste heater"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_crude_oil",
+        "unit": "MW",
+        "name": "Oil heater"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "District heating",
+      "Transport and distribution losses"
+    ],
+    "input_elements": [
+      {
+        "key": "energy_heat_distribution_loss_share",
+        "unit": "%",
+        "name": "Transport and distribution losses"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "District heating",
+      "(Seasonal) storage of heat"
+    ],
+    "input_elements": [
+      {
+        "key": "heat_storage_enabled",
+        "unit": "boolean",
+        "name": ""
+      },
+      {
+        "key": "energy_heat_network_storage_loss_share",
+        "unit": "%",
+        "name": "Yearly losses"
+      },
+      {
+        "key": "energy_heat_network_storage_output_capacity_share",
+        "unit": "%",
+        "name": "Output capacity (as % of average hourly load)"
+      },
+      {
+        "key": "capacity_of_energy_heat_burner_coal",
+        "unit": "MW",
+        "name": "Coal heater"
       }
     ]
   },
@@ -2148,34 +2096,14 @@
         "name": "Steam methane reforming"
       },
       {
-        "key": "capacity_of_energy_hydrogen_steam_methane_reformer_ccs",
-        "unit": "MW",
-        "name": "Steam methane reforming + CCS"
-      },
-      {
         "key": "capacity_of_energy_hydrogen_biomass_gasification",
         "unit": "MW",
         "name": "Biomass gasification"
       },
       {
-        "key": "energy_local_electrolysis_hydrogen_share",
-        "unit": "%",
-        "name": "Local electrolysis"
-      },
-      {
-        "key": "flh_of_energy_hydrogen_wind_turbine_offshore",
-        "unit": "#",
-        "name": "Offshore wind turbine for H2"
-      },
-      {
         "key": "capacity_of_energy_imported_hydrogen_baseload",
         "unit": "MW",
         "name": "H2 import"
-      },
-      {
-        "key": "capacity_of_energy_hydrogen_biomass_gasification_ccs",
-        "unit": "MW",
-        "name": "Biomass gasification CCS"
       }
     ]
   },
@@ -2342,6 +2270,35 @@
     "path": [
       "Supply",
       "Biomass",
+      "Potential of biomass"
+    ],
+    "input_elements": [
+      {
+        "key": "max_demand_of_wet_biomass",
+        "unit": "PJ",
+        "name": "Wet biomass"
+      },
+      {
+        "key": "max_demand_of_dry_biomass",
+        "unit": "PJ",
+        "name": "Dry biomass"
+      },
+      {
+        "key": "max_demand_of_oily_biomass",
+        "unit": "PJ",
+        "name": "Oil-containing biomass"
+      },
+      {
+        "key": "max_demand_of_biogenic_waste",
+        "unit": "PJ",
+        "name": "Biogenic waste"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Biomass",
       "(Green) gas in gas network"
     ],
     "input_elements": [
@@ -2364,16 +2321,6 @@
         "key": "energy_regasification_lng_share",
         "unit": "%",
         "name": "Regasified LNG"
-      },
-      {
-        "key": "energy_distribution_greengas_share",
-        "unit": "%",
-        "name": "Green gas"
-      },
-      {
-        "key": "energy_regasification_bio_lng_share",
-        "unit": "%",
-        "name": "Regasified bio LNG"
       }
     ]
   },
@@ -2381,38 +2328,37 @@
     "path": [
       "Supply",
       "Biomass",
-      "Biofuel production"
+      "Green gas production"
     ],
     "input_elements": [
       {
-        "key": "bio_ethanol_from_beet_sugar_share",
+        "key": "energy_biogas_fermentation_share",
         "unit": "%",
-        "name": "Sugar beets"
+        "name": "Anearobic digestion"
       },
       {
-        "key": "bio_ethanol_from_cane_sugar_share",
+        "key": "energy_greengas_gasification_dry_biomass_share",
         "unit": "%",
-        "name": "Sugar cane"
+        "name": "Dry biomass gasification"
       },
       {
-        "key": "biodiesel_from_waste_fats_share",
+        "key": "energy_greengas_gasification_wet_biomass_share",
         "unit": "%",
-        "name": "Waste fats"
-      },
+        "name": "Wet biomass gasification (SCW)"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Supply",
+      "Biomass",
+      "Wood pellets in steel production"
+    ],
+    "input_elements": [
       {
-        "key": "bio_ethanol_from_wheat_share",
+        "key": "industry_steel_cyclonefurnace_bof_wood_pellets_share",
         "unit": "%",
-        "name": "Wheat"
-      },
-      {
-        "key": "bio_ethanol_from_corn_share",
-        "unit": "%",
-        "name": "Corn"
-      },
-      {
-        "key": "biodiesel_from_rape_seed_share",
-        "unit": "%",
-        "name": "Rapeseed"
+        "name": "Wood pellets in cyclone furnace"
       }
     ]
   },
@@ -2492,761 +2438,1802 @@
   {
     "path": [
       "Supply",
-      "Fuel chain emissions",
-      "Coal"
+      "Biomass",
+      "Mix of oil and oil products"
     ],
     "input_elements": [
       {
-        "key": "coal_from_south_africa_share",
+        "key": "households_diesel_in_crude_oil_share",
         "unit": "%",
-        "name": "South Africa"
+        "name": "Diesel"
       },
       {
-        "key": "coal_from_north_america_share",
+        "key": "buildings_diesel_in_crude_oil_share",
         "unit": "%",
-        "name": "North America"
+        "name": "Diesel"
       },
       {
-        "key": "coal_from_australia_share",
+        "key": "industry_diesel_in_crude_oil_share",
         "unit": "%",
-        "name": "Australia"
+        "name": "Diesel"
       },
       {
-        "key": "coal_from_eastern_europe_share",
+        "key": "agriculture_diesel_in_crude_oil_share",
         "unit": "%",
-        "name": "Eastern Europe"
+        "name": "Diesel"
       },
       {
-        "key": "coal_from_russia_share",
+        "key": "households_biodiesel_in_crude_oil_share",
         "unit": "%",
-        "name": "Russia"
+        "name": "Biodiesel"
       },
       {
-        "key": "coal_from_south_america_share",
+        "key": "buildings_biodiesel_in_crude_oil_share",
         "unit": "%",
-        "name": "South America"
+        "name": "Biodiesel"
       },
       {
-        "key": "coal_from_east_asia_share",
+        "key": "industry_biodiesel_in_crude_oil_share",
         "unit": "%",
-        "name": "East Asia"
+        "name": "Biodiesel"
+      },
+      {
+        "key": "agriculture_biodiesel_in_crude_oil_share",
+        "unit": "%",
+        "name": "Biodiesel"
+      },
+      {
+        "key": "households_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Kerosene"
+      },
+      {
+        "key": "buildings_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Kerosene"
+      },
+      {
+        "key": "industry_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Kerosene"
+      },
+      {
+        "key": "agriculture_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Kerosene"
+      },
+      {
+        "key": "households_bio_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Bio kerosene"
+      },
+      {
+        "key": "buildings_bio_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Bio kerosene"
+      },
+      {
+        "key": "industry_bio_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Bio kerosene"
+      },
+      {
+        "key": "agriculture_bio_kerosene_in_crude_oil_share",
+        "unit": "%",
+        "name": "Bio kerosene"
+      },
+      {
+        "key": "households_lpg_in_crude_oil_share",
+        "unit": "%",
+        "name": "LPG"
+      },
+      {
+        "key": "buildings_lpg_in_crude_oil_share",
+        "unit": "%",
+        "name": "LPG"
+      },
+      {
+        "key": "industry_lpg_in_crude_oil_share",
+        "unit": "%",
+        "name": "LPG"
+      },
+      {
+        "key": "agriculture_lpg_in_crude_oil_share",
+        "unit": "%",
+        "name": "LPG"
+      },
+      {
+        "key": "households_other_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other oil"
+      },
+      {
+        "key": "buildings_other_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other oil"
+      },
+      {
+        "key": "industry_other_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other oil"
+      },
+      {
+        "key": "agriculture_other_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other oil"
+      },
+      {
+        "key": "households_other_bio_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other bio oil"
+      },
+      {
+        "key": "buildings_other_bio_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other bio oil"
+      },
+      {
+        "key": "industry_other_bio_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other bio oil"
+      },
+      {
+        "key": "agriculture_other_bio_oil_in_crude_oil_share",
+        "unit": "%",
+        "name": "Other bio oil"
       }
     ]
   },
   {
     "path": [
       "Supply",
-      "Fuel chain emissions",
-      "Natural gas"
+      "Fuel production",
+      "Future production of primary carriers"
     ],
     "input_elements": [
       {
-        "key": "gas_from_algeria_share",
-        "unit": "%",
-        "name": "Algeria"
+        "key": "fuel_production_coal",
+        "unit": "PJ",
+        "name": "Coal"
       },
       {
-        "key": "gas_from_nederlands_share",
-        "unit": "%",
-        "name": "Netherlands"
+        "key": "fuel_production_lignite",
+        "unit": "PJ",
+        "name": "Lignite"
       },
       {
-        "key": "gas_from_norway_share",
-        "unit": "%",
-        "name": "Norway"
+        "key": "fuel_production_crude_oil",
+        "unit": "PJ",
+        "name": "Oil"
       },
       {
-        "key": "gas_from_russia_share",
-        "unit": "%",
-        "name": "Russia"
+        "key": "fuel_production_natural_gas",
+        "unit": "PJ",
+        "name": "Natural gas"
       },
       {
-        "key": "lng_from_algeria_share",
-        "unit": "%",
-        "name": "Algeria"
-      },
-      {
-        "key": "lng_from_norway_share",
-        "unit": "%",
-        "name": "Norway"
-      },
-      {
-        "key": "lng_from_qatar_share",
-        "unit": "%",
-        "name": "Qatar"
-      },
-      {
-        "key": "lng_from_trinidad_share",
-        "unit": "%",
-        "name": "Trinidad"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Supply",
-      "Fuel chain emissions",
-      "Uranium"
-    ],
-    "input_elements": [
-      {
-        "key": "uranium_from_kazachstan_share",
-        "unit": "%",
-        "name": "Kazakhstan"
-      },
-      {
-        "key": "uranium_from_australia_share",
-        "unit": "%",
-        "name": "Australia"
-      },
-      {
-        "key": "uranium_from_canada_share",
-        "unit": "%",
-        "name": "Canada"
+        "key": "fuel_production_uranium_oxide",
+        "unit": "PJ",
+        "name": "Uranium oxide"
       }
     ]
   },
   {
     "path": [
       "Flexibility",
-      "Storage",
-      "Storage in household batteries"
+      "Electricity storage",
+      "Batteries in households"
     ],
     "input_elements": [
       {
         "key": "households_flexibility_p2p_electricity_market_penetration",
         "unit": "%",
         "name": "Batteries in households"
+      },
+      {
+        "key": "wtp_of_households_flexibility_p2p_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_households_flexibility_p2p_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_households_flexibility_p2p_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
       }
     ]
   },
   {
     "path": [
       "Flexibility",
-      "Storage",
-      "Storage in electric vehicles"
+      "Electricity storage",
+      "Batteries in electric vehicles"
     ],
     "input_elements": [
       {
         "key": "transport_car_using_electricity_availability",
         "unit": "%",
-        "name": "Availability"
+        "name": "Batteries in electric vehicles"
+      },
+      {
+        "key": "wtp_of_transport_car_flexibility_p2p_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_transport_car_flexibility_p2p_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_transport_car_flexibility_p2p_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
       }
     ]
   },
   {
     "path": [
       "Flexibility",
-      "Storage",
-      "Storage in reservoirs"
+      "Electricity storage",
+      "Large-scale batteries"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_flexibility_mv_batteries_electricity",
+        "unit": "MW",
+        "name": "Large-scale batteries"
+      },
+      {
+        "key": "wtp_of_energy_flexibility_mv_batteries_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_energy_flexibility_mv_batteries_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_energy_flexibility_mv_batteries_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Electricity storage",
+      "Reservoirs"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_flexibility_pumped_storage_electricity",
         "unit": "MW",
         "name": "Reservoirs"
+      },
+      {
+        "key": "wtp_of_energy_flexibility_pumped_storage_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_energy_flexibility_pumped_storage_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_energy_flexibility_pumped_storage_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
       }
     ]
   },
   {
     "path": [
       "Flexibility",
-      "Conversion",
+      "Electricity storage",
+      "Underground pumped hydro storage"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_flexibility_hv_opac_electricity",
+        "unit": "MW",
+        "name": "Underground pumped hydro storage"
+      },
+      {
+        "key": "wtp_of_energy_flexibility_hv_opac_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_energy_flexibility_hv_opac_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_energy_flexibility_hv_opac_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Electricity storage",
+      "Flow batteries"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_energy_flexibility_flow_batteries_electricity",
+        "unit": "MW",
+        "name": "Flow batteries"
+      },
+      {
+        "key": "volume_of_energy_flexibility_flow_batteries_electricity",
+        "unit": "hours",
+        "name": "Relative storage volume"
+      },
+      {
+        "key": "wtp_of_energy_flexibility_flow_batteries_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to pay"
+      },
+      {
+        "key": "wta_of_energy_flexibility_flow_batteries_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "settings_enable_storage_optimisation_energy_flexibility_flow_batteries_electricity",
+        "unit": "boolean",
+        "name": "Improve use of storage by forecasting residual load"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Electricity storage",
+      "Wind turbines with storage systems"
+    ],
+    "input_elements": [
+      {
+        "key": "connection_capacity_always_on_wind_turbine_inland",
+        "unit": "%",
+        "name": "Relative grid connection capacity"
+      },
+      {
+        "key": "battery_capacity_always_on_wind_turbine_inland",
+        "unit": "%",
+        "name": "Relative battery capacity"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Electricity storage",
+      "Solar plants with storage systems"
+    ],
+    "input_elements": [
+      {
+        "key": "connection_capacity_always_on_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Relative grid connection capacity"
+      },
+      {
+        "key": "battery_capacity_always_on_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Relative battery capacity"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Electricity conversion",
       "Conversion to hydrogen"
     ],
     "input_elements": [
       {
         "key": "capacity_of_energy_hydrogen_flexibility_p2g_electricity",
         "unit": "MW",
-        "name": "Power-to-hydrogen"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Conversion",
-      "Conversion to heat for households"
-    ],
-    "input_elements": [
-      {
-        "key": "households_flexibility_p2h_electricity_market_penetration",
-        "unit": "%",
-        "name": "Power-to-heat electric boiler"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Conversion",
-      "Conversion to heat for industry"
-    ],
-    "input_elements": [
-      {
-        "key": "capacity_of_industry_chemicals_other_flexibility_p2h_electricity",
-        "unit": "MW",
-        "name": "Power-to-heat for chemical"
+        "name": "Power-to-gas"
       },
       {
-        "key": "capacity_of_industry_chemicals_refineries_flexibility_p2h_electricity",
-        "unit": "MW",
-        "name": "Power-to-heat for refineries"
-      },
-      {
-        "key": "capacity_of_industry_other_food_flexibility_p2h_electricity",
-        "unit": "MW",
-        "name": "Power-to-heat for food"
-      },
-      {
-        "key": "capacity_of_industry_other_paper_flexibility_p2h_electricity",
-        "unit": "MW",
-        "name": "Power-to-heat for paper"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Conversion",
-      "Conversion to kerosene for aviation"
-    ],
-    "input_elements": [
-      {
-        "key": "capacity_of_flexibility_p2l_electricity",
-        "unit": "MW",
-        "name": "Power-to-kerosene"
-      },
-      {
-        "key": "flexibility_p2l_point_source_CO",
-        "unit": "%",
-        "name": "Point source CO"
-      },
-      {
-        "key": "flexibility_p2l_point_source_CO2",
-        "unit": "%",
-        "name": "Point source CO2"
-      },
-      {
-        "key": "flexibility_p2l_direct_air_capture",
-        "unit": "%",
-        "name": "Direct Air Capture (DAC)"
-      },
-      {
-        "key": "flexibility_p2l_co2_reduction_industry",
-        "unit": "%",
-        "name": "Industry"
-      },
-      {
-        "key": "flexibility_p2l_co2_reduction_bunkers",
-        "unit": "%",
-        "name": "International transport"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Net load",
-      "Demand response - Electric vehicles"
-    ],
-    "input_elements": [
-      {
-        "key": "transport_car_using_electricity_home_charging_share",
-        "unit": "%",
-        "name": "Charging at home"
-      },
-      {
-        "key": "transport_car_using_electricity_hybrid_charging_share",
-        "unit": "%",
-        "name": "Charging everywhere"
-      },
-      {
-        "key": "transport_car_using_electricity_fast_charging_share",
-        "unit": "%",
-        "name": "Fast charging"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Net load",
-      "Demand response - Heat pumps"
-    ],
-    "input_elements": [
-      {
-        "key": "households_flexibility_water_heating_buffer_size_heatpump_air_water_electricity",
-        "unit": "kWh",
-        "name": "Heat pump (air)"
-      },
-      {
-        "key": "households_flexibility_space_heating_buffer_size_heatpump_air_water_electricity",
-        "unit": "kWh",
-        "name": "Heat pump (air)"
-      },
-      {
-        "key": "households_flexibility_space_heating_buffer_size_heatpump_ground_water_electricity",
-        "unit": "kWh",
-        "name": "Heat pump ground"
-      },
-      {
-        "key": "households_flexibility_space_heating_cop_cutoff",
-        "unit": "#",
-        "name": "Space heating"
-      },
-      {
-        "key": "households_flexibility_water_heating_buffer_size_heatpump_ground_water_electricity",
-        "unit": "kWh",
-        "name": "Heat pump ground"
-      },
-      {
-        "key": "households_flexibility_space_heating_buffer_size_hybrid_heatpump_air_water_electricity",
-        "unit": "kWh",
-        "name": "Hybrid heat pump"
-      },
-      {
-        "key": "households_flexibility_water_heating_buffer_size_hybrid_heatpump_air_water_electricity",
-        "unit": "kWh",
-        "name": "Hybrid heat pump"
-      },
-      {
-        "key": "households_flexibility_water_heating_cop_cutoff",
-        "unit": "#",
-        "name": "Hot water"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Import/Export",
-      "Interconnector capacity"
-    ],
-    "input_elements": [
-      {
-        "key": "interconnectors_interconnector_capacity",
-        "unit": "MW",
-        "name": "Interconnector capacity"
-      },
-      {
-        "key": "interconnectors_availability_for_import",
-        "unit": "%",
-        "name": "Availability for import"
-      },
-      {
-        "key": "interconnectors_availability_for_export",
-        "unit": "%",
-        "name": "Availability for export"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Flexibility",
-      "Import/Export",
-      "CO2 emissions of imported electricity"
-    ],
-    "input_elements": [
-      {
-        "key": "co2_emissions_of_imported_electricity_present",
-        "unit": "g/kWh",
-        "name": "Present import"
-      },
-      {
-        "key": "co2_emissions_of_imported_electricity_future",
-        "unit": "g/kWh",
-        "name": "Future import"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Fuel prices",
-      "Combustion fuel"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_gas",
-        "unit": " €/MWh",
-        "name": "Natural gas"
-      },
-      {
-        "key": "costs_oil",
-        "unit": "$/barrel",
-        "name": "Oil"
-      },
-      {
-        "key": "costs_coal",
-        "unit": "$/tonne",
-        "name": "Coal"
-      },
-      {
-        "key": "costs_biomass",
-        "unit": " €/tonne",
-        "name": "Biomass"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Merit order",
-      "Merit order"
-    ],
-    "input_elements": [
-      {
-        "key": "settings_enable_merit_order",
-        "unit": "boolean",
-        "name": "translation missing: en.input_elements.settings_enable_merit_order"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Fuel prices",
-      "Nuclear fuel"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_uranium",
-        "unit": "€/kg",
-        "name": "Uranium"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Transport",
-      "Investments electric cars"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_electric_cars",
-        "unit": "euro",
-        "name": "Extra investment per electric car"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Combustion plants",
-      "Investment"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_combustion_gas_plant",
-        "unit": "%",
-        "name": "Gas and hydrogen plants"
-      },
-      {
-        "key": "investment_costs_combustion_oil_plant",
-        "unit": "%",
-        "name": "Oil plant"
-      },
-      {
-        "key": "investment_costs_combustion_coal_plant",
-        "unit": "%",
-        "name": "Coal plant"
-      },
-      {
-        "key": "investment_costs_combustion_biomass_plants",
-        "unit": "%",
-        "name": "Biomass plant"
-      },
-      {
-        "key": "investment_costs_combustion_waste_incinerator",
-        "unit": "%",
-        "name": "Waste incinerator"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Combustion plants",
-      "Operations and maintenance"
-    ],
-    "input_elements": [
-      {
-        "key": "om_costs_combustion_gas_plant",
-        "unit": "%",
-        "name": "Gas plant"
-      },
-      {
-        "key": "om_costs_combustion_oil_plant",
-        "unit": "%",
-        "name": "Oil plant"
-      },
-      {
-        "key": "om_costs_combustion_coal_plant",
-        "unit": "%",
-        "name": "Coal plant"
-      },
-      {
-        "key": "om_costs_combustion_biomass_plant",
-        "unit": "%",
-        "name": "Biomass plant"
-      },
-      {
-        "key": "om_costs_combustion_waste_incinerator",
-        "unit": "%",
-        "name": "Waste incinerator"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Nuclear plants",
-      "Investment"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_nuclear_nuclear_plant",
-        "unit": "%",
-        "name": "Nuclear plant"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Nuclear plants",
-      "Operations and maintenance"
-    ],
-    "input_elements": [
-      {
-        "key": "om_costs_nuclear_nuclear_plant",
-        "unit": "%",
-        "name": "Nuclear plant"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Imported electricity",
-      "Costs of imported electricity"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_imported_electricity",
+        "key": "wtp_of_energy_hydrogen_flexibility_p2g_electricity",
         "unit": "€/MWh",
-        "name": "Costs of imported electricity"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Wind turbines",
-      "Investment"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_wind_onshore",
-        "unit": "%",
-        "name": "Onshore"
-      },
-      {
-        "key": "investment_costs_wind_offshore",
-        "unit": "%",
-        "name": "Offshore"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Hydrogen",
-      "Hydrogen import"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_hydrogen",
-        "unit": "€/MWh",
-        "name": "Hydrogen (import)"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Hydrogen",
-      "Hydrogen storage"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_hydrogen_storage",
-        "unit": "€/MWh",
-        "name": "Hydrogen storage costs"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Wind turbines",
-      "Operations and maintenance"
-    ],
-    "input_elements": [
-      {
-        "key": "om_costs_wind_onshore",
-        "unit": "%",
-        "name": "Onshore"
-      },
-      {
-        "key": "om_costs_wind_offshore",
-        "unit": "%",
-        "name": "Offshore"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Hydrogen",
-      "Hydrogen transport"
-    ],
-    "input_elements": [
-      {
-        "key": "costs_hydrogen_transport_pipelines",
-        "unit": "€/MWh",
-        "name": "Total costs H2 pipelines"
-      },
-      {
-        "key": "costs_hydrogen_transport_compressed_trucks",
-        "unit": "€/MWh",
-        "name": "Total costs H2 compressed trucks"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Hydro electric",
-      "Investment"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_water_river",
-        "unit": "%",
-        "name": "River"
-      },
-      {
-        "key": "investment_costs_water_mountains",
-        "unit": "%",
-        "name": "Mountains"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Hydro electric",
-      "Operations and maintenance"
-    ],
-    "input_elements": [
-      {
-        "key": "om_costs_water_river",
-        "unit": "%",
-        "name": "River"
-      },
-      {
-        "key": "om_costs_water_mountains",
-        "unit": "%",
-        "name": "Mountains"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Flexibility",
-      "Investment costs storage electricity"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_households_flexibility_p2p_electricity",
-        "unit": "%",
-        "name": "Household batteries"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Solar power",
-      "Investment"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_solar_solar_panels",
-        "unit": "%",
-        "name": "Solar panels"
-      },
-      {
-        "key": "investment_costs_solar_concentrated_solar_power",
-        "unit": "%",
-        "name": "Concentrated solar power"
-      }
-    ]
-  },
-  {
-    "path": [
-      "Costs",
-      "Flexibility",
-      "Investment costs conversion electricity"
-    ],
-    "input_elements": [
-      {
-        "key": "investment_costs_flexibility_p2h_electricity",
-        "unit": "%",
-        "name": "Power-to-heat electric boilers"
-      },
-      {
-        "key": "investment_costs_hydrogen_electrolysis",
-        "unit": "%",
         "name": "Power-to-gas"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Geothermal",
-      "Investment"
+      "Flexibility",
+      "Electricity conversion",
+      "Conversion to heat for district heating"
     ],
     "input_elements": [
       {
-        "key": "investment_costs_earth_geothermal_electricity",
-        "unit": "%",
-        "name": "Geothermal electricity"
+        "key": "capacity_of_energy_heat_flexibility_p2h_boiler_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat boiler"
+      },
+      {
+        "key": "capacity_of_energy_heat_flexibility_p2h_heatpump_electricity",
+        "unit": "MW",
+        "name": "Power-to-heat heat pump"
+      },
+      {
+        "key": "wtp_of_energy_heat_flexibility_p2h_boiler_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler"
+      },
+      {
+        "key": "wtp_of_energy_heat_flexibility_p2h_heatpump_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat heat pump"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Geothermal",
-      "Operations and maintenance"
+      "Flexibility",
+      "Electricity conversion",
+      "Conversion to heat for industry"
     ],
     "input_elements": [
       {
-        "key": "om_costs_earth_geothermal_electricity",
-        "unit": "%",
-        "name": "Geothermal electricity"
+        "key": "wtp_of_industry_chemicals_refineries_flexibility_p2h_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler for refineries"
+      },
+      {
+        "key": "wtp_of_industry_chemicals_fertilizers_flexibility_p2h_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler for fertilizer industry"
+      },
+      {
+        "key": "wtp_of_industry_chemicals_other_flexibility_p2h_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler for chemical industry"
+      },
+      {
+        "key": "wtp_of_industry_other_food_flexibility_p2h_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler for food industry"
+      },
+      {
+        "key": "wtp_of_industry_other_paper_flexibility_p2h_electricity",
+        "unit": "€/MWh",
+        "name": "Power-to-heat boiler for paper industry"
       }
     ]
   },
   {
     "path": [
-      "Costs",
+      "Flexibility",
+      "Net load",
+      "Curtailment - solar PV"
+    ],
+    "input_elements": [
+      {
+        "key": "curtailment_of_households_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Solar PV households"
+      },
+      {
+        "key": "curtailment_of_buildings_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Solar PV buildings"
+      },
+      {
+        "key": "curtailment_of_energy_power_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Solar PV plants"
+      },
+      {
+        "key": "curtailment_of_energy_power_solar_pv_offshore",
+        "unit": "%",
+        "name": "Solar PV plants offshore"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Net load",
+      "Demand response - load shifting in industry"
+    ],
+    "input_elements": [
+      {
+        "key": "capacity_of_industry_metal_flexibility_load_shifting_electricity",
+        "unit": "%",
+        "name": "Capacity"
+      },
+      {
+        "key": "wta_of_industry_metal_flexibility_load_shifting_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "deficit_limit_of_industry_metal_flexibility_load_shifting_electricity",
+        "unit": "hours",
+        "name": "Deficit limit"
+      },
+      {
+        "key": "capacity_of_industry_chemical_flexibility_load_shifting_electricity",
+        "unit": "%",
+        "name": "Capacity"
+      },
+      {
+        "key": "wta_of_industry_chemical_flexibility_load_shifting_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "deficit_limit_of_industry_chemical_flexibility_load_shifting_electricity",
+        "unit": "hours",
+        "name": "Deficit limit"
+      },
+      {
+        "key": "capacity_of_industry_other_flexibility_load_shifting_electricity",
+        "unit": "%",
+        "name": "Capacity"
+      },
+      {
+        "key": "wta_of_industry_other_flexibility_load_shifting_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "deficit_limit_of_industry_other_flexibility_load_shifting_electricity",
+        "unit": "hours",
+        "name": "Deficit limit"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Net load",
+      "Demand response - electric vehicles"
+    ],
+    "input_elements": [
+      {
+        "key": "transport_car_using_electricity_hybrid_charging_share",
+        "unit": "%",
+        "name": "Charging everywhere"
+      },
+      {
+        "key": "transport_car_using_electricity_home_charging_share",
+        "unit": "%",
+        "name": "Charging at home"
+      },
+      {
+        "key": "transport_car_using_electricity_fast_charging_share",
+        "unit": "%",
+        "name": "Fast charging"
+      },
+      {
+        "key": "transport_car_using_electricity_smart_charging_share",
+        "unit": "%",
+        "name": "Charging smart (Elaad)"
+      },
+      {
+        "key": "transport_car_using_electricity_regular_charging_share",
+        "unit": "%",
+        "name": "Charging regular (Elaad)"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Net load",
+      "Demand response - behavior of hybrid heat pumps"
+    ],
+    "input_elements": [
+      {
+        "key": "households_flexibility_space_heating_cop_cutoff",
+        "unit": "#",
+        "name": "Space heating"
+      },
+      {
+        "key": "households_flexibility_water_heating_cop_cutoff",
+        "unit": "#",
+        "name": "Hot water"
+      },
+      {
+        "key": "households_flexibility_consumer_gas_price",
+        "unit": "ct/m3",
+        "name": "Gas price"
+      },
+      {
+        "key": "households_flexibility_consumer_electricity_price",
+        "unit": "ct/kWh",
+        "name": "Electricity price"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Weather conditions",
+      "Extreme weather conditions"
+    ],
+    "input_elements": [
+      {
+        "key": "flexibility_outdoor_temperature",
+        "unit": "degC",
+        "name": "Outdoor temperature"
+      },
+      {
+        "key": "flh_of_energy_power_wind_turbine_inland",
+        "unit": "#",
+        "name": "Onshore inland"
+      },
+      {
+        "key": "flh_of_energy_power_wind_turbine_coastal",
+        "unit": "#",
+        "name": "Onshore coastal"
+      },
+      {
+        "key": "flh_of_energy_power_wind_turbine_offshore",
+        "unit": "#",
+        "name": "Offshore"
+      },
+      {
+        "key": "flh_of_energy_hydrogen_wind_turbine_offshore",
+        "unit": "#",
+        "name": "Offshore wind turbine for H2"
+      },
+      {
+        "key": "flh_of_solar_pv_solar_radiation",
+        "unit": "#",
+        "name": "Solar PV"
+      },
+      {
+        "key": "settings_weather_curve_set",
+        "unit": "weather-curves",
+        "name": "Weather year"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 1"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_1_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_1_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_1_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_1_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_1_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_1_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 2"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_2_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_2_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_2_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_2_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_2_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_2_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 3"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_3_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_3_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_3_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_3_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_3_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_3_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 4"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_4_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_4_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_4_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_4_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_4_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_4_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 5"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_5_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_5_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_5_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_5_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_5_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_5_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 6"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_6_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_6_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_6_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_6_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_6_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_6_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 7"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_7_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_7_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_7_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_7_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_7_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_7_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 8"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_8_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_8_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_8_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_8_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_8_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_8_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 9"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_9_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_9_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_9_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_9_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_9_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_9_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 10"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_10_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_10_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_10_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_10_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_10_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_10_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 11"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_11_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_11_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_11_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_11_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_11_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_11_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Flexibility",
+      "Import/Export",
+      "Interconnector 12"
+    ],
+    "input_elements": [
+      {
+        "key": "electricity_interconnector_12_capacity",
+        "unit": "MW",
+        "name": "Interconnector capacity"
+      },
+      {
+        "key": "electricity_interconnector_12_import_availability",
+        "unit": "%",
+        "name": "Availability for import"
+      },
+      {
+        "key": "electricity_interconnector_12_export_availability",
+        "unit": "%",
+        "name": "Availability for export"
+      },
+      {
+        "key": "electricity_interconnector_12_co2_emissions_present",
+        "unit": "g/kWh",
+        "name": "Present import"
+      },
+      {
+        "key": "electricity_interconnector_12_co2_emissions_future",
+        "unit": "g/kWh",
+        "name": "Future import"
+      },
+      {
+        "key": "electricity_interconnector_12_marginal_costs",
+        "unit": "€/MWh",
+        "name": "Cost of electricity in external market"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "Greenhouse gases",
+      "Built Environment"
+    ],
+    "input_elements": [
+      {
+        "key": "change_in_energetic_emissions_other_ghg_households",
+        "unit": "%",
+        "name": "Households"
+      },
+      {
+        "key": "change_in_energetic_emissions_other_ghg_buildings",
+        "unit": "%",
+        "name": "Buildings"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "Greenhouse gases",
+      "Transport"
+    ],
+    "input_elements": [
+      {
+        "key": "change_in_energetic_emissions_other_ghg_transport",
+        "unit": "%",
+        "name": "Transport"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "Greenhouse gases",
+      "Industry and Energy"
+    ],
+    "input_elements": [
+      {
+        "key": "change_in_non_energetic_emissions_co2_chemical_industry",
+        "unit": "%",
+        "name": "Chemical industry"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_co2_waste_management",
+        "unit": "%",
+        "name": "Waste management"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_co2_other_industry",
+        "unit": "%",
+        "name": "Other industry"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_chemical_industry",
+        "unit": "%",
+        "name": "Chemical industry"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_waste_management",
+        "unit": "%",
+        "name": "Waste management"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_other_industry",
+        "unit": "%",
+        "name": "Other industry"
+      },
+      {
+        "key": "change_in_energetic_emissions_other_ghg_industry",
+        "unit": "%",
+        "name": "Industry"
+      },
+      {
+        "key": "change_in_energetic_emissions_other_ghg_energy",
+        "unit": "%",
+        "name": "Energy sector"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "Greenhouse gases",
+      "Agriculture"
+    ],
+    "input_elements": [
+      {
+        "key": "change_in_non_energetic_emissions_co2_agriculture_manure",
+        "unit": "%",
+        "name": "Manure"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_co2_agriculture_soil_cultivation",
+        "unit": "%",
+        "name": "Soil cultivation"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_agriculture_manure",
+        "unit": "%",
+        "name": "Manure"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_agriculture_soil_cultivation",
+        "unit": "%",
+        "name": "Soil cultivation"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_agriculture_fermentation",
+        "unit": "%",
+        "name": "Fermentation"
+      },
+      {
+        "key": "change_in_non_energetic_emissions_other_ghg_agriculture_other",
+        "unit": "%",
+        "name": "Other activities"
+      },
+      {
+        "key": "change_in_energetic_emissions_other_ghg_agriculture",
+        "unit": "%",
+        "name": "Agriculture"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "Greenhouse gases",
+      "Indirect emissions"
+    ],
+    "input_elements": [
+      {
+        "key": "change_in_indirect_emissions_co2",
+        "unit": "%",
+        "name": "Indirect emissions"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "CCUS",
+      "Capture of CO2"
+    ],
+    "input_elements": [
+      {
+        "key": "share_of_industry_steel_captured_co2",
+        "unit": "%",
+        "name": "Steel industry"
+      },
+      {
+        "key": "share_of_industry_chemicals_refineries_captured_co2",
+        "unit": "%",
+        "name": "Refinery industry"
+      },
+      {
+        "key": "share_of_industry_chemicals_fertilizers_captured_processes_co2",
+        "unit": "%",
+        "name": "Fertilizer industry (process)"
+      },
+      {
+        "key": "share_of_industry_chemicals_fertilizers_captured_combustion_co2",
+        "unit": "%",
+        "name": "Fertilizer industry (combustion)"
+      },
+      {
+        "key": "share_of_industry_chemical_other_captured_co2",
+        "unit": "%",
+        "name": "Chemicals industry"
+      },
+      {
+        "key": "share_of_industry_other_paper_captured_co2",
+        "unit": "%",
+        "name": "Paper industry"
+      },
+      {
+        "key": "share_of_industry_other_food_captured_co2",
+        "unit": "%",
+        "name": "Food industry"
+      },
+      {
+        "key": "share_of_energy_power_ultra_supercritical_ccs_coal",
+        "unit": "%",
+        "name": "Pulverised coal"
+      },
+      {
+        "key": "share_of_energy_power_combined_cycle_ccs_coal",
+        "unit": "%",
+        "name": "Coal IGCC"
+      },
+      {
+        "key": "share_of_energy_power_combined_cycle_ccs_network_gas",
+        "unit": "%",
+        "name": "Gas CCGT"
+      },
+      {
+        "key": "share_of_energy_power_ultra_supercritical_oxyfuel_ccs_lignite",
+        "unit": "%",
+        "name": "Lignite oxyfuel"
+      },
+      {
+        "key": "share_of_energy_hydrogen_steam_methane_reformer_ccs",
+        "unit": "%",
+        "name": "Steam methane reforming"
+      },
+      {
+        "key": "share_of_energy_hydrogen_biomass_gasification_ccs",
+        "unit": "%",
+        "name": "Biomass gasification"
+      },
+      {
+        "key": "demand_of_molecules_direct_air_capture_co2",
+        "unit": "Mton",
+        "name": "Direct Air Capture (DAC)"
+      },
+      {
+        "key": "share_of_energy_chp_supercritical_ccs_waste_mix",
+        "unit": "%",
+        "name": "Waste CHP"
+      },
+      {
+        "key": "share_of_energy_power_supercritical_ccs_waste_mix",
+        "unit": "%",
+        "name": "Waste incinerator"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "CCUS",
+      "Utilisation and storage of CO2"
+    ],
+    "input_elements": [
+      {
+        "key": "demand_of_molecules_offshore_sequestration_co2",
+        "unit": "Mton",
+        "name": "Offshore storage"
+      },
+      {
+        "key": "output_of_energy_production_synthetic_kerosene",
+        "unit": "PJ",
+        "name": "Synthetic kerosene"
+      },
+      {
+        "key": "output_of_energy_production_synthetic_methanol",
+        "unit": "PJ",
+        "name": "Synthetic methanol"
+      },
+      {
+        "key": "demand_of_molecules_other_utilisation_co2",
+        "unit": "Mton",
+        "name": "Other use of CO2"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "CCUS",
+      "Transport of CO2"
+    ],
+    "input_elements": [
+      {
+        "key": "share_of_molecules_transport_pipelines_co2",
+        "unit": "%",
+        "name": "Pipelines"
+      },
+      {
+        "key": "share_of_molecules_transport_ships_co2",
+        "unit": "%",
+        "name": "Liquefied in ships"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Emissions",
+      "CCUS",
+      "Coal gases from blast furnaces (steel)"
+    ],
+    "input_elements": [
+      {
+        "key": "share_of_energy_steel_energy_production_coal_gas",
+        "unit": "%",
+        "name": "Energy production"
+      },
+      {
+        "key": "share_of_energy_steel_chemical_feedstock_coal_gas",
+        "unit": "%",
+        "name": "Chemical feedstock"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Electricity",
+      "Coal plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_coal_plant",
+        "unit": "%",
+        "name": "Investment costs coal plant"
+      },
+      {
+        "key": "om_costs_combustion_coal_plant",
+        "unit": "%",
+        "name": "O&M costs coal plant"
+      },
+      {
+        "key": "efficiency_energy_power_ultra_supercritical_coal",
+        "unit": "%",
+        "name": "Pulverized coal"
+      },
+      {
+        "key": "efficiency_energy_power_ultra_supercritical_cofiring_coal",
+        "unit": "%",
+        "name": "Pulverized coal with co-firing"
+      },
+      {
+        "key": "efficiency_energy_power_combined_cycle_coal",
+        "unit": "%",
+        "name": "Coal IGCC"
+      },
+      {
+        "key": "efficiency_energy_power_supercritical_coal",
+        "unit": "%",
+        "name": "Coal conventional"
+      },
+      {
+        "key": "efficiency_energy_chp_ultra_supercritical_coal_electricity",
+        "unit": "%",
+        "name": "Coal CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_ultra_supercritical_coal_heat",
+        "unit": "%",
+        "name": "Coal CHP - heat"
+      },
+      {
+        "key": "efficiency_energy_chp_ultra_supercritical_cofiring_coal_electricity",
+        "unit": "%",
+        "name": "Co-firing coal CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_ultra_supercritical_cofiring_coal_heat",
+        "unit": "%",
+        "name": "Co-firing coal CHP - heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Electricity",
+      "Gas plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_gas_plant",
+        "unit": "%",
+        "name": "Investment costs gas plants"
+      },
+      {
+        "key": "om_costs_combustion_gas_plant",
+        "unit": "%",
+        "name": "O&M costs gas plant"
+      },
+      {
+        "key": "efficiency_energy_power_combined_cycle_network_gas",
+        "unit": "%",
+        "name": "Gas CCGT"
+      },
+      {
+        "key": "efficiency_energy_power_engine_network_gas",
+        "unit": "%",
+        "name": "Gas combustion engine"
+      },
+      {
+        "key": "efficiency_energy_power_turbine_network_gas",
+        "unit": "%",
+        "name": "Gas turbine"
+      },
+      {
+        "key": "efficiency_energy_power_ultra_supercritical_network_gas",
+        "unit": "%",
+        "name": "Gas conventional"
+      },
+      {
+        "key": "efficiency_energy_chp_combined_cycle_network_gas_electricity",
+        "unit": "%",
+        "name": "Large-scale gas CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_combined_cycle_network_gas_heat",
+        "unit": "%",
+        "name": "Large-scale gas CHP - heat"
+      },
+      {
+        "key": "efficiency_energy_chp_local_engine_network_gas_electricity",
+        "unit": "%",
+        "name": "Small-scale gas CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_local_engine_network_gas_heat",
+        "unit": "%",
+        "name": "Small-scale gas CHP - heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Electricity",
+      "Oil plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_oil_plant",
+        "unit": "%",
+        "name": "Investment costs oil plants"
+      },
+      {
+        "key": "om_costs_combustion_oil_plant",
+        "unit": "%",
+        "name": "O&M costs oil plants"
+      },
+      {
+        "key": "efficiency_energy_power_ultra_supercritical_crude_oil",
+        "unit": "%",
+        "name": "Oil-fired"
+      },
+      {
+        "key": "efficiency_energy_power_engine_diesel",
+        "unit": "%",
+        "name": "Diesel generator"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Electricity",
+      "Nuclear plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_nuclear_nuclear_plant",
+        "unit": "%",
+        "name": "Investment costs nuclear plants"
+      },
+      {
+        "key": "om_costs_nuclear_nuclear_plant",
+        "unit": "%",
+        "name": "O&M costs nuclear plants"
+      },
+      {
+        "key": "efficiency_energy_power_nuclear_gen2_uranium_oxide",
+        "unit": "%",
+        "name": "Nuclear conventional"
+      },
+      {
+        "key": "efficiency_energy_power_nuclear_gen3_uranium_oxide",
+        "unit": "%",
+        "name": "Nuclear 3rd Gen"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Wind turbines"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_wind_onshore",
+        "unit": "%",
+        "name": "Investment costs onshore"
+      },
+      {
+        "key": "om_costs_wind_onshore",
+        "unit": "%",
+        "name": "O&M costs onshore"
+      },
+      {
+        "key": "investment_costs_wind_offshore",
+        "unit": "%",
+        "name": "Investment costs offshore"
+      },
+      {
+        "key": "om_costs_wind_offshore",
+        "unit": "%",
+        "name": "O&M costs offshore"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Solar power"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_solar_solar_panels",
+        "unit": "%",
+        "name": "Investment costs solar panels"
+      },
+      {
+        "key": "investment_costs_solar_concentrated_solar_power",
+        "unit": "%",
+        "name": "Investment costs concentrated solar power"
+      },
+      {
+        "key": "efficiency_energy_power_solar_pv_solar_radiation",
+        "unit": "%",
+        "name": "Efficiency of solar panels"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Hydroelectric power"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_water_river",
+        "unit": "%",
+        "name": "Investment costs hydro river"
+      },
+      {
+        "key": "om_costs_water_river",
+        "unit": "%",
+        "name": "O&M costs hydro river"
+      },
+      {
+        "key": "investment_costs_water_mountains",
+        "unit": "%",
+        "name": "Investment costs hydro mountains"
+      },
+      {
+        "key": "om_costs_water_mountains",
+        "unit": "%",
+        "name": "O&M costs hydro mountains"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Biomass plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_biomass_plants",
+        "unit": "%",
+        "name": "Investment costs biomass plant"
+      },
+      {
+        "key": "om_costs_combustion_biomass_plant",
+        "unit": "%",
+        "name": "O&M costs biomass plant"
+      },
+      {
+        "key": "efficiency_energy_chp_local_wood_pellets_electricity",
+        "unit": "%",
+        "name": "Biomass CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_local_wood_pellets_heat",
+        "unit": "%",
+        "name": "Biomass CHP - heat"
+      },
+      {
+        "key": "efficiency_energy_chp_local_engine_biogas_electricity",
+        "unit": "%",
+        "name": "Biogas CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_local_engine_biogas_heat",
+        "unit": "%",
+        "name": "Biogas CHP - heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Waste power"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_waste_incinerator",
+        "unit": "%",
+        "name": "Investment costs waste incinerator"
+      },
+      {
+        "key": "om_costs_combustion_waste_incinerator",
+        "unit": "%",
+        "name": "O&M costs waste incinerator"
+      },
+      {
+        "key": "efficiency_energy_power_supercritical_waste_mix",
+        "unit": "%",
+        "name": "Waste incinerator"
+      },
+      {
+        "key": "efficiency_energy_chp_supercritical_waste_mix_electricity",
+        "unit": "%",
+        "name": "Waste CHP - electricity"
+      },
+      {
+        "key": "efficiency_energy_chp_supercritical_waste_mix_heat",
+        "unit": "%",
+        "name": "Waste CHP - heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Renewable electricity",
+      "Hydrogen plants"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_combustion_hydrogen_plant",
+        "unit": "%",
+        "name": "Investment costs hydrogen plants"
+      },
+      {
+        "key": "om_costs_combustion_hydrogen_plant",
+        "unit": "%",
+        "name": "O&M costs hydrogen plant"
+      },
+      {
+        "key": "efficiency_energy_power_turbine_hydrogen",
+        "unit": "%",
+        "name": "Hydrogen turbine"
+      },
+      {
+        "key": "efficiency_energy_power_combined_cycle_hydrogen",
+        "unit": "%",
+        "name": "Hydrogen plant (CCGT)"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
       "Infrastructure",
       "Electricity infrastructure costs"
     ],
@@ -3290,22 +4277,428 @@
   },
   {
     "path": [
-      "Costs",
-      "Infrastructure",
-      "Usage of networks"
+      "Costs & efficiencies",
+      "Heat",
+      "Efficiencies heating in houses and buildings"
     ],
     "input_elements": [
       {
-        "key": "costs_infrastructure_useable_spare_capacity",
+        "key": "efficiency_households_space_heater_combined_network_gas",
         "unit": "%",
-        "name": "Use of technical spare capacity"
+        "name": "Condensing combi boiler (gas)"
+      },
+      {
+        "key": "efficiency_households_space_heater_combined_hydrogen",
+        "unit": "%",
+        "name": "Condensing combi boiler (hydrogen)"
+      },
+      {
+        "key": "efficiency_households_space_heater_wood_pellets",
+        "unit": "%",
+        "name": "Wood pellet boiler"
+      },
+      {
+        "key": "efficiency_households_space_heater_electricity",
+        "unit": "%",
+        "name": "Electric heater"
+      },
+      {
+        "key": "efficiency_households_space_heater_network_gas",
+        "unit": "%",
+        "name": "Gas-fired heater"
+      },
+      {
+        "key": "efficiency_households_space_heater_crude_oil",
+        "unit": "%",
+        "name": "Oil-fired heater"
+      },
+      {
+        "key": "efficiency_households_space_heater_heatpump_ground_water_electricity",
+        "unit": "COP",
+        "name": "Heat pump (ground)"
+      },
+      {
+        "key": "efficiency_households_space_heater_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Heat pump (air)"
+      },
+      {
+        "key": "efficiency_households_space_heater_hybrid_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Hybrid heat pump (gas/hydrogen)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_network_gas",
+        "unit": "%",
+        "name": "Condensing combi boiler (gas)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_combined_hydrogen",
+        "unit": "%",
+        "name": "Condensing combi boiler (hydrogen)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_electricity",
+        "unit": "%",
+        "name": "Electric heater"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_wood_pellets",
+        "unit": "%",
+        "name": "Biomass-fired heater"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_crude_oil",
+        "unit": "%",
+        "name": "Oil-fired heater"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_collective_heatpump_water_water_ts_electricity",
+        "unit": "COP",
+        "name": "Heat pump (ground)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Heat pump (air)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_hybrid_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Hybrid heat pump (gas)"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "CO2 emissions",
+      "Costs & efficiencies",
+      "Heat",
+      "Costs heating"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_electric_heat_pumps",
+        "unit": "%",
+        "name": "Electric heat pumps"
+      },
+      {
+        "key": "investment_costs_gas_heat_pumps",
+        "unit": "%",
+        "name": "Gas-fired heat pumps"
+      },
+      {
+        "key": "investment_costs_geothermal",
+        "unit": "%",
+        "name": "Investment costs geothermal energy"
+      },
+      {
+        "key": "om_costs_geothermal",
+        "unit": "%",
+        "name": "O&M costs geothermal energy"
+      },
+      {
+        "key": "investment_costs_solar_thermal",
+        "unit": "%",
+        "name": "Investment costs solar thermal energy"
+      },
+      {
+        "key": "om_costs_solar_thermal",
+        "unit": "%",
+        "name": "O&M costs solar thermal energy"
+      },
+      {
+        "key": "costs_imported_heat",
+        "unit": "€/GJ",
+        "name": "Imported (residual) heat"
+      },
+      {
+        "key": "costs_industry_residual_heat",
+        "unit": "%",
+        "name": "Industrial residual heat"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Heat",
+      "Costs district heating infrastructure"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_heat_infra_indoors",
+        "unit": "%",
+        "name": "Indoor costs"
+      },
+      {
+        "key": "costs_heat_infra_outdoors",
+        "unit": "%",
+        "name": "Pipelines and exchanger stations"
+      },
+      {
+        "key": "costs_heat_network_storage",
+        "unit": "€/MWh",
+        "name": "Seasonal storage"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Hydrogen",
+      "Hydrogen production"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_hydrogen_electrolysis",
+        "unit": "%",
+        "name": "Investment costs power-to-gas"
+      },
+      {
+        "key": "efficiency_hydrogen_electrolysis",
+        "unit": "%",
+        "name": "Power-to-gas electrolysers"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Hydrogen",
+      "Hydrogen import"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_hydrogen",
+        "unit": "€/MWh",
+        "name": "Hydrogen (import)"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Hydrogen",
+      "Hydrogen storage"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_hydrogen_storage",
+        "unit": "€/MWh",
+        "name": "Hydrogen storage costs"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Hydrogen",
+      "Hydrogen transport"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_hydrogen_transport_pipelines",
+        "unit": "€/MWh",
+        "name": "Total costs H2 pipelines"
+      },
+      {
+        "key": "costs_hydrogen_transport_compressed_trucks",
+        "unit": "€/MWh",
+        "name": "Total costs H2 compressed trucks"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Transport",
+      "Investments electric cars"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_electric_cars",
+        "unit": "euro",
+        "name": "Extra investment per electric car"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Transport",
+      "Efficiencies"
+    ],
+    "input_elements": [
+      {
+        "key": "transport_vehicle_using_electricity_efficiency",
+        "unit": "%",
+        "name": "Electric vehicles"
+      },
+      {
+        "key": "transport_vehicle_using_hydrogen_efficiency",
+        "unit": "%",
+        "name": "Hydrogen vehicles"
+      },
+      {
+        "key": "transport_vehicle_combustion_engine_efficiency",
+        "unit": "%",
+        "name": "Combustion engine vehicles"
+      },
+      {
+        "key": "transport_trains_efficiency",
+        "unit": "%",
+        "name": "Trains"
+      },
+      {
+        "key": "transport_ships_efficiency",
+        "unit": "%",
+        "name": "Ships"
+      },
+      {
+        "key": "transport_planes_efficiency",
+        "unit": "%",
+        "name": "Airplanes"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Fuel prices",
+      "Fossil fuels"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_gas",
+        "unit": " €/MWh",
+        "name": "Natural gas"
+      },
+      {
+        "key": "costs_oil",
+        "unit": "$/barrel",
+        "name": "Oil"
+      },
+      {
+        "key": "costs_coal",
+        "unit": "$/tonne",
+        "name": "Coal"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Fuel prices",
+      "Nuclear fuels"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_uranium",
+        "unit": "€/kg",
+        "name": "Uranium"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Fuel prices",
+      "Biofuels"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_greengas",
+        "unit": " €/MWh",
+        "name": "Green gas"
+      },
+      {
+        "key": "costs_biogas",
+        "unit": " €/MWh",
+        "name": "Biogas"
+      },
+      {
+        "key": "costs_wood",
+        "unit": " €/Tonne",
+        "name": "Wood"
+      },
+      {
+        "key": "costs_biodiesel",
+        "unit": " €/liter",
+        "name": "Biodiesel"
+      },
+      {
+        "key": "costs_bio_ethanol",
+        "unit": " €/liter",
+        "name": "Bio-ethanol"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Flexibility",
+      "Value of Lost Load"
+    ],
+    "input_elements": [
+      {
+        "key": "costs_electricity_fallback_price",
+        "unit": "€/MWh",
+        "name": "Value of Lost Load (VoLL)"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Flexibility",
+      "Investment costs storage electricity"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_households_flexibility_p2p_electricity",
+        "unit": "%",
+        "name": "Investment costs household batteries"
+      },
+      {
+        "key": "investment_costs_energy_flexibility_mv_batteries_electricity",
+        "unit": "%",
+        "name": "Investment costs large-scale batteries"
+      },
+      {
+        "key": "investment_costs_energy_flexibility_hv_opac_electricity",
+        "unit": "%",
+        "name": "Investment costs underground pumped hydro storage"
+      },
+      {
+        "key": "capacity_costs_energy_flexibility_flow_batteries_electricity",
+        "unit": "%",
+        "name": "Investment costs per MW flow batteries"
+      },
+      {
+        "key": "volume_costs_energy_flexibility_flow_batteries_electricity",
+        "unit": "%",
+        "name": "Investment costs per MWh flow batteries"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "Flexibility",
+      "Investment costs conversion electricity"
+    ],
+    "input_elements": [
+      {
+        "key": "investment_costs_flexibility_p2h_electricity",
+        "unit": "%",
+        "name": "Investment costs power-to-heat boilers"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Costs & efficiencies",
+      "CCUS",
       "Prices"
     ],
     "input_elements": [
@@ -3323,140 +4716,139 @@
   },
   {
     "path": [
-      "Costs",
-      "CO2 emissions",
-      "CCS in energy sector"
+      "Costs & efficiencies",
+      "CCUS",
+      "CO2 capture in energy sector"
     ],
     "input_elements": [
       {
         "key": "investment_costs_co2_ccs",
         "unit": "%",
-        "name": "CCS Investment"
+        "name": "Investment CO2"
       },
       {
         "key": "om_costs_co2_ccs",
         "unit": "%",
-        "name": "CCS Operational & Maintenance"
+        "name": "Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "CO2 emissions",
-      "CCS in industry"
+      "Costs & efficiencies",
+      "CCUS",
+      "CO2 capture in industry"
     ],
     "input_elements": [
       {
-        "key": "costs_ccs_per_ton_in_industry",
-        "unit": "euro/tonne",
-        "name": "CCS cost"
+        "key": "investment_costs_co2_capture_industry",
+        "unit": "%",
+        "name": "Investment"
+      },
+      {
+        "key": "om_costs_co2_capture_industry",
+        "unit": "%",
+        "name": "Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Employment",
-      "Local"
+      "Costs & efficiencies",
+      "CCUS",
+      "CO2 storage"
     ],
     "input_elements": [
       {
-        "key": "employment_fraction_production",
+        "key": "investment_costs_co2_storage",
         "unit": "%",
-        "name": "Production share"
+        "name": "Investment"
       },
       {
-        "key": "employment_local_fraction",
+        "key": "om_costs_co2_storage",
         "unit": "%",
-        "name": "Local production labor"
-      },
-      {
-        "key": "employment_economic_multiplier",
-        "unit": "x",
-        "name": "Economic multiplier"
+        "name": "Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Heat",
-      "Heating technologies"
+      "Costs & efficiencies",
+      "CCUS",
+      "CO2 utilisation"
     ],
     "input_elements": [
       {
-        "key": "investment_costs_micro_chp",
+        "key": "investment_costs_co2_utilisation",
         "unit": "%",
-        "name": "Micro-CHP"
+        "name": "Investment"
       },
       {
-        "key": "investment_costs_households_storage_space_heating",
-        "unit": "€/kWh",
-        "name": "Space heater buffers"
-      },
-      {
-        "key": "investment_costs_fuel_cell",
+        "key": "om_costs_co2_utilisation",
         "unit": "%",
-        "name": "Fuel cell"
-      },
-      {
-        "key": "investment_costs_households_storage_water_heating",
-        "unit": "€/kWh",
-        "name": "Water heater buffers"
-      },
-      {
-        "key": "investment_costs_electric_heat_pumps",
-        "unit": "%",
-        "name": "Electric heat pumps"
-      },
-      {
-        "key": "investment_costs_gas_heat_pumps",
-        "unit": "%",
-        "name": "Gas-fired heat pumps"
+        "name": "Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Heat",
-      "Heat network"
+      "Costs & efficiencies",
+      "CCUS",
+      "CO2 transport"
     ],
     "input_elements": [
       {
-        "key": "investment_costs_heat_network_households",
-        "unit": "€",
-        "name": "Investment costs per house"
+        "key": "investment_costs_co2_transport",
+        "unit": "%",
+        "name": "Investment"
       },
       {
-        "key": "om_costs_heat_network_households",
-        "unit": "€/year",
-        "name": "O&M costs per house"
-      },
-      {
-        "key": "investment_costs_heat_network_buildings",
-        "unit": "€",
-        "name": "Investment costs per capacity (11kW)"
-      },
-      {
-        "key": "om_costs_heat_network_buildings",
-        "unit": "€/year",
-        "name": "O&M costs per capacity (11kW)"
+        "key": "om_costs_co2_transport",
+        "unit": "%",
+        "name": "Operational & Maintenance"
       }
     ]
   },
   {
     "path": [
-      "Costs",
-      "Heat",
-      "Imported (residual) heat"
+      "Costs & efficiencies",
+      "WACC",
+      "Weighted average cost of capital (WACC)"
     ],
     "input_elements": [
       {
-        "key": "costs_imported_heat",
-        "unit": "€/GJ",
-        "name": "Imported (residual) heat"
+        "key": "costs_wacc_households",
+        "unit": "%",
+        "name": "Households"
+      },
+      {
+        "key": "costs_wacc_public_infrastructure",
+        "unit": "%",
+        "name": "Public infrastructure"
+      },
+      {
+        "key": "costs_wacc_proven_technologies",
+        "unit": "%",
+        "name": "Commercial / proven technologies"
+      },
+      {
+        "key": "costs_wacc_unproven_technologies",
+        "unit": "%",
+        "name": "New / immature technologies"
+      }
+    ]
+  },
+  {
+    "path": [
+      "Results & data",
+      "Visuals",
+      "Energy Mix infographic"
+    ],
+    "input_elements": [
+      {
+        "key": "energy_mix_capacity_per_unit_wind_turbine_inland",
+        "unit": "MW",
+        "name": "Capacity of wind turbines (per unit)"
       }
     ]
   }
