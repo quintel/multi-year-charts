@@ -634,9 +634,14 @@
         "name": "Luchtwarmtepomp"
       },
       {
-        "key": "buildings_heater_hybrid_heatpump_air_water_electricity_share",
+        "key": "buildings_space_heater_hybrid_heatpump_air_water_electricity_share",
         "unit": "%",
         "name": "Hybride warmtepomp (gas)"
+      },
+      {
+        "key": "buildings_space_heater_hybrid_hydrogen_heatpump_air_water_electricity_share",
+        "unit": "%",
+        "name": "Hybride warmtepomp (waterstof)"
       },
       {
         "key": "buildings_space_heater_collective_heatpump_water_water_ts_electricity_share",
@@ -947,6 +952,11 @@
         "key": "transport_ship_using_lng_mix_share",
         "unit": "%",
         "name": "Vloeibaar aardgas (LNG)"
+      },
+      {
+        "key": "transport_ship_using_hydrogen_share",
+        "unit": "%",
+        "name": "Waterstof"
       }
     ]
   },
@@ -1004,6 +1014,11 @@
         "key": "bunkers_ship_using_lng_share",
         "unit": "%",
         "name": "LNG"
+      },
+      {
+        "key": "bunkers_ship_using_hydrogen_share",
+        "unit": "%",
+        "name": "Waterstof"
       }
     ]
   },
@@ -3042,12 +3057,12 @@
     ],
     "input_elements": [
       {
-        "key": "households_flexibility_space_heating_cop_cutoff",
+        "key": "flexibility_heat_pump_space_heating_cop_cutoff",
         "unit": "#",
         "name": "Ruimteverwarming"
       },
       {
-        "key": "households_flexibility_water_heating_cop_cutoff",
+        "key": "flexibility_heat_pump_water_heating_cop_cutoff",
         "unit": "#",
         "name": "Warm water"
       },
@@ -4325,7 +4340,12 @@
       {
         "key": "efficiency_households_space_heater_hybrid_heatpump_air_water_electricity",
         "unit": "%",
-        "name": "Hybride warmtepomp (gas/waterstof)"
+        "name": "Hybride warmtepomp (gas)"
+      },
+      {
+        "key": "efficiency_households_space_heater_hybrid_hydrogen_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Hybride warmtepomp (gas)"
       },
       {
         "key": "efficiency_buildings_space_heater_network_gas",
@@ -4366,6 +4386,11 @@
         "key": "efficiency_buildings_space_heater_hybrid_heatpump_air_water_electricity",
         "unit": "%",
         "name": "Hybride warmtepomp (gas)"
+      },
+      {
+        "key": "efficiency_buildings_space_heater_hybrid_hydrogen_heatpump_air_water_electricity",
+        "unit": "%",
+        "name": "Hybride warmtepomp (waterstof)"
       }
     ]
   },
