@@ -1,7 +1,8 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends":  [
     "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/recommended"
   ],
  "parserOptions":  {
     "ecmaVersion": 2018,
@@ -9,7 +10,6 @@
   },
   "rules":  {
     "curly": ["error", "all"],
-    "max-len": ["error", {"code": 80, "ignoreUrls": true}],
     "react/prop-types": "off"
   },
   "settings": {

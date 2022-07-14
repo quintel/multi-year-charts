@@ -122,6 +122,139 @@ export default {
         'myc_final_demand_of_solid_biofuels_in_industry',
         'myc_final_demand_of_solid_biofuels_in_transport'
       ]
+    },
+    {
+      key: 'by_carrier_agriculture',
+      slug: 'by-carrier-agriculture',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_agriculture',
+        'myc_final_demand_of_fossil_electricity_in_agriculture',
+        'myc_final_demand_of_fossil_heat_in_agriculture',
+        'myc_final_demand_of_green_gas_in_agriculture',
+        'myc_final_demand_of_hydrogen_in_agriculture',
+        'myc_final_demand_of_liquid_biofuels_in_agriculture',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_agriculture',
+        'myc_final_demand_of_oil_and_derivatives_in_agriculture',
+        'myc_final_demand_of_renewable_electricity_in_agriculture',
+        'myc_final_demand_of_renewable_heat_in_agriculture',
+        'myc_final_demand_of_solar_thermal_in_agriculture',
+        'myc_final_demand_of_solid_biofuels_in_agriculture'
+      ]
+    },
+    {
+      key: 'by_carrier_buildings',
+      slug: 'by-carrier-buildings',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_buildings',
+        'myc_final_demand_of_fossil_electricity_in_buildings',
+        'myc_final_demand_of_fossil_heat_in_buildings',
+        'myc_final_demand_of_green_gas_in_buildings',
+        'myc_final_demand_of_hydrogen_in_buildings',
+        'myc_final_demand_of_liquid_biofuels_in_buildings',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_buildings',
+        'myc_final_demand_of_oil_and_derivatives_in_buildings',
+        'myc_final_demand_of_renewable_electricity_in_buildings',
+        'myc_final_demand_of_renewable_heat_in_buildings',
+        'myc_final_demand_of_solar_thermal_in_buildings',
+        'myc_final_demand_of_solid_biofuels_in_buildings'
+      ]
+    },
+    {
+      key: 'by_carrier_bunkers',
+      slug: 'by-carrier-bunkers',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_bunkers',
+        'myc_final_demand_of_fossil_electricity_in_bunkers',
+        'myc_final_demand_of_fossil_heat_in_bunkers',
+        'myc_final_demand_of_green_gas_in_bunkers',
+        'myc_final_demand_of_hydrogen_in_bunkers',
+        'myc_final_demand_of_liquid_biofuels_in_bunkers',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_bunkers',
+        'myc_final_demand_of_oil_and_derivatives_in_bunkers',
+        'myc_final_demand_of_renewable_electricity_in_bunkers',
+        'myc_final_demand_of_renewable_heat_in_bunkers',
+        'myc_final_demand_of_solar_thermal_in_bunkers',
+        'myc_final_demand_of_solid_biofuels_in_bunkers'
+      ]
+    },
+    {
+      key: 'by_carrier_energy_and_other',
+      slug: 'by-carrier-energy',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_energy_and_other',
+        'myc_final_demand_of_fossil_electricity_in_energy_and_other',
+        'myc_final_demand_of_fossil_heat_in_energy_and_other',
+        'myc_final_demand_of_green_gas_in_energy_and_other',
+        'myc_final_demand_of_hydrogen_in_energy_and_other',
+        'myc_final_demand_of_liquid_biofuels_in_energy_and_other',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_energy_and_other',
+        'myc_final_demand_of_oil_and_derivatives_in_energy_and_other',
+        'myc_final_demand_of_renewable_electricity_in_energy_and_other',
+        'myc_final_demand_of_renewable_heat_in_energy_and_other',
+        'myc_final_demand_of_solar_thermal_in_energy_and_other',
+        'myc_final_demand_of_solid_biofuels_in_energy_and_other'
+      ]
+    },
+    {
+      key: 'by_carrier_households',
+      slug: 'by-carrier-households',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_households',
+        'myc_final_demand_of_fossil_electricity_in_households',
+        'myc_final_demand_of_fossil_heat_in_households',
+        'myc_final_demand_of_green_gas_in_households',
+        'myc_final_demand_of_hydrogen_in_households',
+        'myc_final_demand_of_liquid_biofuels_in_households',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_households',
+        'myc_final_demand_of_oil_and_derivatives_in_households',
+        'myc_final_demand_of_renewable_electricity_in_households',
+        'myc_final_demand_of_renewable_heat_in_households',
+        'myc_final_demand_of_solar_thermal_in_households',
+        'myc_final_demand_of_solid_biofuels_in_households'
+      ]
+    },
+    {
+      key: 'by_carrier_industry',
+      slug: 'by-carrier-industry',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_industry',
+        'myc_final_demand_of_fossil_electricity_in_industry',
+        'myc_final_demand_of_fossil_heat_in_industry',
+        'myc_final_demand_of_green_gas_in_industry',
+        'myc_final_demand_of_hydrogen_in_industry',
+        'myc_final_demand_of_liquid_biofuels_in_industry',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_industry',
+        'myc_final_demand_of_oil_and_derivatives_in_industry',
+        'myc_final_demand_of_renewable_electricity_in_industry',
+        'myc_final_demand_of_renewable_heat_in_industry',
+        'myc_final_demand_of_solar_thermal_in_industry',
+        'myc_final_demand_of_solid_biofuels_in_industry'
+      ]
+    },
+    {
+      key: 'by_carrier_transport',
+      slug: 'by-carrier-transport',
+      group: 'sectors_by_carrier',
+      series: [
+        'myc_final_demand_of_coal_and_derivatives_in_transport',
+        'myc_final_demand_of_fossil_electricity_in_transport',
+        'myc_final_demand_of_fossil_heat_in_transport',
+        'myc_final_demand_of_green_gas_in_transport',
+        'myc_final_demand_of_hydrogen_in_transport',
+        'myc_final_demand_of_liquid_biofuels_in_transport',
+        'myc_final_demand_of_natural_gas_and_derivatives_in_transport',
+        'myc_final_demand_of_oil_and_derivatives_in_transport',
+        'myc_final_demand_of_renewable_electricity_in_transport',
+        'myc_final_demand_of_renewable_heat_in_transport',
+        'myc_final_demand_of_solar_thermal_in_transport',
+        'myc_final_demand_of_solid_biofuels_in_transport'
+      ]
     }
   ]
 };

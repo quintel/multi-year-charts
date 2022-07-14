@@ -9,6 +9,7 @@ export interface ChartSchema {
     key: string;
     slug: string;
     series: string[];
+    group?: string;
     displayAs?: 'chart' | 'table';
   }[];
 }

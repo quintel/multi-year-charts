@@ -17,6 +17,17 @@
   "chart.variant.by_carrier": "By carrier",
   "chart.variant.by_sector_and_carrier": "By sector and carrier",
 
+  "chart.variant.by_carrier_agriculture": "Agriculture",
+  "chart.variant.by_carrier_buildings": "Buildings",
+  "chart.variant.by_carrier_bunkers": "International transport",
+  "chart.variant.by_carrier_energy_and_other": "Energy and other sector",
+  "chart.variant.by_carrier_households": "Households",
+  "chart.variant.by_carrier_industry": "Industry",
+  "chart.variant.by_carrier_other_and_energy_sector": "Energy and other sector",
+  "chart.variant.by_carrier_transport": "Transport",
+
+  "chart.group.sectors_by_carrier": "Sectors by carrier",
+
   "series.carrier_in_sector": "{carrier} in {sector}",
 
   "series.agriculture": "Agriculture",

@@ -17,6 +17,17 @@
   "chart.variant.by_carrier": "Per energiedrager",
   "chart.variant.by_sector_and_carrier": "Per sector en energiedrager",
 
+  "chart.variant.by_carrier_agriculture": "Landbouw",
+  "chart.variant.by_carrier_buildings": "Gebouwen",
+  "chart.variant.by_carrier_bunkers": "Internationaal transport",
+  "chart.variant.by_carrier_energy_and_other": "Energie en overig",
+  "chart.variant.by_carrier_households": "Huishoudens",
+  "chart.variant.by_carrier_industry": "Industrie",
+  "chart.variant.by_carrier_other_and_energy_sector": "Energie en overig",
+  "chart.variant.by_carrier_transport": "Transport",
+
+  "chart.group.sectors_by_carrier": "Sectors per energiedrager",
+
   "series.carrier_in_sector": "{carrier} in {sector}",
 
   "series.agriculture": "Landbouw",
