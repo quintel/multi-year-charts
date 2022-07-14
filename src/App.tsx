@@ -29,12 +29,10 @@ const initialLocale = selectLocale(window.location.href, ['en', 'nl']);
 class App extends Component {
   state = {
     currentLocale: initialLocale,
-    translate: curryTranslate(
-      initialLocale === 'en' ? enTranslations : nlTranslations
-    )
+    translate: curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations)
   };
 
-  constructor(props: {}) {
+  constructor(props: Record<string, unknown>) {
     super(props);
     this.setLocale = this.setLocale.bind(this);
   }
@@ -42,9 +40,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <LocaleContext.Provider
-          value={{ ...this.state, setLocale: this.setLocale }}
-        >
+        <LocaleContext.Provider value={{ ...this.state, setLocale: this.setLocale }}>
           <DocumentTitle title={this.state.translate('app.title')}>
             <div className="App">
               <Main scenarioIDs={idsFromPathname(window.location.pathname)} />

@@ -1,13 +1,14 @@
 import React from 'react';
 
-export type TranslateFunc = (
-  id: string,
-  values?: Record<string, string>
-) => string;
+export type TranslateFunc = (id: string, values?: Record<string, string>) => string;
 
 const LocaleContext = React.createContext({
   currentLocale: 'nl',
-  setLocale: (id: string) => {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setLocale: (id: string) => {
+    // stub function; real function is assigned in App.tsx
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   translate: (id: string, values: Record<string, string> = {}) => id
 });
 

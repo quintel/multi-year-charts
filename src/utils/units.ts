@@ -49,7 +49,7 @@ const BASE_UNITS: BaseUnit[] = [
 ];
 
 // Stores all compiled units by their full name ("MJ", "TW").
-let compiledUnits: { [name: string]: CompiledUnit } = {};
+const compiledUnits: { [name: string]: CompiledUnit } = {};
 
 const maxPower = POWERS[0];
 const minPower = POWERS[POWERS.length - 1];
@@ -133,8 +133,7 @@ class Quantity {
    */
   to(otherName: string) {
     const otherUnit = getUnit(otherName);
-    const newValue =
-      this.value * (this.unit.power.multiple / otherUnit.power.multiple);
+    const newValue = this.value * (this.unit.power.multiple / otherUnit.power.multiple);
 
     return new Quantity(newValue, otherUnit.name);
   }
