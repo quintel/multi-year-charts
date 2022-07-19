@@ -5,10 +5,7 @@ import Loading from './Loading';
 import ScenarioEditor from './ScenarioEditor';
 import { AppState } from '../store/types';
 
-import {
-  ScenarioIndexedInputData,
-  ScenarioIndexedScenarioData
-} from '../utils/api/types';
+import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../utils/api/types';
 
 import LocaleContext from '../utils/LocaleContext';
 
@@ -45,13 +42,13 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
     precision = Math.min(fraction.length, 2);
   }
 
-  if (unit === '#') {
+  if (unit === '#' || unit === 'enum' || unit === 'weather-curves') {
     unit = '';
   }
 
   return (
     <React.Fragment>
-      {value.toFixed(precision)} <small>{unit}</small>
+      {typeof value === 'number' ? value.toFixed(precision) : value} <small>{unit}</small>
     </React.Fragment>
   );
 };
@@ -63,16 +60,10 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
  * @todo If the inputs belong to share group, the whole group must be returned
  *       even when values have not been changed.
  */
-const modifiedInputs = (
-  inputElements: { key: string }[],
-  inputData: ScenarioIndexedInputData
-) => {
+const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
   return inputElements.filter(definition => {
     return Object.values(inputData).some(byScenario => {
-      return (
-        byScenario[definition.key] &&
-        byScenario[definition.key].hasOwnProperty('user')
-      );
+      return byScenario[definition.key] && byScenario[definition.key].hasOwnProperty('user');
     });
   });
 };
@@ -146,9 +137,7 @@ const renderSlide = (
       <tr>
         <th colSpan={6}>{slide.path.join(' → ')}</th>
       </tr>
-      {slide.input_elements.map(element =>
-        renderInput(element, inputData, scenarios, onClick)
-      )}
+      {slide.input_elements.map(element => renderInput(element, inputData, scenarios, onClick))}
     </React.Fragment>
   );
 };
@@ -194,15 +183,12 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
    */
   private dataIsLoaded() {
     return !!(
-      Object.keys(this.props.inputData).length &&
-      Object.keys(this.props.scenarioData).length
+      Object.keys(this.props.inputData).length && Object.keys(this.props.scenarioData).length
     );
   }
 
   private renderInputs() {
-    const sortedScenarios = sortScenarios(
-      Object.values(this.props.scenarioData)
-    );
+    const sortedScenarios = sortScenarios(Object.values(this.props.scenarioData));
 
     return (
       <table className="inputs-summary table is-fullwidth">
@@ -210,22 +196,21 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
           <tr>
             <th>Input</th>
             <th>{sortedScenarios[0].scenario.startYear}</th>
-            {sortedScenarios.map(({ scenario: { endYear } }) => (
-              <th key={`year-${endYear} `}>{endYear}</th>
+            {sortedScenarios.map(({ scenario: { endYear } }, i) => (
+              <th key={`year-${i} `}>{endYear}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           <LocaleContext.Consumer>
             {state =>
-              (state.currentLocale === 'nl' ? nlInputs : enInputs).map(
-                definition =>
-                  renderSlide(
-                    definition,
-                    this.props.inputData,
-                    sortedScenarios.map(({ scenario: { id } }) => id),
-                    this.openModal
-                  )
+              (state.currentLocale === 'nl' ? nlInputs : enInputs).map(definition =>
+                renderSlide(
+                  definition,
+                  this.props.inputData,
+                  sortedScenarios.map(({ scenario: { id } }) => id),
+                  this.openModal
+                )
               )
             }
           </LocaleContext.Consumer>
@@ -240,8 +225,7 @@ class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
   private scenarioEditorProps() {
     return {
       ...this.state.editorSettings,
-      endYear: this.props.scenarioData[this.state.editorSettings.scenarioID]
-        .scenario.endYear,
+      endYear: this.props.scenarioData[this.state.editorSettings.scenarioID].scenario.endYear,
       onClose: this.closeModal
     };
   }
