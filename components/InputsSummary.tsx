@@ -1,0 +1,278 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import Loading from './Loading';
+import ScenarioEditor from './ScenarioEditor';
+import { AppState } from '../store/types';
+
+import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../utils/api/types';
+
+import LocaleContext from '../utils/LocaleContext';
+
+import { apiFetch, fetchInputs } from '../store/actions';
+import sortScenarios from '../utils/sortScenarios';
+
+import nlInputs from '../data/inputs/nl.json';
+import enInputs from '../data/inputs/en.json';
+
+interface InputsSummaryProps {
+  apiFetch: () => void;
+  fetchInputs: () => void;
+  inputData: ScenarioIndexedInputData;
+  scenarioData: ScenarioIndexedScenarioData;
+}
+
+interface InputsSummaryState {
+  // When the editor settings are present, they describe the scenario ID and
+  // input key which should be opened in the modal.
+  editorSettings: { isOpen: boolean; scenarioID?: number; inputKey?: string };
+}
+
+type OpenModalFunc = (scenarioID: number, inputKey: string) => void;
+
+/**
+ * A rudimentary formatter for input values.
+ */
+const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
+  const [, fraction] = value.toString().split('.');
+  let precision = 0;
+  let { unit } = inputDefinition;
+
+  if (fraction) {
+    precision = Math.min(fraction.length, 2);
+  }
+
+  if (unit === '#' || unit === 'enum' || unit === 'weather-curves') {
+    unit = '';
+  }
+
+  return (
+    <React.Fragment>
+      {typeof value === 'number' ? value.toFixed(precision) : value} {unit}
+    </React.Fragment>
+  );
+};
+
+/**
+ * Given a slide, returns a list of input definitions representing inputs for
+ * which the scenario creator has specified a custom value.
+ *
+ * @todo If the inputs belong to share group, the whole group must be returned
+ *       even when values have not been changed.
+ */
+<<<<<<< HEAD:src/components/InputsSummary.tsx
+const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
+  return inputElements.filter(definition => {
+    return Object.values(inputData).some(byScenario => {
+      return byScenario[definition.key] && byScenario[definition.key].hasOwnProperty('user');
+||||||| parent of 920752d (Move to Next.js and Tailwind):src/components/InputsSummary.tsx
+const modifiedInputs = (
+  inputElements: { key: string }[],
+  inputData: ScenarioIndexedInputData
+) => {
+  return inputElements.filter(definition => {
+    return Object.values(inputData).some(byScenario => {
+      return (
+        byScenario[definition.key] &&
+        byScenario[definition.key].hasOwnProperty('user')
+      );
+=======
+const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
+  return inputElements.filter((definition) => {
+    return Object.values(inputData).some((byScenario) => {
+      return byScenario[definition.key] && byScenario[definition.key].hasOwnProperty('user');
+>>>>>>> 920752d (Move to Next.js and Tailwind):components/InputsSummary.tsx
+    });
+  });
+};
+
+/**
+ * Returns HTML for a single row in the input summary, representing an input and
+ * the values in each scenario.
+ */
+const renderInput = (
+  input: { name: string; key: string; unit: string },
+  inputData: ScenarioIndexedInputData,
+  scenarioIDs: number[],
+  onClick: OpenModalFunc
+) => {
+  const firstInputData = inputData[scenarioIDs[0]][input.key];
+
+  if (!firstInputData) {
+    // The input doesn't exist in ETEngine; skip it.
+    return null;
+  }
+
+  return (
+    <tr key={`input-${input.key} `} className="border-b border-b-gray-300">
+      <td className="text-left text-gray-600">{input.name}</td>
+      <td key={`input-val-present-${input.key}`} className="text-right px-2 py-2">
+        {formatInputValue(firstInputData.default, input)}
+      </td>
+
+      {scenarioIDs.map((id) => {
+        let value = inputData[id][input.key].user;
+        let className = 'text-midnight-700 cursor-pointer hover:text-midnight-900';
+
+        if (value === undefined) {
+          value = inputData[id][input.key].default;
+          className = 'text-gray-400';
+        }
+
+        return (
+          <td key={`input-val-${id}-${input.key}`} className="text-right px-2 last:pr-0">
+            <a onClick={() => onClick(id, input.key)} className={className}>
+              {formatInputValue(value, input)}
+            </a>
+          </td>
+        );
+      })}
+    </tr>
+  );
+};
+
+/**
+ * Returns HTML for an ETM slide, showing the title of the slide and the value
+ * of all inputs belonging to it for each scenario.
+ */
+const renderSlide = (
+  slide: {
+    path: string[];
+    input_elements: { name: string; key: string; unit: string }[];
+  },
+  inputData: ScenarioIndexedInputData,
+  scenarios: number[],
+  onClick: OpenModalFunc
+) => {
+  const inputs = modifiedInputs(slide.input_elements, inputData);
+
+  if (inputs.length === 0) {
+    return null;
+  }
+
+  return (
+    <React.Fragment key={`slide-${slide.path.join()} `}>
+      <tr className="border-b border-b-gray-300">
+        <th colSpan={6} className="text-left py-2 font-semibold">
+          {slide.path.join(' → ')}
+        </th>
+      </tr>
+      {slide.input_elements.map(element => renderInput(element, inputData, scenarios, onClick))}
+    </React.Fragment>
+  );
+};
+
+/**
+ * Shows a list of all inputs which have been modified in the loaded scenarios,
+ * with links to open the scenarios allowing the user to make further
+ * adjustment.
+ */
+class InputsSummary extends Component<InputsSummaryProps, InputsSummaryState> {
+  state = { editorSettings: { isOpen: false, scenarioID: 0, inputKey: '' } };
+
+  constructor(props: InputsSummaryProps) {
+    super(props);
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  render() {
+    return (
+      <div className="container">
+        {this.dataIsLoaded() ? (
+          this.renderInputs()
+        ) : (
+          <div className="flex items-center justify-center text-gray-500 h-[400px]">
+            <Loading />
+          </div>
+        )}
+        {this.state.editorSettings.isOpen ? (
+          <ScenarioEditor {...this.scenarioEditorProps()} />
+        ) : null}
+      </div>
+    );
+  }
+
+  componentWillMount() {
+    if (Object.values(this.props.inputData).length === 0) {
+      this.props.fetchInputs();
+    }
+
+    if (Object.values(this.props.scenarioData).length === 0) {
+      this.props.apiFetch();
+    }
+  }
+
+  /**
+   * Determines if all the data needed to show the InputSummary has been loaded.
+   */
+  private dataIsLoaded() {
+    return !!(
+      Object.keys(this.props.inputData).length && Object.keys(this.props.scenarioData).length
+    );
+  }
+
+  private renderInputs() {
+    const sortedScenarios = sortScenarios(Object.values(this.props.scenarioData));
+
+    return (
+      <table className="w-full text-sm">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>{sortedScenarios[0].scenario.startYear}</th>
+            {sortedScenarios.map(({ scenario: { endYear } }, i) => (
+              <th key={`year-${i} `}>{endYear}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <LocaleContext.Consumer>
+            {state =>
+              (state.currentLocale === 'nl' ? nlInputs : enInputs).map(definition =>
+                renderSlide(
+                  definition,
+                  this.props.inputData,
+                  sortedScenarios.map(({ scenario: { id } }) => id),
+                  this.openModal
+                )
+              )
+            }
+          </LocaleContext.Consumer>
+        </tbody>
+      </table>
+    );
+  }
+
+  /**
+   * Returns props for the ScenarioEditor modal.
+   */
+  private scenarioEditorProps() {
+    return {
+      ...this.state.editorSettings,
+      endYear: this.props.scenarioData[this.state.editorSettings.scenarioID].scenario.endYear,
+      onClose: this.closeModal
+    };
+  }
+
+  private openModal(scenarioID: number, inputKey: string) {
+    this.setState({ editorSettings: { isOpen: true, scenarioID, inputKey } });
+  }
+
+  private closeModal() {
+    this.props.fetchInputs();
+    this.props.apiFetch();
+
+    this.setState({
+      editorSettings: { isOpen: false, scenarioID: 0, inputKey: '' },
+    });
+  }
+}
+
+const mapStateToProps = (state: AppState) => ({
+  inputData: state.inputData,
+  scenarioData: state.scenarioData,
+});
+
+export default connect(mapStateToProps, { apiFetch, fetchInputs })(InputsSummary);
