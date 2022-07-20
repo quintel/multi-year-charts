@@ -57,10 +57,10 @@ const ScenarioEditor = (props: ScenarioEditorProps) => {
         >
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Dialog.Panel className="min-w-[1327px] max-w-md transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="min-w-[100vw] max-w-[1327px] transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-base font-medium text-gray-900 px-6 py-3 pt-4 border-b border-gray-300"
+                  className="border-b border-gray-300 px-6 py-3 pt-4 text-base font-medium text-gray-900"
                 >
                   <LocaleMessage
                     id="scenarioEditor.title"
@@ -69,13 +69,13 @@ const ScenarioEditor = (props: ScenarioEditorProps) => {
                 </Dialog.Title>
                 <iframe
                   src={urlForInput(props.scenarioID, props.inputKey)}
-                  className="w-full h-[700px]"
+                  className="h-[700px] w-full"
                 />
                 {/* iframe here */}
-                <div className="border-t px-6 py-4 border-gray-300">
+                <div className="border-t border-gray-300 px-6 py-4">
                   <button
                     onClick={props.onClose}
-                    className="bg-emerald-600 transition hover:bg-emerald-700 text-white py-1.5 px-3 rounded"
+                    className="rounded bg-emerald-600 py-1.5 px-3 text-white transition hover:bg-emerald-700"
                   >
                     <LocaleMessage id="scenarioEditor.finish" />
                   </button>

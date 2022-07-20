@@ -1,10 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-import ChartContainer from '../components/ChartContainer';
-
-import charts from '../data/charts';
-
 const Home: NextPage = () => {
   return (
     <div>
@@ -14,10 +10,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-full flex-wrap h-screen flex items-center justify-center text-gray-700">
+      <div className="flex h-screen w-full flex-wrap items-center justify-center text-gray-700">
         <div>
-          <div className="w-[32rem] bg-white p-12 shadow rounded-md ring-1 ring-black/5">
-            <h1 className="font-medium text-xl mb-4 flex items-center">
+          <div className="w-[32rem] rounded-md bg-white p-12 shadow ring-1 ring-black/5">
+            <h1 className="mb-4 flex items-center text-xl font-medium">
               Please select a scenario&hellip;
             </h1>
             <p>
@@ -25,7 +21,7 @@ const Home: NextPage = () => {
               Transition Model.
             </p>
             <p className="mt-4">
-              <a href="#" className="text-emerald-600 hover:text-emerald-800 font-medium p-3 -m-3">
+              <a href="#" className="-m-3 p-3 font-medium text-emerald-600 hover:text-emerald-800">
                 Select a scenario →
               </a>
             </p>

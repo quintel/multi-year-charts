@@ -3,14 +3,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
 import createAPIMiddleware from '../utils/api/middleware';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-// const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const composeEnhancers = compose;
-
 let composeEnhancers = compose;
 
 if (typeof window !== 'undefined') {
-  let composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 
 export default createStore(

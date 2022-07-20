@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-import InputsSummary from '../../components/InputsSummary';
+import InputsSummary from '../../components/InputsSummary/InputsSummary';
 import WithScenarios from '../../components/WithScenarios';
 import useTranslate from '../../utils/useTranslate';
 

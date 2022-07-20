@@ -1,20 +1,3 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "extends":  [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
- "parserOptions":  {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
-  "rules":  {
-    "curly": ["error", "all"],
-    "react/prop-types": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+  "extends": "next/core-web-vitals"
 }
