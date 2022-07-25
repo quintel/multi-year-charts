@@ -1,4 +1,4 @@
-import { ActionTypes, TypeKeys } from './types';
+import { ActionTypes, ChartStyle, TypeKeys } from './types';
 
 /**
  * Adds one or more query keys to the list of queries which should be fetched
@@ -17,6 +17,18 @@ export const removeQueries = (queries: string[]): ActionTypes => ({
   type: TypeKeys.REMOVE_QUERIES,
   payload: queries,
 });
+
+/**
+ * Receives a list of queries to be fetched from ETEngine, and queries which
+ * should no longer be fetched from ETEngine and sets the state in one action.
+ */
+export const setPreferredChartStyle = (style: ChartStyle): ActionTypes => {
+  console.log('setting');
+  return {
+    type: TypeKeys.SET_PREFERRED_CHART_STYLE,
+    payload: style,
+  };
+};
 
 /**
  * Sets the list of scenarios which are to be fetched from ETEngine.

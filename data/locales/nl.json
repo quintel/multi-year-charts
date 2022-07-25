@@ -11,6 +11,11 @@
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
 
+  "displayAs.title": "Display as",
+  "displayAs.area": "Area chart",
+  "displayAs.bar": "Bar chart",
+  "displayAs.table": "Table",
+
   "chart.final_demand": "Eindgebruik energie",
   "chart.co2_emissions": "Primaire CO2 uitstoot",
   "chart.renewables": "Hernieuwbare opwek",

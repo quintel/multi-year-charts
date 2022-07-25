@@ -11,6 +11,11 @@
   "scenarioEditor.title": "Edit {year} scenario",
   "scenarioEditor.finish": "Finish editing",
 
+  "displayAs.title": "Display as",
+  "displayAs.area": "Area chart",
+  "displayAs.bar": "Bar chart",
+  "displayAs.table": "Table",
+
   "chart.final_demand": "Final demand",
   "chart.co2_emissions": "Primary CO2 emissions",
   "chart.renewables": "Renewables",
