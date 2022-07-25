@@ -26,7 +26,7 @@ function StyleToggle({ value, onChange }: Props) {
     <RadioGroup
       value={value}
       onChange={onChange}
-      className="-my-1 ml-auto flex select-none items-center gap-1 rounded-md bg-white p-1 text-sm font-medium"
+      className="-my-1 ml-4 flex select-none items-center gap-1 rounded-md bg-white p-1 text-sm font-medium"
     >
       <RadioGroup.Label className="sr-only">
         <LocaleMessage id="displayAs.title" />

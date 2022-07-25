@@ -6,6 +6,8 @@ import { ChartSchema, FlattenedChartSchema } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
 import { createScalingFormatter, UnitFormatter } from './units';
 
+import { namespacedTranslate } from './translate';
+
 export interface ChartSeries {
   categories: number[];
   data: { name: string; data: number[] }[];
@@ -165,4 +167,16 @@ export const translateChartData = (series: ChartSeries, translate: TranslateFunc
   }));
 
   return { ...series, data: newData };
+};
+
+/**
+ * Converts a chart to CSV
+ */
+export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): string => {
+  const translated = translateChartData(series, namespacedTranslate(translate, 'series'));
+
+  const headers = ['Subject', ...series.categories].join(',');
+  const rows = translated.data.map((seriesData) => [seriesData.name, ...seriesData.data].join(','));
+
+  return `${headers}\n${rows.join('\n')}`;
 };
