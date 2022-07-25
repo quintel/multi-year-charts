@@ -5,16 +5,18 @@ import { connect } from 'react-redux';
 import { AppState, ChartStyle } from '../../store/types';
 import { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
-import LocaleContext, { TranslateFunc } from '../../utils/LocaleContext';
+import LocaleContext from '../../utils/LocaleContext';
 
 import Chart from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
-import { scenariosToChartData } from '../../utils/charts';
+import { scenariosToChartData, chartToCSV } from '../../utils/charts';
 
 import StyleToggle from './StyleToggle';
 
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
+
+import DownloadCSVButton from './DownloadCSVButton';
 
 interface ChartWrapperProps {
   activeVariant?: string;
@@ -52,8 +54,10 @@ const canRenderChart = (chart: FlattenedChartSchema, scenarios: ScenarioIndexedS
 const ChartTitle = ({
   chart,
   children,
+  scenarios,
 }: {
   chart: FlattenedChartSchema;
+  scenarios: ScenarioIndexedScenarioData;
   children?: React.ReactNode;
 }) => {
   const { translate } = useContext(LocaleContext);
@@ -81,6 +85,8 @@ const ChartTitle = ({
         ) : null}
       </span>
       {children}
+      <div className="flex-1"></div>
+      <DownloadCSVButton chart={chart} scenarios={scenarios} />
       {chart.displayAs !== 'table' ? <StyleToggle /> : null}
     </h2>
   );
@@ -106,7 +112,7 @@ function ChartWrapper({
 
   if (!canRenderChart(chart, scenarios)) {
     return (
-      <Wrapper title={<ChartTitle chart={chart} />}>
+      <Wrapper title={<ChartTitle chart={chart} scenarios={{}} />}>
         <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-white pb-4 text-slate-400 shadow">
           <Loading />
         </div>
@@ -118,7 +124,7 @@ function ChartWrapper({
 
   if (chart.displayAs === 'table' || preferredChartStyle === 'table') {
     return (
-      <Wrapper title={<ChartTitle chart={chart} />}>
+      <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
         <div className="rounded bg-white shadow ring-1 ring-black/5">
           <ChartTable series={series} />
         </div>
@@ -127,7 +133,7 @@ function ChartWrapper({
   }
 
   return (
-    <Wrapper title={<ChartTitle chart={chart} />}>
+    <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
       <div className="rounded bg-white p-3 shadow ring-1 ring-black/5">
         <Chart
           series={series}
