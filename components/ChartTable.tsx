@@ -32,7 +32,7 @@ const renderRow = (series: Row, format: UnitFormatter) => {
     return (
       <td
         key={`series-${series.name}-${index}`}
-        className="text-right px-3 py-2 last:pr-6 tabular-nums"
+        className="px-3 py-2 text-right tabular-nums last:pr-6"
       >
         {fValue} {fUnit}
       </td>
@@ -47,7 +47,7 @@ const renderRow = (series: Row, format: UnitFormatter) => {
   );
 };
 
-const ChartTable: FC<ChartProps> = ({ series }) => {
+const ChartTable: FC<Omit<ChartProps, 'style' | 'type'>> = ({ series }) => {
   const { translate } = useContext(LocaleContext);
 
   const translatedData = translateChartData(series, namespacedTranslate(translate, 'series'));
@@ -56,9 +56,9 @@ const ChartTable: FC<ChartProps> = ({ series }) => {
     <table className="chart-as-table w-full text-sm">
       <thead>
         <tr className="border-b-2 border-gray-300">
-          <th className="text-left px-3 pl-6">Key</th>
+          <th className="px-3 pl-6 text-left">Key</th>
           {series.categories.map((year) => (
-            <th key={`year-${year}`} className="text-right p-3 last:pr-6">
+            <th key={`year-${year}`} className="p-3 text-right last:pr-6">
               {year}
             </th>
           ))}

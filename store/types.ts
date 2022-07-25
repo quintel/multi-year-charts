@@ -1,7 +1,4 @@
-import {
-  ScenarioIndexedScenarioData,
-  ScenarioIndexedInputData
-} from '../utils/api/types';
+import { ScenarioIndexedScenarioData, ScenarioIndexedInputData } from '../utils/api/types';
 
 /**
  * API
@@ -9,16 +6,19 @@ import {
 
 export type QueriesList = Record<string, number>;
 
+export type ChartStyle = 'area' | 'bar' | 'table';
+
 export enum TypeKeys {
   ADD_QUERIES = 'ADD_QUERIES',
   API_FETCH = 'API_FETCH',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
+  SET_PREFERRED_CHART_STYLE = 'SET_PREFERRED_CHART_STYLE',
   SET_SCENARIOS = 'SET_SCENARIOS',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
-  UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA'
+  UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA',
 }
 
 interface APIFetchAction {
@@ -31,6 +31,11 @@ interface APIFetchInputsAction {
 
 interface APIRequestFinishedAction {
   type: typeof TypeKeys.API_REQUEST_FINISHED;
+}
+
+interface SetPreferredChartStyle {
+  type: typeof TypeKeys.SET_PREFERRED_CHART_STYLE;
+  payload: string;
 }
 
 interface SetScenariosAction {
@@ -70,6 +75,7 @@ export type ActionTypes =
   | APIFetchAction
   | APIFetchInputsAction
   | APIRequestFinishedAction
+  | SetPreferredChartStyle
   | SetScenariosAction
   | SwapQueriesAction
   | AddQueriesAction
@@ -87,4 +93,5 @@ export interface AppState {
   scenarios: number[];
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
+  preferredChartStyle: ChartStyle;
 }

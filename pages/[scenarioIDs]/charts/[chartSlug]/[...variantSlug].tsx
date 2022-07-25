@@ -2,8 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import ChartWrapper from '../../../../components/ChartWrapper';
-import LocaleMessage from '../../../../components/LocaleMessage';
+import ChartWrapper from '../../../../components/ChartWrapper/ChartWrapper';
 import WithScenarios from '../../../../components/WithScenarios';
 import { flattenChart } from '../../../../utils/charts';
 import useTranslate from '../../../../utils/useTranslate';

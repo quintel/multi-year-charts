@@ -6,6 +6,7 @@ const initialState: AppState = {
   scenarioData: {},
   scenarios: [],
   queries: {},
+  preferredChartStyle: 'area',
 };
 
 /**
@@ -60,7 +61,7 @@ const removeQueries = (queries: QueriesList, keys: string[]): QueriesList => {
   return newQueries;
 };
 
-export default function (state = initialState, action: ActionTypes) {
+export default function reducer(state = initialState, action: ActionTypes) {
   switch (action.type) {
     /**
      * API fetching
@@ -113,6 +114,16 @@ export default function (state = initialState, action: ActionTypes) {
       return {
         ...state,
         queries: addQueries(removeQueries(state.queries, remove), add),
+      };
+    }
+
+    /**
+     * Charts
+     */
+    case TypeKeys.SET_PREFERRED_CHART_STYLE: {
+      return {
+        ...state,
+        preferredChartStyle: action.payload,
       };
     }
 
