@@ -57,7 +57,7 @@ const renderRow = (series: Row, format: UnitFormatter) => {
   return (
     <tr
       key={`series-${series.name}`}
-      className={`${rowClass} border-b transition-colors last:border-b-0 hover:bg-gray-100`}
+      className={`${rowClass} border-b transition-colors last:border-b-2 hover:bg-gray-100`}
     >
       <td className="px-3 py-2 align-top">{series.name}</td>
       {columns}
