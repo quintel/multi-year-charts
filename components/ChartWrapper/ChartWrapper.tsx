@@ -113,7 +113,7 @@ function ChartWrapper({
   if (!canRenderChart(chart, scenarios)) {
     return (
       <Wrapper title={<ChartTitle chart={chart} scenarios={{}} />}>
-        <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-white pb-4 text-slate-400 shadow">
+        <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-gray-100 pb-4 text-slate-400">
           <Loading />
         </div>
       </Wrapper>
@@ -125,22 +125,18 @@ function ChartWrapper({
   if (chart.displayAs === 'table' || preferredChartStyle === 'table') {
     return (
       <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
-        <div className="rounded bg-white shadow ring-1 ring-black/5">
-          <ChartTable series={series} />
-        </div>
+        <ChartTable series={series} />
       </Wrapper>
     );
   }
 
   return (
     <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
-      <div className="rounded bg-white p-3 shadow ring-1 ring-black/5">
-        <Chart
-          series={series}
-          style={preferredChartStyle}
-          key={`${chart.chartKey}-${preferredChartStyle}`}
-        />
-      </div>
+      <Chart
+        series={series}
+        style={preferredChartStyle}
+        key={`${chart.chartKey}-${preferredChartStyle}`}
+      />
     </Wrapper>
   );
 }

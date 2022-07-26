@@ -8,7 +8,7 @@ import { setPreferredChartStyle } from '../../store/actions';
 const optionClasses = {
   checked: 'px-2 py-1 rounded bg-midnight-500 text-white cursor-default transition',
   unchecked:
-    'px-2 py-1 rounded cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition text-gray-700',
+    'px-2 py-1 rounded cursor-pointer text-gray-700 hover:bg-gray-200 active:bg-gray-300 active:text-gray-800 transition',
 };
 
 function Option({ checked, children }: { checked: boolean; children: React.ReactNode }) {
@@ -25,7 +25,7 @@ function StyleToggle({ value, onChange }: Props) {
     <RadioGroup
       value={value}
       onChange={onChange}
-      className="-my-1 ml-4 flex select-none items-center gap-1 rounded-md bg-white p-1 text-sm font-medium"
+      className="-my-1 ml-2 flex select-none items-center gap-1 rounded-md bg-gray-100 p-1 text-sm font-medium"
     >
       <RadioGroup.Label className="sr-only">
         <LocaleMessage id="displayAs.title" />

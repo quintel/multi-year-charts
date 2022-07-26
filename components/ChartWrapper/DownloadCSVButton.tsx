@@ -45,7 +45,7 @@ export default function DownloadCSVButton({ chart, scenarios }: Props) {
 
   return (
     <button
-      className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-200 active:bg-gray-300`}
+      className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 active:bg-gray-200`}
       onClick={() => downloadAsCSV(chart, scenarios, translate)}
     >
       <svg
