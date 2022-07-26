@@ -12,6 +12,18 @@ interface Row {
   data: number[];
 }
 
+const colors = [
+  '#5470c6',
+  '#91cc75',
+  '#fac858',
+  '#ee6666',
+  '#73c0de',
+  '#3ba272',
+  '#fc8452',
+  '#9a60b4',
+  '#ea7ccc',
+];
+
 const formatDelta = (value: number, format: UnitFormatter) => {
   if (value > 0) {
     return `+${format(value)}`;
@@ -23,7 +35,7 @@ const formatDelta = (value: number, format: UnitFormatter) => {
 /**
  * Creates a table row representing a single series and the data for each year.
  */
-const renderRow = (series: Row, format: UnitFormatter) => {
+const renderRow = (series: Row, format: UnitFormatter, index: number) => {
   // Avoids TypeScript complaining about a lack of a call signature for
   // series.data.map.
   const formattedData = [...series.data].map(format);
@@ -59,13 +71,24 @@ const renderRow = (series: Row, format: UnitFormatter) => {
       key={`series-${series.name}`}
       className={`${rowClass} border-b transition-colors last:border-b-2 hover:bg-gray-100`}
     >
-      <td className="px-3 py-2 align-top">{series.name}</td>
+      <td className="px-3 py-2 align-top text-gray-800 ">
+        {index >= 0 ? (
+          <span
+            className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
+            style={{ backgroundColor: colors[index % colors.length] }}
+          />
+        ) : null}
+        {series.name}
+      </td>
       {columns}
     </tr>
   );
 };
 
-const ChartTable: FC<Omit<ChartProps, 'style' | 'type'>> = ({ series }) => {
+const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolean }> = ({
+  series,
+  colorSeries,
+}) => {
   const { translate } = useContext(LocaleContext);
 
   const translatedData = translateChartData(series, namespacedTranslate(translate, 'series'));
@@ -82,7 +105,9 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'>> = ({ series }) => {
           ))}
         </tr>
       </thead>
-      <tbody>{translatedData.data.map((d) => renderRow(d, series.formatter))}</tbody>
+      <tbody>
+        {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
+      </tbody>
     </table>
   );
 };
