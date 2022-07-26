@@ -1,15 +1,54 @@
-import React, { useContext } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useCallback, useRef, useState } from 'react';
+// import dynamic from 'next/dynamic';
 
-const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+// const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-import { ChartSeries, translateChartData } from '../utils/charts';
-import { UnitFormatter } from '../utils/units';
+// import ReactECharts from 'echarts-for-react';
+// import { SVGRenderer } from 'echarts/renderers';
+
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import * as echarts from 'echarts/core';
+
+import { BarChart, LineChart } from 'echarts/charts';
+import {
+  GridComponent,
+  LegendComponent,
+  SingleAxisComponent,
+  TooltipComponent,
+} from 'echarts/components';
+import { SVGRenderer } from 'echarts/renderers';
 
 import type { ChartStyle } from '../store/types';
+import { ChartSeries, translateChartData } from '../utils/charts';
+// import { UnitFormatter } from '../utils/units';
 
 import { namespacedTranslate } from '../utils/translate';
-import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
+import useTranslate from '../utils/useTranslate';
+import EChartsReact from 'echarts-for-react';
+
+// Register the echarts features.
+echarts.use([
+  BarChart,
+  LineChart,
+  GridComponent,
+  LegendComponent,
+  SingleAxisComponent,
+  TooltipComponent,
+  SVGRenderer,
+]);
+
+// Standard ECharts colors.
+const colors = [
+  '#5470c6',
+  '#91cc75',
+  '#fac858',
+  '#ee6666',
+  '#73c0de',
+  '#3ba272',
+  '#fc8452',
+  '#9a60b4',
+  '#ea7ccc',
+];
 
 export interface ChartProps {
   series: ChartSeries;
@@ -17,114 +56,189 @@ export interface ChartProps {
 }
 
 /**
- * Creates options for the Apex chart. Receives a list of categories for the
- * xaxis which should correspond to the year.
+ * Renders a legend for the chart.
+ *
+ * We render a custom legend, rather than using the feature built in to Echarts as Echarts requires
+ * that we create a fixed margin below the chart for the legend. This can result in too much white
+ * space if the legend is short, and too little if it is long. Instead, we give the chart the full
+ * available space and render the legend ourselves.
  */
-const chartOptions = (
-  categories: number[],
-  formatter: UnitFormatter,
-  translate: TranslateFunc
-): ApexCharts.ApexOptions => ({
-  chart: {
-    stacked: true,
-    animations: {
-      enabled: false,
-    },
-    brush: { enabled: false },
-    toolbar: { show: false },
-    zoom: { enabled: false },
-  },
-  dataLabels: { enabled: false },
-  legend: { fontSize: '14px', itemMargin: { horizontal: 5, vertical: 5 } },
-  tooltip: { x: { format: 'yyyy' } },
-  xaxis: {
-    categories: categories.map((year) => new Date(year, 1, 1).getFullYear().toString()),
-    tickAmount: categories[categories.length - 1] - categories[0],
-    axisBorder: { show: false },
-    axisTicks: { offsetX: -1, color: '#cfd4d9' },
-    title: { text: translate('misc.year'), style: { fontSize: '14px' } },
-    labels: {
-      style: { fontSize: '14px' },
-    },
-  },
-  yaxis: {
-    labels: {
-      formatter,
-      style: { fontSize: '14px' },
-    },
-    title: {
-      style: { fontSize: '14px' },
-    },
-  },
-});
+function Legend({
+  names,
+  onItemClick,
+  onItemMouseOver,
+  onItemMouseOut,
+  colors,
+  hiddenSeries,
+}: {
+  names: string[];
+  onItemClick: (key: string) => void;
+  onItemMouseOver: (key: string) => void;
+  onItemMouseOut: (key: string) => void;
+  colors: string[];
+  hiddenSeries: Record<string, boolean>;
+}) {
+  return (
+    <div className="text-center text-sm">
+      {names.map((name, i) => (
+        <button
+          className={`inline-flex items-center whitespace-nowrap py-0.5 px-1.5 transition-opacity ${
+            hiddenSeries[name] ? 'opacity-40' : ''
+          }`}
+          key={i}
+          onClick={() => onItemClick(name)}
+          onMouseOut={() => onItemMouseOut(name)}
+          onMouseOver={() => onItemMouseOver(name)}
+          role="presentation"
+        >
+          <span
+            className="mr-1 inline-block h-3.5 w-3.5 rounded-sm"
+            style={{ backgroundColor: colors[i % colors.length] }}
+          />
+          {name}
+        </button>
+      ))}
+    </div>
+  );
+}
 
-const areaChartOptions = (
-  categories: number[],
-  formatter: UnitFormatter,
-  translate: TranslateFunc
-): ApexCharts.ApexOptions => {
-  const common = chartOptions(categories, formatter, translate);
+const Chart = ({ series, style }: ChartProps) => {
+  const echartRef = useRef<EChartsReact | null>(null);
 
-  // In the line chart, the xaxis uses dates so that each year is positioned correctly.
-  common.xaxis = {
-    ...common.xaxis,
-    type: 'datetime',
-    categories: categories.map((year) => new Date(year, 1, 1).getTime()),
-    labels: {
-      showDuplicates: false,
-      offsetX: -1,
-      rotate: 0,
-      formatter: (val, timestamp) => {
-        const year = new Date(timestamp as number).getFullYear();
+  const translate = useTranslate();
+  const translatedSeries = translateChartData(series, namespacedTranslate(translate, 'series'));
 
-        if (categories.indexOf(year) !== -1) {
-          // Only label years for which we have data.
-          return year.toString();
-        }
+  const [hiddenSeries, setHiddenSeries] = useState<Record<string, boolean>>({});
 
-        return '';
+  const echartSeries = translatedSeries.data.map((cSeries) => {
+    return {
+      name: cSeries.name,
+      type: style === 'bar' ? 'bar' : 'line',
+      stack: 'Total',
+      areaStyle: {},
+      emphasis: {
+        focus: 'series',
       },
-      style: {
-        fontSize: '14px',
+      data: cSeries.data,
+    };
+  });
+
+  const options = {
+    color: colors,
+    animationDuration: 0,
+    animationDurationUpdate: 300,
+    tooltip: {
+      trigger: 'axis',
+      valueFormatter: series.formatter,
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985',
+          formatter: ({ axisDimension, value }: { axisDimension: 'x' | 'y'; value: number }) => {
+            if (axisDimension === 'y') {
+              return series.formatter(value);
+            }
+
+            return value;
+          },
+        },
       },
     },
-  };
-
-  common.stroke = {
-    curve: 'straight',
-    width: 2,
-  };
-
-  common.fill = {
-    type: 'gradient',
-    gradient: {
-      shadeIntensity: 1,
-      inverseColors: false,
-      opacityFrom: 0.45,
-      opacityTo: 0.05,
-      stops: [20, 100, 100, 100],
+    legend: {
+      show: false,
+      selected: translatedSeries.data.reduce(
+        (rest, { name }) => ({ ...rest, [name]: !hiddenSeries[name] }),
+        {}
+      ),
     },
+    grid: {
+      top: '5%',
+      left: '0%',
+      right: '2%',
+      bottom: '0%',
+      containLabel: true,
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: style === 'bar',
+        data: series.categories,
+        axisLabel: { fontSize: 14 },
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisLabel: {
+          formatter: series.formatter,
+          fontSize: 14,
+        },
+      },
+    ],
+    series: echartSeries,
   };
 
-  return common;
-};
+  const onLegendItemClick = useCallback((key: string) => {
+    if (!echartRef.current) {
+      return;
+    }
 
-const Chart = (props: ChartProps) => {
-  const { translate } = useContext(LocaleContext);
+    const instance = echartRef.current.getEchartsInstance();
 
-  const options =
-    props.style === 'bar'
-      ? chartOptions(props.series.categories, props.series.formatter, translate)
-      : areaChartOptions(props.series.categories, props.series.formatter, translate);
+    const legend = instance.getOption().legend as any;
+    const selected = legend?.[0].selected || {};
+
+    instance.setOption({
+      legend: { selected: { [key]: !selected[key] } },
+    });
+
+    setHiddenSeries((prev) => ({ ...prev, [key]: !prev[key] }));
+    instance.dispatchAction({ type: 'highlight', seriesName: key });
+  }, []);
+
+  const onLegendItemMouseOver = useCallback((key: string) => {
+    if (!echartRef.current) {
+      return;
+    }
+
+    const instance = echartRef.current.getEchartsInstance();
+    instance.dispatchAction({ type: 'highlight', seriesName: key });
+  }, []);
+
+  const onLegendItemMouseOut = useCallback((key: string) => {
+    if (!echartRef.current) {
+      return;
+    }
+
+    const instance = echartRef.current.getEchartsInstance();
+
+    // We have to set the series as highlighted, as ECharts sometimes gets confused after clicking
+    // to show or hide the item and treats the series as it it was not highlighted.
+    instance.dispatchAction({ type: 'highlight', seriesName: key });
+    instance.dispatchAction({ type: 'downplay', seriesName: key });
+  }, []);
 
   return (
-    <ApexChart
-      options={options}
-      series={translateChartData(props.series, namespacedTranslate(translate, 'series')).data}
-      type={props.style}
-      height="600"
-    />
+    <div>
+      <ReactEChartsCore
+        echarts={echarts}
+        ref={echartRef}
+        notMerge
+        option={options}
+        style={{ height: '500px' }}
+      />
+      <div className="mx-24 pt-4">
+        <Legend
+          names={translatedSeries.data.map(({ name }) => name)}
+          onItemClick={onLegendItemClick}
+          onItemMouseOver={onLegendItemMouseOver}
+          onItemMouseOut={onLegendItemMouseOut}
+          colors={colors}
+          hiddenSeries={hiddenSeries}
+        />
+      </div>
+    </div>
   );
 };
 
-export default Chart;
+export default React.memo(Chart);
