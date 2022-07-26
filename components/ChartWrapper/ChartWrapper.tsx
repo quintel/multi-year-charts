@@ -138,7 +138,7 @@ function ChartWrapper({
         key={`${chart.chartKey}-${preferredChartStyle}`}
       />
       <div className="py-12">
-        <ChartTable series={series} />
+        <ChartTable series={series} colorSeries />
       </div>
     </Wrapper>
   );
