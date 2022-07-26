@@ -6,7 +6,7 @@ import { ScenarioIndexedScenarioData, ScenarioIndexedInputData } from '../utils/
 
 export type QueriesList = Record<string, number>;
 
-export type ChartStyle = 'area' | 'bar' | 'table';
+export type ChartStyle = 'area' | 'bar';
 
 export enum TypeKeys {
   ADD_QUERIES = 'ADD_QUERIES',

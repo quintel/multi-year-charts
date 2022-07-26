@@ -44,7 +44,7 @@ const renderRow = (series: Row, format: UnitFormatter) => {
         key={`series-${series.name}-${index}`}
         className="px-3 py-2 text-right align-top tabular-nums"
       >
-        <span className="font-medium">{value}</span>
+        {value}
         {index > 0 ? (
           <div className="mt-1 flex items-center justify-end text-xs text-gray-400">
             {delta === 0 ? '–' : formatDelta(delta, format)}

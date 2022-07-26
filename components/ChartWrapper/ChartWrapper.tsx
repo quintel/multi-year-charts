@@ -122,7 +122,7 @@ function ChartWrapper({
 
   const series = scenariosToChartData(scenarios, chart.series);
 
-  if (chart.displayAs === 'table' || preferredChartStyle === 'table') {
+  if (chart.displayAs === 'table') {
     return (
       <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
         <ChartTable series={series} />
@@ -137,6 +137,9 @@ function ChartWrapper({
         style={preferredChartStyle}
         key={`${chart.chartKey}-${preferredChartStyle}`}
       />
+      <div className="py-12">
+        <ChartTable series={series} />
+      </div>
     </Wrapper>
   );
 }
