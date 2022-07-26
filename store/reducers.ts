@@ -1,4 +1,4 @@
-import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
+import { ActionTypes, AppState, ChartStyle, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
   inputData: {},
@@ -6,7 +6,7 @@ const initialState: AppState = {
   scenarioData: {},
   scenarios: [],
   queries: {},
-  preferredChartStyle: 'area',
+  preferredChartStyle: 'area' as ChartStyle,
 };
 
 /**

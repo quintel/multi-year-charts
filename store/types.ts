@@ -35,7 +35,7 @@ interface APIRequestFinishedAction {
 
 interface SetPreferredChartStyle {
   type: typeof TypeKeys.SET_PREFERRED_CHART_STYLE;
-  payload: string;
+  payload: ChartStyle;
 }
 
 interface SetScenariosAction {
