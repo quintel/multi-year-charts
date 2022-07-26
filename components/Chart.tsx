@@ -1,10 +1,4 @@
 import React, { useCallback, useRef, useState } from 'react';
-// import dynamic from 'next/dynamic';
-
-// const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
-
-// import ReactECharts from 'echarts-for-react';
-// import { SVGRenderer } from 'echarts/renderers';
 
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
@@ -20,7 +14,6 @@ import { SVGRenderer } from 'echarts/renderers';
 
 import type { ChartStyle } from '../store/types';
 import { ChartSeries, translateChartData } from '../utils/charts';
-// import { UnitFormatter } from '../utils/units';
 
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';

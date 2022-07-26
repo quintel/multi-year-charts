@@ -44,13 +44,6 @@ function StyleToggle({ value, onChange }: Props) {
           </Option>
         )}
       </RadioGroup.Option>
-      <RadioGroup.Option value="table">
-        {({ checked }) => (
-          <Option checked={checked}>
-            <LocaleMessage id="displayAs.table" />
-          </Option>
-        )}
-      </RadioGroup.Option>
     </RadioGroup>
   );
 }
