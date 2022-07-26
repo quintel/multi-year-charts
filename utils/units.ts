@@ -34,7 +34,7 @@ const POWERS: Power[] = [
   { prefix: 'G', multiple: 1e9 },
   { prefix: 'M', multiple: 1e6 },
   { prefix: 'k', multiple: 1e3 },
-  { prefix: '', multiple: 1 }
+  { prefix: '', multiple: 1 },
 ];
 
 /**
@@ -45,7 +45,7 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'T' },
   { name: 'tonne', displayName: 'T' },
   { name: 'W' },
-  { name: 'Wh' }
+  { name: 'Wh' },
 ];
 
 // Stores all compiled units by their full name ("MJ", "TW").
@@ -54,8 +54,8 @@ const compiledUnits: { [name: string]: CompiledUnit } = {};
 const maxPower = POWERS[0];
 const minPower = POWERS[POWERS.length - 1];
 
-BASE_UNITS.forEach(base => {
-  POWERS.forEach(power => {
+BASE_UNITS.forEach((base) => {
+  POWERS.forEach((power) => {
     const name = `${power.prefix}${base.name}`;
     const displayName = `${power.prefix}${base.displayName || base.name}`;
 
@@ -172,7 +172,7 @@ class Quantity {
     } else if (multiple > maxPower.multiple) {
       power = maxPower;
     } else {
-      power = POWERS.find(power => power.multiple === multiple);
+      power = POWERS.find((power) => power.multiple === multiple);
     }
 
     if (!power || power === this.unit.power) {
@@ -196,6 +196,10 @@ class Quantity {
    *   // => "5,000 PJ"
    */
   format(precision = 2) {
+    if (isNaN(this.value)) {
+      return '';
+    }
+
     const [decimal, fraction] = this.value.toFixed(precision).split('.');
     let fixedValue = decimal;
 
