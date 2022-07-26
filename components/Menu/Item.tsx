@@ -40,7 +40,7 @@ export function BaseItem<T extends React.ElementType>({
 
 export default function Item<T extends React.ElementType>({ children, ...rest }: ItemProps<T>) {
   return (
-    <BaseItem {...rest} className="text-slate-600" activeClassName="bg-midnight-500 text-white">
+    <BaseItem {...rest} className="text-gray-600" activeClassName="bg-midnight-500 text-white">
       {children}
     </BaseItem>
   );
