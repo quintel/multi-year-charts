@@ -12,6 +12,14 @@ interface Row {
   data: number[];
 }
 
+const formatDelta = (value: number, format: UnitFormatter) => {
+  if (value > 0) {
+    return `+${format(value)}`;
+  }
+
+  return format(value);
+};
+
 /**
  * Creates a table row representing a single series and the data for each year.
  */
@@ -23,25 +31,35 @@ const renderRow = (series: Row, format: UnitFormatter) => {
 
   if (formattedData.every((val) => val === formattedData[0])) {
     // Every value is the same; make the row appear lighter.
-    rowClass = 'text-gray-500';
+    rowClass = 'text-gray-400 hover:text-gray-800';
   }
 
   const columns = formattedData.map((value, index) => {
-    const [fValue, fUnit] = value.split(' ');
+    const originalValue = series.data[index];
+    const prevValue = series.data[index - 1];
+    const delta = index > 0 ? originalValue - prevValue : 0;
 
     return (
       <td
         key={`series-${series.name}-${index}`}
-        className="px-3 py-2 text-right tabular-nums last:pr-6"
+        className="px-3 py-2 text-right align-top tabular-nums"
       >
-        {fValue} {fUnit}
+        <span className="font-medium">{value}</span>
+        {index > 0 ? (
+          <div className="mt-1 flex items-center justify-end text-xs text-gray-400">
+            {delta === 0 ? '–' : formatDelta(delta, format)}
+          </div>
+        ) : null}
       </td>
     );
   });
 
   return (
-    <tr key={`series-${series.name}`} className={`${rowClass} border-b last:border-b-0`}>
-      <td className="px-3 py-2 pl-6">{series.name}</td>
+    <tr
+      key={`series-${series.name}`}
+      className={`${rowClass} border-b transition-colors last:border-b-0 hover:bg-gray-100`}
+    >
+      <td className="px-3 py-2 align-top">{series.name}</td>
       {columns}
     </tr>
   );
@@ -56,9 +74,9 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'>> = ({ series }) => {
     <table className="chart-as-table w-full text-sm">
       <thead>
         <tr className="border-b-2 border-gray-300">
-          <th className="px-3 pl-6 text-left">Key</th>
+          <th className="px-3 text-left">Key</th>
           {series.categories.map((year) => (
-            <th key={`year-${year}`} className="p-3 text-right last:pr-6">
+            <th key={`year-${year}`} className="p-3 text-right">
               {year}
             </th>
           ))}
