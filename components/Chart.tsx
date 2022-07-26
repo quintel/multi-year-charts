@@ -136,7 +136,7 @@ const Chart = ({ series, style }: ChartProps) => {
           backgroundColor: '#6a7985',
           formatter: ({ axisDimension, value }: { axisDimension: 'x' | 'y'; value: number }) => {
             if (axisDimension === 'y') {
-              return series.formatter(value);
+              return series.formatter(value).replace(/\.[^\s]*/, '');
             }
 
             return value;
