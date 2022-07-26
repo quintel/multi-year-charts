@@ -69,7 +69,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
   return (
     <tr
       key={`series-${series.name}`}
-      className={`${rowClass} border-b transition-colors last:border-b-2 hover:bg-gray-100`}
+      className={`${rowClass} border-b transition-colors last:border-b-2`}
     >
       <td className="px-3 py-2 align-top text-gray-800 ">
         {index >= 0 ? (
