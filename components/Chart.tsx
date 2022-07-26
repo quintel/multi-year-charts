@@ -35,46 +35,25 @@ const chartOptions = (
     zoom: { enabled: false },
   },
   dataLabels: { enabled: false },
-  // stroke: {
-  //   curve: 'straight',
-  //   width: 2
-  // },
-  // fill: {
-  //   type: 'gradient',
-  //   gradient: {
-  //     shadeIntensity: 1,
-  //     inverseColors: false,
-  //     opacityFrom: 0.45,
-  //     opacityTo: 0.05,
-  //     stops: [20, 100, 100, 100]
-  //   }
-  // },
+  legend: { fontSize: '14px', itemMargin: { horizontal: 5, vertical: 5 } },
   tooltip: { x: { format: 'yyyy' } },
   xaxis: {
-    // type: 'datetime',
     categories: categories.map((year) => new Date(year, 1, 1).getFullYear().toString()),
     tickAmount: categories[categories.length - 1] - categories[0],
     axisBorder: { show: false },
     axisTicks: { offsetX: -1, color: '#cfd4d9' },
-    title: { text: translate('misc.year') },
-    // labels: {
-    //   showDuplicates: false,
-    //   offsetX: -1,
-    //   formatter: (val, timestamp) => {
-    //     const year = new Date(timestamp).getFullYear();
-
-    //     if (categories.indexOf(year) !== -1) {
-    //       // Only label years for which we have data.
-    //       return year.toString();
-    //     }
-
-    //     return '';
-    //   }
-    // }
+    title: { text: translate('misc.year'), style: { fontSize: '14px' } },
+    labels: {
+      style: { fontSize: '14px' },
+    },
   },
   yaxis: {
     labels: {
       formatter,
+      style: { fontSize: '14px' },
+    },
+    title: {
+      style: { fontSize: '14px' },
     },
   },
 });
@@ -94,6 +73,7 @@ const areaChartOptions = (
     labels: {
       showDuplicates: false,
       offsetX: -1,
+      rotate: 0,
       formatter: (val, timestamp) => {
         const year = new Date(timestamp as number).getFullYear();
 
@@ -103,6 +83,9 @@ const areaChartOptions = (
         }
 
         return '';
+      },
+      style: {
+        fontSize: '14px',
       },
     },
   };
