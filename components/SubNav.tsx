@@ -52,7 +52,7 @@ const MenuButton = ({ children, isActive }: { children: React.ReactNode; isActiv
         }`}
       >
         <span
-          className={`border-r border-r-gray-600 pr-2 ${isActive ? 'border-r-transparent' : ''}`}
+          className={`border-r border-r-gray-600 pr-2 ${isActive ? '!border-r-transparent' : ''}`}
         >
           {children}
         </span>
