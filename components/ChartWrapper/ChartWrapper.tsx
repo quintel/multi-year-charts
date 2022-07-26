@@ -113,7 +113,7 @@ function ChartWrapper({
   if (!canRenderChart(chart, scenarios)) {
     return (
       <Wrapper title={<ChartTitle chart={chart} scenarios={{}} />}>
-        <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-gray-100 pb-4 text-slate-400">
+        <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-gray-100 pb-4 text-gray-400">
           <Loading />
         </div>
       </Wrapper>

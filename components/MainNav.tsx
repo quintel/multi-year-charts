@@ -10,7 +10,7 @@ const MainNav = () => {
   return (
     <nav
       id="main-nav"
-      className="bg-slate-700 text-slate-100"
+      className="bg-gray-700 text-gray-100"
       role="navigation"
       aria-label="main navigation"
     >
@@ -31,7 +31,7 @@ const MainNav = () => {
             />
           </svg>
           <LocaleMessage id="app.title" />
-          <span className="ml-1.5 mt-1 text-xs font-normal text-slate-400">
+          <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
             <LocaleMessage id="app.by_the" />{' '}
             <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
               <LocaleMessage id="app.etm" />
