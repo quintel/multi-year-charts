@@ -6,8 +6,7 @@ import type { AppState, ChartStyle } from '../../store/types';
 import { setPreferredChartStyle } from '../../store/actions';
 
 const optionClasses = {
-  checked:
-    'bg-gradient-to-b from-white/20 to-transparent px-2 py-1 rounded bg-midnight-500 text-white cursor-default transition',
+  checked: 'px-2 py-1 rounded bg-midnight-500 text-white cursor-default transition',
   unchecked:
     'px-2 py-1 rounded cursor-pointer hover:bg-gray-100 active:bg-gray-200 transition text-gray-700',
 };
