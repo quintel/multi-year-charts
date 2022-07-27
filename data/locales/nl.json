@@ -6,6 +6,10 @@
   "app.by_the": "volgens het",
   "app.etm": "Energietransitiemodel",
 
+  "index.title": "Please select a scenario",
+  "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
+  "index.selectScenario": "Select a scenario",
+
   "misc.year": "Jaar",
 
   "scenarioEditor.title": "{year} scenario aanpassen",
