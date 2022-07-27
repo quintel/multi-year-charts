@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 
 import { ChartProps } from './Chart';
 import LocaleContext from '../utils/LocaleContext';

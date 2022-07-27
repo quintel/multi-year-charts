@@ -1,4 +1,4 @@
-import React, { Fragment, forwardRef, ForwardedRef } from 'react';
+import { Fragment, forwardRef, ForwardedRef } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';

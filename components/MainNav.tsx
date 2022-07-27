@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { PresentationChartLineIcon } from '@heroicons/react/outline';
 import { ArrowSmLeftIcon } from '@heroicons/react/solid';

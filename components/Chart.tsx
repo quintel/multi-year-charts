@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
@@ -236,4 +236,4 @@ const Chart = ({ series, style }: ChartProps) => {
   );
 };
 
-export default React.memo(Chart);
+export default Chart;

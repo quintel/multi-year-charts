@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 import LocaleMessage from './LocaleMessage';
@@ -27,13 +27,7 @@ const urlForInput = (scenarioID: number, inputKey: string) =>
 const ScenarioEditor = (props: ScenarioEditorProps) => {
   return (
     <Transition appear show={true} as={Fragment}>
-      <Dialog
-        as="div"
-        open={true}
-        onClose={props.onClose}
-        // getApplicationNode={getApplicationNode}
-        // titleText="Scenario Editor"
-      >
+      <Dialog as="div" open={true} onClose={props.onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
