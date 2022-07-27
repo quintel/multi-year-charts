@@ -127,6 +127,14 @@ const Chart = ({ series, style }: ChartProps) => {
       transitionDuration: 0,
       axisPointer: {
         type: 'cross',
+        lineStyle: {
+          color: '#1f2937',
+          opacity: 0.25,
+        },
+        crossStyle: {
+          color: '#1f2937',
+          opacity: 0.25,
+        },
         label: {
           backgroundColor: '#6a7985',
           formatter: ({ axisDimension, value }: { axisDimension: 'x' | 'y'; value: number }) => {
