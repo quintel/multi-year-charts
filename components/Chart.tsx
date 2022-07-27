@@ -109,6 +109,7 @@ const Chart = ({ series, style }: ChartProps) => {
       type: style === 'bar' ? 'bar' : 'line',
       stack: 'Total',
       areaStyle: {},
+      itemStyle: { opacity: style === 'bar' ? 0.8 : 1 },
       emphasis: {
         focus: 'series',
       },
@@ -123,6 +124,7 @@ const Chart = ({ series, style }: ChartProps) => {
     tooltip: {
       trigger: 'axis',
       valueFormatter: series.formatter,
+      transitionDuration: 0,
       axisPointer: {
         type: 'cross',
         label: {
