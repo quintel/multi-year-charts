@@ -3,6 +3,8 @@ import React, { Fragment, forwardRef, ForwardedRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { AdjustmentsIcon, ChevronDownIcon } from '@heroicons/react/solid';
+
 import LocaleMessage from './LocaleMessage';
 import Menu from './Menu';
 import NavLink from './NavLink';
@@ -57,18 +59,7 @@ const MenuButton = ({ children, isActive }: { children: React.ReactNode; isActiv
           {children}
         </span>
       </span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="-my-1 -mr-1 ml-1 h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-          clipRule="evenodd"
-        />
-      </svg>
+      <ChevronDownIcon className="-my-1 -mr-1 ml-1 h-5 w-5" />
     </Menu.Button>
   );
 };
@@ -148,14 +139,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
             className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white"
             activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="mr-1 h-5 w-5 rotate-90"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
-            </svg>
+            <AdjustmentsIcon className="mr-1 h-5 w-5 rotate-90" />
             <LocaleMessage id="app.sliderSettings" />
           </NavLink>
         </Link>

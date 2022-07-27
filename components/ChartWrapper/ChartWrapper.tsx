@@ -2,6 +2,8 @@ import { Fragment, useContext, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
+import { ChevronRightIcon } from '@heroicons/react/solid';
+
 import { AppState, ChartStyle } from '../../store/types';
 import { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
@@ -68,18 +70,7 @@ const ChartTitle = ({
         <span>{translate(`chart.${chart.chartKey}`)}</span>
         {chart.numVariants > 1 ? (
           <Fragment>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <ChevronRightIcon className="h-5 w-5 text-gray-500" />
             <span>{translate(`chart.variant.${chart.variantKey}`)}</span>
           </Fragment>
         ) : null}
