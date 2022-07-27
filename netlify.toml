@@ -1,0 +1,4 @@
+[build.environment]
+  NEXT_PUBLIC_ETENGINE_URL = "https://beta.engine.energytransitionmodel.com"
+  NEXT_PUBLIC_ETMODEL_URL = "https://beta.pro.energytransitionmodel.com"
+  NODE_VERSION = "18"
