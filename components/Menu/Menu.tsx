@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 
 import Divider from './Divider';
