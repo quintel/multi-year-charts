@@ -1,8 +1,10 @@
 import useTranslate from '../../utils/useTranslate';
 
+import { DownloadIcon } from '@heroicons/react/solid';
+
 import { chartToCSV, scenariosToChartData } from '../../utils/charts';
 import { FlattenedChartSchema } from '../../data/charts';
-import { ScenarioData, ScenarioIndexedScenarioData } from '../../utils/api/types';
+import { ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { TranslateFunc } from '../../utils/LocaleContext';
 
 function downloadAsCSV(
@@ -48,18 +50,7 @@ export default function DownloadCSVButton({ chart, scenarios }: Props) {
       className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 active:bg-gray-200`}
       onClick={() => downloadAsCSV(chart, scenarios, translate)}
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="mr-1 h-5 w-5"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-          clipRule="evenodd"
-        />
-      </svg>
+      <DownloadIcon className="mr-1 h-5 w-5" />
       CSV
     </button>
   );
