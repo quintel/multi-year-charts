@@ -1,20 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 
 import { Provider } from 'react-redux';
-
-import MainNav from '../components/MainNav';
-import SubNav from '../components/SubNav';
 
 import store from '../store';
 import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
 import translate from '../utils/translate';
 import selectLocale from '../utils/selectLocale';
-
-import charts from '../data/charts';
 
 import nlTranslations from '../data/locales/nl.json';
 import enTranslations from '../data/locales/en.json';
@@ -77,8 +71,6 @@ function App({ Component, pageProps }: AppProps) {
           setLocale: onSetLocale,
         }}
       >
-        <MainNav />
-        <SubNav charts={charts} />
         <Component {...pageProps} />
       </LocaleContext.Provider>
     </Provider>

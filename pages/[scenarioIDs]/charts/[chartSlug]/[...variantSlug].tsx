@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import Chrome from '../../../../components/Chrome';
 import ChartWrapper from '../../../../components/ChartWrapper/ChartWrapper';
 import WithScenarios from '../../../../components/WithScenarios';
 import { flattenChart } from '../../../../utils/charts';
@@ -51,16 +52,18 @@ const ChartPage: NextPage = () => {
   const flattened = flattenChart(chart, variantSlug);
 
   return (
-    <WithScenarios>
-      <Head>
-        <title>
-          {pageTitle(flattened, translate)} - {translate('app.title')}
-        </title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Chrome>
+      <WithScenarios>
+        <Head>
+          <title>
+            {pageTitle(flattened, translate)} - {translate('app.title')}
+          </title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
 
-      <ChartWrapper chart={flattened} />
-    </WithScenarios>
+        <ChartWrapper chart={flattened} />
+      </WithScenarios>
+    </Chrome>
   );
 };
 

@@ -6,6 +6,10 @@
   "app.by_the": "by the",
   "app.etm": "Energy Transition Model",
 
+  "index.title": "Please select a scenario",
+  "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
+  "index.selectScenario": "Select a scenario",
+
   "misc.year": "Year",
 
   "scenarioEditor.title": "Edit {year} scenario",
