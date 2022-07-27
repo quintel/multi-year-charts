@@ -40,7 +40,7 @@ const LocaleSwitcher: FC<LocaleSwitcherProps> = (props) => {
         }}
       >
         <Menu.SelectableItem value="en">English</Menu.SelectableItem>
-        <Menu.SelectableItem value="nl">Dutch</Menu.SelectableItem>
+        <Menu.SelectableItem value="nl">Nederlands</Menu.SelectableItem>
       </Menu.SelectionGroup>
     </Menu>
   );
