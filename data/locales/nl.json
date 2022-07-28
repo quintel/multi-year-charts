@@ -6,19 +6,19 @@
   "app.by_the": "volgens het",
   "app.etm": "Energietransitiemodel",
 
-  "index.title": "Please select a scenario",
-  "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
-  "index.selectScenario": "Select a scenario",
+  "index.title": "Selecteer een scenario",
+  "index.explanation": "Selecteer eerst een scenario in het Energietransitiemodel om de Transition Path Charts tool te kunnen gebruiken.",
+  "index.selectScenario": "Selecteer een scenario",
 
   "misc.year": "Jaar",
 
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
 
-  "displayAs.title": "Display as",
-  "displayAs.area": "Area chart",
-  "displayAs.bar": "Bar chart",
-  "displayAs.table": "Table",
+  "displayAs.title": "Weergeven als",
+  "displayAs.area": "Grafiek",
+  "displayAs.bar": "Staafdiagram",
+  "displayAs.table": "Tabel",
 
   "chart.final_demand": "Eindgebruik energie",
   "chart.co2_emissions": "Primaire CO2 uitstoot",
