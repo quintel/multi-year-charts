@@ -19,13 +19,13 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
     precision = Math.min(fraction.length, 2);
   }
 
-  if (unit === '#') {
+  if (unit === '#' || unit === 'enum' || unit === 'weather-curves') {
     unit = '';
   }
 
   return (
     <>
-      {value.toFixed(precision)} {unit}
+      {typeof value === 'number' ? value.toFixed(precision) : value} {unit}
     </>
   );
 };
