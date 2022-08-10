@@ -60,7 +60,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
             ) : (
               <button
                 onClick={() => onInputClick(id, input.key)}
-                className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-midnight-200 hover:text-midnight-900 active:bg-midnight-300 active:text-midnight-900"
+                className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
               >
                 {formatInputValue(scenarioInput.user, input)}
               </button>
