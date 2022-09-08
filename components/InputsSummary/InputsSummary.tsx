@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -12,10 +12,8 @@ import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../uti
 
 import { apiFetch, fetchInputs } from '../../store/actions';
 import sortScenarios from '../../utils/sortScenarios';
-import useCurrentLocale from '../../utils/useCurrentLocale';
 
-import nlInputs from '../../data/inputs/nl.json';
-import enInputs from '../../data/inputs/en.json';
+import useInputDefinitions, { InputData } from '../../utils/etmodel/useInputDefinitions';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
@@ -48,9 +46,10 @@ function InputSummaryLoading() {
 }
 
 interface InputsTableProps {
-  scenarios: InputsSummaryProps['scenarioData'];
+  inputList: InputData;
   inputs: InputsSummaryProps['inputData'];
   openModal: OpenModalFunc;
+  scenarios: InputsSummaryProps['scenarioData'];
 }
 
 function sectionHasModifiedElements(
@@ -67,11 +66,10 @@ function sectionHasModifiedElements(
 /**
  * Component which renders the table of inputs.
  */
-function InputsTable({ inputs, openModal, scenarios }: InputsTableProps) {
+function InputsTable({ inputs, openModal, scenarios, inputList }: InputsTableProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
-  const locale = useCurrentLocale();
 
-  const inputList = locale === 'nl' ? nlInputs : enInputs;
+  // const inputList = locale === 'nl' ? nlInputs : enInputs;
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
   return (
@@ -141,6 +139,8 @@ const initialState: EditorState = { isOpen: false };
  * the scenarios allowing the user to make further adjustment.
  */
 function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) {
+  const inputList = useInputDefinitions();
+
   const [editorState, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -170,11 +170,12 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
 
   return (
     <div className="container">
-      {isDataLoaded(props.inputData, props.scenarioData) ? (
+      {inputList && isDataLoaded(props.inputData, props.scenarioData) ? (
         <InputsTable
           inputs={props.inputData}
           scenarios={props.scenarioData}
           openModal={openModal}
+          inputList={inputList}
         />
       ) : (
         <InputSummaryLoading />

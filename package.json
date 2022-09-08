@@ -29,7 +29,6 @@
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.7",
-    "dotenv": "^16.0.2",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",
     "jest": "^28.1.3",
