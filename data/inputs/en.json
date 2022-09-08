@@ -1790,7 +1790,7 @@
       {
         "key": "capacity_of_energy_power_nuclear_gen2_uranium_oxide",
         "unit": "MW",
-        "name": "Nuclear conventional"
+        "name": "Nuclear 2nd Gen"
       },
       {
         "key": "capacity_of_energy_power_nuclear_gen3_uranium_oxide",
@@ -1801,6 +1801,11 @@
         "key": "merit_order_subtype_of_energy_power_nuclear_uranium_oxide",
         "unit": "boolean",
         "name": ""
+      },
+      {
+        "key": "capacity_of_energy_power_nuclear_small_modular_reactor_uranium_oxide",
+        "unit": "MW",
+        "name": "Nuclear small modular reactor"
       }
     ]
   },
@@ -3012,6 +3017,21 @@
         "key": "deficit_limit_of_industry_other_flexibility_load_shifting_electricity",
         "unit": "hours",
         "name": "Deficit limit"
+      },
+      {
+        "key": "capacity_of_industry_other_ict_flexibility_load_shifting_electricity",
+        "unit": "%",
+        "name": "Capacity"
+      },
+      {
+        "key": "wta_of_industry_other_ict_flexibility_load_shifting_electricity",
+        "unit": "€/MWh",
+        "name": "Willingness to accept"
+      },
+      {
+        "key": "deficit_limit_of_industry_other_ict_flexibility_load_shifting_electricity",
+        "unit": "hours",
+        "name": "Deficit limit"
       }
     ]
   },
@@ -3942,6 +3962,16 @@
         "key": "efficiency_energy_chp_ultra_supercritical_cofiring_coal_heat",
         "unit": "%",
         "name": "Co-firing coal CHP - heat"
+      },
+      {
+        "key": "efficiency_industry_chp_ultra_supercritical_coal_electricity",
+        "unit": "%",
+        "name": "Coal CHP industry - electricity"
+      },
+      {
+        "key": "efficiency_industry_chp_ultra_supercritical_coal_heat",
+        "unit": "%",
+        "name": "Coal CHP industry - heat"
       }
     ]
   },
@@ -4001,6 +4031,36 @@
         "key": "efficiency_energy_chp_local_engine_network_gas_heat",
         "unit": "%",
         "name": "Small-scale gas CHP - heat"
+      },
+      {
+        "key": "efficiency_industry_chp_combined_cycle_gas_power_fuelmix_electricity",
+        "unit": "%",
+        "name": "Gas CHP (CCGT) industry - electricity"
+      },
+      {
+        "key": "efficiency_industry_chp_combined_cycle_gas_power_fuelmix_heat",
+        "unit": "%",
+        "name": "Gas CHP (CCGT) industry - heat"
+      },
+      {
+        "key": "efficiency_industry_chp_engine_gas_power_fuelmix_electricity",
+        "unit": "%",
+        "name": "Gas motor CHP industry - electricity"
+      },
+      {
+        "key": "efficiency_industry_chp_engine_gas_power_fuelmix_heat",
+        "unit": "%",
+        "name": "Gas motor CHP industry - heat"
+      },
+      {
+        "key": "efficiency_industry_chp_turbine_gas_power_fuelmix_electricity",
+        "unit": "%",
+        "name": "Gas turbine CHP industry - electricity"
+      },
+      {
+        "key": "efficiency_industry_chp_turbine_gas_power_fuelmix_heat",
+        "unit": "%",
+        "name": "Gas turbine CHP industry - heat"
       }
     ]
   },
@@ -4043,22 +4103,37 @@
       {
         "key": "investment_costs_nuclear_nuclear_plant",
         "unit": "%",
-        "name": "Investment costs nuclear plants"
+        "name": "Investment costs large reactors"
       },
       {
         "key": "om_costs_nuclear_nuclear_plant",
         "unit": "%",
-        "name": "O&M costs nuclear plants"
+        "name": "O&M costs large reactors"
+      },
+      {
+        "key": "investment_costs_nuclear_small_modular_reactor",
+        "unit": "%",
+        "name": "Investment costs small reactors"
+      },
+      {
+        "key": "om_costs_nuclear_small_modular_reactor",
+        "unit": "%",
+        "name": "O&M costs small reactors"
       },
       {
         "key": "efficiency_energy_power_nuclear_gen2_uranium_oxide",
         "unit": "%",
-        "name": "Nuclear conventional"
+        "name": "Nuclear 2nd Gen"
       },
       {
         "key": "efficiency_energy_power_nuclear_gen3_uranium_oxide",
         "unit": "%",
         "name": "Nuclear 3rd Gen"
+      },
+      {
+        "key": "efficiency_energy_power_nuclear_small_modular_reactor_uranium_oxide",
+        "unit": "%",
+        "name": "Nuclear small modular reactor"
       }
     ]
   },
@@ -4170,6 +4245,16 @@
         "key": "efficiency_energy_chp_local_wood_pellets_heat",
         "unit": "%",
         "name": "Biomass CHP - heat"
+      },
+      {
+        "key": "efficiency_industry_chp_wood_pellets_electricity",
+        "unit": "%",
+        "name": "Biomass CHP industry - electricity"
+      },
+      {
+        "key": "efficiency_industry_chp_wood_pellets_heat",
+        "unit": "%",
+        "name": "Biomass CHP industry - heat"
       },
       {
         "key": "efficiency_energy_chp_local_engine_biogas_electricity",
