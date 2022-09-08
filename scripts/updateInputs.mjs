@@ -2,7 +2,6 @@ import { writeFile } from 'fs';
 import { env } from 'process';
 
 import { config } from 'dotenv';
-import axios from 'axios';
 
 config({ path: './.env.local', silent: true });
 
@@ -19,8 +18,8 @@ if (!endpoint) {
  * parsed JSON data.
  */
 const fetchInputs = async (url, locale) => {
-  const res = await axios.get(url, { headers: { 'Accept-Language': locale } });
-  return res.data;
+  const res = await fetch(url, { method: 'GET', headers: { 'Accept-Language': locale } });
+  return await res.json();
 };
 
 /**
