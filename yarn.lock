@@ -1183,6 +1183,14 @@ axe-core@^4.4.2:
   resolved "https://registry.npmjs.org/axe-core/-/axe-core-4.4.3.tgz"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
 
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
+
 axobject-query@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/axobject-query/-/axobject-query-2.2.0.tgz"
@@ -1645,6 +1653,11 @@ domexception@^4.0.0:
   dependencies:
     webidl-conversions "^7.0.0"
 
+dotenv@^16.0.2:
+  version "16.0.2"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.2.tgz#0b0f8652c016a3858ef795024508cddc4bffc5bf"
+  integrity sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==
+
 echarts-for-react@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/echarts-for-react/-/echarts-for-react-3.0.2.tgz#ac5859157048a1066d4553e34b328abb24f2b7c1"
@@ -2094,6 +2107,11 @@ flatted@^3.1.0:
   version "3.2.6"
   resolved "https://registry.npmjs.org/flatted/-/flatted-3.2.6.tgz"
   integrity sha512-0sQoMh9s0BYsm+12Huy/rkKxVu4R1+r96YX5cG44rHV0pQ6iC3Q+mkoMFaGWObMFYQxCVT+ssG1ksneA2MI9KQ==
+
+follow-redirects@^1.14.9:
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
+  integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
 
 form-data@^4.0.0:
   version "4.0.0"
