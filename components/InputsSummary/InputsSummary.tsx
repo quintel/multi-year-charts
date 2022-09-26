@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -22,7 +22,7 @@ interface InputsSummaryProps {
   scenarioData: ScenarioIndexedScenarioData;
 }
 
-type OpenModalFunc = (scenarioID: number, inputKey: string) => void;
+type OpenModalFunc = (scenarioID: number, inputKey?: string) => void;
 
 /**
  * Returns whether the data needed to render the InputSummary is loaded.
@@ -52,37 +52,32 @@ interface InputsTableProps {
   scenarios: InputsSummaryProps['scenarioData'];
 }
 
-function sectionHasModifiedElements(
-  inputElements: { key: string }[],
-  inputData: ScenarioIndexedInputData
-) {
-  return inputElements.some((definition) => {
-    return Object.values(inputData).some((byScenario) => {
-      return byScenario[definition.key] && byScenario[definition.key].hasOwnProperty('user');
-    });
-  });
-}
-
 /**
  * Component which renders the table of inputs.
  */
 function InputsTable({ inputs, openModal, scenarios, inputList }: InputsTableProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
 
-  // const inputList = locale === 'nl' ? nlInputs : enInputs;
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
   return (
     <table className="w-full text-sm">
       <thead>
         <tr className="border-b-2 border-b-gray-300">
-          <th className="py-2 pr-0 text-left font-semibold">Input</th>
+          <th className="p-2 text-left font-semibold">Input</th>
           <th className="w-[12%] p-2 text-right font-semibold">
             {sortedScenarios[0].scenario.startYear}
           </th>
-          {sortedScenarios.map(({ scenario: { endYear } }) => (
-            <th key={`year-${endYear} `} className="w-[12%] p-2 text-right last:pr-0">
-              {endYear}
+          {sortedScenarios.map(({ scenario: { id, endYear } }) => (
+            <th key={`year-${endYear} `} className="w-[12%] p-2 text-right">
+              <button
+                onClick={() => {
+                  openModal(id);
+                }}
+                className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+              >
+                {endYear}
+              </button>
             </th>
           ))}
         </tr>
@@ -108,7 +103,7 @@ type EditorState =
   | {
       isOpen: true;
       scenarioID: number;
-      inputKey: string;
+      inputKey: string | undefined;
     }
   | { isOpen: false };
 
@@ -116,7 +111,7 @@ type EditorAction =
   | {
       type: 'open';
       scenarioID: number;
-      inputKey: string;
+      inputKey: string | undefined;
     }
   | { type: 'close' };
 
@@ -155,7 +150,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const openModal = useCallback(
-    (scenarioID: number, inputKey: string) => {
+    (scenarioID: number, inputKey?: string) => {
       dispatch({ type: 'open', scenarioID, inputKey });
     },
     [dispatch]

@@ -5,7 +5,7 @@ import LocaleMessage from './LocaleMessage';
 
 interface ScenarioEditorProps {
   endYear: number;
-  inputKey: string;
+  inputKey?: string;
   onClose: () => void;
   scenarioID: number;
 }
@@ -21,8 +21,10 @@ const getApplicationNode = () =>
  * Links to the correct slide in ETModel for the given scenario and input,
  * allowing the user to make further changes.
  */
-const urlForInput = (scenarioID: number, inputKey: string) =>
-  `${process.env.NEXT_PUBLIC_ETMODEL_URL}/scenario/myc/${scenarioID}?input=${inputKey}`;
+const urlForInput = (scenarioID: number, inputKey?: string) => {
+  const url = `${process.env.NEXT_PUBLIC_ETMODEL_URL}/scenario/myc/${scenarioID}`;
+  return inputKey ? `${url}?input=${inputKey}` : url;
+};
 
 const ScenarioEditor = (props: ScenarioEditorProps) => {
   return (

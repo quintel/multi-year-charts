@@ -49,7 +49,7 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
   return (
     <>
       <tr className="border-b border-b-gray-300">
-        <th colSpan={6} className="py-2 text-left font-semibold">
+        <th colSpan={6} className="p-2 text-left font-semibold">
           {slide.path.join(' → ')}
         </th>
       </tr>

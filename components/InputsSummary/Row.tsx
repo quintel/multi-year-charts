@@ -43,7 +43,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
 
   return (
     <tr key={input.key} className="border-b border-b-gray-300">
-      <td className="text-left text-gray-600">{input.name}</td>
+      <td className="p-2 text-left text-gray-600">{input.name}</td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
         {formatInputValue(firstInputData.default, input)}
       </td>
@@ -52,7 +52,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
         const scenarioInput = inputData[id][input.key];
 
         return (
-          <td key={id} className="px-2 text-right last:pr-0">
+          <td key={id} className="px-2 text-right">
             {scenarioInput.user === undefined ? (
               <span className="text-gray-400">
                 {formatInputValue(scenarioInput.default, input)}
