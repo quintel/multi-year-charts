@@ -18,6 +18,7 @@ export default {
       key: 'by_carrier',
       slug: 'by-carrier',
       series: [
+        'myc_final_demand_of_ammonia',
         'myc_final_demand_of_coal_and_derivatives',
         'myc_final_demand_of_fossil_electricity',
         'myc_final_demand_of_fossil_heat',
@@ -37,6 +38,13 @@ export default {
       slug: 'by-sector-and-carrier',
       displayAs: 'table',
       series: [
+        'myc_final_demand_of_ammonia_in_agriculture',
+        'myc_final_demand_of_ammonia_in_buildings',
+        'myc_final_demand_of_ammonia_in_bunkers',
+        'myc_final_demand_of_ammonia_in_energy_and_other',
+        'myc_final_demand_of_ammonia_in_households',
+        'myc_final_demand_of_ammonia_in_industry',
+        'myc_final_demand_of_ammonia_in_transport',
         'myc_final_demand_of_coal_and_derivatives_in_agriculture',
         'myc_final_demand_of_coal_and_derivatives_in_buildings',
         'myc_final_demand_of_coal_and_derivatives_in_bunkers',
@@ -128,6 +136,7 @@ export default {
       slug: 'by-carrier-agriculture',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_agriculture',
         'myc_final_demand_of_coal_and_derivatives_in_agriculture',
         'myc_final_demand_of_fossil_electricity_in_agriculture',
         'myc_final_demand_of_fossil_heat_in_agriculture',
@@ -147,6 +156,7 @@ export default {
       slug: 'by-carrier-buildings',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_buildings',
         'myc_final_demand_of_coal_and_derivatives_in_buildings',
         'myc_final_demand_of_fossil_electricity_in_buildings',
         'myc_final_demand_of_fossil_heat_in_buildings',
@@ -166,6 +176,7 @@ export default {
       slug: 'by-carrier-bunkers',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_bunkers',
         'myc_final_demand_of_coal_and_derivatives_in_bunkers',
         'myc_final_demand_of_fossil_electricity_in_bunkers',
         'myc_final_demand_of_fossil_heat_in_bunkers',
@@ -185,6 +196,7 @@ export default {
       slug: 'by-carrier-energy',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_energy_and_other',
         'myc_final_demand_of_coal_and_derivatives_in_energy_and_other',
         'myc_final_demand_of_fossil_electricity_in_energy_and_other',
         'myc_final_demand_of_fossil_heat_in_energy_and_other',
@@ -204,6 +216,7 @@ export default {
       slug: 'by-carrier-households',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_households',
         'myc_final_demand_of_coal_and_derivatives_in_households',
         'myc_final_demand_of_fossil_electricity_in_households',
         'myc_final_demand_of_fossil_heat_in_households',
@@ -223,6 +236,7 @@ export default {
       slug: 'by-carrier-industry',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_industry',
         'myc_final_demand_of_coal_and_derivatives_in_industry',
         'myc_final_demand_of_fossil_electricity_in_industry',
         'myc_final_demand_of_fossil_heat_in_industry',
@@ -242,6 +256,7 @@ export default {
       slug: 'by-carrier-transport',
       group: 'sectors_by_carrier',
       series: [
+        'myc_final_demand_of_ammonia_in_transport',
         'myc_final_demand_of_coal_and_derivatives_in_transport',
         'myc_final_demand_of_fossil_electricity_in_transport',
         'myc_final_demand_of_fossil_heat_in_transport',
