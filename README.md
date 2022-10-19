@@ -2,21 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+1. Copy `.env.example` to `.env.local`. Edit the file to set the URLs for ETEngine and ETModel. Be sure that the URL to ETEngine is the same as the one used in ETModel.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+2. Run `yarn install` to install dependencies.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run `yarn dev -p 3005` to run the application.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+4. Open [http://localhost:3005](http://localhost:3005) with your browser to see the result.
 
 ## Learn More
 
