@@ -20,7 +20,7 @@
   "displayAs.bar": "Bar chart",
   "displayAs.table": "Table",
 
-  "chart.final_demand": "Final demand",
+  "chart.final_demand": "Final demand (energetic & non-energetic)",
   "chart.co2_emissions": "Primary CO2 emissions",
   "chart.renewables": "Renewables",
 
