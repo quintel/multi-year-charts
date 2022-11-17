@@ -32,6 +32,7 @@ const camelCaseScenario = (json: {
       startYear: scenario.start_year as number,
       url: scenario.url as string,
     },
+    order: 0,
   };
 };
 
