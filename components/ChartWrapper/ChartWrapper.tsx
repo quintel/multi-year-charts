@@ -12,6 +12,7 @@ import LocaleContext from '../../utils/LocaleContext';
 import Chart from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
+import SessionTitle from '../SessionTitle';
 import { scenariosToChartData, chartToCSV } from '../../utils/charts';
 
 import StyleToggle from './StyleToggle';

@@ -6,11 +6,17 @@ function hasScenarios(router: ReturnType<typeof useRouter>) {
 }
 
 function linkTo(router: ReturnType<typeof useRouter>, href: string) {
-  if (href.startsWith('/')) {
-    return `/${router.query.scenarioIDs}${href}`;
+  let title = '';
+
+  if (typeof router.query.title === 'string') {
+    title = `?title=${encodeURIComponent(router.query.title)}`;
   }
 
-  return `/${router.query.scenarioIDs}/${href}`;
+  if (href.startsWith('/')) {
+    return `/${router.query.scenarioIDs}${href}${title}`;
+  }
+
+  return `/${router.query.scenarioIDs}/${href}${title}`;
 }
 
 export default function useLinkHelper() {
