@@ -36,7 +36,7 @@ const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
   return (
     <Link passHref key={`subnav-chart-${chart.slug}`} href={linkTo(`/charts/${chart.slug}`)}>
       <NavLink
-        className="my-3 rounded py-1 px-2 font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white"
+        className="my-3 rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
         activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
       >
         <LocaleMessage id={`chart.${chart.key}`} />
@@ -47,7 +47,7 @@ const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
 
 const MenuButton = ({ children, isActive }: { children: React.ReactNode; isActive: boolean }) => {
   return (
-    <Menu.Button className="group my-3 flex items-center rounded py-1 px-2 font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white">
+    <Menu.Button className="group my-3 flex items-center rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 hover:bg-gray-700 hover:text-white">
       <span
         className={`-my-1 -ml-2 mr-0 inline-block rounded py-1 pl-2 ${
           isActive ? 'bg-gray-200 !text-gray-800' : ''
@@ -136,7 +136,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
         {charts.map(chartItem)}
         <Link href={linkTo('/inputs')} passHref>
           <NavLink
-            className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-300 transition hover:bg-gray-700 hover:text-white"
+            className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
             activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
           >
             <AdjustmentsIcon className="mr-1 h-5 w-5 rotate-90" />

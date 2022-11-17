@@ -19,7 +19,7 @@ const MainNav = () => {
     >
       <div className="container mx-auto flex items-stretch gap-3 py-3">
         <div className="mr-auto flex items-center font-semibold">
-          <PresentationChartLineIcon className="mr-1.5 h-6 w-6" />
+          <PresentationChartLineIcon className="mr-1.5 -ml-1 h-6 w-6" />
           <LocaleMessage id="app.title" />
           <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
             <LocaleMessage id="app.by_the" />{' '}
