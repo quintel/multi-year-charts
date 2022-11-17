@@ -84,6 +84,10 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.UPDATE_API_DATA: {
+      for (const [scenarioId, scenario] of Object.entries(action.payload)) {
+        scenario.order = state.scenarios.indexOf(Number(scenarioId));
+      }
+
       return {
         ...state,
         scenarioData: action.payload,

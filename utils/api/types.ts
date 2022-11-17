@@ -14,6 +14,8 @@ export interface ScenarioData {
   };
 
   readonly gqueries: Record<string, GqueryData>;
+
+  order: number;
 }
 
 /** @todo share_group should be camel-cased */
