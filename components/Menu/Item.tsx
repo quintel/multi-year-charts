@@ -26,7 +26,7 @@ export function BaseItem<T extends React.ElementType>({
     <HeadlessMenu.Item disabled={disabled}>
       {({ active }) => (
         <Comp
-          className={`flex w-full cursor-pointer items-center whitespace-nowrap rounded py-1 pl-2 pr-16 outline-0 ${
+          className={`flex w-full cursor-pointer items-center whitespace-nowrap rounded py-1 pl-2 pr-8 outline-0 ${
             active ? activeClassName : className
           }`.trim()}
           {...rest}
@@ -38,9 +38,17 @@ export function BaseItem<T extends React.ElementType>({
   );
 }
 
-export default function Item<T extends React.ElementType>({ children, ...rest }: ItemProps<T>) {
+export default function Item<T extends React.ElementType>({
+  children,
+  className,
+  ...rest
+}: ItemProps<T>) {
   return (
-    <BaseItem {...rest} className="text-gray-600" activeClassName="bg-midnight-500 text-white">
+    <BaseItem
+      {...rest}
+      className={`${className} text-gray-600`}
+      activeClassName={`${className} bg-midnight-500 text-white`}
+    >
       {children}
     </BaseItem>
   );

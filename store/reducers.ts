@@ -2,6 +2,7 @@ import { ActionTypes, AppState, ChartStyle, TypeKeys, QueriesList } from './type
 
 const initialState: AppState = {
   inputData: {},
+  failureReason: null,
   requestInProgress: false,
   scenarioData: {},
   scenarios: [],
@@ -72,7 +73,11 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.API_REQUEST_FINISHED: {
-      return { ...state, requestInProgress: false };
+      return { ...state, requestInProgress: false, failureRason: null };
+    }
+
+    case TypeKeys.API_REQUEST_FAILED: {
+      return { ...state, requestInProgress: false, failureReason: action.payload };
     }
 
     /**

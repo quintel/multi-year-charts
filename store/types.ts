@@ -11,6 +11,7 @@ export type ChartStyle = 'area' | 'bar';
 export enum TypeKeys {
   ADD_QUERIES = 'ADD_QUERIES',
   API_FETCH = 'API_FETCH',
+  API_REQUEST_FAILED = 'API_REQUEST_FAILED',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
@@ -31,6 +32,11 @@ interface APIFetchInputsAction {
 
 interface APIRequestFinishedAction {
   type: typeof TypeKeys.API_REQUEST_FINISHED;
+}
+
+interface APIRequestFailedAction {
+  type: typeof TypeKeys.API_REQUEST_FAILED;
+  payload: string;
 }
 
 interface SetPreferredChartStyle {
@@ -74,6 +80,7 @@ interface UpdateAPIInputsAction {
 export type ActionTypes =
   | APIFetchAction
   | APIFetchInputsAction
+  | APIRequestFailedAction
   | APIRequestFinishedAction
   | SetPreferredChartStyle
   | SetScenariosAction
@@ -88,6 +95,7 @@ export type ActionTypes =
  */
 
 export interface AppState {
+  failureReason: string | null;
   inputData: ScenarioIndexedInputData;
   requestInProgress: boolean;
   scenarios: number[];

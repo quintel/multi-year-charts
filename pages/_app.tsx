@@ -3,12 +3,16 @@ import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 
+import { SessionProvider } from 'next-auth/react';
+
 import { Provider } from 'react-redux';
 
 import store from '../store';
 import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
 import translate from '../utils/translate';
 import selectLocale from '../utils/selectLocale';
+
+import TrySignIn from '../components/TrySignIn';
 
 import nlTranslations from '../data/locales/nl.json';
 import enTranslations from '../data/locales/en.json';
@@ -63,18 +67,23 @@ function App({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <Provider store={store}>
-      <LocaleContext.Provider
-        value={{
-          translate:
-            translate || curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
-          currentLocale: locale,
-          setLocale: onSetLocale,
-        }}
-      >
-        <Component {...pageProps} />
-      </LocaleContext.Provider>
-    </Provider>
+    <SessionProvider session={pageProps.session}>
+      <TrySignIn>
+        <Provider store={store}>
+          <LocaleContext.Provider
+            value={{
+              translate:
+                translate ||
+                curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
+              currentLocale: locale,
+              setLocale: onSetLocale,
+            }}
+          >
+            <Component {...pageProps} />
+          </LocaleContext.Provider>
+        </Provider>
+      </TrySignIn>
+    </SessionProvider>
   );
 }
 

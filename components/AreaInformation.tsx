@@ -25,7 +25,7 @@ function FetchedAreaInformation({ areaCode }: { areaCode: string }) {
   const locale = useCurrentLocale();
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_ETMODEL_URL}/areas/${areaCode}`, {
+    fetch(`/api/areas/${areaCode}`, {
       method: 'GET',
       headers: { Accept: 'application/json' },
     })

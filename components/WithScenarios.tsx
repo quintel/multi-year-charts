@@ -45,6 +45,7 @@ const WithScenarios = ({
 
 const mapStateToProps = (state: AppState) => ({
   scenarioIDs: state.scenarios,
+  failureReason: state.failureReason,
 });
 
 export default connect(mapStateToProps, { setScenarios })(WithScenarios);

@@ -1,10 +1,25 @@
+import { connect } from 'react-redux';
+
 import MainNav from '../components/MainNav';
 import SubNav from '../components/SubNav';
 import SessionTitle from '../components/SessionTitle';
+import MissingScenarios from '../components/MissingScenarios';
 
 import charts from '../data/charts';
 
-export default function Chrome({ children }: { children: React.ReactNode }) {
+import { AppState } from '../store/types';
+
+function Chrome({
+  children,
+  failureReason,
+}: {
+  children: React.ReactNode;
+  failureReason: AppState['failureReason'];
+}) {
+  if (failureReason) {
+    return <MissingScenarios />;
+  }
+
   return (
     <>
       <MainNav />
@@ -14,3 +29,9 @@ export default function Chrome({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+
+const mapStateToProps = (state: AppState) => ({
+  failureReason: state.failureReason,
+});
+
+export default connect(mapStateToProps, {})(Chrome);

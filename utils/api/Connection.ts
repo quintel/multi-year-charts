@@ -55,11 +55,15 @@ const requestScenario = async (
   id: number,
   gqueries: string[] = []
 ): Promise<ScenarioData> => {
-  const response = await fetch(`${endpoint}/api/v3/scenarios/${id}`, {
+  const response = await fetch(`/api/scenarios/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ gqueries }),
     headers,
   });
+
+  if (!response.ok) {
+    throw new Error(response.status.toString());
+  }
 
   return camelCaseScenario(await response.json());
 };

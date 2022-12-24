@@ -10,17 +10,22 @@ import { AppState } from '../../store/types';
 const sendRequest = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
   const { queries } = getState() as AppState;
 
-  conn.sendRequest(Object.keys(queries)).then((data) => {
-    dispatch({
-      type: TypeKeys.UPDATE_API_DATA,
-      payload: data,
-    });
+  conn
+    .sendRequest(Object.keys(queries))
+    .then((data) => {
+      dispatch({
+        type: TypeKeys.UPDATE_API_DATA,
+        payload: data,
+      });
 
-    /**
-     * @todo only dispatch if connection has no outstanding requests
-     */
-    return dispatch({ type: TypeKeys.API_REQUEST_FINISHED });
-  });
+      /**
+       * @todo only dispatch if connection has no outstanding requests
+       */
+      return dispatch({ type: TypeKeys.API_REQUEST_FINISHED });
+    })
+    .catch((error) => {
+      return dispatch({ type: TypeKeys.API_REQUEST_FAILED, payload: error.message });
+    });
 };
 
 const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>) => {
