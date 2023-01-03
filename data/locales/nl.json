@@ -43,9 +43,9 @@
   "missingScenarios.explanation": "The page you visited was not found. It may be that you tried to view a scenario which does not exist or is private.",
   "missingScenarios.signInPrompt": "If you expected something to be here, please sign in to your account.",
 
-  "session.signIn": "Sign in",
-  "session.signOut": "Sign out",
-  "session.profile": "Profile and settings",
+  "session.signIn": "Inloggen",
+  "session.signOut": "Uitloggen",
+  "session.profile": "Profiel en instellingen",
 
   "series.carrier_in_sector": "{carrier} in {sector}",
 
