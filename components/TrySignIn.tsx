@@ -4,7 +4,7 @@ import { useSession, signIn } from 'next-auth/react';
 
 const TrySignIn = ({ children }: { children: React.ReactNode }) => {
   const { status } = useSession();
-  const [renderChildren, setRenderChildren] = useState(status === 'authenticated');
+  const [renderChildren, setRenderChildren] = useState(status !== 'unauthenticated');
 
   useEffect(() => {
     async function trySignIn() {
