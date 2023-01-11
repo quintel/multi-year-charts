@@ -118,7 +118,10 @@ const Auth = async (req, res) => {
     req.query.error === 'login_required' || req.query.error === 'consent_required';
 
   if (isSilentAuthError) {
-    res.redirect(302, req.cookies['next-auth.callback-url'] ?? '/');
+    res.redirect(
+      302,
+      req.cookies['next-auth.callback-url'] ?? req.cookies['__Secure-next-auth.callback-url'] ?? '/'
+    );
     return;
   }
 
