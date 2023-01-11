@@ -99,16 +99,16 @@ export const authOptions = {
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) {
         // Allows relative callback URLs
-        return `${baseUrl}${url}`;
+        return Promise.resolve(`${baseUrl}${url}`);
       } else if (new URL(url).origin === baseUrl) {
         // Allows callback URLs on the same origin
-        return url;
+        return Promise.resolve(url);
       } else if (new URL(url).origin === process.env.NEXT_PUBLIC_ETENGINE_URL) {
         // Allow redirects to ETEngine.
-        return url;
+        return Promise.resolve(url);
       }
 
-      return baseUrl;
+      return Promise.resolve(baseUrl);
     },
   },
 };

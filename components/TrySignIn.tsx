@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useSession, signIn } from 'next-auth/react';
 
 const TrySignIn = ({ children }: { children: React.ReactNode }) => {
   const { status } = useSession();
+  const [renderChildren, setRenderChildren] = useState(status === 'authenticated');
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      const lastAttempt = localStorage.getItem('last-login-attempt');
+    async function trySignIn() {
+      if (status === 'unauthenticated') {
+        const lastAttempt = localStorage.getItem('last-login-attempt');
 
-      if (!lastAttempt || parseInt(lastAttempt) < Date.now() - 15 * 60 * 1000) {
-        localStorage.setItem('last-login-attempt', Date.now().toString());
-        signIn('identity', { callbackUrl: '', redirect: false }, { prompt: 'none' });
+        if (!lastAttempt || parseInt(lastAttempt) < Date.now() - 15 * 60 * 1000) {
+          localStorage.setItem('last-login-attempt', Date.now().toString());
+          await signIn('identity', { redirect: false }, { prompt: 'none' });
+        } else {
+          setRenderChildren(true);
+        }
       }
     }
-  }, [status]);
 
-  return <>{children}</>;
+    trySignIn();
+  }, [setRenderChildren, status]);
+
+  return <>{renderChildren ? children : null}</>;
 };
 
 export default TrySignIn;
