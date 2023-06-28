@@ -35,5 +35,16 @@ a[aria-current="page"] .inactive-page-spacer {
   display: none;
 }
 .bg-banner {
-  background-color: #6767ff;
+  background-color: #f4f3fd
+}
+
+.bg-nav {
+  background-color: #11a056;
+}
+.bg-tyndp-pink {
+  background-color: #ff6a86;
+}
+
+.bg-tyndp-light-blue {
+  background-color: #DBEDFE;
 }

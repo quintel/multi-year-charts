@@ -9,8 +9,8 @@ export default function SessionTitle() {
   }
 
   return (
-    <div className="bg-slate-800 pt-4 text-slate-300">
-      <div className="container mx-auto flex border-b border-b-slate-700 pb-2">
+    <div className="bg-tyndp-light-blue pt-4 text-grey-800">
+      <div className="container mx-auto flex border-b border-b-slate-400 pb-2">
         <h1 className="text-xl font-semibold">{title}</h1>
         <div className="ml-auto flex items-center">
           <AreaInformation />

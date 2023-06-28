@@ -12,7 +12,7 @@ import LocaleMessage from '../components/LocaleMessage';
 
 function Button({ children }: { children: React.ReactNode }) {
   return (
-    <Menu.Button className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-gray-300 transition hover:bg-gray-600 hover:text-gray-100">
+    <Menu.Button className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-white transition hover:bg-gray-600 hover:text-gray-100">
       <UserCircleIcon className="mr-1 h-5 w-5" />
       {children}
       <ChevronDownIcon className="ml-0.5 -mr-1 h-5 w-5" />
@@ -26,7 +26,7 @@ const SessionInformation = () => {
   if (!session) {
     return (
       <button
-        className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-gray-300 transition hover:bg-gray-600 hover:text-gray-100"
+        className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-white transition hover:bg-gray-600 hover:text-gray-100"
         onClick={() => signIn('identity')}
       >
         <UserCircleIcon className="mr-1 h-5 w-5" />

@@ -47,7 +47,7 @@ export default function Item<T extends React.ElementType>({
     <BaseItem
       {...rest}
       className={`${className} text-gray-600`}
-      activeClassName={`${className} bg-midnight-500 text-white`}
+      activeClassName={`${className} bg-tyndp-pink text-white`}
     >
       {children}
     </BaseItem>

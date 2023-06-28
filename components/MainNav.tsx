@@ -14,7 +14,7 @@ const MainNav = () => {
   return (
     <nav
       id="main-nav"
-      className="bg-gray-700 text-gray-100"
+      className="bg-nav text-gray-100"
       role="navigation"
       aria-label="main navigation"
     >
@@ -22,9 +22,9 @@ const MainNav = () => {
         <div className="mr-auto flex items-center font-semibold">
           <PresentationChartLineIcon className="mr-1.5 -ml-1 h-6 w-6" />
           <LocaleMessage id="app.title" />
-          <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
+          <span className="ml-1.5 mt-1 text-xs font-normal">
             <LocaleMessage id="app.by_the" />{' '}
-            <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
+            <a className="transition hover:text-gray-800" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
               <LocaleMessage id="app.etm" />
             </a>
           </span>
@@ -33,7 +33,7 @@ const MainNav = () => {
         <SessionInformation />
         <LocaleSwitcher currentLocale={currentLocale} setLocale={setLocale} />
         <a
-          className="inline-flex items-center rounded bg-emerald-600 bg-gradient-to-b from-white/20 to-transparent px-3 py-1 pl-1.5 text-xs font-medium text-white shadow transition hover:bg-emerald-500 active:bg-emerald-600 active:shadow-inner"
+          className="inline-flex items-center rounded bg-banner px-3 py-1 pl-1.5 text-xs font-medium text-gray-800 shadow transition hover:bg-white active:bg-tyndp-light-blue active:shadow-inner"
           href={process.env.NEXT_PUBLIC_ETMODEL_URL}
         >
           <ArrowSmLeftIcon className="mr-1 h-5 w-5" />
