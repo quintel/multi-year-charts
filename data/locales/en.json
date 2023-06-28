@@ -5,7 +5,7 @@
   "app.language": "Language",
   "app.by_the": "by the",
   "app.etm": "Energy Transition Model",
-  "app.banner": "Warning: this is not the full version of the Energytranstionmodel...",
+  "app.banner": "Disclaimer: This is a dedicated stable version of the Energy Transition Model for the purpose of showcasing the TYNDP 2024 scenarios",
 
   "index.title": "Please select a scenario",
   "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
