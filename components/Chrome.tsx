@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import MainNav from '../components/MainNav';
 import SubNav from '../components/SubNav';
+import Banner from '../components/Banner';
 import SessionTitle from '../components/SessionTitle';
 import MissingScenarios from '../components/MissingScenarios';
 
@@ -23,6 +24,7 @@ function Chrome({
   return (
     <>
       <MainNav />
+      <Banner />
       <SessionTitle />
       <SubNav charts={charts} />
       {children}

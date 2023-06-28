@@ -34,3 +34,6 @@ a[aria-current="page"] .current-page-check {
 a[aria-current="page"] .inactive-page-spacer {
   display: none;
 }
+.bg-banner {
+  background-color: #6767ff;
+}

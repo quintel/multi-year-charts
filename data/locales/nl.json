@@ -1,10 +1,11 @@
 {
-  "app.title": "Transitiepaden",
+  "app.title": "Transitiepaden voor TYNDP 2024",
   "app.backToETM": "Terug naar het ETM",
   "app.sliderSettings": "Invoervelden",
   "app.language": "Taal",
   "app.by_the": "volgens het",
   "app.etm": "Energietransitiemodel",
+  "app.banner": "Dit is niet de volledige versie...",
 
   "index.title": "Selecteer een scenario",
   "index.explanation": "Selecteer eerst een scenario in het Energietransitiemodel om de Transition Path Charts tool te kunnen gebruiken.",

@@ -1,10 +1,11 @@
 {
-  "app.title": "Transition Path Charts",
+  "app.title": "Transition Path Charts for TYNDP 2024",
   "app.backToETM": "Back to the ETM",
   "app.sliderSettings": "Slider settings",
   "app.language": "Language",
   "app.by_the": "by the",
   "app.etm": "Energy Transition Model",
+  "app.banner": "Warning: this is not the full version of the Energytranstionmodel...",
 
   "index.title": "Please select a scenario",
   "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
