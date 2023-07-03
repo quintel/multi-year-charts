@@ -26,7 +26,7 @@ export default function Menu({ button, children }: Props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <HeadlessMenu.Items className="absolute left-0 z-10 mt-2 origin-center rounded-md bg-white bg-opacity-[100%] text-sm font-medium text-gray-600 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-sm focus:outline-none">
+        <HeadlessMenu.Items className="absolute left-0 z-10 mt-2 origin-center rounded-md bg-white bg-opacity-[100%] text-sm font-medium text-gray-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="relative p-2">{children}</div>
         </HeadlessMenu.Items>
       </Transition>
