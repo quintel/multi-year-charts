@@ -137,7 +137,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
         <Link href={linkTo('/inputs')} passHref>
           <NavLink
             className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-800 transition first:-ml-2 last:-mr-2 hover:bg-gray-800 hover:text-white"
-            activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
+            activeClassName="!text-white bg-gray-800 hover:!bg-gray-800"
           >
             <AdjustmentsIcon className="mr-1 h-5 w-5 rotate-90" />
             <LocaleMessage id="app.sliderSettings" />
