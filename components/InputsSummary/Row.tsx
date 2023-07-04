@@ -1,4 +1,5 @@
 import { ScenarioIndexedInputData } from '../../utils/api/types';
+import sanitizeHtml from 'sanitize-html';
 
 interface RowProps {
   input: { name: string; key: string; unit: string };
@@ -43,7 +44,8 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
 
   return (
     <tr key={input.key} className="border-b border-b-gray-300">
-      <td className="p-2 text-left text-gray-600">{input.name}</td>
+      <td className="p-2 text-left text-gray-600" dangerouslySetInnerHTML={{ __html: sanitizeHtml(input.name, {
+  allowedTags: [ 'sub', 'sup' ]}) }}></td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
         {formatInputValue(firstInputData.default, input)}
       </td>
