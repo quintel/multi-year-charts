@@ -131,7 +131,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
   const { linkTo } = useLinkHelper();
 
   return (
-    <div className="bg-tyndp-light-blue text-sm text-grey-800 drop-shadow-md border-b border-b-midnight-200">
+    <div className="bg-tyndp-light-blue text-sm text-grey-800">
       <nav id="subnav" className="container mx-auto flex gap-3 ">
         {charts.map(chartItem)}
         <Link href={linkTo('/inputs')} passHref>
