@@ -9,7 +9,7 @@ interface SectionProps {
   scenarioIDs: ComponentProps<typeof Row>['scenarioIDs'];
   slide: {
     path: string[];
-    input_elements: { name: string; key: string; unit: string }[];
+    input_elements: { name: string; group_name?: string; key: string; unit: string }[];
   };
 }
 

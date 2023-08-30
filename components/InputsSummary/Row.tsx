@@ -2,7 +2,7 @@ import { ScenarioIndexedInputData } from '../../utils/api/types';
 import sanitizeHtml from 'sanitize-html';
 
 interface RowProps {
-  input: { name: string; key: string; unit: string };
+  input: { name: string; group_name?: string, key: string; unit: string };
   inputData: ScenarioIndexedInputData;
   onInputClick: (id: number, key: string) => void;
   scenarioIDs: number[];
@@ -42,10 +42,16 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
     return null;
   }
 
+  let unsanitized_input_name = input.name;
+  unsanitized_input_name += input.group_name ? ` (${input.group_name})` : '';
+
   return (
     <tr key={input.key} className="border-b border-b-gray-300">
-      <td className="p-2 text-left text-gray-600" dangerouslySetInnerHTML={{ __html: sanitizeHtml(input.name, {
-  allowedTags: [ 'sub', 'sup' ]}) }}></td>
+      <td
+        className="p-2 text-left text-gray-600"
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(unsanitized_input_name, { allowedTags: [ 'sub', 'sup' ]}) }}
+      >
+      </td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
         {formatInputValue(firstInputData.default, input)}
       </td>
@@ -55,18 +61,22 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
 
         return (
           <td key={id} className="px-2 text-right">
-            {scenarioInput.user === undefined ? (
-              <span className="text-gray-400">
-                {formatInputValue(scenarioInput.default, input)}
-              </span>
-            ) : (
-              <button
-                onClick={() => onInputClick(id, input.key)}
-                className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
-              >
-                {formatInputValue(scenarioInput.user, input)}
-              </button>
-            )}
+            {
+              scenarioInput.user === undefined
+                ? (
+                  <span className="text-gray-400">
+                    {formatInputValue(scenarioInput.default, input)}
+                  </span>
+                )
+                : (
+                  <button
+                    onClick={() => onInputClick(id, input.key)}
+                    className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+                  >
+                    {formatInputValue(scenarioInput.user, input)}
+                  </button>
+                )
+            }
           </td>
         );
       })}
