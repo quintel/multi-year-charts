@@ -42,8 +42,12 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
     return null;
   }
 
-  let unsanitized_input_name = input.name;
-  unsanitized_input_name += input.group_name ? ` (${input.group_name})` : '';
+  let unsanitized_input_name;
+  if (input.group_name) {
+    unsanitized_input_name = `${input.group_name} - ${input.name}`;
+  } else {
+    unsanitized_input_name = input.name;
+  }
 
   return (
     <tr key={input.key} className="border-b border-b-gray-300">

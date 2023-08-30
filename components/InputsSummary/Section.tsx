@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import Row from './Row';
+import { sortBy } from 'lodash';
 
 import { ScenarioIndexedInputData } from '../../utils/api/types';
 
@@ -46,6 +47,11 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
     return null;
   }
 
+  const rows = slide.input_elements.map((element) => (
+    <Row key={element.key} input={element} inputData={inputData} {...rest} />
+  ))
+  const sortedRows = sortBy(rows, 'group_name');
+
   return (
     <>
       <tr className="border-b border-b-gray-300">
@@ -53,9 +59,7 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
           {slide.path.join(' → ')}
         </th>
       </tr>
-      {slide.input_elements.map((element) => (
-        <Row key={element.key} input={element} inputData={inputData} {...rest} />
-      ))}
+      {sortedRows}
     </>
   );
 }
