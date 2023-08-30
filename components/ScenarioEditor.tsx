@@ -29,7 +29,7 @@ const urlForInput = (scenarioID: number, inputKey?: string) => {
 const ScenarioEditor = (props: ScenarioEditorProps) => {
   const [performingRequest, setPerformingRequest] = useState<boolean>(false);
 
-  const onPostMessage = (event) => {
+  const onPostMessage = (event: MessageEvent) => {
     switch(event.data) {
       case 'request-started': setPerformingRequest(true); break;
       case 'request-stopped': setPerformingRequest(false); break;
