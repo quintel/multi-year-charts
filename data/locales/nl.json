@@ -14,6 +14,7 @@
 
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
+  "scenarioEditor.pending-request": "Verwerken...",
 
   "displayAs.title": "Weergeven als",
   "displayAs.area": "Grafiek",

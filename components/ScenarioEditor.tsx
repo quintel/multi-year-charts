@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
 import LocaleMessage from './LocaleMessage';
@@ -27,9 +27,30 @@ const urlForInput = (scenarioID: number, inputKey?: string) => {
 };
 
 const ScenarioEditor = (props: ScenarioEditorProps) => {
+  const [performingRequest, setPerformingRequest] = useState<boolean>(false);
+
+  const onPostMessage = (event: MessageEvent) => {
+    switch(event.data) {
+      case 'request-started': setPerformingRequest(true); break;
+      case 'request-stopped': setPerformingRequest(false); break;
+    };
+  };
+
+  // Add eventListener only at first component rendercycle
+  useEffect(() => {
+    window.addEventListener('message', onPostMessage);
+
+    // Cleanup eventListener after component unmount
+    return () => { window.removeEventListener('message', onPostMessage); }
+  }, [])
+
+  const onRequestClose = () => {
+    return !performingRequest && props.onClose();
+  }
+
   return (
     <Transition appear show={true} as={Fragment}>
-      <Dialog as="div" open={true} onClose={props.onClose}>
+      <Dialog as="div" open={true} onClose={onRequestClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -53,29 +74,32 @@ const ScenarioEditor = (props: ScenarioEditorProps) => {
         >
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Dialog.Panel className="min-w-[100vw] max-w-[1327px] transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel
+                className="min-w-[100vw] max-w-[1327px] transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all"
+              >
                 <Dialog.Title
-                  as="h3"
-                  className="border-b border-gray-300 px-6 py-3 pt-4 text-base font-medium text-gray-900"
+                  className="text-[1.25rem] h-[4.2rem] border-b border-gray-300 px-6 py-3 pt-4 text-base font-medium text-gray-900 align-middle"
                 >
-                  <LocaleMessage
-                    id="scenarioEditor.title"
-                    values={{ year: props.endYear.toString() }}
-                  />
+                  <div className="pt-2 float-left">
+                    <LocaleMessage id="scenarioEditor.title" values={{ year: props.endYear.toString() }} />
+                  </div>
+                  <button
+                    onClick={onRequestClose}
+                    className={
+                      `text-base float-right rounded py-1.5 px-3 text-white transition ${
+                        performingRequest
+                          ? 'bg-gray-500 pointer-events-none'
+                          : 'bg-emerald-600 hover:bg-emerald-700'
+                      }`
+                    }
+                  >
+                    <LocaleMessage id={`scenarioEditor.${performingRequest ? 'pending-request' : 'finish'}`} />
+                  </button>
                 </Dialog.Title>
                 <iframe
                   src={urlForInput(props.scenarioID, props.inputKey)}
                   className="h-[700px] w-full"
                 />
-                {/* iframe here */}
-                <div className="border-t border-gray-300 px-6 py-4">
-                  <button
-                    onClick={props.onClose}
-                    className="rounded bg-emerald-600 py-1.5 px-3 text-white transition hover:bg-emerald-700"
-                  >
-                    <LocaleMessage id="scenarioEditor.finish" />
-                  </button>
-                </div>
               </Dialog.Panel>
             </div>
           </div>
