@@ -42,18 +42,18 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
     return null;
   }
 
-  let unsanitized_input_name;
+  let unsanitizedInputName
   if (input.group_name) {
-    unsanitized_input_name = `${input.group_name} - ${input.name}`;
+    unsanitizedInputName = `${input.group_name} - ${input.name}`;
   } else {
-    unsanitized_input_name = input.name;
+    unsanitizedInputName = input.name;
   }
 
   return (
     <tr key={input.key} className="border-b border-b-gray-300">
       <td
         className="p-2 text-left text-gray-600"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(unsanitized_input_name, { allowedTags: [ 'sub', 'sup' ]}) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(unsanitizedInputName, { allowedTags: [ 'sub', 'sup' ]}) }}
       >
       </td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
