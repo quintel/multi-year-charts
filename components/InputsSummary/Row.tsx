@@ -1,4 +1,5 @@
 import { ScenarioIndexedInputData } from '../../utils/api/types';
+import useTranslate from '../../utils/useTranslate';
 import sanitizeHtml from 'sanitize-html';
 
 interface RowProps {
@@ -11,7 +12,7 @@ interface RowProps {
 /**
  * A rudimentary formatter for input values.
  */
-const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
+const formatInputValue = (value: number, inputDefinition: { unit: string }, translate: Function) => {
   const [, fraction] = value.toString().split('.');
   let precision = 0;
   let { unit } = inputDefinition;
@@ -20,13 +21,16 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
     precision = Math.min(fraction.length, 2);
   }
 
-  if (unit === '#' || unit === 'enum' || unit === 'weather-curves') {
-    unit = '';
+  let displayValue = typeof value === 'number' ? value.toFixed(precision) : value;
+  let displayUnit = ['#', 'enum', 'weather-curves', 'boolean'].includes(unit) ? '' : unit;
+
+  if (unit === 'boolean') {
+    displayValue = value ? translate('misc.yes') : translate('misc.no');
   }
 
   return (
     <>
-      {typeof value === 'number' ? value.toFixed(precision) : value} {unit}
+      {displayValue} {displayUnit}
     </>
   );
 };
@@ -35,6 +39,7 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }) => {
  * Creates a single row in the table, describing an input and its values in each scenario.
  */
 export default function Row({ input, inputData, onInputClick, scenarioIDs }: RowProps) {
+  const translate = useTranslate();
   const firstInputData = inputData[scenarioIDs[0]][input.key];
 
   if (!firstInputData) {
@@ -42,7 +47,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
     return null;
   }
 
-  let unsanitizedInputName
+  let unsanitizedInputName;
   if (input.group_name) {
     unsanitizedInputName = `${input.group_name} - ${input.name}`;
   } else {
@@ -57,7 +62,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
       >
       </td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
-        {formatInputValue(firstInputData.default, input)}
+        {formatInputValue(firstInputData.default, input, translate)}
       </td>
 
       {scenarioIDs.map((id) => {
@@ -69,7 +74,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
               scenarioInput.user === undefined
                 ? (
                   <span className="text-gray-400">
-                    {formatInputValue(scenarioInput.default, input)}
+                    {formatInputValue(scenarioInput.default, input, translate)}
                   </span>
                 )
                 : (
@@ -77,7 +82,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
                     onClick={() => onInputClick(id, input.key)}
                     className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                   >
-                    {formatInputValue(scenarioInput.user, input)}
+                    {formatInputValue(scenarioInput.user, input, translate)}
                   </button>
                 )
             }
