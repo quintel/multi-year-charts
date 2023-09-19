@@ -10,6 +10,8 @@
   "index.explanation": "Selecteer eerst een scenario in het Energietransitiemodel om de Transition Path Charts tool te kunnen gebruiken.",
   "index.selectScenario": "Selecteer een scenario",
 
+  "misc.yes": "Ja",
+  "misc.no": "Nee",
   "misc.year": "Jaar",
 
   "scenarioEditor.title": "{year} scenario aanpassen",

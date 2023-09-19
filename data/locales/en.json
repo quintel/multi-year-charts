@@ -10,6 +10,8 @@
   "index.explanation": "To use the Transition Path Charts tool, you must first select a scenario in the Energy Transition Model.",
   "index.selectScenario": "Select a scenario",
 
+  "misc.yes": "Yes",
+  "misc.no": "No",
   "misc.year": "Year",
 
   "scenarioEditor.title": "Edit {year} scenario",
