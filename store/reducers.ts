@@ -7,7 +7,7 @@ const initialState: AppState = {
   scenarioData: {},
   scenarios: [],
   queries: {},
-  preferredChartStyle: 'area' as ChartStyle,
+  preferredChartStyle: 'bar' as ChartStyle,
 };
 
 /**
