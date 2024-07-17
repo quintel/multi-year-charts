@@ -25,12 +25,14 @@ export default {
         'myc_final_demand_of_green_gas',
         'myc_final_demand_of_hydrogen',
         'myc_final_demand_of_liquid_biofuels',
+        'myc_final_demand_of_methanol',
         'myc_final_demand_of_natural_gas_and_derivatives',
         'myc_final_demand_of_oil_and_derivatives',
         'myc_final_demand_of_renewable_electricity',
         'myc_final_demand_of_renewable_heat',
         'myc_final_demand_of_solar_thermal',
-        'myc_final_demand_of_solid_biofuels'
+        'myc_final_demand_of_solid_biofuels',
+        'myc_final_demand_of_waste_mix'
       ]
     },
     {
@@ -87,6 +89,13 @@ export default {
         'myc_final_demand_of_liquid_biofuels_in_households',
         'myc_final_demand_of_liquid_biofuels_in_industry',
         'myc_final_demand_of_liquid_biofuels_in_transport',
+        'myc_final_demand_of_methanol_in_agriculture',
+        'myc_final_demand_of_methanol_in_buildings',
+        'myc_final_demand_of_methanol_in_bunkers',
+        'myc_final_demand_of_methanol_in_energy_and_other',
+        'myc_final_demand_of_methanol_in_households',
+        'myc_final_demand_of_methanol_in_industry',
+        'myc_final_demand_of_methanol_in_transport',
         'myc_final_demand_of_natural_gas_and_derivatives_in_agriculture',
         'myc_final_demand_of_natural_gas_and_derivatives_in_buildings',
         'myc_final_demand_of_natural_gas_and_derivatives_in_bunkers',
@@ -128,7 +137,14 @@ export default {
         'myc_final_demand_of_solid_biofuels_in_energy_and_other',
         'myc_final_demand_of_solid_biofuels_in_households',
         'myc_final_demand_of_solid_biofuels_in_industry',
-        'myc_final_demand_of_solid_biofuels_in_transport'
+        'myc_final_demand_of_solid_biofuels_in_transport',
+        'myc_final_demand_of_waste_mix_in_agriculture',
+        'myc_final_demand_of_waste_mix_in_buildings',
+        'myc_final_demand_of_waste_mix_in_bunkers',
+        'myc_final_demand_of_waste_mix_in_energy_and_other',
+        'myc_final_demand_of_waste_mix_in_households',
+        'myc_final_demand_of_waste_mix_in_industry',
+        'myc_final_demand_of_waste_mix_in_transport',
       ]
     },
     {
@@ -143,12 +159,14 @@ export default {
         'myc_final_demand_of_green_gas_in_agriculture',
         'myc_final_demand_of_hydrogen_in_agriculture',
         'myc_final_demand_of_liquid_biofuels_in_agriculture',
+        'myc_final_demand_of_methanol_in_agriculture',
         'myc_final_demand_of_natural_gas_and_derivatives_in_agriculture',
         'myc_final_demand_of_oil_and_derivatives_in_agriculture',
         'myc_final_demand_of_renewable_electricity_in_agriculture',
         'myc_final_demand_of_renewable_heat_in_agriculture',
         'myc_final_demand_of_solar_thermal_in_agriculture',
-        'myc_final_demand_of_solid_biofuels_in_agriculture'
+        'myc_final_demand_of_solid_biofuels_in_agriculture',
+        'myc_final_demand_of_waste_mix_in_agriculture'
       ]
     },
     {
@@ -163,12 +181,14 @@ export default {
         'myc_final_demand_of_green_gas_in_buildings',
         'myc_final_demand_of_hydrogen_in_buildings',
         'myc_final_demand_of_liquid_biofuels_in_buildings',
+        'myc_final_demand_of_methanol_in_buildings',
         'myc_final_demand_of_natural_gas_and_derivatives_in_buildings',
         'myc_final_demand_of_oil_and_derivatives_in_buildings',
         'myc_final_demand_of_renewable_electricity_in_buildings',
         'myc_final_demand_of_renewable_heat_in_buildings',
         'myc_final_demand_of_solar_thermal_in_buildings',
-        'myc_final_demand_of_solid_biofuels_in_buildings'
+        'myc_final_demand_of_solid_biofuels_in_buildings',
+        'myc_final_demand_of_waste_mix_in_buildings'
       ]
     },
     {
@@ -183,12 +203,14 @@ export default {
         'myc_final_demand_of_green_gas_in_bunkers',
         'myc_final_demand_of_hydrogen_in_bunkers',
         'myc_final_demand_of_liquid_biofuels_in_bunkers',
+        'myc_final_demand_of_methanol_in_bunkers',
         'myc_final_demand_of_natural_gas_and_derivatives_in_bunkers',
         'myc_final_demand_of_oil_and_derivatives_in_bunkers',
         'myc_final_demand_of_renewable_electricity_in_bunkers',
         'myc_final_demand_of_renewable_heat_in_bunkers',
         'myc_final_demand_of_solar_thermal_in_bunkers',
-        'myc_final_demand_of_solid_biofuels_in_bunkers'
+        'myc_final_demand_of_solid_biofuels_in_bunkers',
+        'myc_final_demand_of_waste_mix_in_bunkers'
       ]
     },
     {
@@ -203,12 +225,14 @@ export default {
         'myc_final_demand_of_green_gas_in_energy_and_other',
         'myc_final_demand_of_hydrogen_in_energy_and_other',
         'myc_final_demand_of_liquid_biofuels_in_energy_and_other',
+        'myc_final_demand_of_methanol_in_energy_and_other',
         'myc_final_demand_of_natural_gas_and_derivatives_in_energy_and_other',
         'myc_final_demand_of_oil_and_derivatives_in_energy_and_other',
         'myc_final_demand_of_renewable_electricity_in_energy_and_other',
         'myc_final_demand_of_renewable_heat_in_energy_and_other',
         'myc_final_demand_of_solar_thermal_in_energy_and_other',
-        'myc_final_demand_of_solid_biofuels_in_energy_and_other'
+        'myc_final_demand_of_solid_biofuels_in_energy_and_other',
+        'myc_final_demand_of_waste_mix_in_energy_and_other'
       ]
     },
     {
@@ -223,12 +247,14 @@ export default {
         'myc_final_demand_of_green_gas_in_households',
         'myc_final_demand_of_hydrogen_in_households',
         'myc_final_demand_of_liquid_biofuels_in_households',
+        'myc_final_demand_of_methanol_in_households',
         'myc_final_demand_of_natural_gas_and_derivatives_in_households',
         'myc_final_demand_of_oil_and_derivatives_in_households',
         'myc_final_demand_of_renewable_electricity_in_households',
         'myc_final_demand_of_renewable_heat_in_households',
         'myc_final_demand_of_solar_thermal_in_households',
-        'myc_final_demand_of_solid_biofuels_in_households'
+        'myc_final_demand_of_solid_biofuels_in_households',
+        'myc_final_demand_of_waste_mix_in_households'
       ]
     },
     {
@@ -243,12 +269,14 @@ export default {
         'myc_final_demand_of_green_gas_in_industry',
         'myc_final_demand_of_hydrogen_in_industry',
         'myc_final_demand_of_liquid_biofuels_in_industry',
+        'myc_final_demand_of_methanol_in_industry',
         'myc_final_demand_of_natural_gas_and_derivatives_in_industry',
         'myc_final_demand_of_oil_and_derivatives_in_industry',
         'myc_final_demand_of_renewable_electricity_in_industry',
         'myc_final_demand_of_renewable_heat_in_industry',
         'myc_final_demand_of_solar_thermal_in_industry',
-        'myc_final_demand_of_solid_biofuels_in_industry'
+        'myc_final_demand_of_solid_biofuels_in_industry',
+        'myc_final_demand_of_waste_mix_in_industry'
       ]
     },
     {
@@ -263,12 +291,14 @@ export default {
         'myc_final_demand_of_green_gas_in_transport',
         'myc_final_demand_of_hydrogen_in_transport',
         'myc_final_demand_of_liquid_biofuels_in_transport',
+        'myc_final_demand_of_methanol_in_transport',
         'myc_final_demand_of_natural_gas_and_derivatives_in_transport',
         'myc_final_demand_of_oil_and_derivatives_in_transport',
         'myc_final_demand_of_renewable_electricity_in_transport',
         'myc_final_demand_of_renewable_heat_in_transport',
         'myc_final_demand_of_solar_thermal_in_transport',
-        'myc_final_demand_of_solid_biofuels_in_transport'
+        'myc_final_demand_of_solid_biofuels_in_transport',
+        'myc_final_demand_of_waste_mix_in_transport'
       ]
     }
   ]
