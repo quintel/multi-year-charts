@@ -89,5 +89,6 @@
   "series.myc_final_demand_of_renewable_hydrogen": "Hernieuwbare waterstof",
   "series.myc_final_demand_of_renewable_liquid_biofuels": "Vloeibare biobrandstoffen",
   "series.myc_final_demand_of_renewable_solid_biofuels": "Vaste biobrandstoffen",
-  "series.myc_final_demand_of_renewable_waste": "Biogeen afval"
+  "series.myc_final_demand_of_renewable_methanol": "Hernieuwbare methanol",
+  "series.myc_final_demand_of_renewable_waste": "Biogeen afval"  
 }

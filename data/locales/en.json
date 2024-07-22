@@ -89,5 +89,6 @@
   "series.myc_final_demand_of_renewable_hydrogen": "Renewable hydrogen",
   "series.myc_final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
   "series.myc_final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels",
-  "series.myc_final_demand_of_renewable_waste": "Biogenic waste"
+  "series.myc_final_demand_of_renewable_methanol": "Renewable methanol",
+  "series.myc_final_demand_of_renewable_waste": "Biogenic waste"  
 }
