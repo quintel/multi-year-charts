@@ -6,6 +6,7 @@ export default {
       key: 'by_carrier',
       slug: 'by-carrier',
       series: [
+        'myc_final_demand_of_renewable_waste',
         'myc_final_demand_of_renewable_electricity_from_other',
         'myc_final_demand_of_renewable_electricity_from_solar',
         'myc_final_demand_of_renewable_electricity_from_wind',
@@ -14,6 +15,7 @@ export default {
         'myc_final_demand_of_renewable_heat_from_geothermal_and_ambient',
         'myc_final_demand_of_renewable_hydrogen',
         'myc_final_demand_of_renewable_liquid_biofuels',
+        'myc_final_demand_of_renewable_methanol',
         'myc_final_demand_of_renewable_solid_biofuels'
       ]
     }

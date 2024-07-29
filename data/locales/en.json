@@ -77,6 +77,8 @@
   "series.solar_thermal": "Solar thermal",
   "series.solid_biofuels": "Solid biofuels",
   "series.ammonia": "Ammonia",
+  "series.methanol": "Methanol",
+  "series.waste_mix": "Waste mix",
 
   "series.myc_final_demand_of_renewable_electricity_from_other": "Electricity from other renewable sources",
   "series.myc_final_demand_of_renewable_electricity_from_solar": "Electricity from solar PV",
@@ -86,5 +88,7 @@
   "series.myc_final_demand_of_renewable_heat_from_geothermal_and_ambient": "Heat from geothermal and ambient sources",
   "series.myc_final_demand_of_renewable_hydrogen": "Renewable hydrogen",
   "series.myc_final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
-  "series.myc_final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels"
+  "series.myc_final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels",
+  "series.myc_final_demand_of_renewable_methanol": "Renewable methanol",
+  "series.myc_final_demand_of_renewable_waste": "Biogenic waste"  
 }
