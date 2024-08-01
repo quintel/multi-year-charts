@@ -22,6 +22,20 @@ interface CompiledUnit {
 export type UnitFormatter = (val: number) => string;
 
 /**
+ * Retrieves the default unit from local storage or returns 'PJ' as the default.
+ */
+export function getDefaultUnit(): string {
+  return localStorage.getItem('defaultUnit') || 'PJ';
+}
+
+/**
+ * Sets the default unit in local storage.
+ */
+export function setDefaultUnit(unit: string): void {
+  localStorage.setItem('defaultUnit', unit);
+}
+
+/**
  * Orders of magnitude which determine how a value may be scaled from one to
  * another.
  */
@@ -33,7 +47,7 @@ const POWERS: Power[] = [
   { prefix: 'T', multiple: 1e12 },
   { prefix: 'G', multiple: 1e9 },
   { prefix: 'M', multiple: 1e6 },
-  { prefix: 'k', multiple: 1e3 },
+  { prefix: 'K', multiple: 1e3 },
   { prefix: '', multiple: 1 },
 ];
 
@@ -45,14 +59,12 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'T' },
   { name: 'tonne', displayName: 'T' },
   { name: 'W' },
-  { name: 'Wh' },
+  { name: 'Wh', displayName: 'Wh' },
 ];
 
 // Stores all compiled units by their full name ("MJ", "TW").
 const compiledUnits: { [name: string]: CompiledUnit } = {};
 
-const maxPower = POWERS[0];
-const minPower = POWERS[POWERS.length - 1];
 
 BASE_UNITS.forEach((base) => {
   POWERS.forEach((power) => {
@@ -102,10 +114,31 @@ const powerOfThousand = (value: number) => {
 };
 
 /**
+ * Conversion factors for specific unit conversions that are not simple powers of 10.
+ */
+const specificConversionFactors: { [key: string]: number } = {
+  'J-Wh': 2.77777778e-4, // Joules to Watt hours
+  'Wh-J': 3600, // Watt hours to Joules
+  // You can add more specific unit conversions here
+};
+
+/**
+ * Converts a value from one unit to another considering specific conversion factors.
+ */
+const convertValue = (value: number, fromUnit: string, toUnit: string): number => {
+  // console.log("value, fromUnit, toUnit", value, fromUnit, toUnit);
+  const conversionKey = `${fromUnit}-${toUnit}`;
+  if (specificConversionFactors[conversionKey]) {
+    return value * specificConversionFactors[conversionKey];
+  }
+  return value * (getUnit(fromUnit).power.multiple / getUnit(toUnit).power.multiple);
+};
+
+/**
  * Takes a numerical value and a unit, enabling formatting and scaling to other
  * powers within the same base unit.
  */
-class Quantity {
+export class Quantity {
   value: number;
   unitName: string;
   unit: CompiledUnit;
@@ -116,7 +149,7 @@ class Quantity {
    * @param {number} value
    *   The numeric value; the amount of "stuff".
    * @param {string} unitName
-   *   The name of the unit being meastured. e.g. 'PJ', 'MW', etc).
+   *   The name of the unit being measured. e.g. 'PJ', 'MW', etc).
    */
   constructor(value: number, unitName: string) {
     this.value = value;
@@ -133,9 +166,17 @@ class Quantity {
    */
   to(otherName: string) {
     const otherUnit = getUnit(otherName);
-    const newValue = this.value * (this.unit.power.multiple / otherUnit.power.multiple);
-
+    const newValue = convertValue(this.value, this.unitName, otherUnit.name);
     return new Quantity(newValue, otherUnit.name);
+  }
+
+  /**
+   * Converts the quantity to the default unit.
+   */
+  toDefault() {
+    const defaultUnit = getDefaultUnit();
+    console.log("default unit : ", defaultUnit);
+    return this.to(defaultUnit);
   }
 
   /**
@@ -159,27 +200,31 @@ class Quantity {
    *   // => Quantity(5, 'MJ')
    */
   smartScale() {
-    const value = this.toBase().value;
+    // console.log("initial value and unit", this.value, this.unitName);
+    const baseQuantity = this.toBase();
+    const value = baseQuantity.value;
+    console.log("base value and unit : ", value, baseQuantity.unitName);
 
-    // Divide the number by 10 to allow values up to 10_000 before moving up to
-    // thousands, 10_000_000 before moving to millions, etc.
-    const multiple = Math.pow(1000, powerOfThousand(value / 10));
-
-    let power;
-
-    if (multiple < minPower.multiple) {
-      power = minPower;
-    } else if (multiple > maxPower.multiple) {
-      power = maxPower;
-    } else {
-      power = POWERS.find((power) => power.multiple === multiple);
-    }
-
-    if (!power || power === this.unit.power) {
+    // Ensure value is positive and non-zero to avoid log10 issues
+    if (value <= 1) {
       return this;
     }
 
-    return this.to(`${power.prefix}${this.unit.base.name}`);
+    const powerIndex = Math.floor(Math.log10(value) / 3);
+    const adjustedIndex = (powerIndex % 3 === 0 ? powerIndex : (powerIndex % 3 === 1 ? powerIndex - 1 : powerIndex + 1))/3-1;
+    console.log("power index : ", powerIndex, adjustedIndex);
+    const power = POWERS[adjustedIndex] || POWERS[0];
+
+    if (power === this.unit.power) {
+      return this;
+    }
+    console.log("power : ", power);
+
+    const newUnitName = `${power.prefix}${this.unit.base.name}`;
+    const newValue = value / power.multiple;
+    console.log("new value and unit : ", newValue, newUnitName);
+
+    return new Quantity(newValue, newUnitName);
   }
 
   /**
@@ -240,6 +285,7 @@ class Quantity {
  *   formatter(100) // => "0.1 GT"
  */
 export const createScalingFormatter = (maxValue: number, unitName: string) => {
-  const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
+  const defaultUnitName = getDefaultUnit();
+  const bestUnit = new Quantity(maxValue, unitName).to(defaultUnitName).smartScale().unit.name;
   return (value: number) => new Quantity(value, unitName).to(bestUnit).format();
 };

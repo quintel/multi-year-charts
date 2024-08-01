@@ -12,6 +12,7 @@ import NavLink from './NavLink';
 import { ChartSchema } from '../data/charts';
 import useIsActiveURL from '../utils/useIsActiveURL';
 import useLinkHelper from '../utils/useLinkHelper';
+import Settings from './Settings';
 
 const MenuLink = forwardRef(
   (
@@ -143,6 +144,9 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
             <LocaleMessage id="app.sliderSettings" />
           </NavLink>
         </Link>
+        <div className="my-3 ml-2">
+          <Settings />
+        </div>
       </nav>
     </div>
   );

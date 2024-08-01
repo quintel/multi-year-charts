@@ -14,10 +14,11 @@ import { SVGRenderer } from 'echarts/renderers';
 
 import type { ChartStyle } from '../store/types';
 import { ChartSeries, translateChartData } from '../utils/charts';
-
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';
 import EChartsReact from 'echarts-for-react';
+
+import { getDefaultUnit, Quantity } from '../utils/units';
 
 // Register the echarts features.
 echarts.use([
@@ -141,7 +142,6 @@ const Chart = ({ series, style }: ChartProps) => {
             if (axisDimension === 'y') {
               return series.formatter(value).replace(/\.[^\s]*/, '');
             }
-
             return value;
           },
         },
