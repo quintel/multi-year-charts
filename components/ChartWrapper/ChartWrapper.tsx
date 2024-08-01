@@ -20,6 +20,7 @@ import StyleToggle from './StyleToggle';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
 
 import DownloadCSVButton from './DownloadCSVButton';
+import UnitToggle from './UnitToggle';
 
 interface ChartWrapperProps {
   activeVariant?: string;
@@ -80,6 +81,7 @@ const ChartTitle = ({
       <div className="flex-1"></div>
       <DownloadCSVButton chart={chart} scenarios={scenarios} />
       {chart.displayAs !== 'table' ? <StyleToggle /> : null}
+      <UnitToggle />
     </h2>
   );
 };
