@@ -36,13 +36,10 @@ const formatDelta = (value: number, format: UnitFormatter) => {
  * Creates a table row representing a single series and the data for each year.
  */
 const renderRow = (series: Row, format: UnitFormatter, index: number) => {
-  // Avoids TypeScript complaining about a lack of a call signature for
-  // series.data.map.
   const formattedData = [...series.data].map(format);
   let rowClass = '';
 
   if (formattedData.every((val) => val === formattedData[0])) {
-    // Every value is the same; make the row appear lighter.
     rowClass = 'text-gray-400 hover:text-gray-800';
   }
 
@@ -54,7 +51,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
     return (
       <td
         key={`series-${series.name}-${index}`}
-        className="px-3 py-2 text-right align-top tabular-nums"
+        className="px-3 py-2 text-right align-top tabular-nums fixed-width-cell"
       >
         {value}
         {index > 0 ? (
@@ -71,7 +68,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
       key={`series-${series.name}`}
       className={`${rowClass} border-b transition-colors last:border-b-2`}
     >
-      <td className="px-3 py-2 align-top text-gray-800 ">
+      <td className="px-3 py-2 align-top text-gray-800 fixed-width-cell">
         {index >= 0 ? (
           <span
             className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
@@ -97,9 +94,9 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
     <table className="chart-as-table w-full text-sm">
       <thead>
         <tr className="sticky top-0 border-b-2 border-gray-300 bg-white">
-          <th className="px-3 text-left"></th>
+          <th className="px-3 text-left fixed-width-cell"></th>
           {series.categories.map((year) => (
-            <th key={`year-${year}`} className="p-3 text-right">
+            <th key={`year-${year}`} className="p-3 text-right fixed-width-cell">
               {year}
             </th>
           ))}

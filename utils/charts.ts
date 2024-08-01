@@ -175,8 +175,19 @@ export const translateChartData = (series: ChartSeries, translate: TranslateFunc
 export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): string => {
   const translated = translateChartData(series, namespacedTranslate(translate, 'series'));
 
-  const headers = ['Subject', ...series.categories].join(',');
-  const rows = translated.data.map((seriesData) => [seriesData.name, ...seriesData.data].join(','));
+  const headers = ['Subject', 'Units', ...series.categories].join(',');
+  const rows = translated.data.map((seriesData) => {
+    const convertedData = seriesData.data.map((value) => {
+      const formattedValue = series.formatter(value);
+      const [valuePart, unitPart] = formattedValue.split(' ');
+      return { valuePart, unitPart };
+    });
+
+    const unit = convertedData.length > 0 ? convertedData[0].unitPart : '';
+    const values = convertedData.map(data => data.valuePart);
+
+    return [seriesData.name, unit, ...values].join(','); // Add the unit as the second column
+  });
 
   return `${headers}\n${rows.join('\n')}`;
 };

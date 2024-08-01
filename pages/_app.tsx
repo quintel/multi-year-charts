@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
@@ -46,10 +46,26 @@ function App({ Component, pageProps }: AppProps) {
   const initialLocale = selectLocale(window.location.href, ['en', 'nl']);
 
   const [locale, setLocale] = useState(initialLocale);
-
   const [translate, setTranslate] = useState<TranslateFunc>(
     curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations)
   );
+
+  const [unit, setUnit] = useState<'J' | 'Wh'>(() => {
+    return (localStorage.getItem('defaultUnit') as 'J' | 'Wh') || 'J';
+  });
+
+  useEffect(() => {
+    const handleUnitChange = () => {
+      const updatedUnit = localStorage.getItem('defaultUnit') as 'J' | 'Wh';
+      setUnit(updatedUnit);
+    };
+
+    window.addEventListener('unitChange', handleUnitChange);
+
+    return () => {
+      window.removeEventListener('unitChange', handleUnitChange);
+    };
+  }, []);
 
   const onSetLocale = (id: string) => {
     let currentLocale = 'nl';
@@ -79,7 +95,7 @@ function App({ Component, pageProps }: AppProps) {
               setLocale: onSetLocale,
             }}
           >
-            <Component {...pageProps} />
+            <Component {...pageProps} unit={unit} />
           </LocaleContext.Provider>
         </Provider>
       </TrySignIn>
