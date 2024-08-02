@@ -34,3 +34,15 @@ a[aria-current="page"] .current-page-check {
 a[aria-current="page"] .inactive-page-spacer {
   display: none;
 }
+
+table {
+  table-layout: fixed; /* Ensure table layout is fixed */
+  width: 100%; /* Optional: Ensure table takes full width */
+}
+
+.fixed-width-cell {
+  width: 100px; /* Set the desired fixed width */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
