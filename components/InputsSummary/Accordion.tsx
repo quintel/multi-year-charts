@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styles from '../../styles/Accordion.module.css';
 
 interface AccordionItemProps {
@@ -9,7 +9,7 @@ interface AccordionItemProps {
   onToggle: () => void;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nested = false, isOpen, onToggle }) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nested = false, isOpen, onToggle}) => {
   return (
     <div className={`${styles.accordionItem} ${nested ? styles.nested : ''}`}>
       <button className={styles.accordionButton} onClick={onToggle}>

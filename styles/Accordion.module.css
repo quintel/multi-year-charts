@@ -1,53 +1,72 @@
 .accordion {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-  }
+  border: 1px solid #d6e8f2; /* Light blue border */
+  border-radius: 4px;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
 
-  .accordionItem {
-    border-top: 1px solid #ccc;
-  }
+.accordionItem {
+  border-top: 1px solid #d6e8f2; /* Light blue border */
+}
 
-  .accordionItem:first-of-type {
-    border-top: none;
-  }
+.accordionItem:first-of-type {
+  border-top: none;
+}
 
-  .accordionButton {
-    background: none;
-    border: none;
-    padding: 15px;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-  }
+.accordionButton {
+  background: #d6e8f2; /* Light blue background */
+  color: #333333; /* Dark grey text */
+  border: none;
+  padding: 15px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: normal; /* Normal font weight */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-  .accordionButton:hover {
-    background-color: #f0f0f0;
-  }
+.accordionButton:hover {
+  background-color: #c0d4e8; /* Slightly darker blue on hover */
+  color: #000000; /* Black text on hover */
+}
 
-  .accordionContent {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
-    padding: 0 15px;
-  }
+.accordionContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  padding: 0 15px;
+  display: none; /* Initially hide the content */
+}
 
-  .accordionContent.open {
-    max-height: 1000px; /* Adjust based on content */
-    padding: 10px 15px;
-    overflow: visible;
-  }
+.accordionContent.open {
+  max-height: none; /* Let the content decide its height */
+  padding: 10px 15px;
+  display: block; /* Display the content when open */
+  overflow: visible;
+  background-color: #f9f9f9; /* Light grey background for content */
+}
 
-  .nested .accordionButton {
-    padding-left: 30px;
-    font-size: 16px;
-  }
+.nested .accordionButton {
+  padding-left: 30px;
+  font-size: 16px;
+  background: #e6f0f8; /* Lighter blue for nested items */
+  color: #333333; /* Dark text for nested items */
+}
 
-  .nested .accordionContent {
-    padding-left: 45px;
-  }
+.nested .accordionContent {
+  padding-left: 45px;
+  background-color: #ffffff; /* White background for nested content */
+}
+
+.yearHeader {
+  font-size: 14px;
+  font-weight: bold;
+  color: #3a8ddb; /* Blue color for the year headers */
+  padding: 10px 0;
+  border-bottom: 1px solid #d6e8f2; /* Light blue border */
+  margin-bottom: 10px;
+}

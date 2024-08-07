@@ -53,8 +53,10 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
   const sortedRows = sortBy(rows, 'group_name');
 
   return (
-    <>
-      {sortedRows}
-    </>
+    <table>
+      <tbody>
+        {sortedRows}
+      </tbody>
+    </table>
   );
 }

@@ -46,6 +46,8 @@ interface InputsAccordionProps {
 function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, onToggleItem }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
+  const baseYear = sortedScenarios[0]?.scenario.startYear;
+  const endYears = sortedScenarios.map(({ scenario: { endYear } }) => endYear);
 
   const groupedDefinitions = inputList.reduce((acc, definition) => {
     const groupKey = definition.path[0];
@@ -66,19 +68,28 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
       return {
         title: definition.path[2],
         content: Section.shouldShow(definition.input_elements, inputs) ? (
-          <Section
-            key={itemKey}
-            slide={definition}
-            inputData={inputs}
-            scenarioIDs={scenarioIDs}
-            onInputClick={openModal}
-          />
+          <div key={itemKey}>
+            <div>
+              <span>{baseYear}</span>
+              {endYears.map((year, index) => (
+                <span key={`year-${index}`}>{year}</span>
+              ))}
+            </div>
+            <Section
+              key={itemKey}
+              slide={definition}
+              inputData={inputs}
+              scenarioIDs={scenarioIDs}
+              onInputClick={openModal}
+            />
+          </div>
         ) : null,
         isOpen: openItems.includes(itemKey),
         onToggle: () => onToggleItem(itemKey),
       };
     });
   };
+
 
   const createAccordionItems = (groupedDefs: { [key: string]: InputData }) => {
     return Object.keys(groupedDefs).map((subGroupKey) => {
