@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { connect } from 'react-redux';
 import Section from './Section';
 import Loading from '../Loading';
@@ -39,9 +39,11 @@ interface InputsAccordionProps {
   inputs: InputsSummaryProps['inputData'];
   openModal: OpenModalFunc;
   scenarios: InputsSummaryProps['scenarioData'];
+  openItems: string[];
+  onToggleItem: (item: string) => void;
 }
 
-function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAccordionProps) {
+function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, onToggleItem }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
@@ -60,34 +62,43 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAcco
 
   const createSubAccordionItems = (definitions: InputData) => {
     return definitions.map((definition) => {
+      const itemKey = definition.path.join('/');
       return {
         title: definition.path[2],
         content: Section.shouldShow(definition.input_elements, inputs) ? (
           <Section
-            key={definition.path.join('/')}
+            key={itemKey}
             slide={definition}
             inputData={inputs}
             scenarioIDs={scenarioIDs}
             onInputClick={openModal}
           />
         ) : null,
+        isOpen: openItems.includes(itemKey),
+        onToggle: () => onToggleItem(itemKey),
       };
     });
   };
 
   const createAccordionItems = (groupedDefs: { [key: string]: InputData }) => {
     return Object.keys(groupedDefs).map((subGroupKey) => {
+      const itemKey = subGroupKey;
       return {
         title: subGroupKey,
         content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey])} />,
+        isOpen: openItems.includes(itemKey),
+        onToggle: () => onToggleItem(itemKey),
       };
     });
   };
 
   const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => {
+    const itemKey = groupKey;
     return {
       title: groupKey,
       content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey])} />,
+      isOpen: openItems.includes(itemKey),
+      onToggle: () => onToggleItem(itemKey),
     };
   });
 
@@ -148,6 +159,35 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     dispatch({ type: 'close' });
   }, [dispatch, fetchInputs, apiFetch]);
 
+  // Helper function to get the open items from the URL
+  const getOpenItemsFromURL = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    const openItems = params.get('openItems');
+    return openItems ? openItems.split(',') : [];
+  }, []);
+
+  // Initialize state
+  const [openItems, setOpenItems] = useState<string[]>(getOpenItemsFromURL);
+
+  const onToggleItem = useCallback(
+    (item: string) => {
+      setOpenItems((prevOpenItems) => {
+        const newOpenItems = prevOpenItems.includes(item)
+          ? prevOpenItems.filter((i) => i !== item)
+          : [...prevOpenItems, item];
+        const params = new URLSearchParams(window.location.search);
+        params.set('openItems', newOpenItems.join(','));
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState({}, '', newUrl);
+        return newOpenItems;
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+  }, [openItems]);
+
   return (
     <div className="container">
       {inputList && isDataLoaded(props.inputData, props.scenarioData) ? (
@@ -156,6 +196,8 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
           scenarios={props.scenarioData}
           openModal={openModal}
           inputList={inputList}
+          openItems={openItems}
+          onToggleItem={onToggleItem}
         />
       ) : (
         <InputSummaryLoading />
