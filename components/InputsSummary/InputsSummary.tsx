@@ -19,9 +19,6 @@ interface InputsSummaryProps {
 
 type OpenModalFunc = (scenarioID: number, inputKey?: string) => void;
 
-/**
- * Returns whether the data needed to render the InputSummary is loaded.
- */
 function isDataLoaded(
   inputData: ScenarioIndexedInputData,
   scenarioData: ScenarioIndexedScenarioData
@@ -29,9 +26,6 @@ function isDataLoaded(
   return Object.keys(inputData).length > 0 && Object.keys(scenarioData).length > 0;
 }
 
-/**
- * Component which renders a loading indicator while data is fetched.
- */
 function InputSummaryLoading() {
   return (
     <div className="flex h-[400px] items-center justify-center text-gray-500">
@@ -47,14 +41,10 @@ interface InputsAccordionProps {
   scenarios: InputsSummaryProps['scenarioData'];
 }
 
-/**
- * Component which renders the accordion of inputs.
- */
 function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
-  // Group definitions by path[0] and then by path[1] within each group
   const groupedDefinitions = inputList.reduce((acc, definition) => {
     const groupKey = definition.path[0];
     const subGroupKey = definition.path[1];
@@ -70,10 +60,8 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAcco
 
   const createSubAccordionItems = (definitions: InputData) => {
     return definitions.map((definition) => {
-      console.log('input_elements:', definition.input_elements); // Debugging statement
-
       return {
-        title: definition.input_elements[0]?.name || 'Untitled',
+        title: definition.path[2],
         content: Section.shouldShow(definition.input_elements, inputs) ? (
           <Section
             key={definition.path.join('/')}
@@ -88,16 +76,20 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAcco
   };
 
   const createAccordionItems = (groupedDefs: { [key: string]: InputData }) => {
-    return Object.keys(groupedDefs).map((subGroupKey) => ({
-      title: subGroupKey,
-      content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey])} />,
-    }));
+    return Object.keys(groupedDefs).map((subGroupKey) => {
+      return {
+        title: subGroupKey,
+        content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey])} />,
+      };
+    });
   };
 
-  const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => ({
-    title: groupKey,
-    content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey])} />,
-  }));
+  const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => {
+    return {
+      title: groupKey,
+      content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey])} />,
+    };
+  });
 
   return <Accordion items={mainAccordionItems} />;
 }

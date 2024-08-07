@@ -49,16 +49,11 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
 
   const rows = slide.input_elements.map((element) => (
     <Row key={element.key} input={element} inputData={inputData} {...rest} />
-  ))
+  ));
   const sortedRows = sortBy(rows, 'group_name');
 
   return (
     <>
-      <tr className="border-b border-b-gray-300">
-        <th colSpan={6} className="p-2 text-left font-semibold">
-          {slide.path.join(' → ')}
-        </th>
-      </tr>
       {sortedRows}
     </>
   );
