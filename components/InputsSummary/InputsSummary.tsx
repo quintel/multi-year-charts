@@ -1,19 +1,14 @@
 import { useCallback, useEffect, useReducer } from 'react';
-
 import { connect } from 'react-redux';
-
 import Section from './Section';
-
 import Loading from '../Loading';
 import ScenarioEditor from '../ScenarioEditor';
 import { AppState } from '../../store/types';
-
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-
 import { apiFetch, fetchInputs } from '../../store/actions';
 import sortScenarios from '../../utils/sortScenarios';
-
 import useInputDefinitions, { InputData } from '../../utils/etmodel/useInputDefinitions';
+import Accordion from './Accordion';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
@@ -45,7 +40,7 @@ function InputSummaryLoading() {
   );
 }
 
-interface InputsTableProps {
+interface InputsAccordionProps {
   inputList: InputData;
   inputs: InputsSummaryProps['inputData'];
   openModal: OpenModalFunc;
@@ -53,50 +48,58 @@ interface InputsTableProps {
 }
 
 /**
- * Component which renders the table of inputs.
+ * Component which renders the accordion of inputs.
  */
-function InputsTable({ inputs, openModal, scenarios, inputList }: InputsTableProps) {
+function InputsAccordion({ inputs, openModal, scenarios, inputList }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
-
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
-  return (
-    <table className="w-full text-sm">
-      <thead>
-        <tr className="border-b-2 border-b-gray-300">
-          <th className="p-2 text-left font-semibold">Input</th>
-          <th className="w-[12%] p-2 text-right font-semibold">
-            {sortedScenarios[0].scenario.startYear}
-          </th>
-          {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-            <th key={`year-${endYear} `} className="w-[12%] p-2 text-right">
-              <button
-                onClick={() => {
-                  openModal(id);
-                }}
-                className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
-              >
-                {endYear}
-              </button>
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {inputList.map((definition, i) =>
-          Section.shouldShow(definition.input_elements, inputs) ? (
-            <Section
-              key={definition.path.join('/')}
-              slide={definition}
-              inputData={inputs}
-              scenarioIDs={scenarioIDs}
-              onInputClick={openModal}
-            />
-          ) : null
-        )}
-      </tbody>
-    </table>
-  );
+  // Group definitions by path[0] and then by path[1] within each group
+  const groupedDefinitions = inputList.reduce((acc, definition) => {
+    const groupKey = definition.path[0];
+    const subGroupKey = definition.path[1];
+    if (!acc[groupKey]) {
+      acc[groupKey] = {};
+    }
+    if (!acc[groupKey][subGroupKey]) {
+      acc[groupKey][subGroupKey] = [];
+    }
+    acc[groupKey][subGroupKey].push(definition);
+    return acc;
+  }, {} as { [key: string]: { [key: string]: InputData } });
+
+  const createSubAccordionItems = (definitions: InputData) => {
+    return definitions.map((definition) => {
+      console.log('input_elements:', definition.input_elements); // Debugging statement
+
+      return {
+        title: definition.input_elements[0]?.name || 'Untitled',
+        content: Section.shouldShow(definition.input_elements, inputs) ? (
+          <Section
+            key={definition.path.join('/')}
+            slide={definition}
+            inputData={inputs}
+            scenarioIDs={scenarioIDs}
+            onInputClick={openModal}
+          />
+        ) : null,
+      };
+    });
+  };
+
+  const createAccordionItems = (groupedDefs: { [key: string]: InputData }) => {
+    return Object.keys(groupedDefs).map((subGroupKey) => ({
+      title: subGroupKey,
+      content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey])} />,
+    }));
+  };
+
+  const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => ({
+    title: groupKey,
+    content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey])} />,
+  }));
+
+  return <Accordion items={mainAccordionItems} />;
 }
 
 type EditorState =
@@ -115,9 +118,6 @@ type EditorAction =
     }
   | { type: 'close' };
 
-/**
- * Reducer used to track the state of the InputSummary modal.
- */
 function reducer(state: EditorState, action: EditorAction): EditorState {
   switch (action.type) {
     case 'open':
@@ -129,17 +129,11 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
 
 const initialState: EditorState = { isOpen: false };
 
-/**
- * Shows a list of all inputs which have been modified in the loaded scenarios, with links to open
- * the scenarios allowing the user to make further adjustment.
- */
 function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) {
   const inputList = useInputDefinitions();
-
   const [editorState, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    // Fetch the data if it isn't already loaded.
     if (Object.values(props.inputData).length === 0) {
       fetchInputs();
     }
@@ -159,14 +153,13 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   const closeModal = useCallback(() => {
     fetchInputs();
     apiFetch();
-
     dispatch({ type: 'close' });
   }, [dispatch, fetchInputs, apiFetch]);
 
   return (
     <div className="container">
       {inputList && isDataLoaded(props.inputData, props.scenarioData) ? (
-        <InputsTable
+        <InputsAccordion
           inputs={props.inputData}
           scenarios={props.scenarioData}
           openModal={openModal}
