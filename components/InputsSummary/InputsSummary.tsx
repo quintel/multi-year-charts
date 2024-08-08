@@ -62,7 +62,7 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     return acc;
   }, {} as { [key: string]: { [key: string]: InputData } });
 
-  const createSubAccordionItems = (definitions: InputData) => {
+  const createSubAccordionItems = (definitions: InputData, nestedLevel: number) => {
     return definitions.map((definition) => {
       const itemKey = definition.path.join('/');
       return {
@@ -84,19 +84,20 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
             />
           </div>
         ) : null,
+        nestedLevel,
         isOpen: openItems.includes(itemKey),
         onToggle: () => onToggleItem(itemKey),
       };
     });
   };
 
-
-  const createAccordionItems = (groupedDefs: { [key: string]: InputData }) => {
+  const createAccordionItems = (groupedDefs: { [key: string]: InputData }, nestedLevel: number) => {
     return Object.keys(groupedDefs).map((subGroupKey) => {
       const itemKey = subGroupKey;
       return {
         title: subGroupKey,
-        content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey])} />,
+        content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey], nestedLevel + 1)} />,
+        nestedLevel,
         isOpen: openItems.includes(itemKey),
         onToggle: () => onToggleItem(itemKey),
       };
@@ -107,7 +108,8 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     const itemKey = groupKey;
     return {
       title: groupKey,
-      content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey])} />,
+      content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey], 1)} />,
+      nestedLevel: 0,
       isOpen: openItems.includes(itemKey),
       onToggle: () => onToggleItem(itemKey),
     };
@@ -115,6 +117,7 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
 
   return <Accordion items={mainAccordionItems} />;
 }
+
 
 type EditorState =
   | {

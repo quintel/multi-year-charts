@@ -1,0 +1,37 @@
+.tableWrapper {
+    border: 1px solid #d6e8f2; /* Light blue border */
+    border-radius: 4px;
+    width: 100%;
+    max-width: 900px;
+    margin: 10px auto; /* Reduced margin */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.tableWrapper table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableWrapper th,
+    .tableWrapper td {
+    border: 1px solid #d6e8f2; /* Light blue border */
+    padding: 10px; /* Reduced padding */
+    text-align: left;
+    font-size: 16px;
+    color: #333333; /* Dark grey text */
+    background-color: #f9f9f9; /* Light grey background for content */
+}
+
+.tableWrapper th {
+    background-color: #d6e8f2; /* Light blue background for headers */
+    font-weight: bold;
+}
+
+.tableWrapper tr:nth-child(even) {
+    background-color: #ffffff; /* White background for alternate rows */
+}
+
+.tableWrapper tr:hover {
+    background-color: #c0d4e8; /* Slightly darker blue on hover */
+}

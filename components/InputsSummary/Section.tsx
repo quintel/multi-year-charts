@@ -1,8 +1,9 @@
+import React from 'react';
 import { ComponentProps } from 'react';
 import Row from './Row';
 import { sortBy } from 'lodash';
-
 import { ScenarioIndexedInputData } from '../../utils/api/types';
+import styles from '../../styles/Section.module.css';
 
 interface SectionProps {
   inputData: ComponentProps<typeof Row>['inputData'];
@@ -53,10 +54,12 @@ export default function Section({ inputData, slide, ...rest }: SectionProps) {
   const sortedRows = sortBy(rows, 'group_name');
 
   return (
-    <table>
-      <tbody>
-        {sortedRows}
-      </tbody>
-    </table>
+    <div className={styles.tableWrapper}>
+      <table>
+        <tbody>
+          {sortedRows}
+        </tbody>
+      </table>
+    </div>
   );
 }

@@ -4,14 +4,15 @@ import styles from '../../styles/Accordion.module.css';
 interface AccordionItemProps {
   title: string;
   children: ReactNode;
-  nested?: boolean;
+  nestedLevel: number;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nested = false, isOpen, onToggle}) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nestedLevel, isOpen, onToggle}) => {
+  const nestedClass = `nestedLevel${nestedLevel}`;
   return (
-    <div className={`${styles.accordionItem} ${nested ? styles.nested : ''}`}>
+    <div className={`${styles.accordionItem} ${styles[nestedClass]}`}>
       <button className={styles.accordionButton} onClick={onToggle}>
         {title}
       </button>
@@ -23,7 +24,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nested =
 };
 
 interface AccordionProps {
-  items: { title: string; content: ReactNode; nested?: boolean; isOpen: boolean; onToggle: () => void }[];
+  items: { title: string; content: ReactNode; nestedLevel?: number; isOpen: boolean; onToggle: () => void }[];
 }
 
 const Accordion: React.FC<AccordionProps> = ({ items }) => {
@@ -33,7 +34,7 @@ const Accordion: React.FC<AccordionProps> = ({ items }) => {
         <AccordionItem
           key={index}
           title={item.title}
-          nested={item.nested}
+          nestedLevel={item.nestedLevel || 0}
           isOpen={item.isOpen}
           onToggle={item.onToggle}
         >
