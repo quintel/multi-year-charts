@@ -10,6 +10,7 @@ import sortScenarios from '../../utils/sortScenarios';
 import useInputDefinitions, { InputData } from '../../utils/etmodel/useInputDefinitions';
 import Accordion from './Accordion';
 
+// Define the props for the InputsSummary component
 interface InputsSummaryProps {
   apiFetch: () => void;
   fetchInputs: () => void;
@@ -17,8 +18,10 @@ interface InputsSummaryProps {
   scenarioData: ScenarioIndexedScenarioData;
 }
 
+// Define the type for the function to open a modal
 type OpenModalFunc = (scenarioID: number, inputKey?: string) => void;
 
+// Helper function to check if data is loaded
 function isDataLoaded(
   inputData: ScenarioIndexedInputData,
   scenarioData: ScenarioIndexedScenarioData
@@ -26,6 +29,7 @@ function isDataLoaded(
   return Object.keys(inputData).length > 0 && Object.keys(scenarioData).length > 0;
 }
 
+// Component to display a loading indicator while data is being fetched
 function InputSummaryLoading() {
   return (
     <div className="flex h-[400px] items-center justify-center text-gray-500">
@@ -34,6 +38,7 @@ function InputSummaryLoading() {
   );
 }
 
+// Define the props for the InputsAccordion component
 interface InputsAccordionProps {
   inputList: InputData;
   inputs: InputsSummaryProps['inputData'];
@@ -43,12 +48,14 @@ interface InputsAccordionProps {
   onToggleItem: (item: string) => void;
 }
 
+// Component to display the inputs in an accordion format
 function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, onToggleItem }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
   const baseYear = sortedScenarios[0]?.scenario.startYear;
   const endYears = sortedScenarios.map(({ scenario: { endYear } }) => endYear);
 
+  // Group the input definitions by their path for easier rendering
   const groupedDefinitions = inputList.reduce((acc, definition) => {
     const groupKey = definition.path[0];
     const subGroupKey = definition.path[1];
@@ -62,63 +69,64 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     return acc;
   }, {} as { [key: string]: { [key: string]: InputData } });
 
+  // Helper function to create sub accordion items
   const createSubAccordionItems = (definitions: InputData, nestedLevel: number) => {
     return definitions.map((definition) => {
       const itemKey = definition.path.join('/');
-      return {
+      const sectionVisible = Section.shouldShow(definition.input_elements, inputs);
+      return sectionVisible ? {
         title: definition.path[2],
-        content: Section.shouldShow(definition.input_elements, inputs) ? (
+        content: (
           <div key={itemKey}>
-            <div>
-              <span>{baseYear}</span>
-              {endYears.map((year, index) => (
-                <span key={`year-${index}`}>{year}</span>
-              ))}
-            </div>
             <Section
               key={itemKey}
               slide={definition}
               inputData={inputs}
               scenarioIDs={scenarioIDs}
+              years={[baseYear, ...endYears]}
               onInputClick={openModal}
             />
           </div>
-        ) : null,
+        ),
         nestedLevel,
         isOpen: openItems.includes(itemKey),
         onToggle: () => onToggleItem(itemKey),
-      };
-    });
+      } : null;
+    }).filter(item => item !== null);
   };
 
+  // Helper function to create accordion items
   const createAccordionItems = (groupedDefs: { [key: string]: InputData }, nestedLevel: number) => {
     return Object.keys(groupedDefs).map((subGroupKey) => {
       const itemKey = subGroupKey;
-      return {
+      const subItems = createSubAccordionItems(groupedDefs[subGroupKey], nestedLevel + 1);
+      return subItems.length > 0 ? {
         title: subGroupKey,
-        content: <Accordion items={createSubAccordionItems(groupedDefs[subGroupKey], nestedLevel + 1)} />,
+        content: <Accordion items={subItems} />,
         nestedLevel,
         isOpen: openItems.includes(itemKey),
         onToggle: () => onToggleItem(itemKey),
-      };
-    });
+      } : null;
+    }).filter(item => item !== null);
   };
 
+  // Create the main accordion items
   const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => {
     const itemKey = groupKey;
-    return {
+    const groupItems = createAccordionItems(groupedDefinitions[groupKey], 1);
+    return groupItems.length > 0 ? {
       title: groupKey,
-      content: <Accordion items={createAccordionItems(groupedDefinitions[groupKey], 1)} />,
+      content: <Accordion items={groupItems} />,
       nestedLevel: 0,
       isOpen: openItems.includes(itemKey),
       onToggle: () => onToggleItem(itemKey),
-    };
-  });
+    } : null;
+  }).filter(item => item !== null);
 
   return <Accordion items={mainAccordionItems} />;
 }
 
-
+// Define the state for the scenario editor
 type EditorState =
   | {
       isOpen: true;
@@ -127,6 +135,7 @@ type EditorState =
     }
   | { isOpen: false };
 
+// Define the actions for the scenario editor
 type EditorAction =
   | {
       type: 'open';
@@ -135,6 +144,7 @@ type EditorAction =
     }
   | { type: 'close' };
 
+// Reducer function to manage the editor state
 function reducer(state: EditorState, action: EditorAction): EditorState {
   switch (action.type) {
     case 'open':
@@ -144,12 +154,15 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
   }
 }
 
+// Initial state for the editor
 const initialState: EditorState = { isOpen: false };
 
+// Main component to display the inputs summary
 function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) {
   const inputList = useInputDefinitions();
   const [editorState, dispatch] = useReducer(reducer, initialState);
 
+  // Fetch data on component mount
   useEffect(() => {
     if (Object.values(props.inputData).length === 0) {
       fetchInputs();
@@ -160,6 +173,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Callback to open the modal
   const openModal = useCallback(
     (scenarioID: number, inputKey?: string) => {
       dispatch({ type: 'open', scenarioID, inputKey });
@@ -167,6 +181,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     [dispatch]
   );
 
+  // Callback to close the modal
   const closeModal = useCallback(() => {
     fetchInputs();
     apiFetch();
@@ -183,6 +198,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   // Initialize state
   const [openItems, setOpenItems] = useState<string[]>(getOpenItemsFromURL);
 
+  // Callback to toggle an item in the accordion
   const onToggleItem = useCallback(
     (item: string) => {
       setOpenItems((prevOpenItems) => {
@@ -199,6 +215,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     []
   );
 
+  // Update effect for open items
   useEffect(() => {
   }, [openItems]);
 
@@ -227,9 +244,11 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   );
 }
 
+// Map state to props for the InputsSummary component
 const mapStateToProps = (state: AppState) => ({
   inputData: state.inputData,
   scenarioData: state.scenarioData,
 });
 
+// Connect the component to the Redux store
 export default connect(mapStateToProps, { apiFetch, fetchInputs })(InputsSummary);

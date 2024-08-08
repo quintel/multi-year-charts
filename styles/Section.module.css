@@ -1,11 +1,11 @@
 .tableWrapper {
-    border: 1px solid #d6e8f2; /* Light blue border */
+    border: 1px solid #d6e8f2;
     border-radius: 4px;
     width: 100%;
     max-width: 900px;
-    margin: 10px auto; /* Reduced margin */
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin: 10px auto;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tableWrapper table {
@@ -14,24 +14,29 @@
 }
 
 .tableWrapper th,
-    .tableWrapper td {
-    border: 1px solid #d6e8f2; /* Light blue border */
-    padding: 10px; /* Reduced padding */
+.tableWrapper td {
+    border: 1px solid #d6e8f2;
+    padding: 10px;
     text-align: left;
     font-size: 16px;
-    color: #333333; /* Dark grey text */
-    background-color: #f9f9f9; /* Light grey background for content */
+    color: #333333;
+    background-color: #f9f9f9;
 }
 
 .tableWrapper th {
-    background-color: #d6e8f2; /* Light blue background for headers */
+    background-color: #d6e8f2;
     font-weight: bold;
 }
 
 .tableWrapper tr:nth-child(even) {
-    background-color: #ffffff; /* White background for alternate rows */
+    background-color: #ffffff;
 }
 
 .tableWrapper tr:hover {
-    background-color: #c0d4e8; /* Slightly darker blue on hover */
+    background-color: #c0d4e8;
+}
+
+.tableWrapper tr:first-child {
+    font-weight: bold;
+    background-color: #e0f2fc;
 }

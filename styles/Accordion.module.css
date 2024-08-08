@@ -1,16 +1,16 @@
 .accordion {
   width: 100%;
   max-width: 1000px;
-  margin: 2px auto; /* Reduced margin */
-  background-color: #ffffff; /* White background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  padding-right: 0; /* Remove padding on the right side */
+  margin: 2px auto;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding-right: 0;
 }
 
 .accordionItem {
-  border-top: 1px solid #d6e8f2; /* Light blue border */
-  border-left: none; /* Remove left border */
-  border-right: none; /* Remove right border */
+  border-top: 1px solid #d6e8f2;
+  border-left: none;
+  border-right: none;
 }
 
 .accordionItem:first-of-type {
@@ -18,65 +18,84 @@
 }
 
 .accordionButton {
-  background: #d6e8f2; /* Light blue background */
-  color: #333333; /* Dark grey text */
+  background: #d6e8f2;
+  color: #333333;
   border: none;
-  padding: 10px; /* Reduced padding */
+  padding: 10px;
   width: 100%;
   text-align: left;
   cursor: pointer;
   font-size: 18px;
-  font-weight: normal; /* Normal font weight */
+  font-weight: normal;
   transition: background-color 0.3s ease, color 0.3s ease;
-  position: relative; /* For arrow positioning */
+  position: relative;
 }
 
 .accordionButton::after {
-  content: '\25BC'; /* Down-pointing arrow */
+  content: '\25BC';
   font-size: 12px;
   position: absolute;
-  right: 10px; /* Space from the right edge */
+  right: 10px;
   transition: transform 0.3s ease;
 }
 
 .accordionButton:hover {
-  background-color: #c0d4e8; /* Slightly darker blue on hover */
-  color: #000000; /* Black text on hover */
+  background-color: #c0d4e8;
+  color: #000000;
 }
 
 .accordionContent {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out, padding 0.3s ease;
-  padding: 0 10px; /* Reduced padding */
-  display: none; /* Initially hide the content */
+  padding: 0 10px;
+  display: none;
 }
 
 .accordionContent.open {
-  max-height: none; /* Let the content decide its height */
-  padding: 5px 0px 5px 20px; /* Top, Right, Bottom, and increased Left padding */
-  display: block; /* Display the content when open */
+  max-height: none;
+  padding: 5px 0px 5px 20px;
+  display: block;
   overflow: visible;
-  background-color: #f9f9f9; /* Light grey background for content */
+  background-color: #f9f9f9;
 }
 
-/* Additional styles for alternating shades based on nesting level */
 .nestedLevel0 .accordionButton {
-  background: #d6e8f2;
+  background: #D6E8F2;
+}
+
+.nestedLevel0 .accordionButton:hover {
+  background-color: #C0D4E8;
 }
 
 .nestedLevel1 .accordionButton {
-  background: #C0D6E2;
+  background: #B2CBD9;
+}
+
+.nestedLevel1 .accordionButton:hover {
+  background-color: #A0BCC9;
 }
 
 .nestedLevel2 .accordionButton {
-  background: #B6CBD6;
+  background: #91AEBF;
+}
+
+.nestedLevel2 .accordionButton:hover {
+  background-color: #80A0AF;
 }
 
 .nestedLevel3 .accordionButton {
-  background: #A7BAC4;
+  background: #7494A6;
+}
+
+.nestedLevel3 .accordionButton:hover {
+  background-color: #658498;
 }
 
 .nestedLevel4 .accordionButton {
-  background: #9CAEB8;
+  background: #5A7A8C;
+}
+
+.nestedLevel4 .accordionButton:hover {
+  background-color: #4C6A7C;
 }
