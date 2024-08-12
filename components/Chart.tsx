@@ -32,15 +32,12 @@ echarts.use([
 
 // Standard ECharts colors.
 const colors = [
-  '#5470c6',
-  '#91cc75',
-  '#fac858',
-  '#ee6666',
-  '#73c0de',
-  '#3ba272',
-  '#fc8452',
-  '#9a60b4',
-  '#ea7ccc',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
 export interface ChartProps {
@@ -103,7 +100,14 @@ const Chart = ({ series, style }: ChartProps) => {
 
   const [hiddenSeries, setHiddenSeries] = useState<Record<string, boolean>>({});
 
-  const echartSeries = translatedSeries.data.map((cSeries) => {
+  const filteredSeries = translatedSeries.data
+  .map((cSeries) => ({
+    ...cSeries,
+    data: cSeries.data.filter((value) => value !== 0),
+  }))
+  .filter((cSeries) => cSeries.data.length > 0);
+
+  const echartSeries = filteredSeries.map((cSeries) => {
     return {
       name: cSeries.name,
       type: style === 'bar' ? 'bar' : 'line',
@@ -180,6 +184,7 @@ const Chart = ({ series, style }: ChartProps) => {
     ],
     series: echartSeries,
   };
+
 
   const onLegendItemClick = useCallback((key: string) => {
     if (!echartRef.current) {
