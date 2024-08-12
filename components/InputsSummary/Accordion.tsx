@@ -1,18 +1,24 @@
 import React, { ReactNode } from 'react';
 import styles from '../../styles/Accordion.module.css';
 
+// Interface for individual Accordion Item props
 interface AccordionItemProps {
-  title: string;
+  title: ReactNode;
   children: ReactNode;
   nestedLevel: number;
   isOpen: boolean;
   onToggle: () => void;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nestedLevel, isOpen, onToggle}) => {
+// AccordionItem component to render individual accordion sections
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nestedLevel, isOpen, onToggle }) => {
   const nestedClass = `nestedLevel${nestedLevel}`;
+
+  // Safely handle the possibility of title being null or undefined
+  const id = title?.toString() || `accordion-item-${nestedLevel}-${Math.random()}`;
+
   return (
-    <div className={`${styles.accordionItem} ${styles[nestedClass]}`}>
+    <div id={id} className={`${styles.accordionItem} ${styles[nestedClass]}`}>
       <button className={styles.accordionButton} onClick={onToggle}>
         {title}
       </button>
@@ -23,10 +29,12 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children, nestedLe
   );
 };
 
+// Interface for Accordion props
 interface AccordionProps {
-  items: { title: string; content: ReactNode; nestedLevel?: number; isOpen: boolean; onToggle: () => void }[];
+  items: { title: ReactNode; content: ReactNode; nestedLevel?: number; isOpen: boolean; onToggle: () => void }[];
 }
 
+// Accordion component to manage and render multiple AccordionItem components
 const Accordion: React.FC<AccordionProps> = ({ items }) => {
   return (
     <div className={styles.accordion}>

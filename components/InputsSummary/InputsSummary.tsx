@@ -10,7 +10,6 @@ import sortScenarios from '../../utils/sortScenarios';
 import useInputDefinitions, { InputData } from '../../utils/etmodel/useInputDefinitions';
 import Accordion from './Accordion';
 
-// Define the props for the InputsSummary component
 interface InputsSummaryProps {
   apiFetch: () => void;
   fetchInputs: () => void;
@@ -18,10 +17,8 @@ interface InputsSummaryProps {
   scenarioData: ScenarioIndexedScenarioData;
 }
 
-// Define the type for the function to open a modal
 type OpenModalFunc = (scenarioID: number, inputKey?: string) => void;
 
-// Helper function to check if data is loaded
 function isDataLoaded(
   inputData: ScenarioIndexedInputData,
   scenarioData: ScenarioIndexedScenarioData
@@ -29,7 +26,6 @@ function isDataLoaded(
   return Object.keys(inputData).length > 0 && Object.keys(scenarioData).length > 0;
 }
 
-// Component to display a loading indicator while data is being fetched
 function InputSummaryLoading() {
   return (
     <div className="flex h-[400px] items-center justify-center text-gray-500">
@@ -38,7 +34,6 @@ function InputSummaryLoading() {
   );
 }
 
-// Define the props for the InputsAccordion component
 interface InputsAccordionProps {
   inputList: InputData;
   inputs: InputsSummaryProps['inputData'];
@@ -48,14 +43,12 @@ interface InputsAccordionProps {
   onToggleItem: (item: string) => void;
 }
 
-// Component to display the inputs in an accordion format
 function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, onToggleItem }: InputsAccordionProps) {
   const sortedScenarios = sortScenarios(Object.values(scenarios));
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
   const baseYear = sortedScenarios[0]?.scenario.startYear;
   const endYears = sortedScenarios.map(({ scenario: { endYear } }) => endYear);
 
-  // Group the input definitions by their path for easier rendering
   const groupedDefinitions = inputList.reduce((acc, definition) => {
     const groupKey = definition.path[0];
     const subGroupKey = definition.path[1];
@@ -69,13 +62,32 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     return acc;
   }, {} as { [key: string]: { [key: string]: InputData } });
 
-  // Helper function to create sub accordion items
   const createSubAccordionItems = (definitions: InputData, nestedLevel: number) => {
     return definitions.map((definition) => {
       const itemKey = definition.path.join('/');
       const sectionVisible = Section.shouldShow(definition.input_elements, inputs);
+      const hashLink = `${window.location.pathname}#${itemKey}`;
+
+      const titleWithButton = (
+        <div className="flex items-center">
+          <span>{definition.path[2]}</span>
+          <button
+            className="ml-2 text-blue-500 hover:text-blue-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              const hashLink = `${window.location.origin}${window.location.pathname}#${itemKey}`;
+              navigator.clipboard.writeText(hashLink).then(() => {
+                alert('URL copied to clipboard!');
+              });
+            }}
+          >
+            #
+          </button>
+        </div>
+      );
+
       return sectionVisible ? {
-        title: definition.path[2],
+        title: titleWithButton,
         content: (
           <div key={itemKey}>
             <Section
@@ -95,13 +107,31 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     }).filter(item => item !== null);
   };
 
-  // Helper function to create accordion items
   const createAccordionItems = (groupedDefs: { [key: string]: InputData }, nestedLevel: number) => {
     return Object.keys(groupedDefs).map((subGroupKey) => {
       const itemKey = subGroupKey;
       const subItems = createSubAccordionItems(groupedDefs[subGroupKey], nestedLevel + 1);
+
+      const titleWithButton = (
+        <div className="flex items-center">
+          <span>{subGroupKey}</span>
+          <button
+            className="ml-2 text-blue-500 hover:text-blue-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              const hashLink = `${window.location.origin}${window.location.pathname}#${itemKey}`;
+              navigator.clipboard.writeText(hashLink).then(() => {
+                alert('URL copied to clipboard!');
+              });
+            }}
+          >
+            #
+          </button>
+        </div>
+      );
+
       return subItems.length > 0 ? {
-        title: subGroupKey,
+        title: titleWithButton,
         content: <Accordion items={subItems} />,
         nestedLevel,
         isOpen: openItems.includes(itemKey),
@@ -110,12 +140,30 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
     }).filter(item => item !== null);
   };
 
-  // Create the main accordion items
   const mainAccordionItems = Object.keys(groupedDefinitions).map((groupKey) => {
     const itemKey = groupKey;
     const groupItems = createAccordionItems(groupedDefinitions[groupKey], 1);
+
+    const titleWithButton = (
+      <div className="flex items-center">
+        <span>{groupKey}</span>
+        <button
+          className="ml-2 text-blue-500 hover:text-blue-700"
+          onClick={(e) => {
+            e.stopPropagation();
+            const hashLink = `${window.location.origin}${window.location.pathname}#${itemKey}`;
+            navigator.clipboard.writeText(hashLink).then(() => {
+              alert('URL copied to clipboard!');
+            });
+          }}
+        >
+          #
+        </button>
+      </div>
+    );
+
     return groupItems.length > 0 ? {
-      title: groupKey,
+      title: titleWithButton,
       content: <Accordion items={groupItems} />,
       nestedLevel: 0,
       isOpen: openItems.includes(itemKey),
@@ -126,7 +174,6 @@ function InputsAccordion({ inputs, openModal, scenarios, inputList, openItems, o
   return <Accordion items={mainAccordionItems} />;
 }
 
-// Define the state for the scenario editor
 type EditorState =
   | {
       isOpen: true;
@@ -135,7 +182,6 @@ type EditorState =
     }
   | { isOpen: false };
 
-// Define the actions for the scenario editor
 type EditorAction =
   | {
       type: 'open';
@@ -144,7 +190,6 @@ type EditorAction =
     }
   | { type: 'close' };
 
-// Reducer function to manage the editor state
 function reducer(state: EditorState, action: EditorAction): EditorState {
   switch (action.type) {
     case 'open':
@@ -154,15 +199,12 @@ function reducer(state: EditorState, action: EditorAction): EditorState {
   }
 }
 
-// Initial state for the editor
 const initialState: EditorState = { isOpen: false };
 
-// Main component to display the inputs summary
 function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) {
   const inputList = useInputDefinitions();
   const [editorState, dispatch] = useReducer(reducer, initialState);
 
-  // Fetch data on component mount
   useEffect(() => {
     if (Object.values(props.inputData).length === 0) {
       fetchInputs();
@@ -173,7 +215,6 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Callback to open the modal
   const openModal = useCallback(
     (scenarioID: number, inputKey?: string) => {
       dispatch({ type: 'open', scenarioID, inputKey });
@@ -181,43 +222,60 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     [dispatch]
   );
 
-  // Callback to close the modal
   const closeModal = useCallback(() => {
     fetchInputs();
     apiFetch();
     dispatch({ type: 'close' });
   }, [dispatch, fetchInputs, apiFetch]);
 
-  // Helper function to get the open items from the URL
   const getOpenItemsFromURL = useCallback(() => {
     const params = new URLSearchParams(window.location.search);
     const openItems = params.get('openItems');
     return openItems ? openItems.split(',') : [];
   }, []);
 
-  // Initialize state
   const [openItems, setOpenItems] = useState<string[]>(getOpenItemsFromURL);
 
-  // Callback to toggle an item in the accordion
   const onToggleItem = useCallback(
     (item: string) => {
       setOpenItems((prevOpenItems) => {
         const newOpenItems = prevOpenItems.includes(item)
           ? prevOpenItems.filter((i) => i !== item)
           : [...prevOpenItems, item];
-        const params = new URLSearchParams(window.location.search);
-        params.set('openItems', newOpenItems.join(','));
-        const newUrl = `${window.location.pathname}?${params.toString()}`;
-        window.history.replaceState({}, '', newUrl);
         return newOpenItems;
       });
     },
     []
   );
 
-  // Update effect for open items
   useEffect(() => {
-  }, [openItems]);
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const hashParts = hash.split('/');
+      const recursiveOpenItems = [];
+
+      // Recursively construct the path and open all relevant accordion items
+      for (let i = 1; i <= hashParts.length; i++) {
+        const part = hashParts.slice(0, i).join('/');
+        recursiveOpenItems.push(part);
+      }
+
+      console.log("Recursive Open Items:", recursiveOpenItems); // Debugging
+
+      // Set open items without causing an infinite loop
+      setOpenItems(recursiveOpenItems);
+
+      // Ensure the deepest nested accordion is opened and scroll to it
+      const element = document.getElementById(hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 300); // Delay to ensure all levels are open before scrolling
+      }
+    }
+  }, []); // Empty dependency array to ensure this runs only on mount
+
+
 
   return (
     <div className="container">
@@ -244,11 +302,9 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   );
 }
 
-// Map state to props for the InputsSummary component
 const mapStateToProps = (state: AppState) => ({
   inputData: state.inputData,
   scenarioData: state.scenarioData,
 });
 
-// Connect the component to the Redux store
 export default connect(mapStateToProps, { apiFetch, fetchInputs })(InputsSummary);
