@@ -26,6 +26,7 @@
   "chart.final_demand": "Final demand (energetic & non-energetic)",
   "chart.co2_emissions": "Primary CO2 emissions",
   "chart.renewables": "Renewables",
+  "chart.flexible_capacity": "Flexible capacity",
 
   "chart.variant.by_sector": "By sector",
   "chart.variant.by_carrier": "By carrier",
@@ -90,5 +91,35 @@
   "series.myc_final_demand_of_renewable_liquid_biofuels": "Renewable liquid biofuels",
   "series.myc_final_demand_of_renewable_solid_biofuels": "Renewable solid biofuels",
   "series.myc_final_demand_of_renewable_methanol": "Renewable methanol",
-  "series.myc_final_demand_of_renewable_waste": "Biogenic waste"  
+  "series.myc_final_demand_of_renewable_waste": "Biogenic waste",
+
+  "series.myc_flexible_capacity_in_agriculture_p2h": "Conversion to Heat for Agriculture",
+  "series.myc_flexible_capacity_in_energy_flexibility_flow_batteries": "Storage in Flow Batteries",
+  "series.myc_flexible_capacity_in_energy_flexibility_mv_batteries": "Storage in Large-Scale Batteries",
+  "series.myc_flexible_capacity_in_energy_flexibility_opac": "Storage in Reservoirs",
+  "series.myc_flexible_capacity_in_energy_flexibility_pumped_storage": "Storage in Underground Pumped Hydro Storage",
+  "series.myc_flexible_capacity_in_energy_flexibility_synthetic_kerosene": "Conversion to Synthetic Kerosene",
+  "series.myc_flexible_capacity_in_energy_heat_flexibility_p2h_boiler": "Conversion to Heat for HT District Heating (Boiler)",
+  "series.myc_flexible_capacity_in_energy_heat_flexibility_p2h_heatpump": "Conversion to Heat for HT District Heating (Heat Pump)",
+  "series.myc_flexible_capacity_in_energy_hydrogen_flexibility_p2g_offshore": "Conversion to Hydrogen (Offshore)",
+  "series.myc_flexible_capacity_in_energy_hydrogen_flexibility_p2g": "Conversion to Hydrogen (Onshore)",
+  "series.myc_flexible_capacity_in_energy_interconnector_exported": "Exported Using Interconnector 1",
+  "series.myc_flexible_capacity_in_flexibility_total_capacity": "Total Flexibility Capacity",
+  "series.myc_flexible_capacity_in_households_flexibility_p2p": "Storage in Households Batteries",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h_chemicals": "Conversion to Heat for Industry (Chemicals)",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h_fertilizers": "Conversion to Heat for Industry (Fertilizers)",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h_food": "Conversion to Heat for Industry (Food)",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h_paper": "Conversion to Heat for Industry (Paper)",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h_refineries": "Conversion to Heat for Industry (Refineries)",
+  "series.myc_flexible_capacity_in_industry_flexibility_p2h": "Conversion to Heat for Industry",
+  "series.myc_flexible_capacity_in_transport_bus_using": "Storage in Electric Buses",
+  "series.myc_flexible_capacity_in_transport_car_using": "Storage in Electric Cars",
+  "series.myc_flexible_capacity_in_transport_truck_using": "Storage in Electric Trucks",
+  "series.myc_flexible_capacity_in_transport_van_using": "Storage in Electric Vans",
+  "series.myc_flexible_capacity_in_load_shifting_chemical_industry": "Load shifting chemical industry",
+  "series.myc_flexible_capacity_in_load_shifting_metal_industry": "Load shifting metal industry",
+  "series.myc_flexible_capacity_in_load_shifting_other_ict_industry": "Load shifting other ICT industry",
+  "series.myc_flexible_capacity_in_load_shifting_other_industry": "Load shifting other industry"
+
+  
 }
