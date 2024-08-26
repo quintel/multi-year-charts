@@ -14,6 +14,7 @@ export enum TypeKeys {
   API_REQUEST_FAILED = 'API_REQUEST_FAILED',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
+  FETCH_SCENARIOS = 'FETCH_SCENARIOS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
   SET_PREFERRED_CHART_STYLE = 'SET_PREFERRED_CHART_STYLE',
   SET_SCENARIOS = 'SET_SCENARIOS',
@@ -47,6 +48,11 @@ interface SetPreferredChartStyle {
 interface SetScenariosAction {
   type: typeof TypeKeys.SET_SCENARIOS;
   payload: number[];
+}
+
+interface SetScenariosFromMycIDAction {
+  type: typeof TypeKeys.FETCH_SCENARIOS;
+  payload: number;
 }
 
 interface AddQueriesAction {
@@ -88,7 +94,8 @@ export type ActionTypes =
   | AddQueriesAction
   | RemoveQueriesAction
   | UpdateAPIDataAction
-  | UpdateAPIInputsAction;
+  | UpdateAPIInputsAction
+  | SetScenariosFromMycIDAction;
 
 /**
  * State
@@ -102,4 +109,5 @@ export interface AppState {
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
   preferredChartStyle: ChartStyle;
+  mycID: number | null;
 }

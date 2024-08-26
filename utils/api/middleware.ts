@@ -37,6 +37,17 @@ const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>) => {
   });
 };
 
+const setScenariosFromMycID = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
+  const { mycID } = getState() as AppState;
+
+  conn.setScenariosFromMycID(mycID).then((data) => {
+    dispatch({
+      type: TypeKeys.SET_SCENARIOS,
+      payload: data,
+    });
+  });
+};
+
 /**
  * Creates Redux middleware which listens for actions which request data from
  * the API and triggers requests as needed. Results from ETEngine are then
@@ -71,6 +82,18 @@ const createAPIMiddleware = () => {
           fetchInputs(conn, dispatch);
           break;
         }
+
+        // TODO: trigger this, check what set sceanrio action does, make sure mycID is in appstate, done!
+        case TypeKeys.FETCH_SCENARIOS: {
+          setScenariosFromMycID(conn, dispatch, getState);
+          break;
+        }
+
+        // case TypeKeys.SET_AND_API_FETCH {
+        //   conn.setScenarios(action.payload.map((id: number) => id));
+        //   sendRequest(conn, dispatch, getState);
+        //   break;
+        // }
       }
 
       return next(action);

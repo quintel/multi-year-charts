@@ -36,6 +36,29 @@ const camelCaseScenario = (json: {
   };
 };
 
+const extractScenarioIDs = (json: {
+  scenario_ids: number[]
+}): number[] => {
+  return json.scenario_ids
+}
+
+const requestScenarioIDs = async (
+  endpoint: string,
+  id: number
+): Promise<number[]> => {
+  const response = await fetch(`/api/myc/${id}`, {
+    method: 'GET',
+    headers,
+  });
+
+  if (!response.ok) {
+    throw new Error(response.status.toString());
+  }
+
+  return extractScenarioIDs(await response.json());
+};
+
+
 /**
  * Receives a list of scenario IDs and data corresponding to each scenario and
  * return a record of the data indexed by the ID.
@@ -161,5 +184,14 @@ export default class APIConnection {
     }
 
     return await fetchInputsForScenarios(this.endpoint, this.scenarios);
+  }
+
+  async setScenariosFromMycID(mycID: number): Promise<number[]> {
+    if (this.scenarios.length > 0) {
+      return this.scenarios;
+    }
+
+    this.setScenarios(await requestScenarioIDs(this.endpoint, mycID));
+    return this.scenarios;
   }
 }

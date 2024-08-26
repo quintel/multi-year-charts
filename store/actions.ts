@@ -39,6 +39,15 @@ export const setScenarios = (scenarios: number[]): ActionTypes => ({
 });
 
 /**
+ * Fetches the list of scenarios from ETModels MYC ID, which are to be fetched
+ * from ETEngine.
+ */
+export const setScenariosFromMycID = (mycID: number): ActionTypes => ({
+  type: TypeKeys.FETCH_SCENARIOS,
+  payload: mycID,
+});
+
+/**
  * Receives a list of queries to be fetched from ETEngine, and queries which
  * should no longer be fetched from ETEngine and sets the state in one action.
  */

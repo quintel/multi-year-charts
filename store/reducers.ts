@@ -7,7 +7,12 @@ const initialState: AppState = {
   scenarioData: {},
   scenarios: [],
   queries: {},
+<<<<<<< Updated upstream
   preferredChartStyle: 'bar' as ChartStyle,
+=======
+  preferredChartStyle: 'area' as ChartStyle,
+  mycID: 115,
+>>>>>>> Stashed changes
 };
 
 /**
