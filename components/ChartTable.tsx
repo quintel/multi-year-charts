@@ -13,15 +13,12 @@ interface Row {
 }
 
 const colors = [
-  '#5470c6',
-  '#91cc75',
-  '#fac858',
-  '#ee6666',
-  '#73c0de',
-  '#3ba272',
-  '#fc8452',
-  '#9a60b4',
-  '#ea7ccc',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
 const formatDelta = (value: number, format: UnitFormatter) => {
@@ -36,28 +33,26 @@ const formatDelta = (value: number, format: UnitFormatter) => {
  * Creates a table row representing a single series and the data for each year.
  */
 const renderRow = (series: Row, format: UnitFormatter, index: number) => {
-  // Avoids TypeScript complaining about a lack of a call signature for
-  // series.data.map.
+  const hasNonZeroValues = series.data.some(value => value !== 0);
   const formattedData = [...series.data].map(format);
   let rowClass = '';
 
   if (formattedData.every((val) => val === formattedData[0])) {
-    // Every value is the same; make the row appear lighter.
     rowClass = 'text-gray-400 hover:text-gray-800';
   }
 
-  const columns = formattedData.map((value, index) => {
-    const originalValue = series.data[index];
-    const prevValue = series.data[index - 1];
-    const delta = index > 0 ? originalValue - prevValue : 0;
+  const columns = formattedData.map((value, colIndex) => {
+    const originalValue = series.data[colIndex];
+    const prevValue = series.data[colIndex - 1];
+    const delta = colIndex > 0 ? originalValue - prevValue : 0;
 
     return (
       <td
-        key={`series-${series.name}-${index}`}
+        key={`series-${series.name}-${colIndex}`}
         className="px-3 py-2 text-right align-top tabular-nums"
       >
         {value}
-        {index > 0 ? (
+        {colIndex > 0 ? (
           <div className="mt-1 flex items-center justify-end text-xs text-gray-400">
             {delta === 0 ? '–' : formatDelta(delta, format)}
           </div>
@@ -72,12 +67,17 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
       className={`${rowClass} border-b transition-colors last:border-b-2`}
     >
       <td className="px-3 py-2 align-top text-gray-800 ">
-        {index >= 0 ? (
+        {hasNonZeroValues ? (
           <span
             className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
             style={{ backgroundColor: colors[index % colors.length] }}
           />
-        ) : null}
+        ) : (
+          <span
+            className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
+            style={{ backgroundColor: 'transparent' }}
+          />
+        )}
         {series.name}
       </td>
       {columns}
