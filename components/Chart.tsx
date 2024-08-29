@@ -111,7 +111,7 @@ const Chart = ({ series, style }: ChartProps) => {
   // .filter((cSeries) => cSeries.data.length > 0);
 
   const echartSeries = translatedSeries.data.map((cSeries, index) => {
-    const hasNonZeroValues = cSeries.data.some(value => value !== 0);
+    // const hasNonZeroValues = cSeries.data.some(value => value !== 0);
 
     return {
       name: cSeries.name,
@@ -120,7 +120,7 @@ const Chart = ({ series, style }: ChartProps) => {
       areaStyle: {},
       itemStyle: {
         opacity: style === 'bar' ? 0.8 : 1,
-        color: hasNonZeroValues ? colors[index % colors.length] : 'transparent',
+        color: colors[index % colors.length],
       },
       emphasis: {
         focus: 'series',

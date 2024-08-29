@@ -33,7 +33,7 @@ const formatDelta = (value: number, format: UnitFormatter) => {
  * Creates a table row representing a single series and the data for each year.
  */
 const renderRow = (series: Row, format: UnitFormatter, index: number) => {
-  const hasNonZeroValues = series.data.some(value => value !== 0);
+  // const hasNonZeroValues = series.data.some(value => value !== 0);
   const formattedData = [...series.data].map(format);
   let rowClass = '';
 
@@ -67,17 +67,10 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
       className={`${rowClass} border-b transition-colors last:border-b-2`}
     >
       <td className="px-3 py-2 align-top text-gray-800 ">
-        {hasNonZeroValues ? (
-          <span
-            className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
-            style={{ backgroundColor: colors[index % colors.length] }}
-          />
-        ) : (
-          <span
-            className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
-            style={{ backgroundColor: 'transparent' }}
-          />
-        )}
+        <span
+          className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
+          style={{ backgroundColor: colors[index % colors.length] }}
+        />
         {series.name}
       </td>
       {columns}
