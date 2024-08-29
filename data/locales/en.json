@@ -19,6 +19,7 @@
   "inputs.all": "Show all inputs",
   "inputs.collapse": "Collapse all",
   "inputs.expand": "Expand all",
+  "inputs.hide": "Hide all inputs",
 
   "scenarioEditor.title": "Edit {year} scenario",
   "scenarioEditor.finish": "Finish editing",

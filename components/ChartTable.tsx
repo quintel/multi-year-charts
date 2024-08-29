@@ -47,7 +47,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
 
     return (
       <td
-        key={`series-${series.name}-${index}`}
+      key={`series-${series.name}-${index}-${colIndex}`}
         className="px-3 py-2 text-right align-top tabular-nums fixed-width-cell"
       >
         {value}

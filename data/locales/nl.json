@@ -19,6 +19,7 @@
   "inputs.all": "Alle sliders tonen",
   "inputs.collapse": "Alles inklappen",
   "inputs.expand": "Alles uitklappen",
+  "inputs.hide": "Verberg alle invoeren",
 
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
@@ -195,7 +196,7 @@
   "series.myc_flexible_capacity_in_load_shifting_metal_industry": "Vraagverschuiving metaal industrie",
   "series.myc_flexible_capacity_in_load_shifting_other_ict_industry": "Vraagverschuiving centrale ICT industrie",
   "series.myc_flexible_capacity_in_load_shifting_other_industry": "Vraagverschuiving overige industries",
-  
+
   "series.myc_primary_demand_of_ammonia": "Ammoniak",
   "series.myc_primary_demand_of_biogas": "Biogas",
   "series.myc_primary_demand_of_coal_and_coal_products": "Kolen en kolenproducten",
