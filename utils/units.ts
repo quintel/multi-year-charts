@@ -294,7 +294,7 @@ function getBaseUnit(unitName: string): string {
  *   formatter(100) // => "0.1 GT"
  */
 export const createScalingFormatter = (maxValue: number, unitName: string) => {
-  if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne") {
+  if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W") {
     const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
     return (value: number) => new Quantity(value, unitName).to(bestUnit).format();
   }
