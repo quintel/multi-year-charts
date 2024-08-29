@@ -3,7 +3,7 @@
   "app.backToETM": "Terug naar het ETM",
   "app.sliderSettings": "Invoervelden",
   "app.language": "Taal",
-  "app.by_the": "volgens het",
+  "app.by_the": "door het",
   "app.etm": "Energietransitiemodel",
 
   "index.title": "Selecteer een scenario",
@@ -26,6 +26,7 @@
   "chart.final_demand": "Eindgebruik energie (energetisch & non-energetisch)",
   "chart.co2_emissions": "Primaire CO2 uitstoot",
   "chart.renewables": "Hernieuwbare opwek",
+  "chart.primary_demand": "Primaire energievraag",
 
   "chart.variant.by_sector": "Per sector",
   "chart.variant.by_carrier": "Per energiedrager",
@@ -90,5 +91,25 @@
   "series.myc_final_demand_of_renewable_liquid_biofuels": "Vloeibare biobrandstoffen",
   "series.myc_final_demand_of_renewable_solid_biofuels": "Vaste biobrandstoffen",
   "series.myc_final_demand_of_renewable_methanol": "Hernieuwbare methanol",
-  "series.myc_final_demand_of_renewable_waste": "Biogeen afval"  
+  "series.myc_final_demand_of_renewable_waste": "Biogeen afval",
+
+  "series.myc_primary_demand_of_ammonia": "Ammoniak",
+  "series.myc_primary_demand_of_biogas": "Biogas",
+  "series.myc_primary_demand_of_coal_and_coal_products": "Kolen en kolenproducten",
+  "series.myc_primary_demand_of_electricity": "Geïmporteerde elektriciteit",
+  "series.myc_primary_demand_of_geothermal_electricity": "Geothermische elektriciteit",
+  "series.myc_primary_demand_of_geothermal_heat": "Geothermische warmte",
+  "series.myc_primary_demand_of_heat": "Geïmporteerde warmte",
+  "series.myc_primary_demand_of_hydro_electricity": "Hydro-elektriciteit",
+  "series.myc_primary_demand_of_hydrogen_carriers": "Waterstofdragers",
+  "series.myc_primary_demand_of_liquid_biofuels": "Vloeibare biomassa",
+  "series.myc_primary_demand_of_methanol": "Methanol",
+  "series.myc_primary_demand_of_natural_gas_and_derivatives": "Aardgas en derivaten",
+  "series.myc_primary_demand_of_nuclear_energy": "Kernenergie",
+  "series.myc_primary_demand_of_oil_and_oil_products": "Olie en olieproducten",
+  "series.myc_primary_demand_of_solar_electricity": "Zonnestroom",
+  "series.myc_primary_demand_of_solar_thermal": "Zonnewarmte",
+  "series.myc_primary_demand_of_solid_biofuels": "Vaste biomassa",
+  "series.myc_primary_demand_of_waste": "Afval",
+  "series.myc_primary_demand_of_wind_electricity": "Wind-elektriciteit"
 }
