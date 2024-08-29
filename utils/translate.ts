@@ -23,8 +23,17 @@ export const namespacedTranslate = (
       return key;
     }
 
-    return translated;
+    const processedTranslation = processHTML(translated);
+    return processedTranslation;
   };
+};
+
+/**
+ * Processes a translation string to ensure HTML tags or entities are rendered correctly.
+ * This could involve escaping or handling HTML entities.
+ */
+const processHTML = (translation: string): string => {
+  return translation.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 };
 
 /**
@@ -47,12 +56,12 @@ export default (
   if (messages.hasOwnProperty(key)) {
     let message = '' + messages[key];
 
-    Object.keys(values).forEach(key => {
-      const re = new RegExp(`{${key}}`, 'g');
-      message = message.replace(re, values[key]);
+    Object.keys(values).forEach(valKey => {
+      const re = new RegExp(`{${valKey}}`, 'g');
+      message = message.replace(re, values[valKey]);
     });
 
-    return message;
+    return processHTML(message);
   }
 
   return key;

@@ -14,6 +14,12 @@
   "misc.no": "Nee",
   "misc.year": "Jaar",
 
+  "inputs.compare": "Vergelijk slider settings",
+  "inputs.modified": "Mijn sliders tonen",
+  "inputs.all": "Alle sliders tonen",
+  "inputs.collapse": "Alles inklappen",
+  "inputs.expand": "Alles uitklappen",
+
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
   "scenarioEditor.pending-request": "Verwerken...",

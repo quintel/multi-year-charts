@@ -57,7 +57,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
   return (
     <tr key={input.key} className="border-b border-b-gray-300">
       <td
-        className="p-2 text-left text-gray-600"
+        className="p-2 pl-8 text-left text-gray-600"
         dangerouslySetInnerHTML={{ __html: sanitizeHtml(unsanitizedInputName, { allowedTags: [ 'sub', 'sup' ]}) }}
       >
       </td>

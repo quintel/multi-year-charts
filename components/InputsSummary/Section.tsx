@@ -43,23 +43,13 @@ Section.shouldShow = (inputElements: { key: string }[], inputData: ScenarioIndex
 export default function Section({ inputData, slide, ...rest }: SectionProps) {
   const inputs = modifiedInputs(slide.input_elements, inputData);
 
-  if (inputs.length === 0) {
-    return null;
-  }
-
   const rows = slide.input_elements.map((element) => (
     <Row key={element.key} input={element} inputData={inputData} {...rest} />
-  ))
-  const sortedRows = sortBy(rows, 'group_name');
+  ));
 
   return (
     <>
-      <tr className="border-b border-b-gray-300">
-        <th colSpan={6} className="p-2 text-left font-semibold">
-          {slide.path.join(' → ')}
-        </th>
-      </tr>
-      {sortedRows}
+      {rows}
     </>
   );
 }
