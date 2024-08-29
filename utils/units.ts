@@ -22,6 +22,20 @@ interface CompiledUnit {
 export type UnitFormatter = (val: number) => string;
 
 /**
+ * Retrieves the default unit from local storage or returns 'PJ' as the default.
+ */
+export function getDefaultUnit(): string {
+  return localStorage.getItem('defaultUnit') || 'PJ';
+}
+
+/**
+ * Sets the default unit in local storage.
+ */
+export function setDefaultUnit(unit: string): void {
+  localStorage.setItem('defaultUnit', unit);
+}
+
+/**
  * Orders of magnitude which determine how a value may be scaled from one to
  * another.
  */
@@ -33,7 +47,7 @@ const POWERS: Power[] = [
   { prefix: 'T', multiple: 1e12 },
   { prefix: 'G', multiple: 1e9 },
   { prefix: 'M', multiple: 1e6 },
-  { prefix: 'k', multiple: 1e3 },
+  { prefix: 'K', multiple: 1e3 },
   { prefix: '', multiple: 1 },
 ];
 
@@ -47,6 +61,22 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'W' },
   { name: 'Wh' },
 ];
+
+/**
+ * Conversion factors for specific unit conversions that are not simple powers of 10.
+ */
+const specificConversionFactors: { [key: string]: number } = {
+  'J-Wh': 2.77777778e-4, // Joules to Watt hours
+  'Wh-J': 3600, // Watt hours to Joules
+};
+
+const convertValue = (value: number, fromUnit: string, toUnit: string): number => {
+  const conversionKey = `${fromUnit}-${toUnit}`;
+  if (specificConversionFactors[conversionKey]) {
+    return value * specificConversionFactors[conversionKey];
+  }
+  return value * (getUnit(fromUnit).power.multiple / getUnit(toUnit).power.multiple);
+};
 
 // Stores all compiled units by their full name ("MJ", "TW").
 const compiledUnits: { [name: string]: CompiledUnit } = {};
@@ -105,7 +135,7 @@ const powerOfThousand = (value: number) => {
  * Takes a numerical value and a unit, enabling formatting and scaling to other
  * powers within the same base unit.
  */
-class Quantity {
+export class Quantity {
   value: number;
   unitName: string;
   unit: CompiledUnit;
@@ -133,7 +163,7 @@ class Quantity {
    */
   to(otherName: string) {
     const otherUnit = getUnit(otherName);
-    const newValue = this.value * (this.unit.power.multiple / otherUnit.power.multiple);
+    const newValue = convertValue(this.value, this.unit.name, otherUnit.name);
 
     return new Quantity(newValue, otherUnit.name);
   }
@@ -150,6 +180,19 @@ class Quantity {
   }
 
   /**
+   * Converts the quantity to the default unit.
+   *
+   * @example
+   *   new Quantity(5000, 'PJ').toDefault()
+   *   // => Quantity(1.38888889, 'TWh')
+   */
+  toDefault() {
+    const defaultUnitName = getDefaultUnit();
+    const baseQuantity = this.toBase();
+    return baseQuantity.to(defaultUnitName);
+  }
+
+  /**
    * If the value contained in the unit is much larger or smaller than is
    * suitable for the unit, smartScale will return the value in a more
    * appropriate unit.
@@ -163,7 +206,7 @@ class Quantity {
 
     // Divide the number by 10 to allow values up to 10_000 before moving up to
     // thousands, 10_000_000 before moving to millions, etc.
-    const multiple = Math.pow(1000, powerOfThousand(value / 10));
+    const multiple = Math.pow(1000, powerOfThousand(value/10));
 
     let power;
 
@@ -230,6 +273,17 @@ class Quantity {
 }
 
 /**
+ * Retrieves the base unit from a given unit name.
+ *
+ * @param {string} unitName - The name of the unit.
+ * @returns {BaseUnit} - The base unit.
+ */
+function getBaseUnit(unitName: string): string {
+  const compiledUnit = getUnit(unitName);
+  return compiledUnit.base.name;
+}
+
+/**
  * Creates a function capable of scaling the given number, and all smaller
  * numbers, to an appropriate unit.
  *
@@ -240,6 +294,10 @@ class Quantity {
  *   formatter(100) // => "0.1 GT"
  */
 export const createScalingFormatter = (maxValue: number, unitName: string) => {
-  const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
-  return (value: number) => new Quantity(value, unitName).to(bestUnit).format();
+  if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne") {
+    const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
+    return (value: number) => new Quantity(value, unitName).to(bestUnit).format();
+  }
+  const bestUnit = new Quantity(maxValue, unitName).toDefault().smartScale().unit.name;
+  return (value: number) => new Quantity(value, unitName).toDefault().to(bestUnit).format();
 };

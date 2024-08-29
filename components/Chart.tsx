@@ -185,7 +185,16 @@ const Chart = ({ series, style }: ChartProps) => {
       {
         type: 'value',
         axisLabel: {
-          formatter: series.formatter,
+          formatter: (value: number) => {
+            const [numericPart, unitPart] = series.formatter(value).split(' ');
+            const roundedNumericPart = Math.round(parseFloat(numericPart));
+
+            if (roundedNumericPart % 10 !== 0) {
+              return `${roundedNumericPart} ${unitPart}`;
+            }
+
+            return `${Math.round(roundedNumericPart / 10) * 10} ${unitPart}`;
+          },
           fontSize: 14,
         },
       },
