@@ -27,6 +27,7 @@
   "chart.co2_emissions": "Primary CO2 emissions",
   "chart.renewables": "Renewables",
   "chart.flexible_capacity": "Flexible capacity",
+  "chart.primary_demand": "Primary demand",
 
   "chart.variant.by_sector": "By sector",
   "chart.variant.by_carrier": "By carrier",
@@ -119,7 +120,25 @@
   "series.myc_flexible_capacity_in_load_shifting_chemical_industry": "Load shifting chemical industry",
   "series.myc_flexible_capacity_in_load_shifting_metal_industry": "Load shifting metal industry",
   "series.myc_flexible_capacity_in_load_shifting_other_ict_industry": "Load shifting other ICT industry",
-  "series.myc_flexible_capacity_in_load_shifting_other_industry": "Load shifting other industry"
+  "series.myc_flexible_capacity_in_load_shifting_other_industry": "Load shifting other industry",
 
-  
+  "series.myc_primary_demand_of_ammonia": "Ammonia",
+  "series.myc_primary_demand_of_biogas": "Biogas",
+  "series.myc_primary_demand_of_coal_and_coal_products": "Coal and coal products",
+  "series.myc_primary_demand_of_electricity": "Imported Electricity",
+  "series.myc_primary_demand_of_geothermal_electricity": "Geothermal electricity",
+  "series.myc_primary_demand_of_geothermal_heat": "Geothermal heat",
+  "series.myc_primary_demand_of_heat": "Imported Heat",
+  "series.myc_primary_demand_of_hydro_electricity": "Hydro electricity",
+  "series.myc_primary_demand_of_hydrogen_carriers": "Hydrogen carriers",
+  "series.myc_primary_demand_of_liquid_biofuels": "Liquid biofuels",
+  "series.myc_primary_demand_of_methanol": "Methanol",
+  "series.myc_primary_demand_of_natural_gas_and_derivatives": "Natural gas and derivatives",
+  "series.myc_primary_demand_of_nuclear_energy": "Nuclear energy",
+  "series.myc_primary_demand_of_oil_and_oil_products": "Oil and oil products",
+  "series.myc_primary_demand_of_solar_electricity": "Solar electricity",
+  "series.myc_primary_demand_of_solar_thermal": "Solar thermal",
+  "series.myc_primary_demand_of_solid_biofuels": "Solid biofuels",
+  "series.myc_primary_demand_of_waste": "Waste",
+  "series.myc_primary_demand_of_wind_electricity": "Wind electricity"
 }
