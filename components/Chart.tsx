@@ -30,17 +30,14 @@ echarts.use([
   SVGRenderer,
 ]);
 
-// Standard ECharts colors.
+// Expanded colors array to support more series.
 const colors = [
-  '#5470c6',
-  '#91cc75',
-  '#fac858',
-  '#ee6666',
-  '#73c0de',
-  '#3ba272',
-  '#fc8452',
-  '#9a60b4',
-  '#ea7ccc',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
 export interface ChartProps {
@@ -103,13 +100,28 @@ const Chart = ({ series, style }: ChartProps) => {
 
   const [hiddenSeries, setHiddenSeries] = useState<Record<string, boolean>>({});
 
-  const echartSeries = translatedSeries.data.map((cSeries) => {
+  //  We may want to filter the series to remove those that have no data, but
+  //  this is not currently working with the colour assignments in the legend and table.
+
+  // const filteredSeries = translatedSeries.data
+  // .map((cSeries) => ({
+  //   ...cSeries,
+  //   data: cSeries.data.filter((value) => value !== 0),
+  // }))
+  // .filter((cSeries) => cSeries.data.length > 0);
+
+  const echartSeries = translatedSeries.data.map((cSeries, index) => {
+    // const hasNonZeroValues = cSeries.data.some(value => value !== 0);
+
     return {
       name: cSeries.name,
       type: style === 'bar' ? 'bar' : 'line',
       stack: 'Total',
       areaStyle: {},
-      itemStyle: { opacity: style === 'bar' ? 0.8 : 1 },
+      itemStyle: {
+        opacity: style === 'bar' ? 0.8 : 1,
+        color: colors[index % colors.length],
+      },
       emphasis: {
         focus: 'series',
       },
@@ -189,6 +201,7 @@ const Chart = ({ series, style }: ChartProps) => {
     ],
     series: echartSeries,
   };
+
 
   const onLegendItemClick = useCallback((key: string) => {
     if (!echartRef.current) {

@@ -13,15 +13,12 @@ interface Row {
 }
 
 const colors = [
-  '#5470c6',
-  '#91cc75',
-  '#fac858',
-  '#ee6666',
-  '#73c0de',
-  '#3ba272',
-  '#fc8452',
-  '#9a60b4',
-  '#ea7ccc',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
+  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
+  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
+  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
 const formatDelta = (value: number, format: UnitFormatter) => {
@@ -43,10 +40,10 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
     rowClass = 'text-gray-400 hover:text-gray-800';
   }
 
-  const columns = formattedData.map((value, index) => {
-    const originalValue = series.data[index];
-    const prevValue = series.data[index - 1];
-    const delta = index > 0 ? originalValue - prevValue : 0;
+  const columns = formattedData.map((value, colIndex) => {
+    const originalValue = series.data[colIndex];
+    const prevValue = series.data[colIndex - 1];
+    const delta = colIndex > 0 ? originalValue - prevValue : 0;
 
     return (
       <td
@@ -54,7 +51,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
         className="px-3 py-2 text-right align-top tabular-nums fixed-width-cell"
       >
         {value}
-        {index > 0 ? (
+        {colIndex > 0 ? (
           <div className="mt-1 flex items-center justify-end text-xs text-gray-400">
             {delta === 0 ? '–' : formatDelta(delta, format)}
           </div>
