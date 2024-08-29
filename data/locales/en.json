@@ -101,7 +101,7 @@
   "series.coal_chp_pwd": "Pulverized coal CHP",
   "series.coal_chp_pwd_cofiring": "Pulverized coal CHP with co-firing",
   "series.energy_power_supercritical_coal": "Coal conventional",
-  "series.energy_power_combined_cycle_coal'": "Coal IGCC",
+  "series.energy_power_combined_cycle_coal": "Coal IGCC",
   "series.energy_power_combined_cycle_ccs_coal": "Coal IGCC CCS",
   "series.energy_power_ultra_supercritical_coal": "Pulverized coal",
   "series.energy_power_ultra_supercritical_cofiring_coal": "Pulverized coal with co-firing",
