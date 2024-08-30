@@ -1,8 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
-
 import { BarChart, LineChart } from 'echarts/charts';
 import {
   GridComponent,
@@ -14,10 +12,10 @@ import { SVGRenderer } from 'echarts/renderers';
 
 import type { ChartStyle } from '../store/types';
 import { ChartSeries, translateChartData } from '../utils/charts';
-
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';
 import EChartsReact from 'echarts-for-react';
+import LocaleMessage from './LocaleMessage';
 
 // Register the echarts features.
 echarts.use([
@@ -99,20 +97,9 @@ const Chart = ({ series, style }: ChartProps) => {
   const translatedSeries = translateChartData(series, namespacedTranslate(translate, 'series'));
 
   const [hiddenSeries, setHiddenSeries] = useState<Record<string, boolean>>({});
-
-  //  We may want to filter the series to remove those that have no data, but
-  //  this is not currently working with the colour assignments in the legend and table.
-
-  // const filteredSeries = translatedSeries.data
-  // .map((cSeries) => ({
-  //   ...cSeries,
-  //   data: cSeries.data.filter((value) => value !== 0),
-  // }))
-  // .filter((cSeries) => cSeries.data.length > 0);
+  const [allSeriesHidden, setAllSeriesHidden] = useState<boolean>(false);
 
   const echartSeries = translatedSeries.data.map((cSeries, index) => {
-    // const hasNonZeroValues = cSeries.data.some(value => value !== 0);
-
     return {
       name: cSeries.name,
       type: style === 'bar' ? 'bar' : 'line',
@@ -202,7 +189,6 @@ const Chart = ({ series, style }: ChartProps) => {
     series: echartSeries,
   };
 
-
   const onLegendItemClick = useCallback((key: string) => {
     if (!echartRef.current) {
       return;
@@ -243,6 +229,35 @@ const Chart = ({ series, style }: ChartProps) => {
     instance.dispatchAction({ type: 'downplay', seriesName: key });
   }, []);
 
+  // Toggle the visibility of all series
+  const onToggleAllSeries = useCallback(() => {
+    if (!echartRef.current) {
+      return;
+    }
+
+    const instance = echartRef.current.getEchartsInstance();
+    const newVisibilityState = !allSeriesHidden;
+
+    const updatedHiddenSeries = translatedSeries.data.reduce((acc, { name }) => {
+      acc[name] = newVisibilityState;
+      return acc;
+    }, {} as Record<string, boolean>);
+
+    const updatedSelected = translatedSeries.data.reduce((acc, { name }) => {
+      acc[name] = !newVisibilityState;
+      return acc;
+    }, {} as Record<string, boolean>);
+
+    instance.setOption({
+      legend: {
+        selected: updatedSelected,
+      },
+    });
+
+    setHiddenSeries(updatedHiddenSeries);
+    setAllSeriesHidden(newVisibilityState);
+  }, [allSeriesHidden, translatedSeries]);
+
   return (
     <div>
       <ReactEChartsCore
@@ -262,6 +277,12 @@ const Chart = ({ series, style }: ChartProps) => {
           hiddenSeries={hiddenSeries}
         />
       </div>
+      <button
+          onClick={onToggleAllSeries}
+          className="group mb-2 flex items-center rounded py-2 px-3 text-sm font-medium text-white bg-midnight-500 cursor-pointer transition hover:bg-midnight-600"
+          >
+          {allSeriesHidden ? <LocaleMessage id="inputs.all" /> : <LocaleMessage id="inputs.hide" />}
+        </button>
     </div>
   );
 };
