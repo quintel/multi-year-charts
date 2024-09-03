@@ -81,7 +81,7 @@ const ChartTitle = ({
       <div className="flex-1"></div>
       <DownloadCSVButton chart={chart} scenarios={scenarios} />
       {chart.displayAs !== 'table' ? <StyleToggle /> : null}
-      <UnitToggle />
+      <UnitToggle currentChart={chart.chartKey} />
     </h2>
   );
 };

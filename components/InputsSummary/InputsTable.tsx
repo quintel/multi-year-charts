@@ -176,7 +176,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
       <table className="w-full text-sm">
         <thead>
           <tr className='border-b-2 border-b-gray-300'>
-            <th className={`p-2 text-left font-semibold`}>Category/Input</th>
+            <th className={`p-2 text-left font-semibold w-[63%]`}>Category/Input</th>
             <th className="w-[12%] p-2 text-right font-semibold">
               {sortedScenarios[0].scenario.startYear}
             </th>

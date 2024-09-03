@@ -6,12 +6,22 @@ const optionClasses = {
   unchecked: 'px-2 py-1 rounded cursor-pointer text-gray-700 hover:bg-gray-200 active:bg-gray-300 active:text-gray-800 transition',
 };
 
-function Option({ checked, children }: { checked: boolean; children: React.ReactNode }) {
-  return <div className={optionClasses[checked ? 'checked' : 'unchecked']}>{children}</div>;
+function Option({ checked, children, disabled }: { checked: boolean; children: React.ReactNode; disabled: boolean }) {
+  return (
+    <div
+      className={`${optionClasses[checked ? 'checked' : 'unchecked']} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+    >
+      {children}
+    </div>
+  );
 }
 
-function UnitToggle() {
+function UnitToggle({ currentChart }: { currentChart: string }) {
   const [value, setValue] = useState<'J' | 'Wh'>('J');
+
+  // Charts that should grey out the toggle
+  const greyedOutCharts = ['co2_emissions', 'installed_production_capacity', 'flexibl_capacity'];
+  const isGreyedOut = greyedOutCharts.includes(currentChart);
 
   useEffect(() => {
     const savedUnit = localStorage.getItem('defaultUnit');
@@ -21,23 +31,28 @@ function UnitToggle() {
   }, []);
 
   const handleChange = (newValue: 'J' | 'Wh') => {
-    setValue(newValue);
-    localStorage.setItem('defaultUnit', newValue);
-    window.dispatchEvent(new Event('unitChange'));
+    if (!isGreyedOut) {
+      setValue(newValue);
+      localStorage.setItem('defaultUnit', newValue);
+      window.dispatchEvent(new Event('unitChange'));
+    }
   };
 
   return (
     <RadioGroup
       value={value}
       onChange={handleChange}
-      className="-my-1 ml-2 flex select-none items-center gap-1 rounded-md bg-gray-100 p-1 text-sm font-medium"
+      className={`-my-1 ml-2 flex select-none items-center gap-1 rounded-md p-1 text-sm font-medium ${
+        isGreyedOut ? 'bg-gray-200 opacity-50' : 'bg-gray-100'
+      }`}
+      disabled={isGreyedOut} // Disables the entire RadioGroup when greyed out
     >
       <RadioGroup.Label className="sr-only">Set Default Unit</RadioGroup.Label>
-      <RadioGroup.Option value="J">
-        {({ checked }) => <Option checked={checked}>J</Option>}
+      <RadioGroup.Option value="J" disabled={isGreyedOut}>
+        {({ checked }) => <Option checked={checked} disabled={isGreyedOut}>J</Option>}
       </RadioGroup.Option>
-      <RadioGroup.Option value="Wh">
-        {({ checked }) => <Option checked={checked}>Wh</Option>}
+      <RadioGroup.Option value="Wh" disabled={isGreyedOut}>
+        {({ checked }) => <Option checked={checked} disabled={isGreyedOut}>Wh</Option>}
       </RadioGroup.Option>
     </RadioGroup>
   );
