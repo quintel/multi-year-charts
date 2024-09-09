@@ -155,7 +155,7 @@ const Chart = ({ series, style }: ChartProps) => {
     },
     grid: {
       top: '5%',
-      left: '0%',
+      left: '3%',
       right: '2%',
       bottom: '0%',
       containLabel: true,

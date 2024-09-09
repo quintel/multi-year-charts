@@ -92,8 +92,8 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       <thead>
         <tr className="sticky top-0 border-b-2 border-gray-300 bg-white">
           <th className="px-3 text-left fixed-width-cell"></th>
-          {series.categories.map((year) => (
-            <th key={`year-${year}`} className="p-3 text-right fixed-width-cell">
+          {series.categories.map((year, index) => (
+            <th key={`year-${index}`} className="p-3 text-right fixed-width-cell">
               {year}
             </th>
           ))}

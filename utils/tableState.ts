@@ -1,151 +1,185 @@
-// Function to create maps that store index values for categories, subcategories, and sections.
-export const createIndexMaps = (inputList: Array<{ path: string[] }>) => {
-    // Maps to hold indices for categories, subcategories, and sections.
-    const categoryIndexMap: Record<string, string> = {};
-    const subCategoryIndexMap: Record<string, Record<string, string>> = {};
-    const sectionIndexMap: Record<string, Record<string, Record<string, string>>> = {};
+export const serializeTableState = (
+  expandedSections: string[],
+  expandedSubCategories: string[],
+  expandedMainCategories: string[],
+  filteredGroupedInputList: Record<string, Record<string, Array<{ path: string[]; input_elements: any[] }>>>,
+  showAllInputs: boolean
+): string => {
 
-    // Map to store the required outer sections (category and subcategory) for each section
-    const requiredOuterSectionsMap: Record<string, string[]> = {};
+  // Filter the expanded main categories to only include those visible in the filteredGroupedInputList
+  const visibleExpandedMainCategories = expandedMainCategories.filter((mainCategory) =>
+    Object.keys(filteredGroupedInputList).includes(mainCategory)
+  );
 
-    // Counters to generate unique indices for each category, subcategory, and section
-    let categoryCounter = 0;
-    let subCategoryCounter = 0;
-    let sectionCounter = 0;
+  // Filter the expanded subcategories to only include those visible in the filteredGroupedInputList
+  const visibleExpandedSubCategories = expandedSubCategories.filter((subCategory) => {
+    const [mainCategory, subCategoryName] = subCategory.split(' → ');
+    return filteredGroupedInputList[mainCategory]?.[subCategoryName];
+  });
 
-    // Iterate over the input list to populate the maps
-    inputList.forEach(({ path }) => {
-      const [category, subCategory, section] = path;
+  // Filter the expanded sections to only include those visible in the filteredGroupedInputList
+  const visibleExpandedSections = expandedSections.filter((section) => {
+    const [mainCategory, subCategoryName, sectionName] = section.split(' → ');
+    return filteredGroupedInputList[mainCategory]?.[subCategoryName]?.some(item => item.path[2] === sectionName);
+  });
 
-      // Assign a unique index to the category if it hasn't been indexed yet
-      if (!categoryIndexMap[category]) {
-        categoryIndexMap[category] = getIndexString(categoryCounter);
-        categoryCounter++;
-      }
+  // Track fully expanded main categories and subcategories. These will be used to simplify the serialized state
+  const fullyExpandedMainCategories: string[] = [];
+  const fullyExpandedSubCategories: string[] = [];
 
-      // Assign a unique index to the subcategory if it hasn't been indexed yet
-      if (subCategory && !subCategoryIndexMap[category]?.[subCategory]) {
-        if (!subCategoryIndexMap[category]) {
-          subCategoryIndexMap[category] = {};
-        }
-        subCategoryIndexMap[category][subCategory] = getIndexString(subCategoryCounter);
-        subCategoryCounter++;
-      }
+  // Check for fully expanded main categories
+  visibleExpandedMainCategories.forEach((mainCategory) => {
+    const visibleSubCategories = Object.keys(filteredGroupedInputList[mainCategory] || {});
 
-      // Assign a unique index to the section if it hasn't been indexed yet
-      if (section && !sectionIndexMap[category]?.[subCategory]?.[section]) {
-        if (!sectionIndexMap[category]) {
-          sectionIndexMap[category] = {};
-        }
-        if (!sectionIndexMap[category][subCategory]) {
-          sectionIndexMap[category][subCategory] = {};
-        }
-        sectionIndexMap[category][subCategory][section] = getIndexString(sectionCounter);
-        sectionCounter++;
-      }
+    // Get the visible expanded subcategories for the current main category
+    const expandedSubCategoriesForMainCategory = visibleExpandedSubCategories.filter((subCategory) =>
+      subCategory.startsWith(mainCategory)
+    );
 
-      // Store the required outer sections (category and subcategory) for the section
-      requiredOuterSectionsMap[section] = [category, subCategory];
-    });
-
-    // Return the generated maps
-    return { categoryIndexMap, subCategoryIndexMap, sectionIndexMap, requiredOuterSectionsMap };
-  };
-
-  // Helper function to convert a counter into a two-character string.
-  const getIndexString = (counter: number): string => {
-    const alphabetLength = 26;
-    const firstChar = String.fromCharCode(65 + Math.floor(counter / alphabetLength));
-    const secondChar = String.fromCharCode(65 + (counter % alphabetLength));
-    return firstChar + secondChar;
-  };
-
-  // Function to serialize the expanded table state into a compact string.
-  export const serializeTableState = (
-    expandedSections: string[],
-    inputList: Array<{ path: string[] }>
-  ): string => {
-    const { sectionIndexMap } = createIndexMaps(inputList);
-
-    // Map the expanded sections to their corresponding indices and join them with a hyphen
-    const serializedSec = expandedSections.map(section => {
-      const [category, subCategoryName, sectionName] = section.split(' → ');
-
-      const categoryMap = sectionIndexMap[category];
-      const subCategoryMap = categoryMap ? categoryMap[subCategoryName] : undefined;
-      const sectionIndex = subCategoryMap ? subCategoryMap[sectionName] : undefined;
-
-      return sectionIndex || ''; // Return the section index or an empty string if not found
-    }).join('');  // Join the indices without any delimiter
-
-    // Return the serialized string directly (no Base64 encoding needed)
-    return serializedSec;
-  };
-
-  // Function to parse the serialized table state back into expanded categories, subcategories, and sections.
-  export const parseTableState = (
-    stateString: string,
-    inputList: Array<{ path: string[] }>
-  ): {
-    expandedMainCategories: string[];
-    expandedSubCategories: string[];
-    expandedSections: string[];
-  } => {
-    const { subCategoryIndexMap, sectionIndexMap } = createIndexMaps(inputList);
-
-    const reverseSubCategoryIndexMap: Record<string, Record<string, string>> = {};
-    Object.entries(subCategoryIndexMap).forEach(([category, subCategoryMap]) => {
-      reverseSubCategoryIndexMap[category] = Object.fromEntries(
-        Object.entries(subCategoryMap).map(([key, value]) => [value, key])
-      );
-    });
-
-    const reverseSectionIndexMap: Record<string, Record<string, Record<string, string>>> = {};
-    Object.entries(sectionIndexMap).forEach(([category, subCategoryMap]) => {
-      reverseSectionIndexMap[category] = {};
-      Object.entries(subCategoryMap).forEach(([subCategory, sectionMap]) => {
-        reverseSectionIndexMap[category][subCategory] = Object.fromEntries(
-          Object.entries(sectionMap).map(([key, value]) => [value, key])
+    // Check if all visible subcategories are expanded
+    if (visibleSubCategories.length === expandedSubCategoriesForMainCategory.length) {
+      // Check if all expanded subcategories are fully expanded themselves
+      const allSubCategoriesFullyExpanded = expandedSubCategoriesForMainCategory.every((subCategory) => {
+        const [mainCategory, subCategoryName] = subCategory.split(' → ');
+        const visibleSections = filteredGroupedInputList[mainCategory]?.[subCategoryName]?.map(item => item.path[2]) || [];
+        const expandedSectionsForSubCategory = visibleExpandedSections.filter((section) =>
+          section.startsWith(subCategory)
         );
+        return visibleSections.length === expandedSectionsForSubCategory.length;
       });
-    });
 
-    // Arrays to store the expanded categories, subcategories, and sections
-    const expandedMainCategories: string[] = [];
-    const expandedSubCategories: string[] = [];
-    const expandedSections: string[] = [];
-
-    // Split the serialized state string into chunks of two characters
-    const sectionIndices = stateString.match(/.{1,2}/g) || [];
-
-    // Iterate over each section index to find and expand the corresponding sections
-    sectionIndices.forEach(sectionIndex => {
-      // Search through the reverse maps to find the corresponding section
-      for (const [category, subCategoryMap] of Object.entries(reverseSectionIndexMap)) {
-        for (const [subCategory, sectionMap] of Object.entries(subCategoryMap)) {
-          const section = sectionMap[sectionIndex];
-          if (section) {
-            // Add the category to the expanded categories list if not already added
-            if (!expandedMainCategories.includes(category)) {
-              expandedMainCategories.push(category);
-            }
-            // Construct the subcategory key and add it to the expanded subcategories list
-            const subCategoryKey = `${category} → ${subCategory}`;
-            if (!expandedSubCategories.includes(subCategoryKey)) {
-              expandedSubCategories.push(subCategoryKey);
-            }
-            // Construct the section key and add it to the expanded sections list
-            const sectionKey = `${category} → ${subCategory} → ${section}`;
-            expandedSections.push(sectionKey);
-          }
-        }
+      if (allSubCategoriesFullyExpanded) {
+        fullyExpandedMainCategories.push(mainCategory);
       }
-    });
+    }
+  });
 
-    // Return the expanded categories, subcategories, and sections
-    return {
-      expandedMainCategories,
-      expandedSubCategories,
-      expandedSections,
-    };
+  // Check for fully expanded subcategories
+  visibleExpandedSubCategories.forEach((subCategory) => {
+    const [mainCategory, subCategoryName] = subCategory.split(' → ');
+
+    // Skip subcategories that fall under a fully expanded main category
+    if (fullyExpandedMainCategories.includes(mainCategory)) {
+      return; // Don't add subcategories under fully expanded main categories
+    }
+
+    const visibleSections = filteredGroupedInputList[mainCategory]?.[subCategoryName]?.map(item => item.path[2]) || [];
+
+    // Get the visible expanded sections for the current subcategory
+    const expandedSectionsForSubCategory = visibleExpandedSections.filter((section) =>
+      section.startsWith(subCategory)
+    );
+
+    // Check if all visible sections are expanded
+    if (visibleSections.length === expandedSectionsForSubCategory.length) {
+      fullyExpandedSubCategories.push(subCategory);
+    }
+  });
+
+  // Create a constant for sections not under fully expanded main categories or fully expanded subcategories
+  const visibleExpandedSectionsWithoutFullyExpandedCategories = visibleExpandedSections.filter((section) => {
+    const [mainCategory, subCategoryName] = section.split(' → ');
+
+    // Exclude sections that belong to fully expanded main or subcategories
+    const isUnderFullyExpandedMainCategory = fullyExpandedMainCategories.includes(mainCategory);
+    const isUnderFullyExpandedSubCategory = fullyExpandedSubCategories.some(
+      (subCategory) => subCategory === `${mainCategory} → ${subCategoryName}`
+    );
+
+    return !isUnderFullyExpandedMainCategory && !isUnderFullyExpandedSubCategory;
+  });
+
+  console.log('visible expanded sections without fully expanded categories     ', visibleExpandedSectionsWithoutFullyExpandedCategories);
+  // Serialize the expanded state into a URL-like string
+
+  const serializedState = [
+    fullyExpandedMainCategories.join(','),
+    fullyExpandedSubCategories.join(','),
+    visibleExpandedSectionsWithoutFullyExpandedCategories.join(',')
+  ].filter(Boolean).join(',');
+
+  // Replace all instances of '→' with '/'
+  const finalSerializedState = serializedState.replace(/ → /g, ' / ');
+
+  // Append the showAllInputs flag to the serialized state
+  return `${finalSerializedState}|showAll=${showAllInputs}`;
+};
+
+export const parseTableState = (
+  serializedState: string,
+  filteredGroupedInputList: Record<string, Record<string, Array<{ path: string[]; input_elements: any[] }>>>
+): {
+  expandedMainCategories: string[],
+  expandedSubCategories: string[],
+  expandedSections: string[],
+  showAllInputs: boolean
+} => {
+
+  const expandedMainCategories: string[] = [];
+  const expandedSubCategories: string[] = [];
+  const expandedSections: string[] = [];
+
+  // Split the serialized state into the expanded state and showAllInputs flag
+  const [stateString, toggleFlag] = serializedState.split('|');
+  const segments = stateString ? stateString.split(',') : [];
+
+  segments.forEach(segment => {
+    const parts = segment.split('/').map(decodeURIComponent).map(part => part.trim()); // Decode each part of the path and trim whitespace
+    console.log('parts', parts);
+    if (parts.length === 1) {
+      // This represents a fully expanded main category
+      const mainCategory = parts[0];
+      if (filteredGroupedInputList[mainCategory]) {
+        expandedMainCategories.push(mainCategory);
+
+        // Recursively expand all subcategories and sections under this main category
+        Object.keys(filteredGroupedInputList[mainCategory] || {}).forEach(subCategoryName => {
+          expandedSubCategories.push(`${mainCategory} → ${subCategoryName}`);
+
+          // Expand all sections within this subcategory
+          const sections = filteredGroupedInputList[mainCategory][subCategoryName];
+          sections.forEach(section => {
+            expandedSections.push(`${mainCategory} → ${subCategoryName} → ${section.path[2]}`);
+          });
+        });
+      }
+    } else if (parts.length === 2) {
+      // This represents a fully expanded subcategory
+      const [mainCategory, subCategoryName] = parts;
+      if (filteredGroupedInputList[mainCategory]?.[subCategoryName]) {
+        expandedMainCategories.push(mainCategory);
+        expandedSubCategories.push(`${mainCategory} → ${subCategoryName}`);
+
+        // Recursively expand all sections under this subcategory
+        const sections = filteredGroupedInputList[mainCategory][subCategoryName];
+        sections.forEach(section => {
+          expandedSections.push(`${mainCategory} → ${subCategoryName} → ${section.path[2]}`);
+        });
+      }
+    } else if (parts.length === 3) {
+      // This represents an expanded section with a full path
+      const [mainCategory, subCategoryName, sectionName] = parts;
+      if (filteredGroupedInputList[mainCategory]?.[subCategoryName]?.some(item => item.path[2] === sectionName)) {
+        expandedMainCategories.push(mainCategory);
+        expandedSubCategories.push(`${mainCategory} → ${subCategoryName}`);
+        expandedSections.push(`${mainCategory} → ${subCategoryName} → ${sectionName}`);
+      }
+    }
+  });
+
+  // Remove duplicates across the expanded lists
+  const uniqueExpandedMainCategories = Array.from(new Set(expandedMainCategories));
+  const uniqueExpandedSubCategories = Array.from(new Set(expandedSubCategories));
+  const uniqueExpandedSections = Array.from(new Set(expandedSections));
+
+  // Parse the showAllInputs flag, defaulting to false if not present
+  const showAllInputs = toggleFlag === "showAll=true" ? true : false;
+
+  // Return the parsed state
+  return {
+    expandedMainCategories: uniqueExpandedMainCategories,
+    expandedSubCategories: uniqueExpandedSubCategories,
+    expandedSections: uniqueExpandedSections,
+    showAllInputs: showAllInputs
   };
+};

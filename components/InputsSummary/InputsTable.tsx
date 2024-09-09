@@ -3,7 +3,7 @@ import Section from './Section';
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import sortScenarios from '../../utils/sortScenarios';
 import useTranslate from '../../utils/useTranslate';
-import { serializeTableState, parseTableState } from '../../utils/tableState';
+import { serializeTableState, parseTableState} from '../../utils/tableState';
 
 interface InputsTableProps {
   inputs: ScenarioIndexedInputData;
@@ -28,7 +28,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   // Update the URL with the current state for deep linking
   const updateUrlWithState = () => {
-    const stateString = serializeTableState(expandedSections, inputList);
+    const stateString = serializeTableState(expandedSections, expandedSubCategories, expandedMainCategories, filteredGroupedInputList, showAllInputs);
     const newUrl = `${window.location.pathname}?state=${stateString}`;
     window.history.replaceState(null, '', newUrl);
   };
@@ -40,17 +40,18 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
     } else {
       setHasMounted(true);
     }
-  }, [expandedSections]);
+  }, [expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs]);
 
   // Effect to restore state from URL on component mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const stateString = params.get('state');
+    const url = window.location.href;
+    const stateString = url.split('?state=')[1] || '';
     if (stateString) {
-      const { expandedMainCategories, expandedSubCategories, expandedSections } = parseTableState(stateString, inputList);
+      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } = parseTableState(stateString, filteredGroupedInputList);
       setExpandedMainCategories(expandedMainCategories);
       setExpandedSubCategories(expandedSubCategories);
       setExpandedSections(expandedSections);
+      setShowAllInputs(showAllInputs);
     }
   }, [inputList]);
 
@@ -181,7 +182,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
               {sortedScenarios[0].scenario.startYear}
             </th>
             {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-              <th key={`year-${endYear} `} className="w-[12%] p-2 text-right">
+              <th key={`year-${endYear}-${id}`} className="w-[12%] p-2 text-right">
                 <button
                   onClick={() => openModal(id)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
