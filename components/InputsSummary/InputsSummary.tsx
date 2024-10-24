@@ -86,7 +86,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     if (Object.values(props.scenarioData).length === 0) {
       apiFetch();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.inputData, props.scenarioData]);
 
   const openModal = useCallback(
     (scenarioID: number, inputKey?: string) => {
