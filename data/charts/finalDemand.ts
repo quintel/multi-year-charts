@@ -11,7 +11,8 @@ export default {
         'myc_final_demand_in_households',
         'myc_final_demand_in_industry',
         'myc_final_demand_in_other_and_energy_sector',
-        'myc_final_demand_in_transport'
+        'myc_final_demand_in_transport',
+        'myc_final_demand_in_bunkers'
       ]
     },
     {
