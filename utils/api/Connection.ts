@@ -100,10 +100,10 @@ const fetchInputsForScenario = async (
   endpoint: string,
   id: number
 ): Promise<InputCollectionData> => {
-  const response = await fetch(`${endpoint}/api/v3/scenarios/${id}/inputs.json?defaults=original`, {
+  const response = await fetch(`/api/scenarios/${id}/inputs`, {
+    method: 'GET',
     headers,
   });
-
   return await response.json();
 };
 
