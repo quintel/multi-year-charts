@@ -6,35 +6,33 @@ import NextAuth from 'next-auth';
  */
 async function refreshAccessToken(token) {
   try {
-    const url =
-      `${process.env.NEXT_PUBLIC_ETENGINE_URL}/oauth/authorize?` +
-      new URLSearchParams({
-        client_id: process.env.AUTH_CLIENT_ID,
-        client_secret: process.env.AUTH_CLIENT_SECRET,
-        grant_type: 'refresh_token',
-        refresh_token: token.refreshToken,
-      });
+    const url = `${process.env.NEXT_PUBLIC_MYETM_URL}/identity/access_tokens`;
 
     const response = await fetch(url, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      method: 'POST',
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: process.env.ETENGINE_CLIENT_ID,
+        user_id: token.userId,
+      }),
     });
 
     const refreshedTokens = await response.json();
 
-    if (!response.ok) {
+    if (!response.ok || !refreshedTokens.access_token) {
       throw refreshedTokens;
     }
 
     return {
-      ...token,
+      ...token, // Keep the existing token data
       accessToken: refreshedTokens.access_token,
-      accessTokenExpires: refreshedTokens.expires_at * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+      accessTokenExpires: Date.now() + (refreshedTokens.expires_in * 1000 || 3600 * 1000), // Default to 1 hour if expires_in is missing
     };
   } catch (error) {
+    console.error('Error refreshing access token:', error);
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -49,16 +47,16 @@ export const authOptions = {
       name: 'Energy Transition Model',
       type: 'oauth',
 
-      wellKnown: `${process.env.NEXT_PUBLIC_ETENGINE_URL}/.well-known/openid-configuration`,
+      wellKnown: `${process.env.NEXT_PUBLIC_MYETM_URL}/.well-known/openid-configuration`,
       authorization: {
         params: { scope: 'openid profile email scenarios:read scenarios:write' },
       },
 
       idToken: true,
       checks: ['pkce', 'state'],
-      clientId: process.env.AUTH_CLIENT_ID,
+      clientId: process.env.ETENGINE_CLIENT_ID,
       clientSecret: process.env.AUTH_CLIENT_SECRET,
-      issuer: process.env.NEXT_PUBLIC_ETENGINE_URL,
+      issuer: process.env.NEXT_PUBLIC_MYETM_URL,
       profile(profile) {
         return {
           id: profile.sub,
@@ -76,6 +74,7 @@ export const authOptions = {
           accessTokenExpires: account.expires_at ? account.expires_at * 1000 : null,
           refreshToken: account.refresh_token,
           user,
+          userId: user.id,
         };
       }
 
@@ -103,7 +102,7 @@ export const authOptions = {
       } else if (new URL(url).origin === baseUrl) {
         // Allows callback URLs on the same origin
         return Promise.resolve(url);
-      } else if (new URL(url).origin === process.env.NEXT_PUBLIC_ETENGINE_URL) {
+      } else if (new URL(url).origin === process.env.NEXTAUTH_URL) {
         // Allow redirects to ETEngine.
         return Promise.resolve(url);
       }
