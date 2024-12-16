@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       </p>
       <p className="mt-4">
         <a
-          href={`${process.env.NEXT_PUBLIC_ETMODEL_URL}/multi_year_charts`}
+          href={`${process.env.NEXT_PUBLIC_ETMODEL_URL}`}
           className="-m-3 p-3 font-medium text-emerald-600 hover:text-emerald-800"
         >
           <LocaleMessage id="index.selectScenario" /> →

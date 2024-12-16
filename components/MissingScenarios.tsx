@@ -36,7 +36,7 @@ const MissingScenarios = () => {
           )}
           <div className="mt-8 flex justify-center gap-4">
             <a
-              href={`${process.env.NEXT_PUBLIC_ETMODEL_URL}/multi_year_charts`}
+              href={`${process.env.NEXT_PUBLIC_ETMODEL_URL}`}
               className="rounded-md bg-midnight-500 px-3.5 py-2 font-medium text-white transition hover:bg-midnight-600 active:bg-midnight-700"
             >
               ← <LocaleMessage id="app.backToETM" />
