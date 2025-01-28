@@ -9,13 +9,12 @@ const InputsProxy = async function (req: NextApiRequest, res: NextApiResponse) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token["accessToken"]}` : '',
+      Authorization: token?.etAccessToken ? `Bearer ${token.etAccessToken}` : '',
     },
     method: req.method,
   });
 
   const json = await response.json();
-
   return res.status(response.status).json(json);
 };
 
