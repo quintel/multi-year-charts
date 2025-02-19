@@ -23,7 +23,6 @@ export default {
         'myc_final_demand_of_coal_and_derivatives',
         'myc_final_demand_of_electricity',
         'myc_final_demand_of_heat',
-
         'myc_final_demand_of_hydrogen',
         'myc_final_demand_of_liquid_biofuels',
         'myc_final_demand_of_methanol',
