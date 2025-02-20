@@ -40,7 +40,7 @@ const SessionInformation = () => {
       <Menu.Item
         as="a"
         target="_blank"
-        href={`${process.env.NEXT_PUBLIC_ETENGINE_URL}/identity/profile`}
+        href={`${process.env.NEXT_PUBLIC_MYETM_URL}/identity/profile`}
         className="group"
       >
         <IdentificationIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
@@ -48,7 +48,7 @@ const SessionInformation = () => {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_ETENGINE_URL}/identity/sign_out` })
+          signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_MYETM_URL}/identity/sign_out` })
         }
       >
         <LogoutIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
