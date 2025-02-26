@@ -55,7 +55,7 @@ const requestScenario = async (
   id: number,
   gqueries: string[] = []
 ): Promise<ScenarioData> => {
-  const response = await fetch(`/api/v3/scenarios/${id}`, {
+  const response = await fetch(`/api/scenarios/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ gqueries }),
     headers,
@@ -100,7 +100,7 @@ const fetchInputsForScenario = async (
   endpoint: string,
   id: number
 ): Promise<InputCollectionData> => {
-  const response = await fetch(`/api/v3/scenarios/${id}/inputs`, {
+  const response = await fetch(`/api/scenarios/${id}/inputs`, {
     method: 'GET',
     headers,
   });
