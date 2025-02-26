@@ -1,5 +1,5 @@
 {
-  "app.title": "Transitiepaden",
+  "app.title": "Collecties",
   "app.backToETM": "Terug naar het ETM",
   "app.sliderSettings": "Invoervelden",
   "app.language": "Taal",
@@ -7,7 +7,7 @@
   "app.etm": "Energietransitiemodel",
 
   "index.title": "Selecteer een scenario",
-  "index.explanation": "Selecteer eerst een scenario in het Energietransitiemodel om de Transition Path Charts tool te kunnen gebruiken.",
+  "index.explanation": "Selecteer eerst een scenario in het Energietransitiemodel om de Collecties tool te kunnen gebruiken.",
   "index.selectScenario": "Selecteer een scenario",
 
   "misc.yes": "Ja",
