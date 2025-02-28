@@ -34,7 +34,7 @@ const MainNav = () => {
         <LocaleSwitcher currentLocale={currentLocale} setLocale={setLocale} />
         <a
           className="inline-flex items-center rounded bg-emerald-600 bg-gradient-to-b from-white/20 to-transparent px-3 py-1 pl-1.5 text-xs font-medium text-white shadow transition hover:bg-emerald-500 active:bg-emerald-600 active:shadow-inner"
-          href={process.env.NEXT_PUBLIC_ETMODEL_URL}
+          href={`${process.env.NEXT_PUBLIC_MYETM_URL}/collections`}
         >
           <ArrowSmLeftIcon className="mr-1 h-5 w-5" />
           <LocaleMessage id="app.backToETM" />
