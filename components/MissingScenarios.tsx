@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Balancer from 'react-wrap-balancer';
+import Loading from '../components/Loading';
 
 import { useSession, signIn, signOut } from 'next-auth/react';
 
@@ -7,6 +8,11 @@ import LocaleMessage from '../components/LocaleMessage';
 
 const MissingScenarios = () => {
   const { data: session } = useSession();
+
+  setTimeout(() => {
+    const loader = document.getElementById('overlay-wait');
+    if (loader) { loader.remove(); }
+  }, 3000)
 
   return (
     <div>
@@ -16,6 +22,12 @@ const MissingScenarios = () => {
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div id="overlay-wait" className="absolute flex top-0 left-0 h-screen w-screen bg-gray-100">
+        <div className='my-auto mx-auto text-gray-400'>
+          <Loading />
+        </div>
+      </div>
 
       <div className="flex h-screen items-center justify-center bg-gray-100 text-gray-700">
         <div className="w-[36rem] rounded-md bg-white p-16 text-center shadow-xl">

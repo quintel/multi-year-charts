@@ -13,6 +13,7 @@ const TrySignIn = ({ children }: { children: React.ReactNode }) => {
         const firstTry = localStorage.getItem('first-login-attempt');
         const tryPeriodOver = (firstTry && (parseInt(firstTry) < Date.now() - 300));
 
+        // Also on session end this should be reset
         if (!lastAttempt || (parseInt(lastAttempt) < Date.now() - 15 && !tryPeriodOver)) {
           localStorage.setItem('last-login-attempt', Date.now().toString());
 
@@ -24,6 +25,9 @@ const TrySignIn = ({ children }: { children: React.ReactNode }) => {
         } else {
           setRenderChildren(true);
         }
+      } else {
+        localStorage.removeItem('last-login-attempt');
+        localStorage.removeItem('first-login-attempt');
       }
     }
 
