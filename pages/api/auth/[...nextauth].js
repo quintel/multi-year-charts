@@ -7,7 +7,7 @@ import NextAuth from 'next-auth';
 async function refreshAccessToken(token) {
   try {
     const url =
-      `${process.env.NEXT_PUBLIC_MYETM_URL}/oauth/authorize?` +
+      `${process.env.NEXT_PUBLIC_MYETM_URL}/oauth/token?` +
       new URLSearchParams({
         client_id: process.env.AUTH_CLIENT_ID,
         client_secret: process.env.AUTH_CLIENT_SECRET,
