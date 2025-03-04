@@ -107,7 +107,7 @@ export const authOptions = {
         // Allows callback URLs on the same origin
         return Promise.resolve(url);
       } else if (new URL(url).origin === process.env.NEXT_PUBLIC_MYETM_URL) {
-        // Allow redirects to ETEngine.
+        // Allow redirects to MyETM.
         return Promise.resolve(url);
       }
 

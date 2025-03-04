@@ -82,6 +82,7 @@ function App({ Component, pageProps }: AppProps) {
     setTranslate(curryTranslate(messages));
   };
 
+  // get from params if with current user to do: localStorage.removeItem('stop-login-attempt');
   return (
     <SessionProvider session={pageProps.session}>
       <TrySignIn>

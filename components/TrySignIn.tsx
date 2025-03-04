@@ -10,24 +10,23 @@ const TrySignIn = ({ children }: { children: React.ReactNode }) => {
     async function trySignIn() {
       if (status === 'unauthenticated') {
         const lastAttempt = localStorage.getItem('last-login-attempt');
-        const firstTry = localStorage.getItem('first-login-attempt');
-        const tryPeriodOver = (firstTry && (parseInt(firstTry) < Date.now() - 300));
+        const stop = localStorage.getItem('stop-login-attempt');
+        // Stop reattempting to log in for a while when silent log in failed
+        const stopAttempting = (stop && (parseInt(stop) > Date.now() - 60 * 15 * 30))
 
-        // Also on session end this should be reset
-        if (!lastAttempt || (parseInt(lastAttempt) < Date.now() - 15 && !tryPeriodOver)) {
+        if (!stopAttempting && (!lastAttempt || parseInt(lastAttempt) < Date.now() - 15)) {
           localStorage.setItem('last-login-attempt', Date.now().toString());
 
-          if (!firstTry) {
-            localStorage.setItem('first-login-attempt', Date.now().toString());
-          }
-
-          await signIn('identity', { redirect: false }, { prompt: 'none' });
+          await signIn('identity', { redirect: false }, { prompt: 'none' }).then((res) => {
+            if (res?.ok) {
+              localStorage.removeItem('last-login-attempt');
+            } else {
+              localStorage.setItem('stop-login-attempt', Date.now().toString());
+            }
+          })
         } else {
           setRenderChildren(true);
         }
-      } else {
-        localStorage.removeItem('last-login-attempt');
-        localStorage.removeItem('first-login-attempt');
       }
     }
 
