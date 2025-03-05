@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useSession } from 'next-auth/react';
 
 import { PresentationChartLineIcon } from '@heroicons/react/outline';
 import { ArrowSmLeftIcon } from '@heroicons/react/solid';
@@ -10,6 +11,12 @@ import SessionInformation from './SessionInformation';
 
 const MainNav = () => {
   const { currentLocale, setLocale } = useContext(LocaleContext);
+  const { data: session } = useSession();
+
+  // Determine the URL based on session
+  const etmUrl = session
+  ? `${process.env.NEXT_PUBLIC_MYETM_URL}/collections`  // Authenticated
+  : `${process.env.NEXT_PUBLIC_ETMODEL_URL}`;           // Default
 
   return (
     <nav
@@ -34,7 +41,7 @@ const MainNav = () => {
         <LocaleSwitcher currentLocale={currentLocale} setLocale={setLocale} />
         <a
           className="inline-flex items-center rounded bg-emerald-600 bg-gradient-to-b from-white/20 to-transparent px-3 py-1 pl-1.5 text-xs font-medium text-white shadow transition hover:bg-emerald-500 active:bg-emerald-600 active:shadow-inner"
-          href={`${process.env.NEXT_PUBLIC_MYETM_URL}/collections`}
+          href={etmUrl}
         >
           <ArrowSmLeftIcon className="mr-1 h-5 w-5" />
           <LocaleMessage id="app.backToETM" />

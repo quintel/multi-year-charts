@@ -43,9 +43,9 @@ const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>) => {
  * passed into Redux via the UPDATE_API_DATA action.
  */
 const createAPIMiddleware = () => {
-  if (!process.env.NEXT_PUBLIC_MYETM_URL) {
+  if (!process.env.NEXT_PUBLIC_ETENGINE_URL) {
     throw new Error(
-      'Cannot create API middleware without an API URL. Please set NEXT_PUBLIC_MYETM_URL.'
+      'Cannot create API middleware without an API URL. Please set NEXT_PUBLIC_ETENGINE_URL.'
     );
   }
 
