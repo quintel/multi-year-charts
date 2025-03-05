@@ -60,6 +60,7 @@
   "session.signIn": "Inloggen",
   "session.signOut": "Uitloggen",
   "session.profile": "Profiel en instellingen",
+  "session.myScenarios": "Mijn Scenario's",
 
   "series.carrier_in_sector": "{carrier} in {sector}",
 
