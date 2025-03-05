@@ -59,6 +59,7 @@
   "session.signIn": "Sign in",
   "session.signOut": "Sign out",
   "session.profile": "Profile and settings",
+  "session.myScenarios": "My Scenarios",
 
   "series.carrier_in_sector": "{carrier} in {sector}",
 
