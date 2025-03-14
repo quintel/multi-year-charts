@@ -26,16 +26,6 @@ const SessionInformation = () => {
 
   return (
     <div className="flex space-x-2">
-      <button
-        className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-gray-300 transition hover:bg-gray-600 hover:text-gray-100"
-        onClick={() => {
-          window.location.href = `${process.env.NEXT_PUBLIC_MYETM_URL}/collections`;
-        }}
-      >
-        <AdjustmentsIcon className="mr-1 h-5 w-5" />
-        <LocaleMessage id="session.myScenarios" />
-      </button>
-
       {!session ? (
         <button
           className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-gray-300 transition hover:bg-gray-600 hover:text-gray-100"
@@ -54,6 +44,15 @@ const SessionInformation = () => {
           >
             <IdentificationIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
             <LocaleMessage id="session.profile" />
+          </Menu.Item>
+          <Menu.Item
+            as="a"
+            target="_blank"
+            href={`${process.env.NEXT_PUBLIC_MYETM_URL}/collections`}
+            className="group"
+          >
+            <AdjustmentsIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
+            <LocaleMessage id="session.myScenarios" />
           </Menu.Item>
           <Menu.Item
             onClick={() =>
