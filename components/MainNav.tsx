@@ -29,6 +29,7 @@ const MainNav = () => {
         <div className="mr-auto flex items-center font-semibold">
           <PresentationChartLineIcon className="mr-1.5 -ml-1 h-6 w-6" />
           <LocaleMessage id="app.title" />
+          <span className="text-gray-400 text-sm">#2025.01</span>
           <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
             <LocaleMessage id="app.by_the" />{' '}
             <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
