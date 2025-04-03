@@ -19,7 +19,7 @@ const MenuLink = forwardRef(
     ref: ForwardedRef<HTMLAnchorElement>
   ) => {
     return (
-      <Link href={href} passHref>
+      <Link href={href} passHref legacyBehavior>
         <NavLink ref={ref} {...rest}>
           {children}
         </NavLink>
@@ -34,7 +34,7 @@ const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
   const { linkTo } = useLinkHelper();
 
   return (
-    <Link passHref key={`subnav-chart-${chart.slug}`} href={linkTo(`/charts/${chart.slug}`)}>
+    <Link passHref key={`subnav-chart-${chart.slug}`} href={linkTo(`/charts/${chart.slug}`)} legacyBehavior>
       <NavLink
         className="my-3 rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
         activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
@@ -134,7 +134,7 @@ const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
     <div className="bg-gray-800 text-sm text-white">
       <nav id="subnav" className="container mx-auto flex gap-3">
         {charts.map(chartItem)}
-        <Link href={linkTo('/inputs')} passHref>
+        <Link href={linkTo('/inputs')} passHref legacyBehavior>
           <NavLink
             className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
             activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
