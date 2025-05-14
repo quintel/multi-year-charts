@@ -9,7 +9,7 @@ const InputsProxy = async function (req: NextApiRequest, res: NextApiResponse) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token?.etAccessToken ? `Bearer ${token.etAccessToken}` : '',
+      Authorization: token ? `Bearer ${token["accessToken"]}` : '',
     },
     method: req.method,
   });
