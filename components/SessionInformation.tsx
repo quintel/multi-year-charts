@@ -38,7 +38,6 @@ const SessionInformation = () => {
         <Menu button={<Button>{session.user?.name}</Button>}>
           <Menu.Item
             as="a"
-            target="_blank"
             href={`${process.env.NEXT_PUBLIC_MYETM_URL}/identity/profile`}
             className="group"
           >
@@ -47,7 +46,6 @@ const SessionInformation = () => {
           </Menu.Item>
           <Menu.Item
             as="a"
-            target="_blank"
             href={`${process.env.NEXT_PUBLIC_MYETM_URL}/collections`}
             className="group"
           >
