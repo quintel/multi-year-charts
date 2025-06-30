@@ -53,8 +53,7 @@ export const authOptions = {
 
       wellKnown: `${process.env.NEXT_PUBLIC_MYETM_URL}/.well-known/openid-configuration`,
       authorization: {
-        params: { scope: 'openid profile email scenarios:read scenarios:write' },
-        prompt: 'consent'
+        params: { scope: 'openid profile email scenarios:read scenarios:write' }
       },
 
       idToken: true,
@@ -112,6 +111,17 @@ export const authOptions = {
       }
 
       return Promise.resolve(baseUrl);
+    },
+    cookies: {
+      sessionToken: {
+        name: "__Scoped-next-auth.session-token",
+        options: {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+          domain: new URL(process.env.NEXTAUTH_URL).host
+        },
+      },
     },
   },
 };
