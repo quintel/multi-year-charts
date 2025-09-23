@@ -12,7 +12,7 @@ interface RowProps {
 /**
  * A rudimentary formatter for input values.
  */
-const formatInputValue = (value: number, inputDefinition: { unit: string }, translate: Function) => {
+const formatInputValue = (value: number, couplingDisabled?: boolean, inputDefinition: { unit: string }, translate: Function) => {
   const [, fraction] = value.toString().split('.');
   let precision = 0;
   let { unit } = inputDefinition;
@@ -28,6 +28,10 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }, tran
     displayValue = value ? translate('misc.yes') : translate('misc.no');
   }
 
+  if (couplingDisabled) {
+    return '-';
+  }
+
   return (
     <>
       {displayValue} {displayUnit}
@@ -41,8 +45,11 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }, tran
 export default function Row({ input, inputData, onInputClick, scenarioIDs }: RowProps) {
   const translate = useTranslate();
   const firstInputData = inputData[scenarioIDs[0]][input.key];
+  const allCouplingDisabled = scenarioIDs.every(
+    (id) => inputData[id][input.key].coupling_disabled
+  );
 
-  if (!firstInputData || firstInputData.coupling_disabled) {
+  if (!firstInputData || allCouplingDisabled) {
     // The input doesn't exist in ETEngine or is disabled by coupling; skip it.
     return null;
   }
@@ -62,7 +69,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
       >
       </td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
-        {formatInputValue(firstInputData.default, input, translate)}
+        {formatInputValue(firstInputData.default, firstInputData.coupling_disabled, input, translate)}
       </td>
 
       {scenarioIDs.map((id) => {
@@ -74,7 +81,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
               scenarioInput.user === undefined
                 ? (
                   <span className="text-gray-400">
-                    {formatInputValue(scenarioInput.default, input, translate)}
+                    {formatInputValue(scenarioInput.default, scenarioInput.coupling_disabled, input, translate)}
                   </span>
                 )
                 : (
@@ -82,7 +89,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
                     onClick={() => onInputClick(id, input.key)}
                     className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                   >
-                    {formatInputValue(scenarioInput.user, input, translate)}
+                    {formatInputValue(scenarioInput.user, scenarioInput.coupling_disabled, input, translate)}
                   </button>
                 )
             }
