@@ -42,8 +42,8 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
   const translate = useTranslate();
   const firstInputData = inputData[scenarioIDs[0]][input.key];
 
-  if (!firstInputData) {
-    // The input doesn't exist in ETEngine; skip it.
+  if (!firstInputData || firstInputData.coupling_disabled) {
+    // The input doesn't exist in ETEngine or is disabled by coupling; skip it.
     return null;
   }
 

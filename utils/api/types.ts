@@ -25,6 +25,7 @@ export interface InputData {
   default: number;
   user?: number;
   disabled: boolean;
+  coupling_disabled?: boolean;
   share_group?: string;
 }
 
