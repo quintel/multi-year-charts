@@ -46,7 +46,7 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
   const translate = useTranslate();
   const firstInputData = inputData[scenarioIDs[0]][input.key];
   const allCouplingDisabled = scenarioIDs.every(
-    (id) => inputData[id][input.key].coupling_disabled
+    (id) => inputData[id][input.key] != undefined && inputData[id][input.key].coupling_disabled
   );
 
   if (!firstInputData || allCouplingDisabled) {
