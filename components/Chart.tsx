@@ -281,7 +281,7 @@ const Chart = ({ series, style }: ChartProps) => {
           onClick={onToggleAllSeries}
           className="group mb-2 flex items-center rounded py-2 px-3 text-sm font-medium text-white bg-midnight-500 cursor-pointer transition hover:bg-midnight-600"
           >
-          {allSeriesHidden ? <LocaleMessage id="inputs.all" /> : <LocaleMessage id="inputs.hide" />}
+          {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
         </button>
     </div>
   );

@@ -19,7 +19,9 @@
   "inputs.all": "Alle sliders tonen",
   "inputs.collapse": "Alles inklappen",
   "inputs.expand": "Alles uitklappen",
-  "inputs.hide": "Verberg alle invoeren",
+
+  "series.all": "Toon alle series",
+  "series.hide": "Verberg alle series",
 
   "scenarioEditor.title": "{year} scenario aanpassen",
   "scenarioEditor.finish": "Gereed",
