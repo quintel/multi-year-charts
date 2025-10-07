@@ -102,7 +102,7 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       <tbody>
         {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
         <tr className="transition-colors">
-          <td className="px-3 fixed-width-cell"></td>
+          <td className="px-3 fixed-width-cell">{translate('series.total')}</td>
           {series.categories.map((_, i) => (
             <td key={`year-total-${i}`} className="p-3 text-right fixed-width-cell">
               {series.formatter(translatedData.data.reduce((sum, s) => sum + (s.data[i] || 0), 0))}
