@@ -116,13 +116,23 @@ const Chart = ({ series, style }: ChartProps) => {
     };
   });
 
+  const echartSeriesTotal = {
+    name: '',
+    type: style === 'bar' ? 'bar' : 'line',
+    stack: 'Total',
+    color: '#ffffff00',
+    data: series.categories.map((_, i) =>
+      '0.0000' + series.formatter(translatedSeries.data.reduce((sum, s) => sum + (s.data[i] || 0), 0))
+    ),
+  };
+
   const options = {
     color: colors,
     animationDuration: 0,
     animationDurationUpdate: 300,
     tooltip: {
       trigger: 'axis',
-      valueFormatter: series.formatter,
+      valueFormatter: (v: any) => typeof v === 'string' ? v.substring(6) : series.formatter(v),
       transitionDuration: 0,
       axisPointer: {
         type: 'cross',
@@ -186,7 +196,7 @@ const Chart = ({ series, style }: ChartProps) => {
         },
       },
     ],
-    series: echartSeries,
+    series: [...echartSeries, echartSeriesTotal],
   };
 
   const onLegendItemClick = useCallback((key: string) => {

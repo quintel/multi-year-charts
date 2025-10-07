@@ -63,7 +63,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
   return (
     <tr
       key={`series-${series.name}`}
-      className={`${rowClass} border-b transition-colors last:border-b-2`}
+      className={`${rowClass} border-b transition-colors [&:nth-last-child(2)]:border-b-2`}
     >
       <td className="px-3 py-2 align-top text-gray-800 fixed-width-cell">
         {index >= 0 ? (
@@ -101,6 +101,14 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       </thead>
       <tbody>
         {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
+        <tr className="transition-colors">
+          <td className="px-3 fixed-width-cell">{translate('series.total')}</td>
+          {series.categories.map((_, i) => (
+            <td key={`year-total-${i}`} className="p-3 text-right fixed-width-cell">
+              {series.formatter(translatedData.data.reduce((sum, s) => sum + (s.data[i] || 0), 0))}
+            </td> 
+          ))}
+        </tr>
       </tbody>
     </table>
   );
