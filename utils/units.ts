@@ -19,7 +19,13 @@ interface CompiledUnit {
  * Represent a function which can be called to format a query value with the
  * unit.
  */
-export type UnitFormatter = (val: number) => string;
+export type UnitFormatter = (val: number, fromChart?: boolean) => string;
+
+/**
+ * Represent a function which can be called to only convert a query value with 
+ * the unit.
+ */
+export type UnitConverter = (val: number) => number;
 
 /**
  * Retrieves the default unit from local storage or returns 'PJ' as the default.
@@ -284,6 +290,16 @@ function getBaseUnit(unitName: string): string {
 }
 
 /**
+ * Check is the given unit should be converted to the default unit.
+ *
+ * @param {string} unitName - The name of the unit.
+ * @returns {boolean} - True if needs conversion.
+ */
+function unitNeedsConversion(unitName: string): boolean {
+  return getBaseUnit(unitName) === 'J' && getDefaultUnit() === 'Wh';
+}
+
+/**
  * Creates a function capable of scaling the given number, and all smaller
  * numbers, to an appropriate unit.
  *
@@ -293,11 +309,34 @@ function getBaseUnit(unitName: string): string {
  *   formatter(1000) // => "1 GT"
  *   formatter(100) // => "0.1 GT"
  */
-export const createScalingFormatter = (maxValue: number, unitName: string) => {
-  if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W") {
-    const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
-    return (value: number) => new Quantity(value, unitName).to(bestUnit).format();
+ export const createScalingFormatter = (maxValue: number, unitName: string) => {
+  return (value: number, fromChart?: boolean) => {
+    if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W") {
+      const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
+      return new Quantity(value, unitName).to(bestUnit).format();
+    }
+
+    const bestUnit = new Quantity(maxValue, unitName).toDefault().smartScale().unit.name;
+    if (fromChart === true && unitNeedsConversion(unitName)) {
+      // Values from a chart when have already been converted to default unit
+      return new Quantity(value, getBaseUnit(unitName)).to(bestUnit).format();
+    }
+
+    return new Quantity(value, unitName).toDefault().to(bestUnit).format();
+  };
+}
+
+/**
+ * Creates a function to exclusively convert when the unit needs conversion.
+ * This is used to convert the values before passing them to the chart so the split line values are rounded.
+ * 
+ * @param {number} value - The source value.
+ * @param {string} unitName - The source unit name.
+ * @returns {number} - The value converted to Wh if necessary.
+ */
+export const createDefaultUnitConverter = (unitName: string) => {
+  if (unitNeedsConversion(unitName)) {
+    return (value: number) => new Quantity(value, unitName).toDefault().value;
   }
-  const bestUnit = new Quantity(maxValue, unitName).toDefault().smartScale().unit.name;
-  return (value: number) => new Quantity(value, unitName).toDefault().to(bestUnit).format();
-};
+  return (value: number) => value;
+}
