@@ -5,13 +5,14 @@ import sortScenarios from './sortScenarios';
 import { ChartSchema, FlattenedChartSchema } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
 import { createScalingFormatter, UnitFormatter } from './units';
-
+import { createDefaultUnitConverter, UnitConverter } from './units';
 import { namespacedTranslate } from './translate';
 
 export interface ChartSeries {
   categories: number[];
   data: { name: string; data: number[] }[];
   formatter: UnitFormatter;
+  converter: UnitConverter;
 }
 
 /**
@@ -73,6 +74,7 @@ export const scenariosToChartData = (
 
   const maxValue = maxValueFromScenarios(sorted, gqueries);
   const formatter = createScalingFormatter(maxValue, unit);
+  const converter = createDefaultUnitConverter(unit);
 
   return {
     categories: [firstScenario.scenario.startYear].concat(
@@ -87,6 +89,7 @@ export const scenariosToChartData = (
       ),
     })),
     formatter,
+    converter,
   };
 };
 

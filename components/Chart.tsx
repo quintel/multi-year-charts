@@ -112,7 +112,7 @@ const Chart = ({ series, style }: ChartProps) => {
       emphasis: {
         focus: 'series',
       },
-      data: cSeries.data,
+      data: cSeries.data.map((value) => series.converter(value)),
     };
   });
 
@@ -132,7 +132,7 @@ const Chart = ({ series, style }: ChartProps) => {
     animationDurationUpdate: 300,
     tooltip: {
       trigger: 'axis',
-      valueFormatter: (v: any) => typeof v === 'string' ? v.substring(6) : series.formatter(v),
+      valueFormatter: (v: any) => typeof v === 'string' ? v.substring(6) : series.formatter(v, true),
       transitionDuration: 0,
       axisPointer: {
         type: 'cross',
@@ -148,7 +148,7 @@ const Chart = ({ series, style }: ChartProps) => {
           backgroundColor: '#6a7985',
           formatter: ({ axisDimension, value }: { axisDimension: 'x' | 'y'; value: number }) => {
             if (axisDimension === 'y') {
-              return series.formatter(value).replace(/\.[^\s]*/, '');
+              return series.formatter(value, true).replace(/\.[^\s]*/, '');
             }
 
             return value;
@@ -183,7 +183,7 @@ const Chart = ({ series, style }: ChartProps) => {
         type: 'value',
         axisLabel: {
           formatter: (value: number) => {
-            const [numericPart, unitPart] = series.formatter(value).split(' ');
+            const [numericPart, unitPart] = series.formatter(value, true).split(' ');
             const roundedNumericPart = Math.round(parseFloat(numericPart));
 
             if (roundedNumericPart % 10 !== 0) {

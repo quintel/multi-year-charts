@@ -33,7 +33,7 @@ const formatDelta = (value: number, format: UnitFormatter) => {
  * Creates a table row representing a single series and the data for each year.
  */
 const renderRow = (series: Row, format: UnitFormatter, index: number) => {
-  const formattedData = [...series.data].map(format);
+  const formattedData = [...series.data].map((v) => format(v));
   let rowClass = '';
 
   if (formattedData.every((val) => val === formattedData[0])) {
