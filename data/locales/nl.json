@@ -19,6 +19,7 @@
   "inputs.all": "Alle sliders tonen",
   "inputs.collapse": "Alles inklappen",
   "inputs.expand": "Alles uitklappen",
+  "inputs.unit": "Eenheid",
 
   "series.all": "Toon alle series",
   "series.hide": "Verberg alle series",

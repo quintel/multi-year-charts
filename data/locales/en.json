@@ -19,6 +19,7 @@
   "inputs.all": "Show all inputs",
   "inputs.collapse": "Collapse all",
   "inputs.expand": "Expand all",
+  "inputs.unit": "Unit",
 
   "series.all": "Show all series",
   "series.hide": "Hide all series",

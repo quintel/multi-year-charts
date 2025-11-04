@@ -136,6 +136,9 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   const translate = useTranslate()
 
+  // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
+  const inputColWidth = 100 - (sortedScenarios.length + 2) * 8;
+
   return (
     <>
       <div className='flex'>
@@ -177,12 +180,13 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
       <table className="w-full text-sm">
         <thead>
           <tr className='border-b-2 border-b-gray-300'>
-            <th className={`p-2 text-left font-semibold w-[63%]`}>Category/Input</th>
+            <th className={`p-2 text-left font-semibold w-[${inputColWidth}%]`}>Category/Input</th>
+            <th className="p-2 text-right font-semibold w-[8%]">{translate('inputs.unit')}</th>
             <th className="w-[12%] p-2 text-right font-semibold">
               {sortedScenarios[0].scenario.startYear}
             </th>
             {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-              <th key={`year-${endYear}-${id}`} className="w-[12%] p-2 text-right">
+              <th key={`year-${endYear}-${id}`} className="w-[8%] p-2 text-right">
                 <button
                   onClick={() => openModal(id)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
@@ -225,7 +229,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
                             {/* Render section row */}
                             <tr className={`cursor-pointer border-b border-b-gray-300 bg-gray-100`} onClick={() => toggleSection(path)}>
                               <th className='p-2 pl-8 text-left font-normal text-gray-600'>{renderHTML(definition.path.slice(2).join(' → '))} {iconFor(isSectionExpanded)}</th>
-                              <td colSpan={scenarioYears.length}></td>
+                              <td colSpan={scenarioYears.length + 1}></td>
                             </tr>
                             {isSectionExpanded && (
                               <Section
