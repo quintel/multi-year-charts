@@ -89,7 +89,6 @@ export const serializeTableState = (
     return !isUnderFullyExpandedMainCategory && !isUnderFullyExpandedSubCategory;
   });
 
-  console.log('visible expanded sections without fully expanded categories     ', visibleExpandedSectionsWithoutFullyExpandedCategories);
   // Serialize the expanded state into a URL-like string
 
   const serializedState = [
@@ -125,7 +124,6 @@ export const parseTableState = (
 
   segments.forEach(segment => {
     const parts = segment.split('/').map(decodeURIComponent).map(part => part.trim()); // Decode each part of the path and trim whitespace
-    console.log('parts', parts);
     if (parts.length === 1) {
       // This represents a fully expanded main category
       const mainCategory = parts[0];
