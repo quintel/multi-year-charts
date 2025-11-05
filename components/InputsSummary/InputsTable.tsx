@@ -4,6 +4,7 @@ import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../uti
 import sortScenarios from '../../utils/sortScenarios';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
+import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 interface InputsTableProps {
   inputs: ScenarioIndexedInputData;
@@ -26,12 +27,20 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   const scenarioYears = [sortedScenarios[0].scenario.startYear, ...sortedScenarios.map(({ scenario }) => scenario.endYear)];
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
-  // Update the URL with the current state for deep linking
+  // Update the URL with the current state
   const updateUrlWithState = () => {
-    const stateString = serializeTableState(expandedSections, expandedSubCategories, expandedMainCategories, filteredGroupedInputList, showAllInputs);
-    const newUrl = `${window.location.pathname}?state=${stateString}`;
-    window.history.replaceState(null, '', newUrl);
-  };
+      const stateString = serializeTableState(
+        expandedSections,
+        expandedSubCategories,
+        expandedMainCategories,
+        filteredGroupedInputList,
+        showAllInputs
+      );
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('state', stateString);
+      window.history.replaceState(null, '', url.toString());
+    };
 
   // Effect to update URL when expanded sections change
   useEffect(() => {
@@ -44,10 +53,12 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   // Effect to restore state from URL on component mount
   useEffect(() => {
-    const url = window.location.href;
-    const stateString = url.split('?state=')[1] || '';
+    const params = new URLSearchParams(window.location.search);
+    const stateString = params.get('state');
+
     if (stateString) {
-      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } = parseTableState(stateString, filteredGroupedInputList);
+      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } =
+        parseTableState(stateString, filteredGroupedInputList);
       setExpandedMainCategories(expandedMainCategories);
       setExpandedSubCategories(expandedSubCategories);
       setExpandedSections(expandedSections);
@@ -83,15 +94,9 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   };
 
   const iconFor = (expanded: boolean) => {
-    return (
-      <span className='inline-block'>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className={`${expanded ? '' : '-rotate-90' } ml-0.5 -mr-1 h-5 w-5 -mb-1`}>
-        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd">
-        </path>
-      </svg>
-      </span>
-    )
-  }
+    const Icon = expanded ? ChevronDownIcon : ChevronRightIcon;
+    return <Icon className="ml-0.5 -mr-1 inline-block h-5 w-5 align-middle" />;
+  };
 
   // Group input list by category and subcategory
   const groupedInputList = inputList.reduce((acc, definition) => {

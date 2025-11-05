@@ -12,8 +12,7 @@ import LocaleContext from '../../utils/LocaleContext';
 import Chart from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
-import SessionTitle from '../SessionTitle';
-import { scenariosToChartData, chartToCSV } from '../../utils/charts';
+import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
 
 import DownloadCSVButton from './DownloadCSVButton';
@@ -95,7 +94,7 @@ function ChartWrapper({
     apiFetch();
 
     // Remove queries when unmounted or when chart changes.
-    () => removeQueries(chart.series);
+    return () => removeQueries(chart.series);
   }, [addQueries, apiFetch, chart, removeQueries]);
 
   if (!canRenderChart(chart, scenarios)) {
