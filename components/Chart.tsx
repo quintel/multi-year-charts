@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
-import { BarChart, LineChart } from 'echarts/charts';
+import { BarChart } from 'echarts/charts';
 import {
   GridComponent,
   LegendComponent,
@@ -10,7 +10,6 @@ import {
 } from 'echarts/components';
 import { SVGRenderer } from 'echarts/renderers';
 
-import type { ChartStyle } from '../store/types';
 import { ChartSeries, translateChartData } from '../utils/charts';
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';
@@ -20,7 +19,6 @@ import LocaleMessage from './LocaleMessage';
 // Register the echarts features.
 echarts.use([
   BarChart,
-  LineChart,
   GridComponent,
   LegendComponent,
   SingleAxisComponent,
@@ -40,7 +38,6 @@ const colors = [
 
 export interface ChartProps {
   series: ChartSeries;
-  style: Exclude<ChartStyle, 'table'>;
 }
 
 /**
@@ -90,7 +87,7 @@ function Legend({
   );
 }
 
-const Chart = ({ series, style }: ChartProps) => {
+const Chart = ({ series }: ChartProps) => {
   const echartRef = useRef<EChartsReact | null>(null);
 
   const translate = useTranslate();
@@ -102,11 +99,11 @@ const Chart = ({ series, style }: ChartProps) => {
   const echartSeries = translatedSeries.data.map((cSeries, index) => {
     return {
       name: cSeries.name,
-      type: style === 'bar' ? 'bar' : 'line',
+      type: 'bar',
       stack: 'Total',
       areaStyle: {},
       itemStyle: {
-        opacity: style === 'bar' ? 0.8 : 1,
+        opacity: 0.8,
         color: colors[index % colors.length],
       },
       emphasis: {
@@ -118,7 +115,7 @@ const Chart = ({ series, style }: ChartProps) => {
 
   const echartSeriesTotal = {
     name: '',
-    type: style === 'bar' ? 'bar' : 'line',
+    type: 'bar',
     stack: 'Total',
     color: '#ffffff00',
     data: series.categories.map((_, i) =>
@@ -173,7 +170,7 @@ const Chart = ({ series, style }: ChartProps) => {
     xAxis: [
       {
         type: 'category',
-        boundaryGap: style === 'bar',
+        boundaryGap: true,
         data: series.categories,
         axisLabel: { fontSize: 14 },
       },

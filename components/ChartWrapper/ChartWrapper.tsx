@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { ChevronRightIcon } from '@heroicons/react/solid';
 
-import { AppState, ChartStyle } from '../../store/types';
+import { AppState } from '../../store/types';
 import { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
 import LocaleContext from '../../utils/LocaleContext';
@@ -14,9 +14,6 @@ import ChartTable from '../ChartTable';
 import Loading from '../Loading';
 import SessionTitle from '../SessionTitle';
 import { scenariosToChartData, chartToCSV } from '../../utils/charts';
-
-import StyleToggle from './StyleToggle';
-
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
 
 import DownloadCSVButton from './DownloadCSVButton';
@@ -27,7 +24,6 @@ interface ChartWrapperProps {
   addQueries: (keys: string[]) => void;
   apiFetch: () => void;
   chart: FlattenedChartSchema;
-  preferredChartStyle: ChartStyle;
   removeQueries: (keys: string[]) => void;
   scenarios: ScenarioIndexedScenarioData;
 }
@@ -80,7 +76,6 @@ const ChartTitle = ({
       {children}
       <div className="flex-1"></div>
       <DownloadCSVButton chart={chart} scenarios={scenarios} />
-      {chart.displayAs !== 'table' ? <StyleToggle /> : null}
       <UnitToggle currentChart={chart.chartKey} />
     </h2>
   );
@@ -90,7 +85,6 @@ function ChartWrapper({
   addQueries,
   apiFetch,
   chart,
-  preferredChartStyle,
   removeQueries,
   scenarios,
 }: ChartWrapperProps) {
@@ -128,8 +122,7 @@ function ChartWrapper({
     <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
       <Chart
         series={series}
-        style={preferredChartStyle}
-        key={`${chart.chartKey}-${preferredChartStyle}`}
+        key={chart.chartKey}
       />
       <div className="py-12">
         <ChartTable series={series} colorSeries />
@@ -140,7 +133,6 @@ function ChartWrapper({
 
 const mapStateToProps = (state: AppState) => ({
   scenarios: state.scenarioData,
-  preferredChartStyle: state.preferredChartStyle,
 });
 
 export default connect(mapStateToProps, { addQueries, apiFetch, removeQueries })(ChartWrapper);

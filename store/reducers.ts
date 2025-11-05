@@ -1,4 +1,4 @@
-import { ActionTypes, AppState, ChartStyle, TypeKeys, QueriesList } from './types';
+import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
   inputData: {},
@@ -7,7 +7,6 @@ const initialState: AppState = {
   scenarioData: {},
   scenarios: [],
   queries: {},
-  preferredChartStyle: 'bar' as ChartStyle,
 };
 
 /**
@@ -123,16 +122,6 @@ export default function reducer(state = initialState, action: ActionTypes) {
       return {
         ...state,
         queries: addQueries(removeQueries(state.queries, remove), add),
-      };
-    }
-
-    /**
-     * Charts
-     */
-    case TypeKeys.SET_PREFERRED_CHART_STYLE: {
-      return {
-        ...state,
-        preferredChartStyle: action.payload,
       };
     }
 
