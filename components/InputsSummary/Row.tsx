@@ -14,7 +14,7 @@ interface RowProps {
  */
 const formatInputUnit = (inputDefinition: { unit: string }) => {
   let { unit } = inputDefinition;
-  let displayUnit = ['#', 'enum', 'weather-curves', 'boolean'].includes(unit) ? '' : unit;
+  let displayUnit = ['enum', 'weather-curves', 'boolean'].includes(unit) ? '' : unit;
 
   return (
     <>

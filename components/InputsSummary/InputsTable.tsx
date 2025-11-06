@@ -142,6 +142,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   const translate = useTranslate()
 
   // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
+  // Widths set for max 6 scenarios
   const inputColWidth = 100 - (sortedScenarios.length + 2) * 8;
 
   return (
