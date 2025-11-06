@@ -10,6 +10,20 @@ interface RowProps {
 }
 
 /**
+ * A rudimentary formatter for input units.
+ */
+const formatInputUnit = (inputDefinition: { unit: string }) => {
+  let { unit } = inputDefinition;
+  let displayUnit = ['enum', 'weather-curves', 'boolean'].includes(unit) ? '' : unit;
+
+  return (
+    <>
+      {displayUnit}
+    </>
+  );
+};
+
+/**
  * A rudimentary formatter for input values.
  */
 const formatInputValue = (value: number, inputDefinition: { unit: string }, translate: Function, couplingDisabled?: boolean) => {
@@ -22,7 +36,6 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }, tran
   }
 
   let displayValue = typeof value === 'number' ? value.toFixed(precision) : value;
-  let displayUnit = ['#', 'enum', 'weather-curves', 'boolean'].includes(unit) ? '' : unit;
 
   if (unit === 'boolean') {
     displayValue = value ? translate('misc.yes') : translate('misc.no');
@@ -34,7 +47,7 @@ const formatInputValue = (value: number, inputDefinition: { unit: string }, tran
 
   return (
     <>
-      {displayValue} {displayUnit}
+      {displayValue}
     </>
   );
 };
@@ -67,6 +80,9 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
         className="p-2 pl-8 text-left text-gray-600"
         dangerouslySetInnerHTML={{ __html: sanitizeHtml(unsanitizedInputName, { allowedTags: [ 'sub', 'sup' ]}) }}
       >
+      </td>
+      <td key={`input-unit-${input.key}`} className="px-2 py-2 text-right">
+        {formatInputUnit(input)}
       </td>
       <td key={`input-val-present-${input.key}`} className="px-2 py-2 text-right">
         {formatInputValue(firstInputData.default, input, translate, firstInputData.coupling_disabled)}

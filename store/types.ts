@@ -6,8 +6,6 @@ import { ScenarioIndexedScenarioData, ScenarioIndexedInputData } from '../utils/
 
 export type QueriesList = Record<string, number>;
 
-export type ChartStyle = 'area' | 'bar';
-
 export enum TypeKeys {
   ADD_QUERIES = 'ADD_QUERIES',
   API_FETCH = 'API_FETCH',
@@ -15,7 +13,6 @@ export enum TypeKeys {
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
-  SET_PREFERRED_CHART_STYLE = 'SET_PREFERRED_CHART_STYLE',
   SET_SCENARIOS = 'SET_SCENARIOS',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
@@ -37,11 +34,6 @@ interface APIRequestFinishedAction {
 interface APIRequestFailedAction {
   type: typeof TypeKeys.API_REQUEST_FAILED;
   payload: string;
-}
-
-interface SetPreferredChartStyle {
-  type: typeof TypeKeys.SET_PREFERRED_CHART_STYLE;
-  payload: ChartStyle;
 }
 
 interface SetScenariosAction {
@@ -82,7 +74,6 @@ export type ActionTypes =
   | APIFetchInputsAction
   | APIRequestFailedAction
   | APIRequestFinishedAction
-  | SetPreferredChartStyle
   | SetScenariosAction
   | SwapQueriesAction
   | AddQueriesAction
@@ -101,5 +92,4 @@ export interface AppState {
   scenarios: number[];
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
-  preferredChartStyle: ChartStyle;
 }

@@ -4,6 +4,7 @@ import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../uti
 import sortScenarios from '../../utils/sortScenarios';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
+import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 interface InputsTableProps {
   inputs: ScenarioIndexedInputData;
@@ -26,12 +27,20 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   const scenarioYears = [sortedScenarios[0].scenario.startYear, ...sortedScenarios.map(({ scenario }) => scenario.endYear)];
   const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
 
-  // Update the URL with the current state for deep linking
+  // Update the URL with the current state
   const updateUrlWithState = () => {
-    const stateString = serializeTableState(expandedSections, expandedSubCategories, expandedMainCategories, filteredGroupedInputList, showAllInputs);
-    const newUrl = `${window.location.pathname}?state=${stateString}`;
-    window.history.replaceState(null, '', newUrl);
-  };
+      const stateString = serializeTableState(
+        expandedSections,
+        expandedSubCategories,
+        expandedMainCategories,
+        filteredGroupedInputList,
+        showAllInputs
+      );
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('state', stateString);
+      window.history.replaceState(null, '', url.toString());
+    };
 
   // Effect to update URL when expanded sections change
   useEffect(() => {
@@ -44,10 +53,12 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   // Effect to restore state from URL on component mount
   useEffect(() => {
-    const url = window.location.href;
-    const stateString = url.split('?state=')[1] || '';
+    const params = new URLSearchParams(window.location.search);
+    const stateString = params.get('state');
+
     if (stateString) {
-      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } = parseTableState(stateString, filteredGroupedInputList);
+      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } =
+        parseTableState(stateString, filteredGroupedInputList);
       setExpandedMainCategories(expandedMainCategories);
       setExpandedSubCategories(expandedSubCategories);
       setExpandedSections(expandedSections);
@@ -83,15 +94,9 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   };
 
   const iconFor = (expanded: boolean) => {
-    return (
-      <span className='inline-block'>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" className={`${expanded ? '' : '-rotate-90' } ml-0.5 -mr-1 h-5 w-5 -mb-1`}>
-        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd">
-        </path>
-      </svg>
-      </span>
-    )
-  }
+    const Icon = expanded ? ChevronDownIcon : ChevronRightIcon;
+    return <Icon className="ml-0.5 -mr-1 inline-block h-5 w-5 align-middle" />;
+  };
 
   // Group input list by category and subcategory
   const groupedInputList = inputList.reduce((acc, definition) => {
@@ -136,6 +141,10 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   const translate = useTranslate()
 
+  // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
+  // Widths set for max 6 scenarios
+  const inputColWidth = 100 - (sortedScenarios.length + 2) * 8;
+
   return (
     <>
       <div className='flex'>
@@ -177,12 +186,13 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
       <table className="w-full text-sm">
         <thead>
           <tr className='border-b-2 border-b-gray-300'>
-            <th className={`p-2 text-left font-semibold w-[63%]`}>Category/Input</th>
+            <th className={`p-2 text-left font-semibold w-[${inputColWidth}%]`}>Category/Input</th>
+            <th className="p-2 text-right font-semibold w-[8%]">{translate('inputs.unit')}</th>
             <th className="w-[12%] p-2 text-right font-semibold">
               {sortedScenarios[0].scenario.startYear}
             </th>
             {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-              <th key={`year-${endYear}-${id}`} className="w-[12%] p-2 text-right">
+              <th key={`year-${endYear}-${id}`} className="w-[8%] p-2 text-right">
                 <button
                   onClick={() => openModal(id)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
@@ -225,7 +235,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
                             {/* Render section row */}
                             <tr className={`cursor-pointer border-b border-b-gray-300 bg-gray-100`} onClick={() => toggleSection(path)}>
                               <th className='p-2 pl-8 text-left font-normal text-gray-600'>{renderHTML(definition.path.slice(2).join(' → '))} {iconFor(isSectionExpanded)}</th>
-                              <td colSpan={scenarioYears.length}></td>
+                              <td colSpan={scenarioYears.length + 1}></td>
                             </tr>
                             {isSectionExpanded && (
                               <Section

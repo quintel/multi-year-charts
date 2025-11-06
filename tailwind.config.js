@@ -1,6 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    'w-[36%]',
+    'w-[44%]',
+    'w-[52%]',
+    'w-[60%]',
+    'w-[68%]',
+    'w-[76%]'
+  ],
   theme: {
     extend: {
       colors: {
