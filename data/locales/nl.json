@@ -77,6 +77,7 @@
   "series.transport": "Transport",
   "series.non_energetic_and_delayed_emissions": "Non-energetische / uitgestelde emissies",
   "series.total": "Totaal",
+  "series.unit": "Eenheid",
 
   "series.coal_and_derivatives": "Kolen en kolenproducten",
   "series.electricity": "Elektriciteit",
