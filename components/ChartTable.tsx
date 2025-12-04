@@ -69,7 +69,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
       key={`series-${series.name}`}
       className={`${rowClass} border-b transition-colors [&:nth-last-child(2)]:border-b-2`}
     >
-      <td className="px-3 py-2 align-top text-gray-800 w-64">
+      <td className="px-3 py-2 align-top text-gray-800 fixed-width-cell first-col">
         {index >= 0 ? (
           <span
             className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
@@ -78,7 +78,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
         ) : null}
         {series.name}
       </td>
-      <td className="px-3 py-2 align-top text-right text-gray-800 w-14">{format(0).split(' ')[1]}</td>
+      <td className="px-3 py-2 align-top text-right text-gray-800 fixed-width-cell">{format(0).split(' ')[1]}</td>
       {columns}
     </tr>
   );
@@ -96,8 +96,8 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
     <table className="chart-as-table w-full text-sm">
       <thead>
         <tr className="sticky top-0 border-b-2 border-gray-300 bg-white">
-          <th className="px-3 text-left w-64"></th>
-          <th className="px-3 text-right w-14">{translate('series.unit')}</th>
+          <th className="px-3 text-left fixed-width-cell first-col"></th>
+          <th className="px-3 text-right fixed-width-cell">{translate('series.unit')}</th>
           {series.categories.map((year, index) => (
             <th key={`year-${index}`} className="p-3 text-right fixed-width-cell">
               {year}
@@ -108,8 +108,8 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       <tbody>
         {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
         <tr className="transition-colors">
-          <td className="px-3 text-left w-64">{translate('series.total')}</td>
-          <td className="px-3 text-right w-14">{series.formatter(0).split(' ')[1]}</td>
+          <td className="px-3 text-left fixed-width-cell first-col">{translate('series.total')}</td>
+          <td className="px-3 text-right fixed-width-cell">{series.formatter(0).split(' ')[1]}</td>
           {series.categories.map((_, i) => {
             const total = translatedData.data.reduce((sum, s) => sum + (s.data[i] || 0), 0);
             return (
