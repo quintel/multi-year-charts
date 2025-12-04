@@ -46,3 +46,7 @@ table {
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
+
+.first-col {
+  width: 200px; /* wider first column */
+}

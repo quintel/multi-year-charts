@@ -123,7 +123,7 @@ function ChartWrapper({
         series={series}
         key={chart.chartKey}
       />
-      <div className="py-12">
+      <div className="py-12 overflow-x-scroll">
         <ChartTable series={series} colorSeries />
       </div>
     </Wrapper>
