@@ -22,6 +22,10 @@ const nextConfig = {
 
 let config = nextConfig;
 config = withTM(config);
-config = withSentryConfig(config);
+config = withSentryConfig(config, {
+  org: 'quintel',
+  project: 'collections',
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+});
 
 module.exports = config;
