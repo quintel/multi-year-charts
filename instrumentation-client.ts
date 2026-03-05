@@ -5,7 +5,7 @@ const enabledEnvs = ['production', 'staging'];
 if (process.env.NEXT_PUBLIC_SENTRY_DSN && enabledEnvs.includes(process.env.NODE_ENV)) {
   Sentry.init({
     dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-    release: '2026-02',
+    release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
     environment: process.env.NODE_ENV,
     integrations: [Sentry.browserProfilingIntegration()],
 

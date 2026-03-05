@@ -26,6 +26,9 @@ config = withSentryConfig(config, {
   org: 'quintel',
   project: 'collections',
   authToken: process.env.SENTRY_AUTH_TOKEN,
+  release: {
+    name: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
+  },
 });
 
 module.exports = config;
