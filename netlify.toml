@@ -1,3 +1,6 @@
+[build]
+  command = "rm -rf .next && yarn build"
+
 [build.environment]
   NODE_VERSION = "18"
   NEXT_PUBLIC_SENTRY_RELEASE = "2026-02" # Update only this on each release
