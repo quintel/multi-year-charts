@@ -29,6 +29,9 @@ config = withSentryConfig(config, {
   release: {
     name: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
   },
+  sourcemaps: {
+    urlPrefix: '~/_next',
+  },
 });
 
 module.exports = config;
