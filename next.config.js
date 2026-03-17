@@ -1,10 +1,9 @@
-
-const withTM = require('next-transpile-modules')(['echarts', 'echarts-for-react', 'zrender']);
 const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['echarts', 'echarts-for-react', 'zrender'],
   async headers() {
     return [
       {
@@ -21,7 +20,6 @@ const nextConfig = {
 };
 
 let config = nextConfig;
-config = withTM(config);
 config = withSentryConfig(config, {
   org: 'quintel',
   project: 'collections',
@@ -29,9 +27,7 @@ config = withSentryConfig(config, {
   release: {
     name: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
   },
-  sourcemaps: {
-    urlPrefix: '~/_next',
-  },
+  useRunAfterProductionCompileHook: true,
 });
 
 module.exports = config;
