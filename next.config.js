@@ -27,7 +27,9 @@ config = withSentryConfig(config, {
   release: {
     name: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
   },
-  useRunAfterProductionCompileHook: true,
+  sourcemaps: {
+    urlPrefix: '~/_next/static/chunks',
+  },
 });
 
 module.exports = config;
