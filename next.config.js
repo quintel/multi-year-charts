@@ -3,6 +3,7 @@ const { withSentryConfig } = require('@sentry/nextjs');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   transpilePackages: ['echarts', 'echarts-for-react', 'zrender'],
   async headers() {
     return [
@@ -27,7 +28,9 @@ config = withSentryConfig(config, {
   release: {
     name: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
   },
-  useRunAfterProductionCompileHook: true,
+  sourcemaps: {
+    deleteSourcemapsAfterUpload: false,
+  },
 });
 
 module.exports = config;

@@ -1,3 +1,6 @@
+[build]
+  command = "yarn build && yarn sentry-cli sourcemaps upload --org quintel --project collections --release $NEXT_PUBLIC_SENTRY_RELEASE --url-prefix '~/_next/static/chunks' .next/static/chunks"
+
 [build.environment]
   NODE_VERSION = "20"
   NEXT_PUBLIC_SENTRY_RELEASE = "2026-02" # Update only this on each release
