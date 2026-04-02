@@ -3,4 +3,4 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  NEXT_PUBLIC_SENTRY_RELEASE = "2026-02" # Update only this on each release
+  NEXT_PUBLIC_SENTRY_RELEASE = "2026-03" # Update only this on each release
