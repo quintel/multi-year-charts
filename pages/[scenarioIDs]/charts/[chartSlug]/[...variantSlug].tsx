@@ -58,7 +58,7 @@ const ChartPage: NextPage = () => {
           <title>
             {pageTitle(flattened, translate)} - {translate('app.title')}
           </title>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/favicon.svg" />
         </Head>
 
         <ChartWrapper chart={flattened} />

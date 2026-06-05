@@ -17,7 +17,7 @@ const Inputs: NextPage = () => {
             <title>
               {translate('app.sliderSettings')} - {translate('app.title')}
             </title>
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="/favicon.svg" />
           </Head>
 
           <div className="container mx-auto my-6">
