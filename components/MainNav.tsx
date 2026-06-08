@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { PresentationChartLineIcon } from '@heroicons/react/outline';
 import { ArrowSmLeftIcon } from '@heroicons/react/solid';
 
 import LocaleContext from '../utils/LocaleContext';
@@ -27,7 +26,7 @@ const MainNav = () => {
     >
       <div className="container mx-auto flex items-stretch gap-3 py-3">
         <div className="mr-auto flex items-center font-semibold">
-          <PresentationChartLineIcon className="mr-1.5 -ml-1 h-6 w-6" />
+          <img src="/logo-round.svg" alt="" className="mr-1.5 -ml-1 h-8 w-8" />
           <LocaleMessage id="app.title" />
           <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
             <LocaleMessage id="app.by_the" />{' '}
