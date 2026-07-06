@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 
-import { SessionProvider } from 'next-auth/react';
-
 import { Provider } from 'react-redux';
 
 import store from '../store';
 import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
 import translate from '../utils/translate';
 import selectLocale from '../utils/selectLocale';
-
-import TrySignIn from '../components/TrySignIn';
+import useSessionKeeper from '../utils/useSessionKeeper';
 
 import nlTranslations from '../data/locales/nl.json';
 import enTranslations from '../data/locales/en.json';
@@ -43,6 +40,8 @@ const scenarioIDsFromQuery = (queryIDs: string): number[] => {
 };
 
 function App({ Component, pageProps }: AppProps) {
+  useSessionKeeper();
+
   const initialLocale = selectLocale(window.location.href, ['en', 'nl']);
 
   const [locale, setLocale] = useState(initialLocale);
@@ -82,25 +81,21 @@ function App({ Component, pageProps }: AppProps) {
     setTranslate(curryTranslate(messages));
   };
 
-  // get from params if with current user to do: localStorage.removeItem('stop-login-attempt');
+  // The shared HttpOnly session cookie is the session: no SessionProvider or silent-SSO probe.
   return (
-    <SessionProvider session={pageProps.session}>
-      <TrySignIn>
-        <Provider store={store}>
-          <LocaleContext.Provider
-            value={{
-              translate:
-                translate ||
-                curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
-              currentLocale: locale,
-              setLocale: onSetLocale,
-            }}
-          >
-            <Component {...pageProps} unit={unit} />
-          </LocaleContext.Provider>
-        </Provider>
-      </TrySignIn>
-    </SessionProvider>
+    <Provider store={store}>
+      <LocaleContext.Provider
+        value={{
+          translate:
+            translate ||
+            curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
+          currentLocale: locale,
+          setLocale: onSetLocale,
+        }}
+      >
+        <Component {...pageProps} unit={unit} />
+      </LocaleContext.Provider>
+    </Provider>
   );
 }
 
