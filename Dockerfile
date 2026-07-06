@@ -28,13 +28,15 @@ ENV NEXT_PUBLIC_ETENGINE_URL=$NEXT_PUBLIC_ETENGINE_URL \
     NEXT_PUBLIC_SENTRY_RELEASE=$NEXT_PUBLIC_SENTRY_RELEASE \
     NEXT_TELEMETRY_DISABLED=1
 
-# TODO: Sentry sourcemap upload (the netlify.toml build step) needs SENTRY_AUTH_TOKEN. when wiring real deploys pass it via BuildKit secrets, e.g.:
-#   RUN --mount=type=secret,id=sentry_auth SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth) yarn build
-# rather than an ARG/ENV. The local build skips upload (no token → plugin no-ops).
-
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN yarn build
+
+# Sourcemap upload happens inside `next build` (withSentryConfig in next.config.js reads
+# SENTRY_AUTH_TOKEN). The token comes in as a BuildKit secret — never an ARG/ENV, so it
+# is not persisted in any image layer. Without the secret (local builds) the plugin
+# skips the upload:
+#   docker build --secret id=sentry_auth_token,env=SENTRY_AUTH_TOKEN ...
+RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN yarn build
 
 # --- runner: minimal runtime -------------------------------------------------
 FROM node:20-alpine AS runner
