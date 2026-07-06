@@ -1,4 +1,5 @@
-import { useSession, signIn, signOut } from 'next-auth/react';
+import useCurrentUser from '../utils/useCurrentUser';
+import { signIn, signOut } from '../utils/auth';
 
 import {
   ChevronDownIcon,
@@ -22,20 +23,20 @@ function Button({ children }: { children: React.ReactNode }) {
 }
 
 const SessionInformation = () => {
-  const { data: session } = useSession();
+  const { user } = useCurrentUser();
 
   return (
     <div className="flex space-x-2">
-      {!session ? (
+      {!user ? (
         <button
           className="flex items-center rounded bg-transparent px-2 py-1 text-sm font-medium text-gray-300 transition hover:bg-gray-600 hover:text-gray-100"
-          onClick={() => signIn('identity')}
+          onClick={() => signIn()}
         >
           <UserCircleIcon className="mr-1 h-5 w-5" />
           <LocaleMessage id="session.signIn" />
         </button>
       ) : (
-        <Menu button={<Button>{session.user?.name}</Button>}>
+        <Menu button={<Button>{user.name}</Button>}>
           <Menu.Item
             as="a"
             href={`${process.env.NEXT_PUBLIC_MYETM_URL}/identity/profile`}
@@ -52,11 +53,7 @@ const SessionInformation = () => {
             <AdjustmentsIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
             <LocaleMessage id="session.myScenarios" />
           </Menu.Item>
-          <Menu.Item
-            onClick={() =>
-              signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_MYETM_URL}/identity/sign_out` })
-            }
-          >
+          <Menu.Item onClick={() => signOut()}>
             <LogoutIcon className="mr-2 h-5 w-5 opacity-75 group-hover:opacity-100" />
             <LocaleMessage id="session.signOut" />
           </Menu.Item>
