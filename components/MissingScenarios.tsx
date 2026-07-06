@@ -2,12 +2,13 @@ import Head from 'next/head';
 import Balancer from 'react-wrap-balancer';
 import Loading from '../components/Loading';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
+import useCurrentUser from '../utils/useCurrentUser';
+import { signIn, signOut } from '../utils/auth';
 
 import LocaleMessage from '../components/LocaleMessage';
 
 const MissingScenarios = () => {
-  const { data: session } = useSession();
+  const { user } = useCurrentUser();
 
   setTimeout(() => {
     const loader = document.getElementById('overlay-wait');
@@ -18,8 +19,8 @@ const MissingScenarios = () => {
     const loader = document.getElementById('overlay-wait');
     if (loader) { loader.remove(); }
   }, 3000)
-  // Determine the URL based on session
-  const etmUrl = session
+  // Determine the URL based on whether the user is signed in
+  const etmUrl = user
     ? `${process.env.NEXT_PUBLIC_MYETM_URL}/collections`  // Authenticated
     : `${process.env.NEXT_PUBLIC_ETMODEL_URL}`;           // Default
 
@@ -48,7 +49,7 @@ const MissingScenarios = () => {
               <LocaleMessage id="missingScenarios.explanation" />
             </Balancer>
           </p>
-          {!session && (
+          {!user && (
             <p className="mt-4 text-gray-500">
               <Balancer>
                 <LocaleMessage id="missingScenarios.signInPrompt" />
@@ -63,7 +64,7 @@ const MissingScenarios = () => {
               ← <LocaleMessage id="app.backToETM" />
             </a>
 
-            {session ? (
+            {user ? (
               <button
                 onClick={() => signOut()}
                 className="rounded-md bg-gray-200 px-3.5 py-2 font-medium text-gray-600 transition hover:bg-gray-300 hover:text-gray-700 active:bg-gray-350 active:text-gray-800"
@@ -73,7 +74,7 @@ const MissingScenarios = () => {
               </button>
             ) : (
               <button
-                onClick={() => signIn('identity')}
+                onClick={() => signIn()}
                 className="rounded-md bg-emerald-600 px-3.5 py-2 font-medium text-white transition hover:bg-emerald-700 active:bg-emerald-800"
               >
                 <LocaleMessage id="session.signIn" />

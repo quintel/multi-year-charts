@@ -13,6 +13,22 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+const SESSION_REFRESH_URL = `${process.env.NEXT_PUBLIC_MYETM_URL}/session/refresh`;
+
+// Fetch wrapper that, on a 401 (the shared session cookie expired between the keeper's proactive
+// refreshes), refreshes the cookie once via MyETM and retries. /session/refresh re-sets etm_session
+// on the parent domain, so the retried same-origin request carries the fresh cookie to the proxy.
+const fetchWithRefresh = async (input: RequestInfo, init?: RequestInit): Promise<Response> => {
+  const response = await fetch(input, init);
+  if (response.status !== 401) return response;
+
+  const refreshed = await fetch(SESSION_REFRESH_URL, { method: 'POST', credentials: 'include' })
+    .then((res) => res.ok)
+    .catch(() => false);
+
+  return refreshed ? fetch(input, init) : response;
+};
+
 /**
  * Receives data for an ETEngine scenario and converts scenario keys to
  * camel-case.
@@ -55,7 +71,7 @@ const requestScenario = async (
   id: number,
   gqueries: string[] = []
 ): Promise<ScenarioData> => {
-  const response = await fetch(`/api/scenarios/${id}`, {
+  const response = await fetchWithRefresh(`/api/scenarios/${id}`, {
     method: 'PUT',
     body: JSON.stringify({ gqueries }),
     headers,
@@ -100,7 +116,7 @@ const fetchInputsForScenario = async (
   endpoint: string,
   id: number
 ): Promise<InputCollectionData> => {
-  const response = await fetch(`/api/scenarios/${id}/inputs`, {
+  const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs`, {
     method: 'GET',
     headers,
   });
