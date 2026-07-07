@@ -1,0 +1,55 @@
+version: v1.0
+name: Deploy to staging
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2404
+
+# Builds the beta image for the Docker deploy. NEXT_PUBLIC_* values are inlined into
+# the client bundle at build time, so each environment gets its own image built with
+# that environment's URLs — a URL change requires a rebuild here, not a redeploy.
+blocks:
+  - name: Docker
+    task:
+      env_vars:
+        - name: DOCKER_BUILDKIT
+          value: '1'
+        - name: NEXT_PUBLIC_APP_ENV
+          value: staging
+        - name: NEXT_PUBLIC_ETENGINE_URL
+          value: https://beta.engine.energytransitionmodel.com
+        - name: NEXT_PUBLIC_ETMODEL_URL
+          value: https://beta.energytransitionmodel.com
+        - name: NEXT_PUBLIC_MYETM_URL
+          value: https://beta.my.energytransitionmodel.com
+        - name: NEXT_PUBLIC_SENTRY_DSN
+          value: https://342f7d0c17687cefeaf0a5d92ff8ed28@o187050.ingest.us.sentry.io/4510793950101504
+      jobs:
+        - name: 'Build, publish'
+          commands:
+            - checkout
+            - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+            - export NEXT_PUBLIC_SENTRY_RELEASE=$(cat RELEASE)
+            # SENTRY_AUTH_TOKEN comes from the Sentry credentials secret and enters the
+            # build as a BuildKit secret (never an ARG/ENV, so it isn't stored in a layer).
+            - >-
+              docker build
+              --secret id=sentry_auth_token,env=SENTRY_AUTH_TOKEN
+              --build-arg NEXT_PUBLIC_ETENGINE_URL
+              --build-arg NEXT_PUBLIC_ETMODEL_URL
+              --build-arg NEXT_PUBLIC_MYETM_URL
+              --build-arg NEXT_PUBLIC_SENTRY_RELEASE
+              --build-arg NEXT_PUBLIC_APP_ENV
+              --build-arg NEXT_PUBLIC_SENTRY_DSN
+              -t quintel/collections:beta .
+            - docker push quintel/collections:beta
+            # Once /var/www/collections exists on the beta server (provisioned by the
+            # Ansible collections role), enable the deploy step and attach the Staging
+            # SSH settings secret, mirroring etmodel:
+            # - echo $SSH_FINGERPRINT >> ~/.ssh/known_hosts
+            # - ssh -i ~/.ssh/id_deploy "${SSH_USER}@${SSH_HOST}" -p $SSH_PORT "cd /var/www/collections && ./deploy.sh"
+      secrets:
+        - name: Docker Hub credentials
+        - name: Sentry credentials
+    run:
+      when: branch = 'master'

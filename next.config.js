@@ -2,22 +2,11 @@ const { withSentryConfig } = require('@sentry/nextjs');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Self-contained server build (.next/standalone) for the Docker runtime image.
+  output: 'standalone',
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   transpilePackages: ['echarts', 'echarts-for-react', 'zrender'],
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Document-Policy',
-            value: 'js-profiling',
-          },
-        ],
-      },
-    ];
-  },
 };
 
 let config = nextConfig;
