@@ -11,6 +11,10 @@ agent:
 blocks:
   - name: Docker
     task:
+      prologue:
+        commands:
+          - chmod 0600 ~/.ssh/id_deploy
+          - ssh-add ~/.ssh/id_deploy
       env_vars:
         - name: DOCKER_BUILDKIT
           value: '1'
@@ -25,7 +29,7 @@ blocks:
         - name: NEXT_PUBLIC_SENTRY_DSN
           value: https://342f7d0c17687cefeaf0a5d92ff8ed28@o187050.ingest.us.sentry.io/4510793950101504
       jobs:
-        - name: 'Build, publish'
+        - name: 'Build, publish, deploy'
           commands:
             - checkout
             - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
@@ -43,13 +47,11 @@ blocks:
               --build-arg NEXT_PUBLIC_SENTRY_DSN
               -t quintel/collections:beta .
             - docker push quintel/collections:beta
-            # Once /var/www/collections exists on the beta server (provisioned by the
-            # Ansible collections role), enable the deploy step and attach the Staging
-            # SSH settings secret, mirroring etmodel:
-            # - echo $SSH_FINGERPRINT >> ~/.ssh/known_hosts
-            # - ssh -i ~/.ssh/id_deploy "${SSH_USER}@${SSH_HOST}" -p $SSH_PORT "cd /var/www/collections && ./deploy.sh"
+            - echo $SSH_FINGERPRINT >> ~/.ssh/known_hosts
+            - 'ssh -i ~/.ssh/id_deploy "${SSH_USER}@${SSH_HOST}" -p $SSH_PORT "cd /var/www/collections && ./deploy.sh"'
       secrets:
         - name: Docker Hub credentials
         - name: Sentry credentials
+        - name: Staging SSH settings
     run:
       when: branch = 'master'
