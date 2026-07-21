@@ -20,16 +20,28 @@ const refresh = (): Promise<boolean> =>
 // etm_session_exp hint: schedule a refresh ~1 min before expiry; if it succeeds, reschedule. On load
 // without a live access cookie, attempt a single recovery refresh (the access cookie may have expired
 // while the 24h refresh cookie is still valid) — guarded so a genuinely signed-out user doesn't loop.
+//
+// Kept deliberately in step with identity/session_keeper.js in the identity gem, which does the same
+// job for the Rails apps
 export default function useSessionKeeper(): void {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
 
     const schedule = () => {
+      clearTimeout(timer);
       const expiryMs = readExpiryMs();
 
       if (expiryMs) {
         sessionStorage.removeItem(RECOVERY_KEY);
-        const delay = Math.max(expiryMs - Date.now() - 60_000, 0);
+
+        // Refresh a minute before expiry, or halfway through the remaining life when the session is
+        // shorter than that, so a deliberately tiny ACCESS_TTL doesn't mean refreshing on a zero
+        // delay forever. Plus 0-10s of jitter, so tabs across the ETM apps don't all rotate the
+        // refresh token on the same tick and revoke it out from under each other.
+        const remaining = expiryMs - Date.now();
+        const lead = Math.min(60_000, Math.max(remaining / 2, 0));
+        const delay = Math.max(remaining - lead + Math.random() * 10_000, 0);
+
         timer = setTimeout(() => {
           refresh().then((ok) => ok && schedule());
         }, delay);
@@ -44,7 +56,17 @@ export default function useSessionKeeper(): void {
       }
     };
 
+    // A sleeping machine does not run timers, and a backgrounded tab may have its own frozen.
+    // Re-deciding when the tab becomes visible is what makes a closed laptop lid recover on wake,
+    // rather than waiting for a tick that is never coming.
+    const onVisible = () => document.visibilityState === 'visible' && schedule();
+
     schedule();
-    return () => clearTimeout(timer);
+    document.addEventListener('visibilitychange', onVisible);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   }, []);
 }
