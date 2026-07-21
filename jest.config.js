@@ -15,9 +15,6 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
-  // jsdom's default export conditions include "browser", which wins over "require" in jose's
-  // package.json exports map and resolves to its ESM-only browser bundle — unusable under Jest's
-  // CJS transform. Clearing the custom conditions falls back to plain "require"/"default".
   testEnvironmentOptions: {
     customExportConditions: [],
   },
