@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useSession } from 'next-auth/react';
+import useCurrentUser from '../utils/useCurrentUser';
 
 import { ArrowSmLeftIcon } from '@heroicons/react/solid';
 
@@ -10,10 +10,10 @@ import SessionInformation from './SessionInformation';
 
 const MainNav = () => {
   const { currentLocale, setLocale } = useContext(LocaleContext);
-  const { data: session } = useSession();
+  const { user } = useCurrentUser();
 
-  // Determine the URL based on session
-  const etmUrl = session
+  // Determine the URL based on whether the user is signed in
+  const etmUrl = user
   ? `${process.env.NEXT_PUBLIC_MYETM_URL}/collections`  // Authenticated
   : `${process.env.NEXT_PUBLIC_ETMODEL_URL}`;           // Default
 
