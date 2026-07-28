@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 
+import { SESSION_EXP_COOKIE_NAME } from './sessionCookie';
+
 const REFRESH_URL = `${process.env.NEXT_PUBLIC_MYETM_URL}/session/refresh`;
 const RECOVERY_KEY = 'etm-session-recovery';
 
-// Expiry (ms) of the shared session cookie, read from the non-HttpOnly etm_session_exp hint cookie.
+// Expiry (ms) of the shared session cookie, read from its non-HttpOnly hint cookie.
 const readExpiryMs = (): number | null => {
-  const match = document.cookie.match(/(?:^|;\s*)etm_session_exp=([^;]+)/);
+  const match = document.cookie.match(new RegExp(`(?:^|;\\s*)${SESSION_EXP_COOKIE_NAME}=([^;]+)`));
   if (!match) return null;
   const exp = parseInt(decodeURIComponent(match[1]), 10);
   return Number.isFinite(exp) ? exp * 1000 : null;
@@ -17,7 +19,7 @@ const refresh = (): Promise<boolean> =>
     .catch(() => false);
 
 // Keeps the shared session cookie alive in the browser. The cookie is HttpOnly, so we time off the
-// etm_session_exp hint: schedule a refresh ~1 min before expiry; if it succeeds, reschedule. On load
+// expiry hint cookie: schedule a refresh ~1 min before expiry; if it succeeds, reschedule. On load
 // without a live access cookie, attempt a single recovery refresh (the access cookie may have expired
 // while the 24h refresh cookie is still valid) — guarded so a genuinely signed-out user doesn't loop.
 //
