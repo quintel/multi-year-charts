@@ -5,7 +5,7 @@ const ScenarioProxy = async function (req: NextApiRequest, res: NextApiResponse)
   const token = await getToken({ req: req });
   const { id } = req.query;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_ETENGINE_URL}/api/v3/scenarios/${id}`, {
+  const response = await fetch(`${process.env.ETENGINE_INTERNAL_URL || process.env.NEXT_PUBLIC_ETENGINE_URL}/api/v3/scenarios/${id}`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

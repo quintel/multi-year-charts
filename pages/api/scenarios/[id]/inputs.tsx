@@ -5,7 +5,7 @@ const InputsProxy = async function (req: NextApiRequest, res: NextApiResponse) {
   const token = await getToken({ req: req });
   const { id } = req.query;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_ETENGINE_URL}/api/v3/scenarios/${id}/inputs.json?defaults=original`, {
+  const response = await fetch(`${process.env.ETENGINE_INTERNAL_URL || process.env.NEXT_PUBLIC_ETENGINE_URL}/api/v3/scenarios/${id}/inputs.json?defaults=original`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
