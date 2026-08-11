@@ -1,0 +1,32 @@
+version: v1.0
+name: Test Collections
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2404
+blocks:
+  - name: Jest
+    task:
+      env_vars:
+        - name: CI
+          value: 'true'
+      jobs:
+        - name: Test
+          commands:
+            - checkout
+            - sem-version node 20
+            - cache restore
+            - yarn install --frozen-lockfile
+            - cache store
+            # `yarn lint` is not run here: `next lint` crashes because the pinned
+            # eslint 8.20.0 is too old for the @next/next plugin from eslint-config-next
+            # 15 (its rules throw internal errors before linting anything). Fixing it is a
+            # dependency bump (eslint -> ^8.57/9).
+            - npx jest --ci
+promotions:
+  # This is the frozen 2025-01 branch, so it only ever deploys to stable. The staging and
+  # production pipelines live on master/production and are deliberately absent here.
+  - name: Deploy to stable
+    pipeline_file: deploy_stable.yml
+    auto_promote:
+      when: "result = 'passed' and branch = '2025-01'"
