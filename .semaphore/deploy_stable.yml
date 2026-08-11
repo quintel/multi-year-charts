@@ -12,11 +12,10 @@ agent:
 blocks:
   - name: Docker
     task:
-      # Uncomment together with the deploy step below, once the server directory exists.
-      # prologue:
-      #   commands:
-      #     - chmod 0600 ~/.ssh/id_deploy
-      #     - ssh-add ~/.ssh/id_deploy
+      prologue:
+        commands:
+          - chmod 0600 ~/.ssh/id_deploy
+          - ssh-add ~/.ssh/id_deploy
       env_vars:
         - name: DOCKER_BUILDKIT
           value: '1'
@@ -28,7 +27,7 @@ blocks:
         - name: NEXT_PUBLIC_MYETM_URL
           value: https://my.energytransitionmodel.com
       jobs:
-        - name: 'Build, publish'
+        - name: 'Build, publish, deploy'
           commands:
             - checkout
             - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
@@ -39,16 +38,10 @@ blocks:
               --build-arg NEXT_PUBLIC_MYETM_URL
               -t quintel/collections:2025_01 .
             - docker push quintel/collections:2025_01
-            # Ordering: this first push only builds and publishes. The Ansible collections
-            # role needs the image to exist before it can run (its docker_compose_v2 does a
-            # `docker compose pull`), and this deploy step needs the directory that same role
-            # creates — so the image comes first, then Ansible, then this step is enabled in a
-            # follow-up commit. Rename the job to 'Build, publish, deploy', uncomment the
-            # prologue above, and attach the Stable SSH settings secret at the same time.
-            # - echo $SSH_FINGERPRINT >> ~/.ssh/known_hosts
-            # - ssh -i ~/.ssh/id_deploy "${SSH_USER}@${SSH_HOST}" -p $SSH_PORT "cd /var/www/collections_2025_01 && ./deploy.sh"
+            - echo $SSH_FINGERPRINT >> ~/.ssh/known_hosts
+            - 'ssh -i ~/.ssh/id_deploy "${SSH_USER}@${SSH_HOST}" -p $SSH_PORT "cd /var/www/collections_2025_01 && ./deploy.sh"'
       secrets:
         - name: Docker Hub credentials
-        # - name: Stable SSH settings
+        - name: Stable SSH settings
     run:
       when: branch = '2025-01'
