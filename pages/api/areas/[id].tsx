@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const AreaProxy = async function (req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_ETMODEL_URL}/areas/${id}`, {
+  const response = await fetch(`${process.env.ETMODEL_INTERNAL_URL || process.env.NEXT_PUBLIC_ETMODEL_URL}/areas/${id}`, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
