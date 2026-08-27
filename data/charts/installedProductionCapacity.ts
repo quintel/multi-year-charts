@@ -65,6 +65,7 @@ export default {
                 'myc_installed_production_capacity_in_coal_chp_pwd_cofiring',
                 'myc_installed_production_capacity_in_coal_chp_pwd',
                 'myc_installed_production_capacity_in_gas_chp_ccgt',
+                'myc_installed_production_capacity_in_hydrogen_chp_ccgt',
                 'myc_installed_production_capacity_in_gas_chp_engine',
                 'myc_installed_production_capacity_in_lignite_chp',
                 'myc_installed_production_capacity_in_waste_chp_ccs',
