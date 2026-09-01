@@ -1,4 +1,8 @@
-import { ScenarioIndexedScenarioData, ScenarioIndexedInputData } from '../utils/api/types';
+import {
+  InputValue,
+  ScenarioIndexedScenarioData,
+  ScenarioIndexedInputData,
+} from '../utils/api/types';
 
 /**
  * API
@@ -12,6 +16,7 @@ export enum TypeKeys {
   API_REQUEST_FAILED = 'API_REQUEST_FAILED',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
+  COMMIT_INPUT_VALUE = 'COMMIT_INPUT_VALUE',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
   SET_COLUMNS = 'SET_COLUMNS',
   SET_USER_ID = 'SET_USER_ID',
@@ -23,6 +28,11 @@ export enum TypeKeys {
 /** One member of the collection, as shown in the interface. */
 export interface Column {
   sessionID: number;
+}
+
+/** What a column's user has typed but the engine has not yet confirmed. */
+export interface ColumnEditing {
+  values: Record<string, InputValue>;
 }
 
 interface APIFetchAction {
@@ -50,6 +60,11 @@ interface SetColumnsAction {
 interface SetUserIDAction {
   type: typeof TypeKeys.SET_USER_ID;
   payload: string | null;
+}
+
+interface CommitInputValueAction {
+  type: typeof TypeKeys.COMMIT_INPUT_VALUE;
+  payload: { sessionID: number; inputKey: string; value: InputValue };
 }
 
 interface AddQueriesAction {
@@ -87,6 +102,7 @@ export type ActionTypes =
   | APIRequestFinishedAction
   | SetColumnsAction
   | SetUserIDAction
+  | CommitInputValueAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
@@ -100,6 +116,8 @@ export type ActionTypes =
 export interface AppState {
   /** The collection's members, in display order. */
   columns: Column[];
+  /** Per column, keyed by session ID. */
+  editing: Record<number, ColumnEditing>;
   /** The signed-in user. Editing requires one. */
   userID: string | null;
   failureReason: string | null;

@@ -1,7 +1,10 @@
-import { ActionTypes, AppState, Column, TypeKeys, QueriesList } from './types';
+import { ActionTypes, AppState, Column, ColumnEditing, TypeKeys, QueriesList } from './types';
+
+const NOT_EDITING: ColumnEditing = { values: {} };
 
 const initialState: AppState = {
   columns: [],
+  editing: {},
   userID: null,
   inputData: {},
   failureReason: null,
@@ -73,6 +76,15 @@ const reordered = (scenarioData: AppState['scenarioData'], columns: Column[]) =>
     ])
   );
 
+const editColumn = (
+  state: AppState,
+  sessionID: number,
+  change: (editing: ColumnEditing) => ColumnEditing
+): AppState => ({
+  ...state,
+  editing: { ...state.editing, [sessionID]: change(state.editing[sessionID] || NOT_EDITING) },
+});
+
 export default function reducer(state = initialState, action: ActionTypes) {
   switch (action.type) {
     /**
@@ -118,6 +130,19 @@ export default function reducer(state = initialState, action: ActionTypes) {
 
     case TypeKeys.UPDATE_INPUT_DATA: {
       return { ...state, inputData: action.payload };
+    }
+
+    /**
+     * Editing
+     */
+
+    case TypeKeys.COMMIT_INPUT_VALUE: {
+      const { sessionID, inputKey, value } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        ...editing,
+        values: { ...editing.values, [inputKey]: value },
+      }));
     }
 
     /**

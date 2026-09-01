@@ -1,3 +1,4 @@
+import { InputValue } from '../utils/api/types';
 import { ActionTypes, Column, TypeKeys } from './types';
 
 /**
@@ -30,6 +31,16 @@ export const setColumns = (columns: Column[]): ActionTypes => ({
 export const setUserID = (userID: string | null): ActionTypes => ({
   type: TypeKeys.SET_USER_ID,
   payload: userID,
+});
+
+/** Records a typed value, so the cell shows what the user typed. */
+export const commitInputValue = (
+  sessionID: number,
+  inputKey: string,
+  value: InputValue
+): ActionTypes => ({
+  type: TypeKeys.COMMIT_INPUT_VALUE,
+  payload: { sessionID, inputKey, value },
 });
 
 /**
