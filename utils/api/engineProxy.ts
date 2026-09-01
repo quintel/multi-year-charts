@@ -24,9 +24,8 @@ export interface EngineResponse {
 }
 
 /**
- * Performs the hop to ETEngine and returns what it said, so a caller can read the answer rather
- * than only forward it. The shared session cookie goes straight through as a bearer token for now,
- * ETEngine verifies locally
+ * Performs the hop to ETEngine and returns what it said. The shared session cookie goes straight
+ * through as a bearer token for now
  */
 export async function fetchFromEngine(
   token: string | undefined,
@@ -46,22 +45,20 @@ export async function fetchFromEngine(
   return { status: response.status, body: text ? JSON.parse(text) : undefined };
 }
 
-/**
- * Forwards a request to ETEngine and returns its response directly
- */
+// Writes an engine answer to a Next response, keeping the empty-body case
+export const respondWith = (res: NextApiResponse, { status, body }: EngineResponse) =>
+  body === undefined ? res.status(status).end() : res.status(status).json(body);
+
+// Forwards a request to ETEngine and returns its response directly
 export default async function proxyToEngine(
   req: NextApiRequest,
   res: NextApiResponse,
   path: string
 ) {
-  const { status, body } = await fetchFromEngine(req.cookies[SESSION_COOKIE_NAME], path, {
+  const answer = await fetchFromEngine(req.cookies[SESSION_COOKIE_NAME], path, {
     method: req.method,
     body: req.body,
   });
 
-  if (body === undefined) {
-    return res.status(status).end();
-  }
-
-  return res.status(status).json(body);
+  return respondWith(res, answer);
 }

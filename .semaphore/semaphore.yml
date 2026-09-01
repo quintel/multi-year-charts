@@ -18,10 +18,10 @@ blocks:
             - cache restore
             - yarn install --frozen-lockfile
             - cache store
-            # `yarn lint` is not run here: `next lint` crashes because the pinned
-            # eslint 8.20.0 is too old for the @next/next plugin from eslint-config-next
-            # 15 (its rules throw internal errors before linting anything). Fixing it is a
-            # dependency bump (eslint -> ^8.57/9).
+            # Warnings do not fail this: `next lint` exits 0 on them. Add
+            # `--max-warnings 0` once the react-hooks/exhaustive-deps and no-img-element
+            # warnings on master are cleared.
+            - yarn lint
             - npx jest --ci
 promotions:
   - name: Deploy to staging
