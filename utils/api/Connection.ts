@@ -1,5 +1,6 @@
 // import 'whatwg-fetch';
 
+import { Column } from '../../store/types';
 import {
   GqueryData,
   InputCollectionData,
@@ -124,22 +125,17 @@ const fetchInputsForScenario = async (
 };
 
 /**
- * Fetches the complete list of inputs available for a list of scenarios,
+ * Fetches the complete list of inputs available for a list of columns,
  * returning a promise which yields the result of each request.
  */
-const fetchInputsForScenarios = (
+const fetchInputsForColumns = async (
   endpoint: string,
-  scenarioIDs: number[]
+  columns: Column[]
 ): Promise<ScenarioIndexedInputData> => {
-  return new Promise((resolve, reject) => {
-    const responses = Promise.all(scenarioIDs.map((id) => fetchInputsForScenario(endpoint, id)));
+  const sessionIDs = columns.map((column) => column.sessionID);
+  const data = await Promise.all(sessionIDs.map((id) => fetchInputsForScenario(endpoint, id)));
 
-    responses
-      .then((data: InputCollectionData[]) => {
-        resolve(indexByScenario(scenarioIDs, data));
-      })
-      .catch(reject);
-  });
+  return indexByScenario(sessionIDs, data);
 };
 
 /**
@@ -148,34 +144,34 @@ const fetchInputsForScenarios = (
  */
 export default class APIConnection {
   endpoint: string;
-  scenarios: number[];
+  columns: Column[];
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
-    this.scenarios = [];
+    this.columns = [];
   }
 
-  setScenarios(scenarios: number[]) {
-    this.scenarios = scenarios;
+  setColumns(columns: Column[]) {
+    this.columns = columns;
   }
 
   async sendRequest(gqueries: string[]): Promise<ScenarioIndexedScenarioData> {
-    if (this.scenarios.length === 0) {
-      return Promise.reject(
-        'Cannot send API requests until one or more scenario IDs have been set.'
-      );
+    if (this.columns.length === 0) {
+      return Promise.reject('Cannot send API requests until one or more columns have been set.');
     }
 
-    return await fetchQueriesForScenarios(this.endpoint, this.scenarios, gqueries);
+    return await fetchQueriesForScenarios(
+      this.endpoint,
+      this.columns.map((column) => column.sessionID),
+      gqueries
+    );
   }
 
   async fetchInputs(): Promise<ScenarioIndexedInputData> {
-    if (this.scenarios.length === 0) {
-      return Promise.reject(
-        'Cannot send API requests until one or more scenario IDs have been set.'
-      );
+    if (this.columns.length === 0) {
+      return Promise.reject('Cannot send API requests until one or more columns have been set.');
     }
 
-    return await fetchInputsForScenarios(this.endpoint, this.scenarios);
+    return await fetchInputsForColumns(this.endpoint, this.columns);
   }
 }

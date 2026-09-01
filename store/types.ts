@@ -13,10 +13,16 @@ export enum TypeKeys {
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
-  SET_SCENARIOS = 'SET_SCENARIOS',
+  SET_COLUMNS = 'SET_COLUMNS',
+  SET_USER_ID = 'SET_USER_ID',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
   UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA',
+}
+
+/** One member of the collection, as shown in the interface. */
+export interface Column {
+  sessionID: number;
 }
 
 interface APIFetchAction {
@@ -36,9 +42,14 @@ interface APIRequestFailedAction {
   payload: string;
 }
 
-interface SetScenariosAction {
-  type: typeof TypeKeys.SET_SCENARIOS;
-  payload: number[];
+interface SetColumnsAction {
+  type: typeof TypeKeys.SET_COLUMNS;
+  payload: Column[];
+}
+
+interface SetUserIDAction {
+  type: typeof TypeKeys.SET_USER_ID;
+  payload: string | null;
 }
 
 interface AddQueriesAction {
@@ -74,7 +85,8 @@ export type ActionTypes =
   | APIFetchInputsAction
   | APIRequestFailedAction
   | APIRequestFinishedAction
-  | SetScenariosAction
+  | SetColumnsAction
+  | SetUserIDAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
@@ -86,10 +98,13 @@ export type ActionTypes =
  */
 
 export interface AppState {
+  /** The collection's members, in display order. */
+  columns: Column[];
+  /** The signed-in user. Editing requires one. */
+  userID: string | null;
   failureReason: string | null;
   inputData: ScenarioIndexedInputData;
   requestInProgress: boolean;
-  scenarios: number[];
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
 }

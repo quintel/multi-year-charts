@@ -1,24 +1,68 @@
 import sanitizeHtml from 'sanitize-html';
 
-import { ScenarioIndexedInputData } from '../../utils/api/types';
+import { InputData, ScenarioIndexedInputData } from '../../utils/api/types';
 import { displayUnit, formatInputValue } from '../../utils/inputs/vocabulary';
+import { EditableColumn } from '../../utils/inputs/access';
 import useTranslate from '../../utils/useTranslate';
 
+type Translate = (id: string) => string;
+
 interface RowProps {
+  columns: EditableColumn[];
   input: { name: string; group_name?: string; key: string; unit: string };
   inputData: ScenarioIndexedInputData;
   onInputClick: (id: number, key: string) => void;
-  scenarioIDs: number[];
+}
+
+/**
+ * A cell the user may not type into: a value the scenario creator set opens the ETModel dialog, and
+ * anything else is grey text.
+ */
+function ReadOnlyCell({
+  input,
+  inputKey,
+  onInputClick,
+  sessionID,
+  translate,
+}: {
+  input: InputData;
+  inputKey: string;
+  onInputClick: (id: number, key: string) => void;
+  sessionID: number;
+  translate: Translate;
+}) {
+  if (input.coupling_disabled) {
+    return <span className="text-gray-400">-</span>;
+  }
+
+  if (input.user === undefined) {
+    return (
+      <span className="text-gray-400">
+        {formatInputValue(input.default, input.unit, translate)}
+      </span>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => onInputClick(sessionID, inputKey)}
+      className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+    >
+      {formatInputValue(input.user, input.unit, translate)}
+    </button>
+  );
 }
 
 /**
  * Creates a single row in the table, describing an input and its values in each scenario.
  */
-export default function Row({ input, inputData, onInputClick, scenarioIDs }: RowProps) {
+export default function Row({ columns, input, inputData, onInputClick }: RowProps) {
   const translate = useTranslate();
-  const firstInputData = inputData[scenarioIDs[0]][input.key];
-  const allCouplingDisabled = scenarioIDs.every(
-    (id) => inputData[id][input.key] != undefined && inputData[id][input.key].coupling_disabled
+  const firstInputData = inputData[columns[0].sessionID][input.key];
+  const allCouplingDisabled = columns.every(
+    ({ sessionID }) =>
+      inputData[sessionID][input.key] != undefined &&
+      inputData[sessionID][input.key].coupling_disabled
   );
 
   if (!firstInputData || allCouplingDisabled) {
@@ -46,28 +90,17 @@ export default function Row({ input, inputData, onInputClick, scenarioIDs }: Row
           : formatInputValue(firstInputData.default, unit, translate)}
       </td>
 
-      {scenarioIDs.map((id) => {
-        const scenarioInput = inputData[id][input.key];
-
-        return (
-          <td key={id} className="px-2 text-right">
-            {scenarioInput.coupling_disabled ? (
-              <span className="text-gray-400">-</span>
-            ) : scenarioInput.user === undefined ? (
-              <span className="text-gray-400">
-                {formatInputValue(scenarioInput.default, unit, translate)}
-              </span>
-            ) : (
-              <button
-                onClick={() => onInputClick(id, input.key)}
-                className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
-              >
-                {formatInputValue(scenarioInput.user, unit, translate)}
-              </button>
-            )}
-          </td>
-        );
-      })}
+      {columns.map((column) => (
+        <td key={column.sessionID} className="px-2 text-right">
+          <ReadOnlyCell
+            input={inputData[column.sessionID][input.key]}
+            inputKey={input.key}
+            onInputClick={onInputClick}
+            sessionID={column.sessionID}
+            translate={translate}
+          />
+        </td>
+      ))}
     </tr>
   );
 }

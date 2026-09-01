@@ -1,11 +1,12 @@
-import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
+import { ActionTypes, AppState, Column, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
+  columns: [],
+  userID: null,
   inputData: {},
   failureReason: null,
   requestInProgress: false,
   scenarioData: {},
-  scenarios: [],
   queries: {},
 };
 
@@ -61,6 +62,17 @@ const removeQueries = (queries: QueriesList, keys: string[]): QueriesList => {
   return newQueries;
 };
 
+const orderOf = (columns: Column[], sessionID: number) =>
+  columns.findIndex((column) => column.sessionID === sessionID);
+
+const reordered = (scenarioData: AppState['scenarioData'], columns: Column[]) =>
+  Object.fromEntries(
+    Object.entries(scenarioData).map(([id, scenario]) => [
+      id,
+      { ...scenario, order: orderOf(columns, Number(id)) },
+    ])
+  );
+
 export default function reducer(state = initialState, action: ActionTypes) {
   switch (action.type) {
     /**
@@ -80,16 +92,22 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     /**
-     * API scenarios
+     * Columns
      */
 
-    case TypeKeys.SET_SCENARIOS: {
-      return { ...state, scenarios: action.payload };
+    case TypeKeys.SET_COLUMNS: {
+      const columns = action.payload;
+
+      return { ...state, columns, scenarioData: reordered(state.scenarioData, columns) };
+    }
+
+    case TypeKeys.SET_USER_ID: {
+      return { ...state, userID: action.payload };
     }
 
     case TypeKeys.UPDATE_API_DATA: {
       for (const [scenarioId, scenario] of Object.entries(action.payload)) {
-        scenario.order = state.scenarios.indexOf(Number(scenarioId));
+        scenario.order = orderOf(state.columns, Number(scenarioId));
       }
 
       return {

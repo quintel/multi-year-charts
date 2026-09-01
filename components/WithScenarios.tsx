@@ -1,13 +1,14 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
-import { setScenarios } from '../store/actions';
-import { AppState } from '../store/types';
+import { setColumns, setUserID } from '../store/actions';
+import { AppState, Column } from '../store/types';
+import useCurrentUser from '../utils/useCurrentUser';
 
 /**
- * Given the window pathname, extracts the list of scenario IDs to be shown in
+ * Given the window pathname, extracts the list of member session IDs to be shown in
  * the interface.
  */
 const scenarioIDsFromQuery = (queryIDs: string): number[] => {
@@ -22,30 +23,37 @@ const scenarioIDsFromQuery = (queryIDs: string): number[] => {
 
 const WithScenarios = ({
   children,
-  setScenarios,
-  scenarioIDs,
+  setColumns,
+  setUserID,
+  columns,
 }: {
   children: React.ReactNode;
-  setScenarios: (scenarioIDs: number[]) => void;
-  scenarioIDs: number[] | undefined;
+  setColumns: (columns: Column[]) => void;
+  setUserID: (userID: string | null) => void;
+  columns: Column[];
 }) => {
   const router = useRouter();
+  const { user, loading } = useCurrentUser();
 
   useEffect(() => {
-    router.query.scenarioIDs &&
-      setScenarios(scenarioIDsFromQuery([router.query.scenarioIDs].flat()[0]));
-  }, [router.query.scenarioIDs, setScenarios]);
+    const queryIDs = [router.query.scenarioIDs].flat()[0];
 
-  if (scenarioIDs && scenarioIDs.length) {
-    return <Fragment>{children}</Fragment>;
+    if (!queryIDs || loading) return;
+
+    setUserID(user?.id ?? null);
+    setColumns(scenarioIDsFromQuery(queryIDs).map((sessionID) => ({ sessionID })));
+  }, [router.query.scenarioIDs, user, loading, setColumns, setUserID]);
+
+  if (columns.length) {
+    return <>{children}</>;
   }
 
   return <div>No scenarios available</div>;
 };
 
 const mapStateToProps = (state: AppState) => ({
-  scenarioIDs: state.scenarios,
+  columns: state.columns,
   failureReason: state.failureReason,
 });
 
-export default connect(mapStateToProps, { setScenarios })(WithScenarios);
+export default connect(mapStateToProps, { setColumns, setUserID })(WithScenarios);
