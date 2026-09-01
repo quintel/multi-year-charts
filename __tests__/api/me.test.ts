@@ -4,6 +4,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { SignJWT, exportJWK, generateKeyPair, createLocalJWKSet, type KeyLike } from 'jose';
 
+import { SESSION_COOKIE_NAME } from '../../utils/sessionCookie';
+
 const KID = 'test-key';
 const ISSUER = process.env.NEXT_PUBLIC_MYETM_URL as string;
 
@@ -41,7 +43,7 @@ beforeAll(async () => {
     createRemoteJWKSet: () => createLocalJWKSet({ keys: [jwk] }),
   }));
 
-  handler = (await import('../me')).default;
+  handler = (await import('../../pages/api/me')).default;
 });
 
 describe('/api/me', () => {
@@ -53,7 +55,7 @@ describe('/api/me', () => {
     });
     const res = makeRes();
 
-    await handler(reqWith({ etm_session: token }), res);
+    await handler(reqWith({ [SESSION_COOKIE_NAME]: token }), res);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
@@ -77,7 +79,7 @@ describe('/api/me', () => {
     });
     const res = makeRes();
 
-    await handler(reqWith({ etm_session: token }), res);
+    await handler(reqWith({ [SESSION_COOKIE_NAME]: token }), res);
 
     expect(res.status).toHaveBeenCalledWith(401);
   });
@@ -94,7 +96,7 @@ describe('/api/me', () => {
       .sign(otherKey);
     const res = makeRes();
 
-    await handler(reqWith({ etm_session: token }), res);
+    await handler(reqWith({ [SESSION_COOKIE_NAME]: token }), res);
 
     expect(res.status).toHaveBeenCalledWith(401);
   });
@@ -110,7 +112,7 @@ describe('/api/me', () => {
       .sign(privateKey);
     const res = makeRes();
 
-    await handler(reqWith({ etm_session: token }), res);
+    await handler(reqWith({ [SESSION_COOKIE_NAME]: token }), res);
 
     expect(res.status).toHaveBeenCalledWith(401);
   });
