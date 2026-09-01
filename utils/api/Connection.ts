@@ -109,17 +109,17 @@ const fetchQueriesForScenarios = (
 };
 
 /**
- * Fetches the complete list of inputs available for a scenario, including
- * custom values set by the creator of the scenario.
+ * Fetches the complete list of inputs available for a scenario
  */
 const fetchInputsForScenario = async (
   endpoint: string,
   id: number
 ): Promise<InputCollectionData> => {
-  const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs`, {
+  const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs?include_extras=true`, {
     method: 'GET',
     headers,
   });
+
   return await response.json();
 };
 
