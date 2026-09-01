@@ -7,6 +7,7 @@ import { controlTypeFor, formatInputValue } from '../../utils/inputs/vocabulary'
 interface CellProps {
   input: InputData;
   onCommit: (value: InputValue) => void;
+  pending: boolean;
   translate: (id: string) => string;
   value: InputValue;
 }
@@ -15,7 +16,7 @@ const controlClasses =
   'w-full rounded border border-gray-300 bg-white px-1 py-0.5 text-right text-midnight-900 ' +
   'focus:border-midnight-500 focus:outline-none';
 
-/** A number the user types. */
+/** A number the user types */
 function NumericCell({ input, onCommit, value }: CellProps) {
   const [draft, setDraft] = useState(String(value));
 
@@ -33,7 +34,6 @@ function NumericCell({ input, onCommit, value }: CellProps) {
 
     setDraft(String(coerced));
 
-    // An unchanged value is not worth a request.
     if (coerced !== value) onCommit(coerced);
   };
 
@@ -82,10 +82,7 @@ function EnumCell({ input, onCommit, translate, value }: CellProps) {
   );
 }
 
-/**
- * One input's value in one column, as a control chosen from ETEngine's unit.
- */
-export default function Cell(props: CellProps) {
+const control = (props: CellProps) => {
   switch (controlTypeFor(props.input.unit)) {
     case 'boolean':
       return <BooleanCell {...props} />;
@@ -94,4 +91,8 @@ export default function Cell(props: CellProps) {
     default:
       return <NumericCell {...props} />;
   }
+};
+
+export default function Cell(props: CellProps) {
+  return <div className={props.pending ? 'opacity-50' : ''}>{control(props)}</div>;
 }

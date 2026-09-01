@@ -1,6 +1,7 @@
+import { InputValue } from '../utils/api/types';
 import { ActionTypes, AppState, Column, ColumnEditing, TypeKeys, QueriesList } from './types';
 
-const NOT_EDITING: ColumnEditing = { values: {} };
+const NOT_EDITING: ColumnEditing = { pending: false, values: {} };
 
 const initialState: AppState = {
   columns: [],
@@ -85,6 +86,19 @@ const editColumn = (
   editing: { ...state.editing, [sessionID]: change(state.editing[sessionID] || NOT_EDITING) },
 });
 
+const without = <T>(record: Record<string, T>, keys: string[]): Record<string, T> =>
+  Object.fromEntries(Object.entries(record).filter(([key]) => !keys.includes(key)));
+
+/**
+ * A value the engine has confirmed is no longer optimistic. A key the user has typed again since
+ * the request went out keeps its newer value, which is still waiting for its own answer.
+ */
+const confirmed = (values: Record<string, InputValue>, sent: Record<string, InputValue>) =>
+  without(
+    values,
+    Object.keys(sent).filter((key) => values[key] === sent[key])
+  );
+
 export default function reducer(state = initialState, action: ActionTypes) {
   switch (action.type) {
     /**
@@ -132,6 +146,21 @@ export default function reducer(state = initialState, action: ActionTypes) {
       return { ...state, inputData: action.payload };
     }
 
+    case TypeKeys.UPDATE_COLUMN_DATA: {
+      const { sessionID, scenario, inputs } = action.payload;
+
+      return {
+        ...state,
+        scenarioData: scenario
+          ? {
+              ...state.scenarioData,
+              [sessionID]: { ...scenario, order: orderOf(state.columns, sessionID) },
+            }
+          : state.scenarioData,
+        inputData: inputs ? { ...state.inputData, [sessionID]: inputs } : state.inputData,
+      };
+    }
+
     /**
      * Editing
      */
@@ -142,6 +171,22 @@ export default function reducer(state = initialState, action: ActionTypes) {
       return editColumn(state, sessionID, (editing) => ({
         ...editing,
         values: { ...editing.values, [inputKey]: value },
+      }));
+    }
+
+    case TypeKeys.WRITE_STARTED: {
+      return editColumn(state, action.payload.sessionID, (editing) => ({
+        ...editing,
+        pending: true,
+      }));
+    }
+
+    case TypeKeys.WRITE_SUCCEEDED: {
+      const { sessionID, sent } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        pending: false,
+        values: confirmed(editing.values, sent),
       }));
     }
 

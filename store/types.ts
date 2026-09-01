@@ -1,5 +1,7 @@
 import {
+  InputCollectionData,
   InputValue,
+  ScenarioData,
   ScenarioIndexedScenarioData,
   ScenarioIndexedInputData,
 } from '../utils/api/types';
@@ -22,7 +24,10 @@ export enum TypeKeys {
   SET_USER_ID = 'SET_USER_ID',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
+  UPDATE_COLUMN_DATA = 'UPDATE_COLUMN_DATA',
   UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA',
+  WRITE_STARTED = 'WRITE_STARTED',
+  WRITE_SUCCEEDED = 'WRITE_SUCCEEDED',
 }
 
 /** One member of the collection, as shown in the interface. */
@@ -30,8 +35,10 @@ export interface Column {
   sessionID: number;
 }
 
-/** What a column's user has typed but the engine has not yet confirmed. */
+/** What a column is doing between a typed value and the engine's answer. */
 export interface ColumnEditing {
+  pending: boolean;
+  /** Typed values the engine has not yet confirmed. */
   values: Record<string, InputValue>;
 }
 
@@ -65,6 +72,21 @@ interface SetUserIDAction {
 interface CommitInputValueAction {
   type: typeof TypeKeys.COMMIT_INPUT_VALUE;
   payload: { sessionID: number; inputKey: string; value: InputValue };
+}
+
+interface WriteStartedAction {
+  type: typeof TypeKeys.WRITE_STARTED;
+  payload: { sessionID: number };
+}
+
+interface WriteSucceededAction {
+  type: typeof TypeKeys.WRITE_SUCCEEDED;
+  payload: { sessionID: number; sent: Record<string, InputValue> };
+}
+
+interface UpdateColumnDataAction {
+  type: typeof TypeKeys.UPDATE_COLUMN_DATA;
+  payload: { sessionID: number; scenario?: ScenarioData; inputs?: InputCollectionData };
 }
 
 interface AddQueriesAction {
@@ -103,6 +125,9 @@ export type ActionTypes =
   | SetColumnsAction
   | SetUserIDAction
   | CommitInputValueAction
+  | WriteStartedAction
+  | WriteSucceededAction
+  | UpdateColumnDataAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
