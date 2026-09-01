@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Section from './Section';
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-import sortScenarios from '../../utils/sortScenarios';
+import { EditableColumn } from '../../utils/inputs/access';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 interface InputsTableProps {
+  columns: EditableColumn[];
   inputs: ScenarioIndexedInputData;
   scenarios: ScenarioIndexedScenarioData;
   inputList: Array<{ path: string[]; input_elements: any[] }>;
   openModal: (scenarioID: number, inputKey?: string) => void;
 }
 
-const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList, openModal }) => {
+const InputsTable: React.FC<InputsTableProps> = ({ columns, inputs, scenarios, inputList, openModal }) => {
   // State for tracking expanded categories, subcategories, and sections
   const [expandedMainCategories, setExpandedMainCategories] = useState<string[]>([]);
   const [expandedSubCategories, setExpandedSubCategories] = useState<string[]>([]);
@@ -22,10 +23,9 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   const [showAllInputs, setShowAllInputs] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // Sort scenarios and extract necessary data
-  const sortedScenarios = sortScenarios(Object.values(scenarios));
-  const scenarioYears = [sortedScenarios[0].scenario.startYear, ...sortedScenarios.map(({ scenario }) => scenario.endYear)];
-  const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
+  // Columns are already in display order, because the reducer derives the scenario list from them
+  const columnScenarios = columns.map(({ sessionID }) => scenarios[sessionID].scenario);
+  const scenarioYears = [columnScenarios[0].startYear, ...columnScenarios.map(({ endYear }) => endYear)];
 
   // Update the URL with the current state
   const updateUrlWithState = () => {
@@ -143,7 +143,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
   // Widths set for max 6 scenarios
-  const inputColWidth = 100 - (sortedScenarios.length + 2) * 8;
+  const inputColWidth = 100 - (columns.length + 2) * 8;
 
   return (
     <>
@@ -189,15 +189,15 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
             <th className={`p-2 text-left font-semibold w-[${inputColWidth}%]`}>Category/Input</th>
             <th className="p-2 text-right font-semibold w-[8%]">{translate('inputs.unit')}</th>
             <th className="w-[12%] p-2 text-right font-semibold">
-              {sortedScenarios[0].scenario.startYear}
+              {columnScenarios[0].startYear}
             </th>
-            {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-              <th key={`year-${endYear}-${id}`} className="w-[8%] p-2 text-right">
+            {columns.map(({ sessionID }, index) => (
+              <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right">
                 <button
-                  onClick={() => openModal(id)}
+                  onClick={() => openModal(sessionID)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                 >
-                  {endYear}
+                  {columnScenarios[index].endYear}
                 </button>
               </th>
             ))}
@@ -241,7 +241,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
                               <Section
                                 slide={definition}
                                 inputData={inputs}
-                                scenarioIDs={scenarioIDs}
+                                columns={columns}
                                 onInputClick={openModal}
                               />
                             )}

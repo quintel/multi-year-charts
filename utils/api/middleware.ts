@@ -1,8 +1,7 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 
 import Connection from './Connection';
-import { TypeKeys } from '../../store/types';
-import { AppState } from '../../store/types';
+import { AppState, TypeKeys } from '../../store/types';
 
 /**
  * Handles fetching data from ETEngine and dispatching events back to Redux.
@@ -28,7 +27,9 @@ const sendRequest = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: 
     });
 };
 
-const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>) => {
+const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: () => AppState) => {
+  conn.setColumns(getState().columns);
+
   conn.fetchInputs().then((data) => {
     dispatch({
       type: TypeKeys.UPDATE_INPUT_DATA,
@@ -56,19 +57,14 @@ const createAPIMiddleware = () => {
     (next) =>
     (action) => {
       switch (action.type) {
-        case TypeKeys.SET_SCENARIOS: {
-          conn.setScenarios(action.payload.map((id: number) => id));
-          break;
-        }
-
         case TypeKeys.API_FETCH: {
-          conn.setScenarios(getState().scenarios);
+          conn.setColumns(getState().columns);
           sendRequest(conn, dispatch, getState);
           break;
         }
 
         case TypeKeys.FETCH_INPUTS: {
-          fetchInputs(conn, dispatch);
+          fetchInputs(conn, dispatch, getState);
           break;
         }
       }

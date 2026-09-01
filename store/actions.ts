@@ -1,4 +1,4 @@
-import { ActionTypes, TypeKeys } from './types';
+import { ActionTypes, Column, TypeKeys } from './types';
 
 /**
  * Adds one or more query keys to the list of queries which should be fetched
@@ -19,11 +19,17 @@ export const removeQueries = (queries: string[]): ActionTypes => ({
 });
 
 /**
- * Sets the list of scenarios which are to be fetched from ETEngine.
+ * Sets the collection's columns, which is also the list of scenarios fetched from ETEngine
  */
-export const setScenarios = (scenarios: number[]): ActionTypes => ({
-  type: TypeKeys.SET_SCENARIOS,
-  payload: scenarios,
+export const setColumns = (columns: Column[]): ActionTypes => ({
+  type: TypeKeys.SET_COLUMNS,
+  payload: columns,
+});
+
+/** The signed-in user. Editing needs one. */
+export const setUserID = (userID: string | null): ActionTypes => ({
+  type: TypeKeys.SET_USER_ID,
+  payload: userID,
 });
 
 /**
@@ -38,13 +44,13 @@ export const swapQueries = (add: string[], remove: string[]): ActionTypes => ({
 /**
  * Requests a fresh set of data from the ETEngine API.
  */
-export const apiFetch = () => ({
+export const apiFetch = (): ActionTypes => ({
   type: TypeKeys.API_FETCH,
 });
 
 /**
  * Requests the list of inputs and values from the ETEngine API.
  */
-export const fetchInputs = () => ({
+export const fetchInputs = (): ActionTypes => ({
   type: TypeKeys.FETCH_INPUTS,
 });

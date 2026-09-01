@@ -1,13 +1,12 @@
 import { ComponentProps } from 'react';
 import Row from './Row';
-import { sortBy } from 'lodash';
 
 import { ScenarioIndexedInputData } from '../../utils/api/types';
 
 interface SectionProps {
+  columns: ComponentProps<typeof Row>['columns'];
   inputData: ComponentProps<typeof Row>['inputData'];
   onInputClick: ComponentProps<typeof Row>['onInputClick'];
-  scenarioIDs: ComponentProps<typeof Row>['scenarioIDs'];
   slide: {
     path: string[];
     input_elements: { name: string; group_name?: string; key: string; unit: string }[];
@@ -40,16 +39,10 @@ Section.shouldShow = (inputElements: { key: string }[], inputData: ScenarioIndex
  * Outputs a table of each input element in a section ("slide" in ETM nomenclature) which has a
  * user-modified value.
  */
-export default function Section({ inputData, slide, ...rest }: SectionProps) {
-  const inputs = modifiedInputs(slide.input_elements, inputData);
-
+export default function Section({ slide, ...rest }: SectionProps) {
   const rows = slide.input_elements.map((element) => (
-    <Row key={element.key} input={element} inputData={inputData} {...rest} />
+    <Row key={element.key} input={element} {...rest} />
   ));
 
-  return (
-    <>
-      {rows}
-    </>
-  );
+  return <>{rows}</>;
 }
