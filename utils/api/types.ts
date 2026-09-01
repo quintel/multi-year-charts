@@ -18,15 +18,22 @@ export interface ScenarioData {
   order: number;
 }
 
+export type InputValue = number | string;
+
 /** @todo share_group should be camel-cased */
 export interface InputData {
-  min: number;
-  max: number;
-  default: number;
-  user?: number;
+  min?: number;
+  max?: number;
+  default: InputValue;
+  unit: string;
+  user?: InputValue;
+  step?: number;
+  permitted_values?: string[];
   disabled: boolean;
+  disabled_by?: string[];
   coupling_disabled?: boolean;
   share_group?: string;
+  code?: string;
 }
 
 export interface InputCollectionData {
