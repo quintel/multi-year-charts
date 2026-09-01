@@ -1,22 +1,28 @@
 import sanitizeHtml from 'sanitize-html';
 
-import { InputData, ScenarioIndexedInputData } from '../../utils/api/types';
-import { displayUnit, formatInputValue } from '../../utils/inputs/vocabulary';
+import { InputData, InputValue, ScenarioIndexedInputData } from '../../utils/api/types';
+import { currentValue, displayUnit, formatInputValue } from '../../utils/inputs/vocabulary';
+import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import useTranslate from '../../utils/useTranslate';
+import Cell from './Cell';
 
 type Translate = (id: string) => string;
 
+const NOT_EDITING: ColumnEditing = { values: {} };
+
 interface RowProps {
   columns: EditableColumn[];
+  editing: Record<number, ColumnEditing>;
   input: { name: string; group_name?: string; key: string; unit: string };
   inputData: ScenarioIndexedInputData;
+  onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
   onInputClick: (id: number, key: string) => void;
 }
 
 /**
- * A cell the user may not type into: a value the scenario creator set opens the ETModel dialog, and
- * anything else is grey text.
+ * A cell the user may not type into: as it rendered before typed cells, with a value the scenario
+ * creator set still opening the ETModel dialog.
  */
 function ReadOnlyCell({
   input,
@@ -56,7 +62,14 @@ function ReadOnlyCell({
 /**
  * Creates a single row in the table, describing an input and its values in each scenario.
  */
-export default function Row({ columns, input, inputData, onInputClick }: RowProps) {
+export default function Row({
+  columns,
+  editing,
+  input,
+  inputData,
+  onCommitValue,
+  onInputClick,
+}: RowProps) {
   const translate = useTranslate();
   const firstInputData = inputData[columns[0].sessionID][input.key];
   const allCouplingDisabled = columns.every(
@@ -90,17 +103,34 @@ export default function Row({ columns, input, inputData, onInputClick }: RowProp
           : formatInputValue(firstInputData.default, unit, translate)}
       </td>
 
-      {columns.map((column) => (
-        <td key={column.sessionID} className="px-2 text-right">
-          <ReadOnlyCell
-            input={inputData[column.sessionID][input.key]}
-            inputKey={input.key}
-            onInputClick={onInputClick}
-            sessionID={column.sessionID}
-            translate={translate}
-          />
-        </td>
-      ))}
+      {columns.map((column) => {
+        const scenarioInput = inputData[column.sessionID][input.key];
+        const columnEditing = editing[column.sessionID] || NOT_EDITING;
+        const typed = columnEditing.values[input.key];
+        const value = typed === undefined ? currentValue(scenarioInput) : typed;
+        const editable = column.editable && !scenarioInput.coupling_disabled;
+
+        return (
+          <td key={column.sessionID} className="px-2 text-right">
+            {editable ? (
+              <Cell
+                input={scenarioInput}
+                translate={translate}
+                value={value}
+                onCommit={(next) => onCommitValue(column.sessionID, input.key, next)}
+              />
+            ) : (
+              <ReadOnlyCell
+                input={scenarioInput}
+                inputKey={input.key}
+                onInputClick={onInputClick}
+                sessionID={column.sessionID}
+                translate={translate}
+              />
+            )}
+          </td>
+        );
+      })}
     </tr>
   );
 }

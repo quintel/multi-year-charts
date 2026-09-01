@@ -5,7 +5,9 @@ import { ScenarioIndexedInputData } from '../../utils/api/types';
 
 interface SectionProps {
   columns: ComponentProps<typeof Row>['columns'];
+  editing: ComponentProps<typeof Row>['editing'];
   inputData: ComponentProps<typeof Row>['inputData'];
+  onCommitValue: ComponentProps<typeof Row>['onCommitValue'];
   onInputClick: ComponentProps<typeof Row>['onInputClick'];
   slide: {
     path: string[];

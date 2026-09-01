@@ -3,15 +3,17 @@ import { connect } from 'react-redux';
 import InputsTable from './InputsTable';
 import Loading from '../Loading';
 import ScenarioEditor from '../ScenarioEditor';
-import { AppState, Column } from '../../store/types';
+import { AppState, Column, ColumnEditing } from '../../store/types';
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-import { apiFetch, fetchInputs } from '../../store/actions';
+import { apiFetch, commitInputValue, fetchInputs } from '../../store/actions';
 import useInputDefinitions from '../../utils/etmodel/useInputDefinitions';
 import { withEditability } from '../../utils/inputs/access';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
   columns: Column[];
+  commitInputValue: typeof commitInputValue;
+  editing: Record<number, ColumnEditing>;
   fetchInputs: () => void;
   inputData: ScenarioIndexedInputData;
   scenarioData: ScenarioIndexedScenarioData;
@@ -113,8 +115,10 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
       covers(props.scenarioData, props.columns) ? (
         <InputsTable
           columns={columns}
+          editing={props.editing}
           inputs={props.inputData}
           scenarios={props.scenarioData}
+          onCommitValue={props.commitInputValue}
           openModal={openModal}
           inputList={inputList}
         />
@@ -134,9 +138,10 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
 
 const mapStateToProps = (state: AppState) => ({
   columns: state.columns,
+  editing: state.editing,
   inputData: state.inputData,
   scenarioData: state.scenarioData,
   userID: state.userID,
 });
 
-export default connect(mapStateToProps, { apiFetch, fetchInputs })(InputsSummary);
+export default connect(mapStateToProps, { apiFetch, commitInputValue, fetchInputs })(InputsSummary);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Section from './Section';
-import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
+import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
+import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
@@ -8,13 +9,15 @@ import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 interface InputsTableProps {
   columns: EditableColumn[];
+  editing: Record<number, ColumnEditing>;
   inputs: ScenarioIndexedInputData;
   scenarios: ScenarioIndexedScenarioData;
   inputList: Array<{ path: string[]; input_elements: any[] }>;
+  onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
   openModal: (scenarioID: number, inputKey?: string) => void;
 }
 
-const InputsTable: React.FC<InputsTableProps> = ({ columns, inputs, scenarios, inputList, openModal }) => {
+const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, scenarios, inputList, onCommitValue, openModal }) => {
   // State for tracking expanded categories, subcategories, and sections
   const [expandedMainCategories, setExpandedMainCategories] = useState<string[]>([]);
   const [expandedSubCategories, setExpandedSubCategories] = useState<string[]>([]);
@@ -242,6 +245,8 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, inputs, scenarios, i
                                 slide={definition}
                                 inputData={inputs}
                                 columns={columns}
+                                editing={editing}
+                                onCommitValue={onCommitValue}
                                 onInputClick={openModal}
                               />
                             )}
