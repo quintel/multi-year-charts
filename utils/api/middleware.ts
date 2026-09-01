@@ -1,6 +1,9 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 
-import Connection from './Connection';
+import ColumnWriter from './columnWriter';
+import Connection, { fetchInputsForScenario, updateScenario } from './Connection';
+import { InputValue } from './types';
+import { writeStarted, writeSucceeded } from '../../store/actions';
 import { AppState, TypeKeys } from '../../store/types';
 
 /**
@@ -39,6 +42,23 @@ const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: 
 };
 
 /**
+ * Creates the writer for one column, which owns its queue.
+ */
+const createWriter = (sessionID: number, dispatch: Dispatch<AnyAction>, getState: () => AppState) =>
+  new ColumnWriter({
+    // The inputs are read back after the write
+    send: async (values: Record<string, InputValue>) => {
+      const scenario = await updateScenario(sessionID, Object.keys(getState().queries), values);
+      const inputs = await fetchInputsForScenario(sessionID);
+
+      dispatch({ type: TypeKeys.UPDATE_COLUMN_DATA, payload: { sessionID, scenario, inputs } });
+    },
+
+    onStart: () => dispatch(writeStarted(sessionID)),
+    onSuccess: (sent) => dispatch(writeSucceeded(sessionID, sent)),
+  });
+
+/**
  * Creates Redux middleware which listens for actions which request data from
  * the API and triggers requests as needed. Results from ETEngine are then
  * passed into Redux via the UPDATE_API_DATA action.
@@ -51,6 +71,7 @@ const createAPIMiddleware = () => {
   }
 
   const conn = new Connection(process.env.NEXT_PUBLIC_ETENGINE_URL as string);
+  const writers: Record<number, ColumnWriter> = {};
 
   const api: Middleware =
     ({ dispatch, getState }) =>
@@ -65,6 +86,18 @@ const createAPIMiddleware = () => {
 
         case TypeKeys.FETCH_INPUTS: {
           fetchInputs(conn, dispatch, getState);
+          break;
+        }
+
+        case TypeKeys.COMMIT_INPUT_VALUE: {
+          const { sessionID, inputKey, value } = action.payload;
+
+          // Editing requires being signed in. The grid draws no controls for a signed-out visitor
+          if (getState().userID) {
+            writers[sessionID] = writers[sessionID] || createWriter(sessionID, dispatch, getState);
+            writers[sessionID].write(inputKey, value);
+          }
+
           break;
         }
       }

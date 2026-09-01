@@ -33,7 +33,7 @@ export const setUserID = (userID: string | null): ActionTypes => ({
   payload: userID,
 });
 
-/** Records a typed value, so the cell shows what the user typed. */
+/** Records a typed value and sends it to the column's session. */
 export const commitInputValue = (
   sessionID: number,
   inputKey: string,
@@ -41,6 +41,19 @@ export const commitInputValue = (
 ): ActionTypes => ({
   type: TypeKeys.COMMIT_INPUT_VALUE,
   payload: { sessionID, inputKey, value },
+});
+
+export const writeStarted = (sessionID: number): ActionTypes => ({
+  type: TypeKeys.WRITE_STARTED,
+  payload: { sessionID },
+});
+
+export const writeSucceeded = (
+  sessionID: number,
+  sent: Record<string, InputValue>
+): ActionTypes => ({
+  type: TypeKeys.WRITE_SUCCEEDED,
+  payload: { sessionID, sent },
 });
 
 /**

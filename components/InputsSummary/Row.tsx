@@ -9,7 +9,7 @@ import Cell from './Cell';
 
 type Translate = (id: string) => string;
 
-const NOT_EDITING: ColumnEditing = { values: {} };
+const NOT_EDITING: ColumnEditing = { pending: false, values: {} };
 
 interface RowProps {
   columns: EditableColumn[];
@@ -115,6 +115,7 @@ export default function Row({
             {editable ? (
               <Cell
                 input={scenarioInput}
+                pending={columnEditing.pending && typed === undefined}
                 translate={translate}
                 value={value}
                 onCommit={(next) => onCommitValue(column.sessionID, input.key, next)}

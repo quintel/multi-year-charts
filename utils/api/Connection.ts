@@ -4,6 +4,7 @@ import { Column } from '../../store/types';
 import {
   GqueryData,
   InputCollectionData,
+  InputValue,
   ScenarioData,
   ScenarioIndexedInputData,
   ScenarioIndexedScenarioData,
@@ -65,16 +66,18 @@ const indexByScenario = <T>(scenarioIDs: number[], data: T[]) => {
 };
 
 /**
- * Fetches data about a scenario from ETEngine.
+ * Writes to a scenario and reads it back.
  */
-const requestScenario = async (
-  endpoint: string,
+export const updateScenario = async (
   id: number,
-  gqueries: string[] = []
+  gqueries: string[] = [],
+  userValues?: Record<string, InputValue>
 ): Promise<ScenarioData> => {
+  const body = userValues ? { gqueries, scenario: { user_values: userValues } } : { gqueries };
+
   const response = await fetchWithRefresh(`/api/scenarios/${id}`, {
     method: 'PUT',
-    body: JSON.stringify({ gqueries }),
+    body: JSON.stringify(body),
     headers,
   });
 
@@ -95,11 +98,7 @@ const fetchQueriesForScenarios = (
   gqueries: string[]
 ): Promise<ScenarioIndexedScenarioData> => {
   return new Promise((resolve, reject) => {
-    const responses = Promise.all(
-      scenarioIDs.map((id) => {
-        return requestScenario(endpoint, id, gqueries);
-      })
-    );
+    const responses = Promise.all(scenarioIDs.map((id) => updateScenario(id, gqueries)));
 
     responses
       .then((data: ScenarioData[]) => {
@@ -112,10 +111,7 @@ const fetchQueriesForScenarios = (
 /**
  * Fetches the complete list of inputs available for a scenario
  */
-const fetchInputsForScenario = async (
-  endpoint: string,
-  id: number
-): Promise<InputCollectionData> => {
+export const fetchInputsForScenario = async (id: number): Promise<InputCollectionData> => {
   const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs?include_extras=true`, {
     method: 'GET',
     headers,
@@ -128,12 +124,9 @@ const fetchInputsForScenario = async (
  * Fetches the complete list of inputs available for a list of columns,
  * returning a promise which yields the result of each request.
  */
-const fetchInputsForColumns = async (
-  endpoint: string,
-  columns: Column[]
-): Promise<ScenarioIndexedInputData> => {
+const fetchInputsForColumns = async (columns: Column[]): Promise<ScenarioIndexedInputData> => {
   const sessionIDs = columns.map((column) => column.sessionID);
-  const data = await Promise.all(sessionIDs.map((id) => fetchInputsForScenario(endpoint, id)));
+  const data = await Promise.all(sessionIDs.map((id) => fetchInputsForScenario(id)));
 
   return indexByScenario(sessionIDs, data);
 };
@@ -172,6 +165,6 @@ export default class APIConnection {
       return Promise.reject('Cannot send API requests until one or more columns have been set.');
     }
 
-    return await fetchInputsForColumns(this.endpoint, this.columns);
+    return await fetchInputsForColumns(this.columns);
   }
 }
