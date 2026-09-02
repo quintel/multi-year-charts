@@ -15,6 +15,7 @@ export interface ScenarioData {
 
   readonly gqueries: Record<string, GqueryData>;
 
+  readonly updatedAt: string;
   readonly userValues: Record<string, InputValue>;
   readonly balancedValues: Record<string, InputValue>;
 

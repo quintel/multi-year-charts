@@ -50,6 +50,7 @@ const camelCaseScenario = (json: {
       startYear: scenario.start_year as number,
       url: scenario.url as string,
     },
+    updatedAt: scenario.updated_at as string,
     userValues: (scenario.user_values ?? {}) as Record<string, InputValue>,
     balancedValues: (scenario.balanced_values ?? {}) as Record<string, InputValue>,
     order: 0,

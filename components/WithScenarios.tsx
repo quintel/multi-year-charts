@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import { useRouter } from 'next/router';
 
-import { setColumns, setUserID } from '../store/actions';
+import { remoteChange, setColumns, setUserID } from '../store/actions';
 import { AppState, Column } from '../store/types';
 import useCurrentUser from '../utils/useCurrentUser';
+
+const POLL_MS = 5000;
 
 /**
  * Given the window pathname, extracts the list of member session IDs to be shown in
@@ -23,11 +25,13 @@ const scenarioIDsFromQuery = (queryIDs: string): number[] => {
 
 const WithScenarios = ({
   children,
+  remoteChange,
   setColumns,
   setUserID,
   columns,
 }: {
   children: React.ReactNode;
+  remoteChange: (sessionID: number, stamp?: string) => void;
   setColumns: (columns: Column[]) => void;
   setUserID: (userID: string | null) => void;
   columns: Column[];
@@ -44,6 +48,28 @@ const WithScenarios = ({
     setColumns(scenarioIDsFromQuery(queryIDs).map((sessionID) => ({ sessionID })));
   }, [router.query.scenarioIDs, user, loading, setColumns, setUserID]);
 
+  const watching = columns.map(({ sessionID }) => sessionID).join(',');
+
+  useEffect(() => {
+    if (!watching) return;
+
+    const tick = async () => {
+      if (document.hidden) return;
+
+      const response = await fetch(`/api/sessions/stamps?ids=${watching}`);
+
+      if (!response.ok) return;
+
+      Object.entries<string>(await response.json()).forEach(([id, stamp]) =>
+        remoteChange(Number(id), stamp)
+      );
+    };
+
+    const timer = setInterval(tick, POLL_MS);
+
+    return () => clearInterval(timer);
+  }, [watching, remoteChange]);
+
   if (columns.length) {
     return <>{children}</>;
   }
@@ -56,4 +82,4 @@ const mapStateToProps = (state: AppState) => ({
   failureReason: state.failureReason,
 });
 
-export default connect(mapStateToProps, { setColumns, setUserID })(WithScenarios);
+export default connect(mapStateToProps, { remoteChange, setColumns, setUserID })(WithScenarios);

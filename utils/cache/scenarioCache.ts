@@ -75,6 +75,9 @@ const isNewer = (stamp: string, seen?: string) => {
   return Number.isNaN(arrived) || Number.isNaN(acted) || arrived > acted;
 };
 
+// When ETEngine last said this session changed
+export const stampFor = (sessionID: number) => lastStamp.get(sessionID);
+
 // Drops one session's data. Returns how many entries went
 export const invalidate = (sessionID: number, stamp?: string): number => {
   if (stamp) {

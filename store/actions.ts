@@ -43,6 +43,12 @@ export const commitInputValue = (
   payload: { sessionID, inputKey, value },
 });
 
+// Somebody else changed a member session
+export const remoteChange = (sessionID: number, stamp?: string): ActionTypes => ({
+  type: TypeKeys.REMOTE_CHANGE,
+  payload: { sessionID, stamp },
+});
+
 export const writeStarted = (sessionID: number): ActionTypes => ({
   type: TypeKeys.WRITE_STARTED,
   payload: { sessionID },
