@@ -4,6 +4,7 @@ import { Selection } from './Row';
 import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
+import { unbalancedGroups } from '../../utils/inputs/shareGroups';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
@@ -29,6 +30,18 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
 
   // Focus
   const [selection, setSelection] = useState<Selection | null>(null);
+
+  // A closed group is held until it totals 100
+  const unbalanced = useMemo(
+    () =>
+      Object.fromEntries(
+        columns.map(({ sessionID }) => [
+          sessionID,
+          unbalancedGroups(inputs[sessionID], editing[sessionID]?.values ?? {}),
+        ])
+      ),
+    [columns, inputs, editing]
+  );
 
   const userValues = useMemo(
     () =>
@@ -261,6 +274,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
                                 onCommitValue={onCommitValue}
                                 onSelect={setSelection}
                                 selection={selection}
+                                unbalanced={unbalanced}
                                 userValues={userValues}
                               />
                             )}

@@ -10,6 +10,7 @@ interface SectionProps {
   onCommitValue: ComponentProps<typeof Row>['onCommitValue'];
   onSelect: ComponentProps<typeof Row>['onSelect'];
   selection: ComponentProps<typeof Row>['selection'];
+  unbalanced: ComponentProps<typeof Row>['unbalanced'];
   userValues: ComponentProps<typeof Row>['userValues'];
   slide: {
     path: string[];

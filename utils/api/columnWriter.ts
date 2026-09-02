@@ -6,6 +6,7 @@ export interface WriterHooks {
   send: (values: Record<string, InputValue>) => Promise<void>;
   onStart: () => void;
   onSuccess: (sent: Record<string, InputValue>) => void;
+  onFailure: (sent: Record<string, InputValue>, error: unknown) => void;
 }
 
 /**
@@ -49,8 +50,8 @@ export default class ColumnWriter {
     try {
       await this.hooks.send(sent);
       this.hooks.onSuccess(sent);
-    } catch {
-      // Dropped, so the queue does not wedge behind a write the engine would not take.
+    } catch (error) {
+      this.hooks.onFailure(sent, error);
     } finally {
       this.inFlight = false;
     }

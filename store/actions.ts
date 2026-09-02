@@ -62,6 +62,15 @@ export const writeSucceeded = (
   payload: { sessionID, sent },
 });
 
+export const writeFailed = (
+  sessionID: number,
+  sent: Record<string, InputValue>,
+  message: string
+): ActionTypes => ({
+  type: TypeKeys.WRITE_FAILED,
+  payload: { sessionID, sent, message },
+});
+
 /**
  * Receives a list of queries to be fetched from ETEngine, and queries which
  * should no longer be fetched from ETEngine and sets the state in one action.

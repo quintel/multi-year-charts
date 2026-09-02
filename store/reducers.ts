@@ -1,7 +1,7 @@
 import { InputValue } from '../utils/api/types';
 import { ActionTypes, AppState, Column, ColumnEditing, TypeKeys, QueriesList } from './types';
 
-const NOT_EDITING: ColumnEditing = { pending: false, values: {} };
+const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
 
 const initialState: AppState = {
   columns: [],
@@ -171,6 +171,7 @@ export default function reducer(state = initialState, action: ActionTypes) {
       return editColumn(state, sessionID, (editing) => ({
         ...editing,
         values: { ...editing.values, [inputKey]: value },
+        refused: without(editing.refused, [inputKey]),
       }));
     }
 
@@ -187,6 +188,19 @@ export default function reducer(state = initialState, action: ActionTypes) {
       return editColumn(state, sessionID, (editing) => ({
         pending: false,
         values: confirmed(editing.values, sent),
+        refused: editing.refused,
+      }));
+    }
+
+    // A refused write reverts the cells it carried and keeps the engine's error message on them
+    case TypeKeys.WRITE_FAILED: {
+      const { sessionID, sent, message } = action.payload;
+      const keys = Object.keys(sent);
+
+      return editColumn(state, sessionID, (editing) => ({
+        pending: false,
+        values: without(editing.values, keys),
+        refused: { ...editing.refused, ...Object.fromEntries(keys.map((key) => [key, message])) },
       }));
     }
 

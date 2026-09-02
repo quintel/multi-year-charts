@@ -1,20 +1,35 @@
 import { InputCollectionData, InputValue } from '../api/types';
 
-// Every input sharing a share group
-export const groupMembers = (inputs: InputCollectionData, key: string): string[] => {
-  const group = inputs[key]?.share_group;
+const GROUP_TOTAL = 100;
 
-  if (!group) return [];
+const DISPLAY_THRESHOLD = 0.005;
 
-  return Object.keys(inputs).filter((member) => inputs[member].share_group === group);
-};
+// Leave disabled members out of the balance check
+export const enabledMembers = (inputs: InputCollectionData, group: string): string[] =>
+  Object.keys(inputs).filter((key) => inputs[key].share_group === group && !inputs[key].disabled);
 
-// Will the engine still have a member free to move once `key` is written?
-export const isOpenFor = (
+// What a group sums to client side
+export const groupTotal = (
   inputs: InputCollectionData,
-  userValues: Record<string, InputValue>,
-  key: string
-): boolean =>
-  groupMembers(inputs, key).some(
-    (member) => member !== key && !inputs[member].disabled && userValues[member] === undefined
+  held: Record<string, InputValue>,
+  group: string
+): number =>
+  enabledMembers(inputs, group).reduce(
+    (sum, key) => sum + Number(held[key] ?? inputs[key].user ?? inputs[key].default),
+    0
   );
+
+export const unbalancedGroups = (
+  inputs: InputCollectionData,
+  held: Record<string, InputValue>
+): Set<string> => {
+  const touched = Object.keys(held)
+    .map((key) => inputs[key]?.share_group)
+    .filter((group): group is string => Boolean(group));
+
+  return new Set(
+    touched.filter(
+      (group) => Math.abs(groupTotal(inputs, held, group) - GROUP_TOTAL) > DISPLAY_THRESHOLD
+    )
+  );
+};

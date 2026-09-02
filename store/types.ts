@@ -29,6 +29,7 @@ export enum TypeKeys {
   UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA',
   WRITE_STARTED = 'WRITE_STARTED',
   WRITE_SUCCEEDED = 'WRITE_SUCCEEDED',
+  WRITE_FAILED = 'WRITE_FAILED',
 }
 
 /** One member of the collection, as shown in the interface. */
@@ -38,9 +39,9 @@ export interface Column {
 
 /** What a column is doing between a typed value and the engine's answer. */
 export interface ColumnEditing {
-  pending: boolean;
-  /** Typed values the engine has not yet confirmed. */
-  values: Record<string, InputValue>;
+  pending: boolean;  /** Typed values the engine has not yet confirmed, including a closed group's held values. */
+  values: Record<string, InputValue>;  /** Per input, what the engine said when it refused. */
+  refused: Record<string, string>;
 }
 
 interface APIFetchAction {
@@ -90,6 +91,11 @@ interface RemoteChangeAction {
   payload: { sessionID: number; stamp?: string };
 }
 
+interface WriteFailedAction {
+  type: typeof TypeKeys.WRITE_FAILED;
+  payload: { sessionID: number; sent: Record<string, InputValue>; message: string };
+}
+
 interface UpdateColumnDataAction {
   type: typeof TypeKeys.UPDATE_COLUMN_DATA;
   payload: { sessionID: number; scenario?: ScenarioData; inputs?: InputCollectionData };
@@ -133,6 +139,7 @@ export type ActionTypes =
   | CommitInputValueAction
   | WriteStartedAction
   | WriteSucceededAction
+  | WriteFailedAction
   | RemoteChangeAction
   | UpdateColumnDataAction
   | SwapQueriesAction
