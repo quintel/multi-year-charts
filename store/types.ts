@@ -139,11 +139,8 @@ export type ActionTypes =
  */
 
 export interface AppState {
-  /** The collection's members, in display order. */
   columns: Column[];
-  /** Per column, keyed by session ID. */
   editing: Record<number, ColumnEditing>;
-  /** The signed-in user. Editing requires one. */
   userID: string | null;
   failureReason: string | null;
   inputData: ScenarioIndexedInputData;

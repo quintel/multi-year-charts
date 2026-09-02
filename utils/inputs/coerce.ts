@@ -4,7 +4,8 @@ export interface Bounds {
   step?: number;
 }
 
-const roundToStep = (value: number, step?: number): number =>
+// Rounds to the input's step, doesn't clamp
+export const toStep = (value: number, { step }: Bounds): number =>
   step ? Number((Math.round(value / step) * step).toPrecision(12)) : value;
 
 /**
@@ -12,7 +13,7 @@ const roundToStep = (value: number, step?: number): number =>
  * the nearest step in between.
  */
 export const coerceValue = (value: number, { min, max, step }: Bounds): number => {
-  const stepped = roundToStep(value, step);
+  const stepped = toStep(value, { step });
 
   if (min !== undefined && stepped < min) return min;
   if (max !== undefined && stepped > max) return max;

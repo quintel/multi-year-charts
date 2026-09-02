@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react';
 
 import { InputData, InputValue } from '../../utils/api/types';
+import { chromeClass, toneClass } from '../../utils/inputs/appearance';
 import { coerceValue } from '../../utils/inputs/coerce';
 import { controlTypeFor, formatInputValue } from '../../utils/inputs/vocabulary';
 
 interface CellProps {
   input: InputData;
+  isSet: boolean;
   onCommit: (value: InputValue) => void;
+  onSelect: () => void;
   pending: boolean;
+  selected: boolean;
   translate: (id: string) => string;
+  /** Rounded to the input's step by the row, so committing an untouched cell makes no change */
   value: InputValue;
 }
 
-const controlClasses =
-  'w-full rounded border border-gray-300 bg-white px-1 py-0.5 text-right text-midnight-900 ' +
-  'focus:border-midnight-500 focus:outline-none';
+const controlClasses = (isSet: boolean, selected: boolean) =>
+  'w-full rounded border bg-transparent px-1 py-0.5 text-right ' +
+  'focus:border-midnight-500 focus:bg-white focus:outline-none ' +
+  `${toneClass(true, isSet)} ${chromeClass(selected)}`;
 
 /** A number the user types */
-function NumericCell({ input, onCommit, value }: CellProps) {
+function NumericCell({ input, isSet, onCommit, onSelect, selected, value }: CellProps) {
   const [draft, setDraft] = useState(String(value));
 
   useEffect(() => setDraft(String(value)), [value]);
@@ -41,36 +47,43 @@ function NumericCell({ input, onCommit, value }: CellProps) {
     <input
       type="text"
       inputMode="decimal"
-      className={controlClasses}
+      className={controlClasses(isSet, selected)}
       value={draft}
       onChange={(event) => setDraft(event.target.value)}
+      onFocus={onSelect}
       onBlur={commit}
       onKeyDown={(event) => event.key === 'Enter' && event.currentTarget.blur()}
     />
   );
 }
 
-function BooleanCell({ onCommit, value }: CellProps) {
+function BooleanCell({ onCommit, onSelect, value }: CellProps) {
   return (
     <input
       type="checkbox"
       className="align-middle accent-midnight-600"
       checked={Boolean(value)}
+      onFocus={onSelect}
       onChange={(event) => onCommit(event.target.checked ? 1 : 0)}
     />
   );
 }
 
 /** An enum offers its permitted values, or its own value when the payload omits them. */
-function EnumCell({ input, onCommit, translate, value }: CellProps) {
+function EnumCell({ input, isSet, onCommit, onSelect, selected, translate, value }: CellProps) {
   if (!input.permitted_values?.length) {
-    return <>{formatInputValue(value, input.unit, translate)}</>;
+    return (
+      <span className={toneClass(true, isSet)}>
+        {formatInputValue(value, input.unit, translate)}
+      </span>
+    );
   }
 
   return (
     <select
-      className={controlClasses}
+      className={`${controlClasses(isSet, selected)} appearance-none`}
       value={String(value)}
+      onFocus={onSelect}
       onChange={(event) => onCommit(event.target.value)}
     >
       {input.permitted_values.map((permitted) => (

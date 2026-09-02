@@ -8,7 +8,9 @@ interface SectionProps {
   editing: ComponentProps<typeof Row>['editing'];
   inputData: ComponentProps<typeof Row>['inputData'];
   onCommitValue: ComponentProps<typeof Row>['onCommitValue'];
-  onInputClick: ComponentProps<typeof Row>['onInputClick'];
+  onSelect: ComponentProps<typeof Row>['onSelect'];
+  selection: ComponentProps<typeof Row>['selection'];
+  userValues: ComponentProps<typeof Row>['userValues'];
   slide: {
     path: string[];
     input_elements: { name: string; group_name?: string; key: string; unit: string }[];
@@ -18,9 +20,6 @@ interface SectionProps {
 /**
  * Given a slide, returns a list of input definitions representing inputs for which the scenario
  * creator has specified a custom value.
- *
- * @todo If the inputs belong to share group, the whole group must be returned even when values have
- *       not been changed.
  */
 const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
   return inputElements.filter((definition) => {

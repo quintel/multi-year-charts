@@ -36,7 +36,7 @@ const fetchWithRefresh = async (input: RequestInfo, init?: RequestInit): Promise
  * camel-case.
  */
 const camelCaseScenario = (json: {
-  scenario: Record<string, number | string>;
+  scenario: Record<string, unknown>;
   gqueries: Record<string, GqueryData>;
 }): ScenarioData => {
   const { scenario, gqueries } = json;
@@ -50,6 +50,8 @@ const camelCaseScenario = (json: {
       startYear: scenario.start_year as number,
       url: scenario.url as string,
     },
+    userValues: (scenario.user_values ?? {}) as Record<string, InputValue>,
+    balancedValues: (scenario.balanced_values ?? {}) as Record<string, InputValue>,
     order: 0,
   };
 };
