@@ -11,7 +11,7 @@ import Cell from './Cell';
 
 type Translate = (id: string) => string;
 
-const NOT_EDITING: ColumnEditing = { pending: false, values: {} };
+const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
 
 // The share group being worked on in one column
 export interface Selection {
@@ -27,6 +27,7 @@ interface RowProps {
   onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
   onSelect: (selection: Selection | null) => void;
   selection: Selection | null;
+  unbalanced: Record<number, Set<string>>;
   userValues: Record<number, Record<string, InputValue>>;
 }
 
@@ -65,6 +66,7 @@ export default function Row({
   onCommitValue,
   onSelect,
   selection,
+  unbalanced,
   userValues,
 }: RowProps) {
   const translate = useTranslate();
@@ -118,7 +120,10 @@ export default function Row({
                 input={scenarioInput}
                 isSet={isSet}
                 pending={columnEditing.pending && typed === undefined}
+                refusal={columnEditing.refused[input.key]}
+                refused={columnEditing.refused[input.key] !== undefined}
                 selected={selected}
+                unbalanced={shareGroup !== undefined && unbalanced[column.sessionID]?.has(shareGroup)}
                 translate={translate}
                 value={value}
                 onCommit={(next) => onCommitValue(column.sessionID, input.key, next)}

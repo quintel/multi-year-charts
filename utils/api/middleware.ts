@@ -1,10 +1,11 @@
 import { AnyAction, Dispatch, Middleware } from 'redux';
 
 import ColumnWriter from './columnWriter';
-import Connection, { fetchInputsForScenario, updateScenario } from './Connection';
+import Connection, { fetchInputsForScenario, updateScenario, WriteRefused } from './Connection';
 import { InputValue } from './types';
-import { writeStarted, writeSucceeded } from '../../store/actions';
+import { writeFailed, writeStarted, writeSucceeded } from '../../store/actions';
 import { AppState, TypeKeys } from '../../store/types';
+import { enabledMembers, groupTotal } from '../inputs/shareGroups';
 
 /**
  * Handles fetching data from ETEngine and dispatching events back to Redux.
@@ -68,7 +69,49 @@ const createWriter = (sessionID: number, dispatch: Dispatch<AnyAction>, getState
 
     onStart: () => dispatch(writeStarted(sessionID)),
     onSuccess: (sent) => dispatch(writeSucceeded(sessionID, sent)),
+    onFailure: (sent, error) =>
+      dispatch(
+        writeFailed(sessionID, sent, error instanceof WriteRefused ? error.message : String(error))
+      ),
   });
+
+const GROUP_TOTAL = 100;
+const DISPLAY_THRESHOLD = 0.005;
+
+/**
+ * Sends only what the engine can act on. It may move a member with no value of its own, but only to
+ * absorb a difference: the values it may not move cannot already exceed 100. Anything else is held
+ * until the group totals 100 and is then sent whole, so a group is rebalanced by hand in one go.
+ */
+const sendOrHold = (
+  writer: ColumnWriter,
+  state: AppState,
+  sessionID: number,
+  inputKey: string,
+  value: InputValue
+) => {
+  const inputs = state.inputData[sessionID];
+  const group = inputs?.[inputKey]?.share_group;
+
+  if (!group) return writer.write(inputKey, value);
+
+  const held = { ...(state.editing[sessionID]?.values ?? {}), [inputKey]: value };
+  const members = enabledMembers(inputs, group);
+  const userValues = state.scenarioData[sessionID]?.userValues ?? {};
+  const fixed = (key: string) => held[key] ?? userValues[key];
+
+  const fixedTotal = members.reduce((sum, key) => sum + Number(fixed(key) ?? 0), 0);
+  const absorbable = members.some((key) => fixed(key) === undefined);
+
+  // Everything typed into the group goes together
+  if (absorbable && fixedTotal <= GROUP_TOTAL + DISPLAY_THRESHOLD) {
+    return members.filter((key) => held[key] !== undefined).forEach((key) => writer.write(key, held[key]));
+  }
+
+  if (Math.abs(groupTotal(inputs, held, group) - GROUP_TOTAL) > DISPLAY_THRESHOLD) return;
+
+  members.forEach((key) => writer.write(key, held[key] ?? inputs[key].user ?? inputs[key].default));
+};
 
 /**
  * Creates Redux middleware which listens for actions which request data from
@@ -119,9 +162,11 @@ const createAPIMiddleware = () => {
           const { sessionID, inputKey, value } = action.payload;
 
           // Editing requires being signed in. The grid draws no controls for a signed-out visitor
-          if (getState().userID) {
+          const state = getState() as AppState;
+
+          if (state.userID) {
             writers[sessionID] = writers[sessionID] || createWriter(sessionID, dispatch, getState);
-            writers[sessionID].write(inputKey, value);
+            sendOrHold(writers[sessionID], state, sessionID, inputKey, value);
           }
 
           break;

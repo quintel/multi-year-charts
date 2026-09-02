@@ -68,6 +68,18 @@ const indexByScenario = <T>(scenarioIDs: number[], data: T[]) => {
   return byScenario;
 };
 
+export class WriteRefused extends Error {
+  constructor(public status: number, public messages: string[]) {
+    super(messages[0] || `Request failed with status ${status}`);
+  }
+}
+
+const refusal = async (response: Response) => {
+  const body = await response.json().catch(() => ({}));
+
+  return new WriteRefused(response.status, body?.errors ?? []);
+};
+
 /**
  * Writes to a scenario and reads it back.
  */
@@ -85,7 +97,7 @@ export const updateScenario = async (
   });
 
   if (!response.ok) {
-    throw new Error(response.status.toString());
+    throw await refusal(response);
   }
 
   return camelCaseScenario(await response.json());
@@ -119,6 +131,10 @@ export const fetchInputsForScenario = async (id: number): Promise<InputCollectio
     method: 'GET',
     headers,
   });
+
+  if (!response.ok) {
+    throw await refusal(response);
+  }
 
   return await response.json();
 };
