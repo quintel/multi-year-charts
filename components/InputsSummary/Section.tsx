@@ -1,4 +1,5 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, Fragment } from 'react';
+import GroupTotalRow from './GroupTotalRow';
 import Row from './Row';
 
 import { ScenarioIndexedInputData } from '../../utils/api/types';
@@ -6,11 +7,12 @@ import { ScenarioIndexedInputData } from '../../utils/api/types';
 interface SectionProps {
   columns: ComponentProps<typeof Row>['columns'];
   editing: ComponentProps<typeof Row>['editing'];
+  held: ComponentProps<typeof Row>['held'];
   inputData: ComponentProps<typeof Row>['inputData'];
   onCommitValue: ComponentProps<typeof Row>['onCommitValue'];
+  onResetValue: ComponentProps<typeof Row>['onResetValue'];
   onSelect: ComponentProps<typeof Row>['onSelect'];
   selection: ComponentProps<typeof Row>['selection'];
-  unbalanced: ComponentProps<typeof Row>['unbalanced'];
   userValues: ComponentProps<typeof Row>['userValues'];
   slide: {
     path: string[];
@@ -42,9 +44,29 @@ Section.shouldShow = (inputElements: { key: string }[], inputData: ScenarioIndex
  * user-modified value.
  */
 export default function Section({ slide, ...rest }: SectionProps) {
-  const rows = slide.input_elements.map((element) => (
-    <Row key={element.key} input={element} {...rest} />
-  ));
+  const { columns, editing, held, inputData, selection } = rest;
+  const groupOf = (key: string) => inputData[columns[0].sessionID][key]?.share_group;
+
+  const rows = slide.input_elements.map((element, index) => {
+    const group = groupOf(element.key);
+    const opensGroup = group !== undefined && group !== groupOf(slide.input_elements[index - 1]?.key);
+
+    return (
+      <Fragment key={element.key}>
+        {opensGroup && (
+          <GroupTotalRow
+            columns={columns}
+            editing={editing}
+            group={group}
+            held={held}
+            inputData={inputData}
+            selection={selection}
+          />
+        )}
+        <Row input={element} {...rest} />
+      </Fragment>
+    );
+  });
 
   return <>{rows}</>;
 }

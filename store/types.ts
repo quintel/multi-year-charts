@@ -20,6 +20,7 @@ export enum TypeKeys {
   FETCH_INPUTS = 'FETCH_INPUTS',
   COMMIT_INPUT_VALUE = 'COMMIT_INPUT_VALUE',
   REMOTE_CHANGE = 'REMOTE_CHANGE',
+  RESET_INPUT_VALUES = 'RESET_INPUT_VALUES',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
   SET_COLUMNS = 'SET_COLUMNS',
   SET_USER_ID = 'SET_USER_ID',
@@ -74,6 +75,11 @@ interface SetUserIDAction {
 interface CommitInputValueAction {
   type: typeof TypeKeys.COMMIT_INPUT_VALUE;
   payload: { sessionID: number; inputKey: string; value: InputValue };
+}
+
+interface ResetInputValuesAction {
+  type: typeof TypeKeys.RESET_INPUT_VALUES;
+  payload: { sessionID: number; inputKeys: string[] };
 }
 
 interface WriteStartedAction {
@@ -137,6 +143,7 @@ export type ActionTypes =
   | SetColumnsAction
   | SetUserIDAction
   | CommitInputValueAction
+  | ResetInputValuesAction
   | WriteStartedAction
   | WriteSucceededAction
   | WriteFailedAction
