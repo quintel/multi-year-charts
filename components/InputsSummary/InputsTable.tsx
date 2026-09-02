@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Section from './Section';
+import { Selection } from './Row';
 import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
@@ -25,6 +26,17 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
   const [allExpanded, setAllExpanded] = useState(false);
   const [showAllInputs, setShowAllInputs] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+
+  // Focus
+  const [selection, setSelection] = useState<Selection | null>(null);
+
+  const userValues = useMemo(
+    () =>
+      Object.fromEntries(
+        columns.map(({ sessionID }) => [sessionID, scenarios[sessionID].userValues || {}])
+      ),
+    [columns, scenarios]
+  );
 
   // Columns are already in display order, because the reducer derives the scenario list from them
   const columnScenarios = columns.map(({ sessionID }) => scenarios[sessionID].scenario);
@@ -247,7 +259,9 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
                                 columns={columns}
                                 editing={editing}
                                 onCommitValue={onCommitValue}
-                                onInputClick={openModal}
+                                onSelect={setSelection}
+                                selection={selection}
+                                userValues={userValues}
                               />
                             )}
                           </React.Fragment>
