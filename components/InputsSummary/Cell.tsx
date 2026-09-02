@@ -1,29 +1,27 @@
 import { useEffect, useState } from 'react';
 
 import { InputData, InputValue } from '../../utils/api/types';
-import { chromeClass, toneClass } from '../../utils/inputs/appearance';
+import { CellFlags, chromeClass, toneClass } from '../../utils/inputs/appearance';
 import { coerceValue } from '../../utils/inputs/coerce';
 import { controlTypeFor, formatInputValue } from '../../utils/inputs/vocabulary';
 
-interface CellProps {
+interface CellProps extends CellFlags {
   input: InputData;
   isSet: boolean;
   onCommit: (value: InputValue) => void;
   onSelect: () => void;
   pending: boolean;
-  selected: boolean;
+  refusal?: string;
   translate: (id: string) => string;
-  /** Rounded to the input's step by the row, so committing an untouched cell makes no change */
   value: InputValue;
 }
 
-const controlClasses = (isSet: boolean, selected: boolean) =>
+const controlClasses = (isSet: boolean, flags: CellFlags) =>
   'w-full rounded border bg-transparent px-1 py-0.5 text-right ' +
   'focus:border-midnight-500 focus:bg-white focus:outline-none ' +
-  `${toneClass(true, isSet)} ${chromeClass(selected)}`;
+  `${toneClass(true, isSet)} ${chromeClass(flags)}`;
 
-/** A number the user types */
-function NumericCell({ input, isSet, onCommit, onSelect, selected, value }: CellProps) {
+function NumericCell({ input, isSet, onCommit, onSelect, refusal, value, ...flags }: CellProps) {
   const [draft, setDraft] = useState(String(value));
 
   useEffect(() => setDraft(String(value)), [value]);
@@ -47,7 +45,8 @@ function NumericCell({ input, isSet, onCommit, onSelect, selected, value }: Cell
     <input
       type="text"
       inputMode="decimal"
-      className={controlClasses(isSet, selected)}
+      className={controlClasses(isSet, flags)}
+      title={refusal}
       value={draft}
       onChange={(event) => setDraft(event.target.value)}
       onFocus={onSelect}
@@ -70,7 +69,7 @@ function BooleanCell({ onCommit, onSelect, value }: CellProps) {
 }
 
 /** An enum offers its permitted values, or its own value when the payload omits them. */
-function EnumCell({ input, isSet, onCommit, onSelect, selected, translate, value }: CellProps) {
+function EnumCell({ input, isSet, onCommit, onSelect, translate, value, ...flags }: CellProps) {
   if (!input.permitted_values?.length) {
     return (
       <span className={toneClass(true, isSet)}>
@@ -81,7 +80,7 @@ function EnumCell({ input, isSet, onCommit, onSelect, selected, translate, value
 
   return (
     <select
-      className={`${controlClasses(isSet, selected)} appearance-none`}
+      className={`${controlClasses(isSet, flags)} appearance-none`}
       value={String(value)}
       onFocus={onSelect}
       onChange={(event) => onCommit(event.target.value)}

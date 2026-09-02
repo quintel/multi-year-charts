@@ -41,18 +41,30 @@ const fetchInputs = (conn: Connection, dispatch: Dispatch<AnyAction>, getState: 
   });
 };
 
+const refetchColumn = async (
+  sessionID: number,
+  dispatch: Dispatch<AnyAction>,
+  getState: () => AppState,
+  values?: Record<string, InputValue>
+) => {
+  const scenario = await updateScenario(sessionID, Object.keys(getState().queries), values);
+  const inputs = await fetchInputsForScenario(sessionID);
+
+  dispatch({ type: TypeKeys.UPDATE_COLUMN_DATA, payload: { sessionID, scenario, inputs } });
+};
+
+// Our own writes don't trigger a re-read
+export const isNewer = (stamp?: string, seen?: string) =>
+  stamp === undefined || seen === undefined || Date.parse(stamp) > Date.parse(seen);
+
 /**
  * Creates the writer for one column, which owns its queue.
  */
 const createWriter = (sessionID: number, dispatch: Dispatch<AnyAction>, getState: () => AppState) =>
   new ColumnWriter({
     // The inputs are read back after the write
-    send: async (values: Record<string, InputValue>) => {
-      const scenario = await updateScenario(sessionID, Object.keys(getState().queries), values);
-      const inputs = await fetchInputsForScenario(sessionID);
-
-      dispatch({ type: TypeKeys.UPDATE_COLUMN_DATA, payload: { sessionID, scenario, inputs } });
-    },
+    send: (values: Record<string, InputValue>) =>
+      refetchColumn(sessionID, dispatch, getState, values),
 
     onStart: () => dispatch(writeStarted(sessionID)),
     onSuccess: (sent) => dispatch(writeSucceeded(sessionID, sent)),
@@ -86,6 +98,20 @@ const createAPIMiddleware = () => {
 
         case TypeKeys.FETCH_INPUTS: {
           fetchInputs(conn, dispatch, getState);
+          break;
+        }
+
+        case TypeKeys.REMOTE_CHANGE: {
+          const { sessionID, stamp } = action.payload;
+          const { columns, scenarioData } = getState() as AppState;
+
+          if (
+            columns.some((column) => column.sessionID === sessionID) &&
+            isNewer(stamp, scenarioData[sessionID]?.updatedAt)
+          ) {
+            refetchColumn(sessionID, dispatch, getState);
+          }
+
           break;
         }
 

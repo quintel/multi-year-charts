@@ -19,6 +19,7 @@ export enum TypeKeys {
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   COMMIT_INPUT_VALUE = 'COMMIT_INPUT_VALUE',
+  REMOTE_CHANGE = 'REMOTE_CHANGE',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
   SET_COLUMNS = 'SET_COLUMNS',
   SET_USER_ID = 'SET_USER_ID',
@@ -84,6 +85,11 @@ interface WriteSucceededAction {
   payload: { sessionID: number; sent: Record<string, InputValue> };
 }
 
+interface RemoteChangeAction {
+  type: typeof TypeKeys.REMOTE_CHANGE;
+  payload: { sessionID: number; stamp?: string };
+}
+
 interface UpdateColumnDataAction {
   type: typeof TypeKeys.UPDATE_COLUMN_DATA;
   payload: { sessionID: number; scenario?: ScenarioData; inputs?: InputCollectionData };
@@ -127,6 +133,7 @@ export type ActionTypes =
   | CommitInputValueAction
   | WriteStartedAction
   | WriteSucceededAction
+  | RemoteChangeAction
   | UpdateColumnDataAction
   | SwapQueriesAction
   | AddQueriesAction
