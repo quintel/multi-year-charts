@@ -7,13 +7,13 @@ export const toneClass = (editable: boolean, isSet: boolean): string => {
 
 export interface CellFlags {
   selected: boolean;
-  unbalanced: boolean;
+  held: boolean;
   refused: boolean;
 }
 
-export const chromeClass = ({ selected, unbalanced, refused }: CellFlags): string => {
+export const chromeClass = ({ selected, held, refused }: CellFlags): string => {
   if (refused) return 'border-red-500';
-  if (unbalanced) return 'border-red-300';
+  if (held) return 'border-red-300';
 
   return selected ? 'border-gray-300' : 'border-transparent hover:border-gray-300';
 };

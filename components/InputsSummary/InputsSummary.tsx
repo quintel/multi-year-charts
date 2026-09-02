@@ -5,9 +5,10 @@ import Loading from '../Loading';
 import ScenarioEditor from '../ScenarioEditor';
 import { AppState, Column, ColumnEditing } from '../../store/types';
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-import { apiFetch, commitInputValue, fetchInputs } from '../../store/actions';
+import { apiFetch, commitInputValue, fetchInputs, resetInputValues } from '../../store/actions';
 import useInputDefinitions from '../../utils/etmodel/useInputDefinitions';
 import { withEditability } from '../../utils/inputs/access';
+import { resetKeys } from '../../utils/inputs/reset';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
@@ -16,6 +17,7 @@ interface InputsSummaryProps {
   editing: Record<number, ColumnEditing>;
   fetchInputs: () => void;
   inputData: ScenarioIndexedInputData;
+  resetInputValues: typeof resetInputValues;
   scenarioData: ScenarioIndexedScenarioData;
   userID: string | null;
 }
@@ -101,6 +103,16 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
     [dispatch]
   );
 
+  // A share group member resets its whole group
+  const { inputData, resetInputValues: reset } = props;
+
+  const resetValue = useCallback(
+    (sessionID: number, inputKey: string) => {
+      reset(sessionID, resetKeys(inputData[sessionID], inputKey));
+    },
+    [inputData, reset]
+  );
+
   const closeModal = useCallback(() => {
     fetchInputs();
     apiFetch();
@@ -119,6 +131,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
           inputs={props.inputData}
           scenarios={props.scenarioData}
           onCommitValue={props.commitInputValue}
+          onResetValue={resetValue}
           openModal={openModal}
           inputList={inputList}
         />
@@ -144,4 +157,9 @@ const mapStateToProps = (state: AppState) => ({
   userID: state.userID,
 });
 
-export default connect(mapStateToProps, { apiFetch, commitInputValue, fetchInputs })(InputsSummary);
+export default connect(mapStateToProps, {
+  apiFetch,
+  commitInputValue,
+  fetchInputs,
+  resetInputValues,
+})(InputsSummary);

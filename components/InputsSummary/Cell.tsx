@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { RefreshIcon } from '@heroicons/react/solid';
 
 import { InputData, InputValue } from '../../utils/api/types';
 import { CellFlags, chromeClass, toneClass } from '../../utils/inputs/appearance';
@@ -9,6 +10,7 @@ interface CellProps extends CellFlags {
   input: InputData;
   isSet: boolean;
   onCommit: (value: InputValue) => void;
+  onReset: () => void;
   onSelect: () => void;
   pending: boolean;
   refusal?: string;
@@ -105,6 +107,33 @@ const control = (props: CellProps) => {
   }
 };
 
+/**
+ * Returns the cell to the value its session inherited
+ */
+function ResetButton({ input, onReset, onSelect, translate }: CellProps) {
+  const label = input.share_group ? translate('inputs.resetGroup') : translate('inputs.reset');
+
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      className="absolute inset-y-0 left-0 flex items-center px-1 text-gray-400 opacity-0
+        transition hover:text-gray-700 focus:opacity-100 focus:outline-none group-hover:opacity-100"
+      onClick={onReset}
+      onFocus={onSelect}
+      onMouseEnter={onSelect}
+    >
+      <RefreshIcon className="h-3.5 w-3.5" />
+    </button>
+  );
+}
+
 export default function Cell(props: CellProps) {
-  return <div className={props.pending ? 'opacity-50' : ''}>{control(props)}</div>;
+  return (
+    <div className={`group relative ${props.pending ? 'opacity-50' : ''}`}>
+      {control(props)}
+      {props.isSet ? <ResetButton {...props} /> : null}
+    </div>
+  );
 }

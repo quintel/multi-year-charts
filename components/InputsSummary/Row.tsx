@@ -1,11 +1,17 @@
 import sanitizeHtml from 'sanitize-html';
 
-import { InputData, InputValue, ScenarioIndexedInputData } from '../../utils/api/types';
+import {
+  InputCollectionData,
+  InputData,
+  InputValue,
+  ScenarioIndexedInputData,
+} from '../../utils/api/types';
 import { currentValue, displayUnit, formatInputValue } from '../../utils/inputs/vocabulary';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { toStep } from '../../utils/inputs/coerce';
 import { toneClass } from '../../utils/inputs/appearance';
+import { groupRefusal } from '../../utils/inputs/shareGroups';
 import useTranslate from '../../utils/useTranslate';
 import Cell from './Cell';
 
@@ -25,15 +31,25 @@ interface RowProps {
   input: { name: string; group_name?: string; key: string; unit: string };
   inputData: ScenarioIndexedInputData;
   onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
+  onResetValue: (sessionID: number, inputKey: string) => void;
   onSelect: (selection: Selection | null) => void;
   selection: Selection | null;
-  unbalanced: Record<number, Set<string>>;
+  held: Record<number, Set<string>>;
   userValues: Record<number, Record<string, InputValue>>;
 }
 
 // Never shows more precision than the input's step allows
 const stepped = (value: InputValue, input: InputData): InputValue =>
   typeof value === 'number' ? toStep(value, input) : value;
+
+// A refusal covering a whole group belongs to the group, and is shown on its total row instead
+const cellRefusal = (
+  inputs: InputCollectionData,
+  refused: Record<string, string>,
+  inputKey: string,
+  shareGroup?: string
+): string | undefined =>
+  shareGroup && groupRefusal(inputs, refused, shareGroup) ? undefined : refused[inputKey];
 
 function ReadOnlyCell({
   input,
@@ -61,12 +77,13 @@ function ReadOnlyCell({
 export default function Row({
   columns,
   editing,
+  held,
   input,
   inputData,
   onCommitValue,
+  onResetValue,
   onSelect,
   selection,
-  unbalanced,
   userValues,
 }: RowProps) {
   const translate = useTranslate();
@@ -113,6 +130,13 @@ export default function Row({
         const selected =
           selection?.sessionID === column.sessionID && selection?.shareGroup === shareGroup;
 
+        const refusal = cellRefusal(
+          inputData[column.sessionID],
+          columnEditing.refused,
+          input.key,
+          shareGroup
+        );
+
         return (
           <td key={column.sessionID} className="px-2 text-right">
             {editable ? (
@@ -120,13 +144,14 @@ export default function Row({
                 input={scenarioInput}
                 isSet={isSet}
                 pending={columnEditing.pending && typed === undefined}
-                refusal={columnEditing.refused[input.key]}
-                refused={columnEditing.refused[input.key] !== undefined}
+                refusal={refusal}
+                refused={refusal !== undefined}
                 selected={selected}
-                unbalanced={shareGroup !== undefined && unbalanced[column.sessionID]?.has(shareGroup)}
+                held={shareGroup !== undefined && (held[column.sessionID]?.has(shareGroup) || false)}
                 translate={translate}
                 value={value}
                 onCommit={(next) => onCommitValue(column.sessionID, input.key, next)}
+                onReset={() => onResetValue(column.sessionID, input.key)}
                 onSelect={() =>
                   onSelect(shareGroup ? { sessionID: column.sessionID, shareGroup } : null)
                 }

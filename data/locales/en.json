@@ -20,6 +20,9 @@
   "inputs.collapse": "Collapse all",
   "inputs.expand": "Expand all",
   "inputs.unit": "Unit",
+  "inputs.total": "Total",
+  "inputs.reset": "Reset to inherited value",
+  "inputs.resetGroup": "Reset this group to its inherited values",
 
   "series.all": "Show all series",
   "series.hide": "Hide all series",

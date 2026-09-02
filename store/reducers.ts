@@ -175,6 +175,15 @@ export default function reducer(state = initialState, action: ActionTypes) {
       }));
     }
 
+    case TypeKeys.RESET_INPUT_VALUES: {
+      const { sessionID, inputKeys } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        ...editing,
+        refused: without(editing.refused, inputKeys),
+      }));
+    }
+
     case TypeKeys.WRITE_STARTED: {
       return editColumn(state, action.payload.sessionID, (editing) => ({
         ...editing,

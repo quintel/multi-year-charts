@@ -43,6 +43,11 @@ export const commitInputValue = (
   payload: { sessionID, inputKey, value },
 });
 
+export const resetInputValues = (sessionID: number, inputKeys: string[]): ActionTypes => ({
+  type: TypeKeys.RESET_INPUT_VALUES,
+  payload: { sessionID, inputKeys },
+});
+
 // Somebody else changed a member session
 export const remoteChange = (sessionID: number, stamp?: string): ActionTypes => ({
   type: TypeKeys.REMOTE_CHANGE,
