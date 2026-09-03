@@ -13,6 +13,7 @@ export enum TypeKeys {
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
+  SET_COLLECTION = 'SET_COLLECTION',
   SET_SCENARIOS = 'SET_SCENARIOS',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
@@ -39,6 +40,11 @@ interface APIRequestFailedAction {
 interface SetScenariosAction {
   type: typeof TypeKeys.SET_SCENARIOS;
   payload: number[];
+}
+
+interface SetCollectionAction {
+  type: typeof TypeKeys.SET_COLLECTION;
+  payload: CollectionState;
 }
 
 interface AddQueriesAction {
@@ -75,6 +81,7 @@ export type ActionTypes =
   | APIRequestFailedAction
   | APIRequestFinishedAction
   | SetScenariosAction
+  | SetCollectionAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
@@ -85,7 +92,19 @@ export type ActionTypes =
  * State
  */
 
+/**
+ * The collection currently being viewed. `id` is null on the legacy `/[scenarioIDs]` URLs, which
+ * carry no collection.
+ */
+export interface CollectionState {
+  id: number | null;
+  title: string | null;
+  // The URL named a collection we cannot show: unknown id, or not readable by this viewer.
+  notFound: boolean;
+}
+
 export interface AppState {
+  collection: CollectionState;
   failureReason: string | null;
   inputData: ScenarioIndexedInputData;
   requestInProgress: boolean;

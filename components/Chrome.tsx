@@ -12,11 +12,13 @@ import { AppState } from '../store/types';
 function Chrome({
   children,
   failureReason,
+  collectionNotFound,
 }: {
   children: React.ReactNode;
   failureReason: AppState['failureReason'];
+  collectionNotFound: boolean;
 }) {
-  if (failureReason) {
+  if (failureReason || collectionNotFound) {
     return <MissingScenarios />;
   }
 
@@ -32,6 +34,7 @@ function Chrome({
 
 const mapStateToProps = (state: AppState) => ({
   failureReason: state.failureReason,
+  collectionNotFound: state.collection.notFound,
 });
 
 export default connect(mapStateToProps, {})(Chrome);
