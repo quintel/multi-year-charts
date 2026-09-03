@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router';
+import { connect } from 'react-redux';
+
 import AreaInformation from './AreaInformation';
+import { AppState } from '../store/types';
 
-export default function SessionTitle() {
-  const title = useRouter().query.title;
-
+function SessionTitle({ title }: { title: string | null }) {
   if (!title || title.length === 0) {
     return null;
   }
@@ -19,3 +19,9 @@ export default function SessionTitle() {
     </div>
   );
 }
+
+const mapStateToProps = (state: AppState) => ({
+  title: state.collection.title,
+});
+
+export default connect(mapStateToProps, {})(SessionTitle);

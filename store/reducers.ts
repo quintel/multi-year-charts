@@ -1,6 +1,7 @@
 import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
+  collection: { id: null, title: null, notFound: false },
   inputData: {},
   failureReason: null,
   requestInProgress: false,
@@ -72,7 +73,7 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.API_REQUEST_FINISHED: {
-      return { ...state, requestInProgress: false, failureRason: null };
+      return { ...state, requestInProgress: false, failureReason: null };
     }
 
     case TypeKeys.API_REQUEST_FAILED: {
@@ -82,6 +83,10 @@ export default function reducer(state = initialState, action: ActionTypes) {
     /**
      * API scenarios
      */
+
+    case TypeKeys.SET_COLLECTION: {
+      return { ...state, collection: action.payload };
+    }
 
     case TypeKeys.SET_SCENARIOS: {
       return { ...state, scenarios: action.payload };
