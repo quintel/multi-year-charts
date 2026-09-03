@@ -1,6 +1,6 @@
 // grey --> dataset default, black --> editable, blue --> set
 export const toneClass = (editable: boolean, isSet: boolean): string => {
-  if (isSet) return 'text-midnight-700';
+  if (isSet) return 'font-semibold';
 
   return editable ? 'text-gray-900' : 'text-gray-400';
 };
@@ -15,5 +15,5 @@ export const chromeClass = ({ selected, held, refused }: CellFlags): string => {
   if (refused) return 'border-red-500';
   if (held) return 'border-red-300';
 
-  return selected ? 'border-gray-300' : 'border-transparent hover:border-gray-300';
+  return selected ? 'border-gray-300' : 'border-transparent hover:border-gray-300 hover:cursor-pointer';
 };

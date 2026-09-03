@@ -103,11 +103,13 @@ export default function Row({
   const unsanitizedInputName = input.group_name
     ? `${input.group_name} - ${input.name}`
     : input.name;
+  const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group;
+  const nameClass = hasGroup ? "p-2 pl-12 text-left text-gray-600" : "p-2 pl-8 text-left text-gray-600"
 
   return (
     <tr className="border-b border-b-gray-300">
       <td
-        className="p-2 pl-8 text-left text-gray-600"
+        className={nameClass}
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(unsanitizedInputName, { allowedTags: ['sub', 'sup'] }),
         }}

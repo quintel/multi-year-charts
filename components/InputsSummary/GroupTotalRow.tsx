@@ -52,7 +52,7 @@ export default function GroupTotalRow({
 
   return (
     <tr className="border-b border-b-gray-300">
-      <td className="p-2 pl-8 text-left text-gray-500">
+      <td className="p-2 pl-12 text-left text-gray-500">
         {translate('inputs.total')}
         {refusal ? <span className="ml-2 text-red-600">{refusal}</span> : null}
       </td>

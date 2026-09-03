@@ -32,6 +32,16 @@ const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioInd
   });
 };
 
+const shareGroupHeader = (group_name?: string) => {
+  return (
+    <tr className="border-b border-b-gray-300">
+      <td className="p-2 pl-8 text-left">
+        Share group {group_name ? '- ' : ''}{group_name}
+      </td>
+    </tr>
+  )
+};
+
 /**
  * Allows a parent component to avoid rendering a section if it has no modified inputs.
  */
@@ -50,10 +60,21 @@ export default function Section({ slide, ...rest }: SectionProps) {
   const rows = slide.input_elements.map((element, index) => {
     const group = groupOf(element.key);
     const opensGroup = group !== undefined && group !== groupOf(slide.input_elements[index - 1]?.key);
+    const closesGroup = group !== undefined && group !== groupOf(slide.input_elements[index + 1]?.key);
+
+    const groupCouplingDisabled = columns.every(
+      ({ sessionID }) =>
+        inputData[sessionID][element.key] != undefined &&
+        inputData[sessionID][element.key].coupling_disabled
+    );
 
     return (
       <Fragment key={element.key}>
-        {opensGroup && (
+        {opensGroup && !groupCouplingDisabled && shareGroupHeader(element.group_name)}
+
+        <Row input={element} {...rest} />
+
+        {closesGroup && !groupCouplingDisabled && (
           <GroupTotalRow
             columns={columns}
             editing={editing}
@@ -63,7 +84,6 @@ export default function Section({ slide, ...rest }: SectionProps) {
             selection={selection}
           />
         )}
-        <Row input={element} {...rest} />
       </Fragment>
     );
   });
