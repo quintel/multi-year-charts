@@ -1,7 +1,7 @@
 import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
 
 const initialState: AppState = {
-  collection: { id: null, title: null, notFound: false },
+  collection: { id: null, title: null },
   inputData: {},
   failureReason: null,
   requestInProgress: false,

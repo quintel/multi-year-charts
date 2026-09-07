@@ -1,6 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 
+import * as Sentry from '@sentry/nextjs';
+
 import useResolvedCollection, { scenarioIDsFromQuery } from '../useResolvedCollection';
+
+jest.mock('@sentry/nextjs', () => ({ captureException: jest.fn() }));
 
 let query: Record<string, string | string[]> = {};
 let isReady = true;
@@ -13,6 +17,7 @@ beforeEach(() => {
   query = {};
   isReady = true;
   global.fetch = jest.fn();
+  (Sentry.captureException as jest.Mock).mockClear();
 });
 
 describe('scenarioIDsFromQuery', () => {
@@ -36,7 +41,10 @@ describe('the legacy scenario-ids route', () => {
     expect(result.current.collection).toEqual({
       id: null,
       title: 'From the URL',
-      scenarioIDs: [1, 2],
+      members: [
+        { scenarioID: 1, title: null },
+        { scenarioID: 2, title: null },
+      ],
     });
   });
 
@@ -67,13 +75,20 @@ describe('the legacy scenario-ids route', () => {
 });
 
 describe('the collection route', () => {
-  const respondWith = (ok: boolean, body: unknown = {}) => {
-    (global.fetch as jest.Mock).mockResolvedValue({ ok, json: async () => body });
+  const respondWith = (ok: boolean, body: unknown = {}, status = ok ? 200 : 404) => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok, status, json: async () => body });
   };
 
-  it('resolves the title and scenario ids from the API', async () => {
+  it('resolves the title and members from the API', async () => {
     query = { collectionID: '42' };
-    respondWith(true, { id: 42, title: 'From the API', scenarios: [{ scenario_id: 3 }, { scenario_id: 4 }] });
+    respondWith(true, {
+      id: 42,
+      title: 'From the API',
+      scenarios: [
+        { scenario_id: 3, title: 'Cold winter' },
+        { scenario_id: 4, title: 'Warm winter' },
+      ],
+    });
 
     const { result } = renderHook(() => useResolvedCollection());
 
@@ -81,13 +96,26 @@ describe('the collection route', () => {
     expect(result.current.collection).toEqual({
       id: 42,
       title: 'From the API',
-      scenarioIDs: [3, 4],
+      members: [
+        { scenarioID: 3, title: 'Cold winter' },
+        { scenarioID: 4, title: 'Warm winter' },
+      ],
     });
+  });
+
+  it('has no title for a member MyETM sends without one', async () => {
+    query = { collectionID: '42' };
+    respondWith(true, { id: 42, title: 'From the API', scenarios: [{ scenario_id: 3 }] });
+
+    const { result } = renderHook(() => useResolvedCollection());
+
+    await waitFor(() => expect(result.current.status).toEqual('ready'));
+    expect(result.current.collection?.members).toEqual([{ scenarioID: 3, title: null }]);
   });
 
   it('ignores a title in the URL', async () => {
     query = { collectionID: '42', title: 'Spoofed' };
-    respondWith(true, { id: 42, title: 'Real', scenarios: [{ scenario_id: 3 }] });
+    respondWith(true, { id: 42, title: 'Real', scenarios: [{ scenario_id: 3, title: 'A' }] });
 
     const { result } = renderHook(() => useResolvedCollection());
 
@@ -112,13 +140,35 @@ describe('the collection route', () => {
     await waitFor(() => expect(result.current.status).toEqual('notFound'));
   });
 
-  it('is not found when the request fails', async () => {
+  it('is not found when the request fails, and says so', async () => {
     query = { collectionID: '42' };
-    (global.fetch as jest.Mock).mockRejectedValue(new Error('offline'));
+    const error = new Error('offline');
+    (global.fetch as jest.Mock).mockRejectedValue(error);
 
     const { result } = renderHook(() => useResolvedCollection());
 
     await waitFor(() => expect(result.current.status).toEqual('notFound'));
+    expect(Sentry.captureException).toHaveBeenCalledWith(error);
+  });
+
+  it('reports a fault from MyETM', async () => {
+    query = { collectionID: '42' };
+    respondWith(false, {}, 502);
+
+    const { result } = renderHook(() => useResolvedCollection());
+
+    await waitFor(() => expect(result.current.status).toEqual('notFound'));
+    expect(Sentry.captureException).toHaveBeenCalled();
+  });
+
+  it('does not report a collection it simply cannot read', async () => {
+    query = { collectionID: '42' };
+    respondWith(false, { errors: ['Not found'] }, 404);
+
+    const { result } = renderHook(() => useResolvedCollection());
+
+    await waitFor(() => expect(result.current.status).toEqual('notFound'));
+    expect(Sentry.captureException).not.toHaveBeenCalled();
   });
 });
 

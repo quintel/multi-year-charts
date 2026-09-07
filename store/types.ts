@@ -99,8 +99,6 @@ export type ActionTypes =
 export interface CollectionState {
   id: number | null;
   title: string | null;
-  // The URL named a collection we cannot show: unknown id, or not readable by this viewer.
-  notFound: boolean;
 }
 
 export interface AppState {

@@ -37,10 +37,6 @@ export default function useLinkHelper() {
   const router = useRouter();
 
   return {
-    hasCollection: () => {
-      return basePath(router) != null;
-    },
-
     linkTo(href: string) {
       return linkTo(router, href);
     },

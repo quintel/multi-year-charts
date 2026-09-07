@@ -25,8 +25,11 @@ const CollectionProxy = async function (req: NextApiRequest, res: NextApiRespons
     }
   );
 
-  const json = await response.json();
-  return res.status(response.status).json(json);
+  const body = await response.text();
+
+  return body
+    ? res.status(response.status).json(JSON.parse(body))
+    : res.status(response.status).end();
 };
 
 export default CollectionProxy;

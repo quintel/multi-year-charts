@@ -13,7 +13,6 @@ beforeEach(() => {
 });
 
 const linkTo = (href: string) => renderHook(() => useLinkHelper()).result.current.linkTo(href);
-const hasCollection = () => renderHook(() => useLinkHelper()).result.current.hasCollection();
 
 describe('on the collection route', () => {
   beforeEach(() => {
@@ -33,10 +32,6 @@ describe('on the collection route', () => {
 
     expect(linkTo('/inputs')).toEqual('/collections/42/inputs');
   });
-
-  it('has a collection', () => {
-    expect(hasCollection()).toBe(true);
-  });
 });
 
 describe('on the legacy scenario-ids route', () => {
@@ -53,14 +48,10 @@ describe('on the legacy scenario-ids route', () => {
 
     expect(linkTo('/inputs')).toEqual('/1,2/inputs?title=A%20title');
   });
-
-  it('has a collection', () => {
-    expect(hasCollection()).toBe(true);
-  });
 });
 
 describe('on a URL naming no collection', () => {
-  it('has no collection', () => {
-    expect(hasCollection()).toBe(false);
+  it('links without a base path', () => {
+    expect(linkTo('/inputs')).toEqual('/inputs');
   });
 });

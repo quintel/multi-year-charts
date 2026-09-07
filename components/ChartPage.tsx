@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import Chrome from './Chrome';
 import ChartWrapper from './ChartWrapper/ChartWrapper';
 import WithCollection from './WithCollection';
 import { flattenChart } from '../utils/charts';
@@ -54,18 +53,16 @@ const ChartPage: NextPage = () => {
   const flattened = flattenChart(chart, variantSlug);
 
   return (
-    <Chrome>
-      <WithCollection>
-        <Head>
-          <title>
-            {pageTitle(flattened, translate)} - {translate('app.title')}
-          </title>
-          <link rel="icon" href="/favicon.svg" />
-        </Head>
+    <WithCollection>
+      <Head>
+        <title>
+          {pageTitle(flattened, translate)} - {translate('app.title')}
+        </title>
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
 
-        <ChartWrapper chart={flattened} />
-      </WithCollection>
-    </Chrome>
+      <ChartWrapper chart={flattened} />
+    </WithCollection>
   );
 };
 

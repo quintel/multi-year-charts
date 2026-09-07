@@ -19,11 +19,22 @@ const reqWith = (cookies: Record<string, string>, id: string | string[] = '42') 
 const requestedPath = () => new URL((global.fetch as jest.Mock).mock.calls[0][0]).pathname;
 
 const respondWith = (status: number, body: unknown) => {
-  global.fetch = jest.fn().mockResolvedValue({ status, json: async () => body });
+  global.fetch = jest.fn().mockResolvedValue({ status, text: async () => JSON.stringify(body) });
 };
 
 beforeEach(() => {
   respondWith(200, {});
+});
+
+it('passes an empty body through without trying to parse it', async () => {
+  global.fetch = jest.fn().mockResolvedValue({ status: 204, text: async () => '' });
+  const res = makeRes();
+  res.end = jest.fn().mockReturnValue(res) as any;
+
+  await handler(reqWith({}), res);
+
+  expect(res.status).toHaveBeenCalledWith(204);
+  expect(res.json).not.toHaveBeenCalled();
 });
 
 it('forwards the session cookie to MyETM as a bearer token', async () => {

@@ -1,7 +1,9 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
+import Chrome from './Chrome';
 import Loading from './Loading';
+import MissingScenarios from './MissingScenarios';
 
 import { setCollection, setScenarios } from '../store/actions';
 import { AppState, CollectionState } from '../store/types';
@@ -25,32 +27,30 @@ const WithCollection = ({
   const { status, collection } = useResolvedCollection();
 
   useEffect(() => {
-    if (status === 'notFound') {
-      setCollection({ id: null, title: null, notFound: true });
-      return;
-    }
-
     if (!collection) return;
 
-    setCollection({ id: collection.id, title: collection.title, notFound: false });
-    setScenarios(collection.scenarioIDs);
-  }, [status, collection, setCollection, setScenarios]);
+    setCollection({ id: collection.id, title: collection.title });
+    setScenarios(collection.members.map(({ scenarioID }) => scenarioID));
+  }, [collection, setCollection, setScenarios]);
 
   if (status === 'notFound') {
-    return null;
+    return <MissingScenarios />;
   }
 
-  // Still resolving, or resolved but the store has not caught up yet. Resolving is a round trip to
-  // MyETM on the collection route, so this window is long enough to see.
-  if (!scenarioIDs || !scenarioIDs.length) {
-    return (
-      <div className="container mx-auto flex justify-center py-24 text-gray-400">
-        <Loading />
-      </div>
-    );
-  }
+  // Resolved, and the store has caught up.
+  const ready = status === 'ready' && Boolean(scenarioIDs?.length);
 
-  return <Fragment>{children}</Fragment>;
+  return (
+    <Chrome>
+      {ready ? (
+        children
+      ) : (
+        <div className="container mx-auto flex justify-center py-24 text-gray-400">
+          <Loading />
+        </div>
+      )}
+    </Chrome>
+  );
 };
 
 const mapStateToProps = (state: AppState) => ({

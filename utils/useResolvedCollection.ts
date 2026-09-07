@@ -1,5 +1,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import * as Sentry from '@sentry/nextjs';
+
+/**
+ * One scenario of a collection. The title is the saved scenario's or null
+ */
+export interface CollectionMember {
+  scenarioID: number;
+  title: string | null;
+}
 
 /**
  * A collection ready to be rendered: a title and the scenarios it is made of.
@@ -10,7 +19,7 @@ import { useRouter } from 'next/router';
 export interface ResolvedCollection {
   id: number | null;
   title: string | null;
-  scenarioIDs: number[];
+  members: CollectionMember[];
 }
 
 export type ResolveStatus = 'loading' | 'ready' | 'notFound';
@@ -56,27 +65,41 @@ export default function useResolvedCollection(): Resolution {
       headers: { Accept: 'application/json' },
       credentials: 'include',
     })
-      .then((response) => (response.ok ? response.json() : null))
+      .then((response) => {
+        if (response.ok) return response.json();
+
+        if (response.status >= 500) {
+          Sentry.captureException(
+            new Error(`Collection ${collectionID} failed: ${response.status}`)
+          );
+        }
+
+        return null;
+      })
       .then((data) => {
         if (!active) return;
 
-        // MyETM pairs each scenario with the saved scenario it came from; only the ETEngine id
-        // is needed to fetch the data.
-        const scenarioIDs: number[] = Array.isArray(data?.scenarios)
-          ? data.scenarios.map((member: { scenario_id: number }) => member.scenario_id)
+        // MyETM pairs each scenario with the saved scenario it is associated with
+        const members: CollectionMember[] = Array.isArray(data?.scenarios)
+          ? data.scenarios.map((member: { scenario_id: number; title: string | null }) => ({
+              scenarioID: member.scenario_id,
+              title: member.title ?? null,
+            }))
           : [];
 
-        if (!scenarioIDs.length) {
+        if (!members.length) {
           setFetched(NOT_FOUND);
           return;
         }
 
         setFetched({
           status: 'ready',
-          collection: { id: data.id, title: data.title ?? null, scenarioIDs },
+          collection: { id: data.id, title: data.title ?? null, members },
         });
       })
-      .catch(() => {
+      .catch((error) => {
+        Sentry.captureException(error);
+
         if (active) setFetched(NOT_FOUND);
       });
 
@@ -99,7 +122,9 @@ export default function useResolvedCollection(): Resolution {
       return NOT_FOUND;
     }
 
-    return { status: 'ready', collection: { id: null, title: title ?? null, scenarioIDs: ids } };
+    const members = ids.map((scenarioID) => ({ scenarioID, title: null }));
+
+    return { status: 'ready', collection: { id: null, title: title ?? null, members } };
   }, [scenarioIDs, title]);
 
   if (collectionID != null) {
