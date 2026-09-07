@@ -1,5 +1,5 @@
 import { InputValue } from '../utils/api/types';
-import { ActionTypes, Column, TypeKeys } from './types';
+import { ActionTypes, CollectionState, Column, TypeKeys } from './types';
 
 /**
  * Adds one or more query keys to the list of queries which should be fetched
@@ -17,6 +17,14 @@ export const addQueries = (queries: string[]): ActionTypes => ({
 export const removeQueries = (queries: string[]): ActionTypes => ({
   type: TypeKeys.REMOVE_QUERIES,
   payload: queries,
+});
+
+/**
+ * Sets the collection currently being viewed.
+ */
+export const setCollection = (collection: CollectionState): ActionTypes => ({
+  type: TypeKeys.SET_COLLECTION,
+  payload: collection,
 });
 
 /**

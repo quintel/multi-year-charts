@@ -22,6 +22,7 @@ export enum TypeKeys {
   REMOTE_CHANGE = 'REMOTE_CHANGE',
   RESET_INPUT_VALUES = 'RESET_INPUT_VALUES',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
+  SET_COLLECTION = 'SET_COLLECTION',
   SET_COLUMNS = 'SET_COLUMNS',
   SET_USER_ID = 'SET_USER_ID',
   SWAP_QUERIES = 'SWAP_QUERIES',
@@ -107,6 +108,11 @@ interface UpdateColumnDataAction {
   payload: { sessionID: number; scenario?: ScenarioData; inputs?: InputCollectionData };
 }
 
+interface SetCollectionAction {
+  type: typeof TypeKeys.SET_COLLECTION;
+  payload: CollectionState;
+}
+
 interface AddQueriesAction {
   type: typeof TypeKeys.ADD_QUERIES;
   payload: string[];
@@ -140,6 +146,7 @@ export type ActionTypes =
   | APIFetchInputsAction
   | APIRequestFailedAction
   | APIRequestFinishedAction
+  | SetCollectionAction
   | SetColumnsAction
   | SetUserIDAction
   | CommitInputValueAction
@@ -159,7 +166,17 @@ export type ActionTypes =
  * State
  */
 
+/**
+ * The collection currently being viewed. `id` is null on the legacy `/[scenarioIDs]` URLs, which
+ * carry no collection.
+ */
+export interface CollectionState {
+  id: number | null;
+  title: string | null;
+}
+
 export interface AppState {
+  collection: CollectionState;
   columns: Column[];
   editing: Record<number, ColumnEditing>;
   userID: string | null;

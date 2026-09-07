@@ -16,7 +16,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   testEnvironmentOptions: {
-    customExportConditions: [],
+    customExportConditions: ['node'],
   },
 };
 

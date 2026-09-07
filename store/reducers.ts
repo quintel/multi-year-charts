@@ -4,6 +4,7 @@ import { ActionTypes, AppState, Column, ColumnEditing, TypeKeys, QueriesList } f
 const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
 
 const initialState: AppState = {
+  collection: { id: null, title: null },
   columns: [],
   editing: {},
   userID: null,
@@ -110,7 +111,7 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.API_REQUEST_FINISHED: {
-      return { ...state, requestInProgress: false, failureRason: null };
+      return { ...state, requestInProgress: false, failureReason: null };
     }
 
     case TypeKeys.API_REQUEST_FAILED: {
@@ -120,6 +121,10 @@ export default function reducer(state = initialState, action: ActionTypes) {
     /**
      * Columns
      */
+
+    case TypeKeys.SET_COLLECTION: {
+      return { ...state, collection: action.payload };
+    }
 
     case TypeKeys.SET_COLUMNS: {
       const columns = action.payload;
