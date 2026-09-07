@@ -127,6 +127,7 @@
   "series.gas_ccgt_must_run": "Gas CCGT (must-run)",
   "series.gas_ccgt_ccs": "Gas CCGT + CCS",
   "series.gas_chp_ccgt": "Gas CCGT CHP",
+  "series.hydrogen_chp_ccgt": "Hydrogen CCGT CHP",
   "series.gas_chp_engine": "Gas motor CHP",
   "series.gas_conv": "Gas conventional",
   "series.gas_engine": "Gas engine",

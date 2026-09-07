@@ -128,6 +128,7 @@
   "series.gas_ccgt_must_run": "Gas STEG (must-run)",
   "series.gas_ccgt_ccs": "Gas STEG + CCS",
   "series.gas_chp_ccgt": "Gas STEG WKK",
+  "series.hydrogen_chp_ccgt": "Waterstof STEG WKK",
   "series.gas_chp_engine": "Gasmotor-WKK",
   "series.gas_conv": "Gas conventioneel",
   "series.gas_engine": "Gasmotor",
