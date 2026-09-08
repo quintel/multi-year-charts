@@ -100,10 +100,8 @@ export default function Row({
   }
 
   const { unit } = firstInputData;
-  const unsanitizedInputName = input.group_name
-    ? `${input.group_name} - ${input.name}`
-    : input.name;
-  const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group;
+  const unsanitizedInputName = input.name;
+  const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group || input.group_name;
   const nameClass = hasGroup ? "p-2 pl-12 text-left text-gray-600" : "p-2 pl-8 text-left text-gray-600"
 
   return (

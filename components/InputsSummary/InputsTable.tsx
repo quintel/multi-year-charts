@@ -222,13 +222,19 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
               {columnScenarios[0].startYear}
             </th>
             {columns.map(({ sessionID, title }, index) => (
-              <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right">
+              <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right group">
                 <button
+                  type="button"
+                  aria-label="Open scenario in pop up"
+                  label="Open scenario in pop up"
                   onClick={() => openModal(sessionID)}
-                  className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+                  className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                 >
                   {columnHeading(title, columnScenarios[index].endYear)}
                 </button>
+                <div className="absolute transform translate-y-1/2 mb-2 hidden group-hover:block px-3 py-1 text-sm font-normal text-black bg-white rounded-md shadow-lg border border-gray-200 whitespace-nowrap z-50">
+                  Open scenario in pop up
+                </div>
               </th>
             ))}
           </tr>

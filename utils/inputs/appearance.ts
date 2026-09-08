@@ -4,7 +4,7 @@ export const toneClass = (editable: boolean, isSet: boolean): string => {
 
   if (!editable) return `${weight}text-gray-400`;
 
-  return `${weight}${isSet ? 'text-midnight-700' : 'text-gray-900'}`;
+  return `${weight}text-gray-900`;
 };
 
 export interface CellFlags {

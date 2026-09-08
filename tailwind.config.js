@@ -11,6 +11,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // fontFamily: {
+      //   sans: ['Montserrat', 'Segoe UI', 'Roboto', 'Oxygen',
+      // 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      // 'sans-serif'],
+      // },
       colors: {
         // Midnight sits at the midpoint between blue and indigo desaturated by 20%. Blue was a bit
         // too blue, indigo was a bit too purple.
@@ -29,6 +34,28 @@ module.exports = {
         gray: {
           350: '#b7bcc5',
         },
+        myetm: {
+          // light and medium background
+          200: "#fdfdfd",
+          300: "#fbf7f6",
+          // light gray & medium gray
+          400: "#aba8a7",
+          450: 'rgb(125, 118, 115)',
+          // dark background
+          600: "#fdece0",
+          // dark text
+          800: "#462c34",
+          // brand colors (blue)
+          900: "#4e7be4",
+          910: "#89a9ec",
+          940: "#d0e0f7",
+          // brand colors (orange,)
+          950: "#f27316",
+          970: "#f4cab3",
+          // brand colors (green)
+          980: "#56b351",
+          990: "#a5e0a1"
+        }
       },
     },
   },

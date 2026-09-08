@@ -36,7 +36,7 @@ const shareGroupHeader = (group_name?: string) => {
   return (
     <tr className="border-b border-b-gray-300">
       <td className="p-2 pl-8 text-left">
-        Share group {group_name ? '- ' : ''}{group_name}
+        {group_name}
       </td>
     </tr>
   )
@@ -58,8 +58,14 @@ export default function Section({ slide, ...rest }: SectionProps) {
   const groupOf = (key: string) => inputData[columns[0].sessionID][key]?.share_group;
 
   const rows = slide.input_elements.map((element, index) => {
-    const group = groupOf(element.key);
-    const opensGroup = group !== undefined && group !== groupOf(slide.input_elements[index - 1]?.key);
+    // We can possibly simplfy this once all ETModel interface items with a share group, have
+    // a interface_group set as well, passing on the translated title in group_name here
+    const group = groupOf(element.key) || element.group_name;
+    const group_name = element.group_name || groupOf(element.key);
+    const opensGroup = group !== undefined && (
+      group !== groupOf(slide.input_elements[index - 1]?.key) &&
+      group !== slide.input_elements[index - 1]?.group_name
+    );
     const closesGroup = group !== undefined && group !== groupOf(slide.input_elements[index + 1]?.key);
 
     const groupCouplingDisabled = columns.every(
@@ -70,7 +76,7 @@ export default function Section({ slide, ...rest }: SectionProps) {
 
     return (
       <Fragment key={element.key}>
-        {opensGroup && !groupCouplingDisabled && shareGroupHeader(element.group_name)}
+        {opensGroup && group_name && !groupCouplingDisabled && shareGroupHeader(group_name)}
 
         <Row input={element} {...rest} />
 

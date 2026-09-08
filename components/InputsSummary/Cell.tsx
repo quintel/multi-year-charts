@@ -20,7 +20,7 @@ interface CellProps extends CellFlags {
 
 const controlClasses = (isSet: boolean, flags: CellFlags) =>
   'w-full rounded border bg-transparent px-1 py-0.5 text-right ' +
-  'focus:border-midnight-500 focus:bg-white focus:outline-none ' +
+  'focus:border-myetm-900 focus:bg-white focus:outline-none ' +
   `${toneClass(true, isSet)} ${chromeClass(flags)}`;
 
 function NumericCell({ input, isSet, onCommit, onSelect, refusal, value, ...flags }: CellProps) {
