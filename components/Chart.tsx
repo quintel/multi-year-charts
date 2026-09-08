@@ -36,6 +36,8 @@ const colors = [
   '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
+const AXIS_LABEL_WIDTH = 110;
+
 export interface ChartProps {
   series: ChartSeries;
 }
@@ -172,7 +174,13 @@ const Chart = ({ series }: ChartProps) => {
         type: 'category',
         boundaryGap: true,
         data: series.categories,
-        axisLabel: { fontSize: 14 },
+        axisLabel: {
+          fontSize: 14,
+          interval: 0,
+          hideOverlap: false,
+          width: AXIS_LABEL_WIDTH,
+          overflow: 'truncate',
+        },
       },
     ],
     yAxis: [
