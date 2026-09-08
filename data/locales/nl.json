@@ -21,8 +21,8 @@
   "inputs.expand": "Alles uitklappen",
   "inputs.unit": "Eenheid",
   "inputs.total": "Totaal",
-  "inputs.reset": "Terug naar de overgenomen waarde",
-  "inputs.resetGroup": "Deze groep terug naar de overgenomen waarden",
+  "inputs.reset": "Terug",
+  "inputs.resetGroup": "Deze groep terug",
 
   "series.all": "Toon alle series",
   "series.hide": "Verberg alle series",

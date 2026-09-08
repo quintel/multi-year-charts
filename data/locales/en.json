@@ -21,8 +21,8 @@
   "inputs.expand": "Expand all",
   "inputs.unit": "Unit",
   "inputs.total": "Total",
-  "inputs.reset": "Reset to inherited value",
-  "inputs.resetGroup": "Reset this group to its inherited values",
+  "inputs.reset": "Reset",
+  "inputs.resetGroup": "Reset this group",
 
   "series.all": "Show all series",
   "series.hide": "Hide all series",
