@@ -4,6 +4,7 @@ import { Selection } from './Row';
 import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
+import columnHeading from '../../utils/columnHeading';
 import { heldGroups } from '../../utils/inputs/shareGroups';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
@@ -220,13 +221,13 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
             <th className="w-[12%] p-2 text-right font-semibold">
               {columnScenarios[0].startYear}
             </th>
-            {columns.map(({ sessionID }, index) => (
+            {columns.map(({ sessionID, title }, index) => (
               <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right">
                 <button
                   onClick={() => openModal(sessionID)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                 >
-                  {columnScenarios[index].endYear}
+                  {columnHeading(title, columnScenarios[index].endYear)}
                 </button>
               </th>
             ))}

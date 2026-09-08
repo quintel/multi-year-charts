@@ -1,8 +1,10 @@
 // grey --> dataset default, black --> editable, blue --> set
 export const toneClass = (editable: boolean, isSet: boolean): string => {
-  if (isSet) return 'font-semibold';
+  const weight = isSet ? 'font-semibold ' : '';
 
-  return editable ? 'text-gray-900' : 'text-gray-400';
+  if (!editable) return `${weight}text-gray-400`;
+
+  return `${weight}${isSet ? 'text-midnight-700' : 'text-gray-900'}`;
 };
 
 export interface CellFlags {

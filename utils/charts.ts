@@ -2,6 +2,8 @@ import { ScenarioIndexedScenarioData, ScenarioData } from './api/types';
 
 import sortScenarios from './sortScenarios';
 
+import columnHeading from './columnHeading';
+import { Column } from '../store/types';
 import { ChartSchema, FlattenedChartSchema } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
 import { createScalingFormatter, UnitFormatter } from './units';
@@ -9,7 +11,7 @@ import { createDefaultUnitConverter, UnitConverter } from './units';
 import { namespacedTranslate } from './translate';
 
 export interface ChartSeries {
-  categories: number[];
+  categories: (string | number)[];
   data: { name: string; data: number[] }[];
   formatter: UnitFormatter;
   converter: UnitConverter;
@@ -60,13 +62,17 @@ const maxValueFromScenarios = (scenarios: ScenarioData[], gqueries: string[]) =>
   return maxValue;
 };
 
+const titleOf = (columns: Column[], scenarioID: number) =>
+  columns.find(({ sessionID }) => sessionID === scenarioID)?.title ?? null;
+
 /**
  * Given a collection of ScenarioJSON and the key of a gquery, transformed
  * the scenario data into data for a single axis in an Apex chart.
  */
 export const scenariosToChartData = (
   scenarios: ScenarioIndexedScenarioData,
-  gqueries: string[]
+  gqueries: string[],
+  columns: Column[]
 ): ChartSeries => {
   const sorted = sortScenarios(Object.values(scenarios));
   const firstScenario = Object.values(scenarios)[0];
@@ -77,11 +83,12 @@ export const scenariosToChartData = (
   const converter = createDefaultUnitConverter(unit);
 
   return {
-    categories: [firstScenario.scenario.startYear].concat(
-      sorted.map((scenarioData) => {
-        return scenarioData.scenario.endYear;
-      })
-    ),
+    categories: [
+      firstScenario.scenario.startYear,
+      ...sorted.map(({ scenario }) =>
+        columnHeading(titleOf(columns, scenario.id), scenario.endYear)
+      ),
+    ],
     data: gqueries.map((gquery) => ({
       name: gquery,
       data: [firstScenario.gqueries[gquery].present].concat(
@@ -175,10 +182,17 @@ export const translateChartData = (series: ChartSeries, translate: TranslateFunc
 /**
  * Converts a chart to CSV
  */
+// A saved scenario title is free text, so a comma in it would otherwise split the column.
+const csvField = (value: string | number): string => {
+  const text = String(value);
+
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
+
 export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): string => {
   const translated = translateChartData(series, namespacedTranslate(translate, 'series'));
 
-  const headers = ['Subject', 'Units', ...series.categories].join(',');
+  const headers = ['Subject', 'Units', ...series.categories.map(csvField)].join(',');
   const rows = translated.data.map((seriesData) => {
     const convertedData = seriesData.data.map((value) => {
       const formattedValue = series.formatter(value);
@@ -189,7 +203,7 @@ export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): strin
     const unit = convertedData.length > 0 ? convertedData[0].unitPart : '';
     const values = convertedData.map(data => data.valuePart);
 
-    return [seriesData.name, unit, ...values].join(','); // Add the unit as the second column
+    return [csvField(seriesData.name), unit, ...values].join(','); // Add the unit as the second column
   });
 
   return `${headers}\n${rows.join('\n')}`;
