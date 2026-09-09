@@ -1,4 +1,4 @@
-import { flattenChart } from '../charts';
+import { flattenChart, scenariosToChartData } from '../charts';
 import { ChartSchema } from '../../data/charts';
 
 const chartFixture: ChartSchema = {
@@ -64,5 +64,26 @@ it('returns the first variant when an invalid name is given', () => {
     series: ['a', 'b', 'c'],
     displayAs: 'chart',
     numVariants: 2,
+  });
+});
+
+describe('scenariosToChartData', () => {
+  const scenario = (id: number, endYear: number, order: number) => ({
+    scenario: { id, areaCode: 'nl', endYear, startYear: 2019, url: '' },
+    gqueries: { a: { present: 1, future: 2, unit: 'MJ' } },
+    updatedAt: '2026-09-01T10:00:00.000Z',
+    userValues: {},
+    balancedValues: {},
+    order,
+  });
+
+  // A column is headed by its end year. The saved scenario title is deliberately not shown.
+  it('heads each column with its end year, after the present', () => {
+    const series = scenariosToChartData(
+      { 1: scenario(1, 2040, 0), 2: scenario(2, 2050, 1) } as never,
+      ['a']
+    );
+
+    expect(series.categories).toEqual([2019, 2040, 2050]);
   });
 });

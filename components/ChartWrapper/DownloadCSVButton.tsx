@@ -5,16 +5,14 @@ import { DownloadIcon } from '@heroicons/react/solid';
 import { chartToCSV, scenariosToChartData } from '../../utils/charts';
 import { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
-import { Column } from '../../store/types';
 import { TranslateFunc } from '../../utils/LocaleContext';
 
 function downloadAsCSV(
   chart: FlattenedChartSchema,
   scenarios: ScenarioIndexedScenarioData,
-  columns: Column[],
   translate: TranslateFunc
 ) {
-  const series = scenariosToChartData(scenarios, chart.series, columns);
+  const series = scenariosToChartData(scenarios, chart.series);
   const csv = chartToCSV(series, translate);
 
   const el = document.createElement('a');
@@ -39,10 +37,9 @@ function downloadAsCSV(
 interface Props {
   chart: FlattenedChartSchema;
   scenarios: ScenarioIndexedScenarioData;
-  columns: Column[];
 }
 
-export default function DownloadCSVButton({ chart, scenarios, columns }: Props) {
+export default function DownloadCSVButton({ chart, scenarios }: Props) {
   const translate = useTranslate();
 
   const disabledClasses =
@@ -51,7 +48,7 @@ export default function DownloadCSVButton({ chart, scenarios, columns }: Props) 
   return (
     <button
       className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 active:bg-gray-200`}
-      onClick={() => downloadAsCSV(chart, scenarios, columns, translate)}
+      onClick={() => downloadAsCSV(chart, scenarios, translate)}
     >
       <DownloadIcon className="mr-1 h-5 w-5" />
       CSV
