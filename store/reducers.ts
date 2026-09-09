@@ -1,11 +1,17 @@
-import { ActionTypes, AppState, TypeKeys, QueriesList } from './types';
+import { InputValue } from '../utils/api/types';
+import { ActionTypes, AppState, Column, ColumnEditing, TypeKeys, QueriesList } from './types';
+
+const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
 
 const initialState: AppState = {
+  collection: { id: null, title: null },
+  columns: [],
+  editing: {},
+  userID: null,
   inputData: {},
   failureReason: null,
   requestInProgress: false,
   scenarioData: {},
-  scenarios: [],
   queries: {},
 };
 
@@ -61,6 +67,39 @@ const removeQueries = (queries: QueriesList, keys: string[]): QueriesList => {
   return newQueries;
 };
 
+const orderOf = (columns: Column[], sessionID: number) =>
+  columns.findIndex((column) => column.sessionID === sessionID);
+
+const reordered = (scenarioData: AppState['scenarioData'], columns: Column[]) =>
+  Object.fromEntries(
+    Object.entries(scenarioData).map(([id, scenario]) => [
+      id,
+      { ...scenario, order: orderOf(columns, Number(id)) },
+    ])
+  );
+
+const editColumn = (
+  state: AppState,
+  sessionID: number,
+  change: (editing: ColumnEditing) => ColumnEditing
+): AppState => ({
+  ...state,
+  editing: { ...state.editing, [sessionID]: change(state.editing[sessionID] || NOT_EDITING) },
+});
+
+const without = <T>(record: Record<string, T>, keys: string[]): Record<string, T> =>
+  Object.fromEntries(Object.entries(record).filter(([key]) => !keys.includes(key)));
+
+/**
+ * A value the engine has confirmed is no longer optimistic. A key the user has typed again since
+ * the request went out keeps its newer value, which is still waiting for its own answer.
+ */
+const confirmed = (values: Record<string, InputValue>, sent: Record<string, InputValue>) =>
+  without(
+    values,
+    Object.keys(sent).filter((key) => values[key] === sent[key])
+  );
+
 export default function reducer(state = initialState, action: ActionTypes) {
   switch (action.type) {
     /**
@@ -72,7 +111,7 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.API_REQUEST_FINISHED: {
-      return { ...state, requestInProgress: false, failureRason: null };
+      return { ...state, requestInProgress: false, failureReason: null };
     }
 
     case TypeKeys.API_REQUEST_FAILED: {
@@ -80,16 +119,26 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     /**
-     * API scenarios
+     * Columns
      */
 
-    case TypeKeys.SET_SCENARIOS: {
-      return { ...state, scenarios: action.payload };
+    case TypeKeys.SET_COLLECTION: {
+      return { ...state, collection: action.payload };
+    }
+
+    case TypeKeys.SET_COLUMNS: {
+      const columns = action.payload;
+
+      return { ...state, columns, scenarioData: reordered(state.scenarioData, columns) };
+    }
+
+    case TypeKeys.SET_USER_ID: {
+      return { ...state, userID: action.payload };
     }
 
     case TypeKeys.UPDATE_API_DATA: {
       for (const [scenarioId, scenario] of Object.entries(action.payload)) {
-        scenario.order = state.scenarios.indexOf(Number(scenarioId));
+        scenario.order = orderOf(state.columns, Number(scenarioId));
       }
 
       return {
@@ -100,6 +149,73 @@ export default function reducer(state = initialState, action: ActionTypes) {
 
     case TypeKeys.UPDATE_INPUT_DATA: {
       return { ...state, inputData: action.payload };
+    }
+
+    case TypeKeys.UPDATE_COLUMN_DATA: {
+      const { sessionID, scenario, inputs } = action.payload;
+
+      return {
+        ...state,
+        scenarioData: scenario
+          ? {
+              ...state.scenarioData,
+              [sessionID]: { ...scenario, order: orderOf(state.columns, sessionID) },
+            }
+          : state.scenarioData,
+        inputData: inputs ? { ...state.inputData, [sessionID]: inputs } : state.inputData,
+      };
+    }
+
+    /**
+     * Editing
+     */
+
+    case TypeKeys.COMMIT_INPUT_VALUE: {
+      const { sessionID, inputKey, value } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        ...editing,
+        values: { ...editing.values, [inputKey]: value },
+        refused: without(editing.refused, [inputKey]),
+      }));
+    }
+
+    case TypeKeys.RESET_INPUT_VALUES: {
+      const { sessionID, inputKeys } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        ...editing,
+        refused: without(editing.refused, inputKeys),
+      }));
+    }
+
+    case TypeKeys.WRITE_STARTED: {
+      return editColumn(state, action.payload.sessionID, (editing) => ({
+        ...editing,
+        pending: true,
+      }));
+    }
+
+    case TypeKeys.WRITE_SUCCEEDED: {
+      const { sessionID, sent } = action.payload;
+
+      return editColumn(state, sessionID, (editing) => ({
+        pending: false,
+        values: confirmed(editing.values, sent),
+        refused: editing.refused,
+      }));
+    }
+
+    // A refused write reverts the cells it carried and keeps the engine's error message on them
+    case TypeKeys.WRITE_FAILED: {
+      const { sessionID, sent, message } = action.payload;
+      const keys = Object.keys(sent);
+
+      return editColumn(state, sessionID, (editing) => ({
+        pending: false,
+        values: without(editing.values, keys),
+        refused: { ...editing.refused, ...Object.fromEntries(keys.map((key) => [key, message])) },
+      }));
     }
 
     /**

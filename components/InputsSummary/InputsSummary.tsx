@@ -1,31 +1,34 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
 import { connect } from 'react-redux';
 import InputsTable from './InputsTable';
 import Loading from '../Loading';
 import ScenarioEditor from '../ScenarioEditor';
-import { AppState } from '../../store/types';
+import { AppState, Column, ColumnEditing } from '../../store/types';
 import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-import { apiFetch, fetchInputs } from '../../store/actions';
+import { apiFetch, commitInputValue, fetchInputs, resetInputValues } from '../../store/actions';
 import useInputDefinitions from '../../utils/etmodel/useInputDefinitions';
+import { withEditability } from '../../utils/inputs/access';
+import { resetKeys } from '../../utils/inputs/reset';
 
 interface InputsSummaryProps {
   apiFetch: () => void;
+  columns: Column[];
+  commitInputValue: typeof commitInputValue;
+  editing: Record<number, ColumnEditing>;
   fetchInputs: () => void;
   inputData: ScenarioIndexedInputData;
+  resetInputValues: typeof resetInputValues;
   scenarioData: ScenarioIndexedScenarioData;
+  userID: string | null;
 }
 
 type OpenModalFunc = (scenarioID: number, inputKey?: string) => void;
 
 /**
- * Returns whether the data needed to render the InputSummary is loaded.
+ * Whether the loaded data covers every column
  */
-function isDataLoaded(
-  inputData: ScenarioIndexedInputData,
-  scenarioData: ScenarioIndexedScenarioData
-) {
-  return Object.keys(inputData).length > 0 && Object.keys(scenarioData).length > 0;
-}
+const covers = (data: Record<number, unknown>, columns: Column[]) =>
+  columns.length > 0 && columns.every(({ sessionID }) => data[sessionID]);
 
 /**
  * Component which renders a loading indicator while data is fetched.
@@ -77,22 +80,37 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
 
   const [editorState, dispatch] = useReducer(reducer, initialState);
 
+  const columns = useMemo(
+    () => withEditability(props.columns, props.userID, props.inputData),
+    [props.columns, props.userID, props.inputData]
+  );
+
   useEffect(() => {
-    // Fetch the data if it isn't already loaded.
-    if (Object.values(props.inputData).length === 0) {
+    // Fetch whatever the current columns are not covered by.
+    if (!covers(props.inputData, props.columns)) {
       fetchInputs();
     }
 
-    if (Object.values(props.scenarioData).length === 0) {
+    if (!covers(props.scenarioData, props.columns)) {
       apiFetch();
     }
-  }, [props.inputData, props.scenarioData]);
+  }, [props.inputData, props.scenarioData, props.columns]);
 
   const openModal = useCallback(
     (scenarioID: number, inputKey?: string) => {
       dispatch({ type: 'open', scenarioID, inputKey });
     },
     [dispatch]
+  );
+
+  // A share group member resets its whole group
+  const { inputData, resetInputValues: reset } = props;
+
+  const resetValue = useCallback(
+    (sessionID: number, inputKey: string) => {
+      reset(sessionID, resetKeys(inputData[sessionID], inputKey));
+    },
+    [inputData, reset]
   );
 
   const closeModal = useCallback(() => {
@@ -104,10 +122,16 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
 
   return (
     <div className="container">
-      {inputList && isDataLoaded(props.inputData, props.scenarioData) ? (
+      {inputList &&
+      covers(props.inputData, props.columns) &&
+      covers(props.scenarioData, props.columns) ? (
         <InputsTable
+          columns={columns}
+          editing={props.editing}
           inputs={props.inputData}
           scenarios={props.scenarioData}
+          onCommitValue={props.commitInputValue}
+          onResetValue={resetValue}
           openModal={openModal}
           inputList={inputList}
         />
@@ -126,8 +150,16 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
 }
 
 const mapStateToProps = (state: AppState) => ({
+  columns: state.columns,
+  editing: state.editing,
   inputData: state.inputData,
   scenarioData: state.scenarioData,
+  userID: state.userID,
 });
 
-export default connect(mapStateToProps, { apiFetch, fetchInputs })(InputsSummary);
+export default connect(mapStateToProps, {
+  apiFetch,
+  commitInputValue,
+  fetchInputs,
+  resetInputValues,
+})(InputsSummary);

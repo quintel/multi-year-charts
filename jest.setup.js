@@ -10,3 +10,13 @@ if (typeof global.TextEncoder === 'undefined') {
 if (typeof global.TextDecoder === 'undefined') {
   global.TextDecoder = TextDecoder;
 }
+
+// react-wrap-balancer (used by MissingScenarios) observes its own size; jsdom has no
+// ResizeObserver and never resizes anything, so a no-op is enough.
+if (typeof global.ResizeObserver === 'undefined') {
+  global.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}

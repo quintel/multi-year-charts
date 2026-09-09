@@ -1,4 +1,10 @@
-import { ScenarioIndexedScenarioData, ScenarioIndexedInputData } from '../utils/api/types';
+import {
+  InputCollectionData,
+  InputValue,
+  ScenarioData,
+  ScenarioIndexedScenarioData,
+  ScenarioIndexedInputData,
+} from '../utils/api/types';
 
 /**
  * API
@@ -12,11 +18,33 @@ export enum TypeKeys {
   API_REQUEST_FAILED = 'API_REQUEST_FAILED',
   API_REQUEST_FINISHED = 'API_REQUEST_FINISHED',
   FETCH_INPUTS = 'FETCH_INPUTS',
+  COMMIT_INPUT_VALUE = 'COMMIT_INPUT_VALUE',
+  REMOTE_CHANGE = 'REMOTE_CHANGE',
+  RESET_INPUT_VALUES = 'RESET_INPUT_VALUES',
   REMOVE_QUERIES = 'REMOVE_QUERIES',
-  SET_SCENARIOS = 'SET_SCENARIOS',
+  SET_COLLECTION = 'SET_COLLECTION',
+  SET_COLUMNS = 'SET_COLUMNS',
+  SET_USER_ID = 'SET_USER_ID',
   SWAP_QUERIES = 'SWAP_QUERIES',
   UPDATE_API_DATA = 'UPDATE_API_DATA',
+  UPDATE_COLUMN_DATA = 'UPDATE_COLUMN_DATA',
   UPDATE_INPUT_DATA = 'UPDATE_INPUT_DATA',
+  WRITE_STARTED = 'WRITE_STARTED',
+  WRITE_SUCCEEDED = 'WRITE_SUCCEEDED',
+  WRITE_FAILED = 'WRITE_FAILED',
+}
+
+/** One member of the collection, as shown in the interface. */
+export interface Column {
+  sessionID: number;
+  title: string | null;
+}
+
+/** What a column is doing between a typed value and the engine's answer. */
+export interface ColumnEditing {
+  pending: boolean;  /** Typed values the engine has not yet confirmed, including a closed group's held values. */
+  values: Record<string, InputValue>;  /** Per input, what the engine said when it refused. */
+  refused: Record<string, string>;
 }
 
 interface APIFetchAction {
@@ -36,9 +64,54 @@ interface APIRequestFailedAction {
   payload: string;
 }
 
-interface SetScenariosAction {
-  type: typeof TypeKeys.SET_SCENARIOS;
-  payload: number[];
+interface SetColumnsAction {
+  type: typeof TypeKeys.SET_COLUMNS;
+  payload: Column[];
+}
+
+interface SetUserIDAction {
+  type: typeof TypeKeys.SET_USER_ID;
+  payload: string | null;
+}
+
+interface CommitInputValueAction {
+  type: typeof TypeKeys.COMMIT_INPUT_VALUE;
+  payload: { sessionID: number; inputKey: string; value: InputValue };
+}
+
+interface ResetInputValuesAction {
+  type: typeof TypeKeys.RESET_INPUT_VALUES;
+  payload: { sessionID: number; inputKeys: string[] };
+}
+
+interface WriteStartedAction {
+  type: typeof TypeKeys.WRITE_STARTED;
+  payload: { sessionID: number };
+}
+
+interface WriteSucceededAction {
+  type: typeof TypeKeys.WRITE_SUCCEEDED;
+  payload: { sessionID: number; sent: Record<string, InputValue> };
+}
+
+interface RemoteChangeAction {
+  type: typeof TypeKeys.REMOTE_CHANGE;
+  payload: { sessionID: number; stamp?: string };
+}
+
+interface WriteFailedAction {
+  type: typeof TypeKeys.WRITE_FAILED;
+  payload: { sessionID: number; sent: Record<string, InputValue>; message: string };
+}
+
+interface UpdateColumnDataAction {
+  type: typeof TypeKeys.UPDATE_COLUMN_DATA;
+  payload: { sessionID: number; scenario?: ScenarioData; inputs?: InputCollectionData };
+}
+
+interface SetCollectionAction {
+  type: typeof TypeKeys.SET_COLLECTION;
+  payload: CollectionState;
 }
 
 interface AddQueriesAction {
@@ -74,7 +147,16 @@ export type ActionTypes =
   | APIFetchInputsAction
   | APIRequestFailedAction
   | APIRequestFinishedAction
-  | SetScenariosAction
+  | SetCollectionAction
+  | SetColumnsAction
+  | SetUserIDAction
+  | CommitInputValueAction
+  | ResetInputValuesAction
+  | WriteStartedAction
+  | WriteSucceededAction
+  | WriteFailedAction
+  | RemoteChangeAction
+  | UpdateColumnDataAction
   | SwapQueriesAction
   | AddQueriesAction
   | RemoveQueriesAction
@@ -85,11 +167,23 @@ export type ActionTypes =
  * State
  */
 
+/**
+ * The collection currently being viewed. `id` is null on the legacy `/[scenarioIDs]` URLs, which
+ * carry no collection.
+ */
+export interface CollectionState {
+  id: number | null;
+  title: string | null;
+}
+
 export interface AppState {
+  collection: CollectionState;
+  columns: Column[];
+  editing: Record<number, ColumnEditing>;
+  userID: string | null;
   failureReason: string | null;
   inputData: ScenarioIndexedInputData;
   requestInProgress: boolean;
-  scenarios: number[];
   scenarioData: ScenarioIndexedScenarioData;
   queries: QueriesList;
 }

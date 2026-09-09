@@ -20,6 +20,9 @@
   "inputs.collapse": "Alles inklappen",
   "inputs.expand": "Alles uitklappen",
   "inputs.unit": "Eenheid",
+  "inputs.total": "Totaal",
+  "inputs.reset": "Terug",
+  "inputs.resetGroup": "Deze groep terug",
 
   "series.all": "Toon alle series",
   "series.hide": "Verberg alle series",

@@ -1,24 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { SESSION_COOKIE_NAME } from '../../../../utils/sessionCookie';
+import proxyToEngine from '../../../../utils/api/engineProxy';
+
+const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
+
+const upstreamQuery = (query: NextApiRequest['query']) => {
+  const params = new URLSearchParams({ defaults: 'original' });
+  const extras = first(query.include_extras);
+
+  if (extras !== undefined) {
+    params.set('include_extras', extras);
+  }
+
+  return params.toString();
+};
 
 const InputsProxy = async function (req: NextApiRequest, res: NextApiResponse) {
-  // The shared JWT session cookie is forwarded straight to ETEngine as a bearer token, which
-  // verifies it locally. Empty when signed out, which ETEngine rejects with 401.
-  const token = req.cookies[SESSION_COOKIE_NAME];
   const { id } = req.query;
 
-  const response = await fetch(`${process.env.ETENGINE_INTERNAL_URL || process.env.NEXT_PUBLIC_ETENGINE_URL}/api/v3/scenarios/${id}/inputs.json?defaults=original`, {
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
-    },
-    method: req.method,
-  });
-
-  const json = await response.json();
-  return res.status(response.status).json(json);
+  return proxyToEngine(req, res, `/api/v3/scenarios/${id}/inputs.json?${upstreamQuery(req.query)}`);
 };
 
 export default InputsProxy;

@@ -14,6 +14,7 @@ import ChartTable from '../ChartTable';
 import Loading from '../Loading';
 import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
+import { Column } from '../../store/types';
 
 import DownloadCSVButton from './DownloadCSVButton';
 import UnitToggle from './UnitToggle';
@@ -25,6 +26,7 @@ interface ChartWrapperProps {
   chart: FlattenedChartSchema;
   removeQueries: (keys: string[]) => void;
   scenarios: ScenarioIndexedScenarioData;
+  columns: Column[];
 }
 
 const Wrapper = ({ title, children }: { title: React.ReactElement; children: React.ReactNode }) => (
@@ -54,9 +56,11 @@ const ChartTitle = ({
   chart,
   children,
   scenarios,
+  columns,
 }: {
   chart: FlattenedChartSchema;
   scenarios: ScenarioIndexedScenarioData;
+  columns: Column[];
   children?: React.ReactNode;
 }) => {
   const { translate } = useContext(LocaleContext);
@@ -74,7 +78,7 @@ const ChartTitle = ({
       </span>
       {children}
       <div className="flex-1"></div>
-      <DownloadCSVButton chart={chart} scenarios={scenarios} />
+      <DownloadCSVButton chart={chart} scenarios={scenarios} columns={columns} />
       <UnitToggle currentChart={chart.chartKey} />
     </h2>
   );
@@ -86,6 +90,7 @@ function ChartWrapper({
   chart,
   removeQueries,
   scenarios,
+  columns,
 }: ChartWrapperProps) {
   useEffect(() => {
     const series = chart.series;
@@ -99,7 +104,7 @@ function ChartWrapper({
 
   if (!canRenderChart(chart, scenarios)) {
     return (
-      <Wrapper title={<ChartTitle chart={chart} scenarios={{}} />}>
+      <Wrapper title={<ChartTitle chart={chart} scenarios={{}} columns={columns} />}>
         <div className="mt-4 box-content flex h-[600px] w-full items-center justify-center rounded-lg bg-gray-100 pb-4 text-gray-400">
           <Loading />
         </div>
@@ -107,18 +112,18 @@ function ChartWrapper({
     );
   }
 
-  const series = scenariosToChartData(scenarios, chart.series);
+  const series = scenariosToChartData(scenarios, chart.series, columns);
 
   if (chart.displayAs === 'table') {
     return (
-      <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
+      <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} columns={columns} />}>
         <ChartTable series={series} />
       </Wrapper>
     );
   }
 
   return (
-    <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
+    <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} columns={columns} />}>
       <Chart
         series={series}
         key={chart.chartKey}
@@ -132,6 +137,7 @@ function ChartWrapper({
 
 const mapStateToProps = (state: AppState) => ({
   scenarios: state.scenarioData,
+  columns: state.columns,
 });
 
 export default connect(mapStateToProps, { addQueries, apiFetch, removeQueries })(ChartWrapper);

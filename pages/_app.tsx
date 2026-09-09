@@ -25,20 +25,6 @@ const curryTranslate = (messages: Record<string, string>) => {
   return curried;
 };
 
-/**
- * Given the window pathname, extracts the list of scenario IDs to be shown in
- * the interface.
- */
-const scenarioIDsFromQuery = (queryIDs: string): number[] => {
-  const ids = queryIDs.split(',').map((id) => parseInt(id, 10));
-
-  if (ids.some(isNaN)) {
-    return [];
-  }
-
-  return ids;
-};
-
 function App({ Component, pageProps }: AppProps) {
   useSessionKeeper();
 

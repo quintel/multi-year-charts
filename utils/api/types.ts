@@ -15,18 +15,29 @@ export interface ScenarioData {
 
   readonly gqueries: Record<string, GqueryData>;
 
+  readonly updatedAt: string;
+  readonly userValues: Record<string, InputValue>;
+  readonly balancedValues: Record<string, InputValue>;
+
   order: number;
 }
 
+export type InputValue = number | string;
+
 /** @todo share_group should be camel-cased */
 export interface InputData {
-  min: number;
-  max: number;
-  default: number;
-  user?: number;
+  min?: number;
+  max?: number;
+  default: InputValue;
+  unit: string;
+  user?: InputValue;
+  step?: number;
+  permitted_values?: string[];
   disabled: boolean;
+  disabled_by?: string[];
   coupling_disabled?: boolean;
   share_group?: string;
+  code?: string;
 }
 
 export interface InputCollectionData {

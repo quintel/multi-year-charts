@@ -1,8 +1,10 @@
 // import 'whatwg-fetch';
 
+import { Column } from '../../store/types';
 import {
   GqueryData,
   InputCollectionData,
+  InputValue,
   ScenarioData,
   ScenarioIndexedInputData,
   ScenarioIndexedScenarioData,
@@ -34,7 +36,7 @@ const fetchWithRefresh = async (input: RequestInfo, init?: RequestInit): Promise
  * camel-case.
  */
 const camelCaseScenario = (json: {
-  scenario: Record<string, number | string>;
+  scenario: Record<string, unknown>;
   gqueries: Record<string, GqueryData>;
 }): ScenarioData => {
   const { scenario, gqueries } = json;
@@ -48,6 +50,9 @@ const camelCaseScenario = (json: {
       startYear: scenario.start_year as number,
       url: scenario.url as string,
     },
+    updatedAt: scenario.updated_at as string,
+    userValues: (scenario.user_values ?? {}) as Record<string, InputValue>,
+    balancedValues: (scenario.balanced_values ?? {}) as Record<string, InputValue>,
     order: 0,
   };
 };
@@ -63,22 +68,36 @@ const indexByScenario = <T>(scenarioIDs: number[], data: T[]) => {
   return byScenario;
 };
 
+export class WriteRefused extends Error {
+  constructor(public status: number, public messages: string[]) {
+    super(messages[0] || `Request failed with status ${status}`);
+  }
+}
+
+const refusal = async (response: Response) => {
+  const body = await response.json().catch(() => ({}));
+
+  return new WriteRefused(response.status, body?.errors ?? []);
+};
+
 /**
- * Fetches data about a scenario from ETEngine.
+ * Writes to a scenario and reads it back.
  */
-const requestScenario = async (
-  endpoint: string,
+export const updateScenario = async (
   id: number,
-  gqueries: string[] = []
+  gqueries: string[] = [],
+  userValues?: Record<string, InputValue>
 ): Promise<ScenarioData> => {
+  const body = userValues ? { gqueries, scenario: { user_values: userValues } } : { gqueries };
+
   const response = await fetchWithRefresh(`/api/scenarios/${id}`, {
     method: 'PUT',
-    body: JSON.stringify({ gqueries }),
+    body: JSON.stringify(body),
     headers,
   });
 
   if (!response.ok) {
-    throw new Error(response.status.toString());
+    throw await refusal(response);
   }
 
   return camelCaseScenario(await response.json());
@@ -94,11 +113,7 @@ const fetchQueriesForScenarios = (
   gqueries: string[]
 ): Promise<ScenarioIndexedScenarioData> => {
   return new Promise((resolve, reject) => {
-    const responses = Promise.all(
-      scenarioIDs.map((id) => {
-        return requestScenario(endpoint, id, gqueries);
-      })
-    );
+    const responses = Promise.all(scenarioIDs.map((id) => updateScenario(id, gqueries)));
 
     responses
       .then((data: ScenarioData[]) => {
@@ -109,37 +124,30 @@ const fetchQueriesForScenarios = (
 };
 
 /**
- * Fetches the complete list of inputs available for a scenario, including
- * custom values set by the creator of the scenario.
+ * Fetches the complete list of inputs available for a scenario
  */
-const fetchInputsForScenario = async (
-  endpoint: string,
-  id: number
-): Promise<InputCollectionData> => {
-  const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs`, {
+export const fetchInputsForScenario = async (id: number): Promise<InputCollectionData> => {
+  const response = await fetchWithRefresh(`/api/scenarios/${id}/inputs?include_extras=true`, {
     method: 'GET',
     headers,
   });
+
+  if (!response.ok) {
+    throw await refusal(response);
+  }
+
   return await response.json();
 };
 
 /**
- * Fetches the complete list of inputs available for a list of scenarios,
+ * Fetches the complete list of inputs available for a list of columns,
  * returning a promise which yields the result of each request.
  */
-const fetchInputsForScenarios = (
-  endpoint: string,
-  scenarioIDs: number[]
-): Promise<ScenarioIndexedInputData> => {
-  return new Promise((resolve, reject) => {
-    const responses = Promise.all(scenarioIDs.map((id) => fetchInputsForScenario(endpoint, id)));
+const fetchInputsForColumns = async (columns: Column[]): Promise<ScenarioIndexedInputData> => {
+  const sessionIDs = columns.map((column) => column.sessionID);
+  const data = await Promise.all(sessionIDs.map((id) => fetchInputsForScenario(id)));
 
-    responses
-      .then((data: InputCollectionData[]) => {
-        resolve(indexByScenario(scenarioIDs, data));
-      })
-      .catch(reject);
-  });
+  return indexByScenario(sessionIDs, data);
 };
 
 /**
@@ -148,34 +156,34 @@ const fetchInputsForScenarios = (
  */
 export default class APIConnection {
   endpoint: string;
-  scenarios: number[];
+  columns: Column[];
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
-    this.scenarios = [];
+    this.columns = [];
   }
 
-  setScenarios(scenarios: number[]) {
-    this.scenarios = scenarios;
+  setColumns(columns: Column[]) {
+    this.columns = columns;
   }
 
   async sendRequest(gqueries: string[]): Promise<ScenarioIndexedScenarioData> {
-    if (this.scenarios.length === 0) {
-      return Promise.reject(
-        'Cannot send API requests until one or more scenario IDs have been set.'
-      );
+    if (this.columns.length === 0) {
+      return Promise.reject('Cannot send API requests until one or more columns have been set.');
     }
 
-    return await fetchQueriesForScenarios(this.endpoint, this.scenarios, gqueries);
+    return await fetchQueriesForScenarios(
+      this.endpoint,
+      this.columns.map((column) => column.sessionID),
+      gqueries
+    );
   }
 
   async fetchInputs(): Promise<ScenarioIndexedInputData> {
-    if (this.scenarios.length === 0) {
-      return Promise.reject(
-        'Cannot send API requests until one or more scenario IDs have been set.'
-      );
+    if (this.columns.length === 0) {
+      return Promise.reject('Cannot send API requests until one or more columns have been set.');
     }
 
-    return await fetchInputsForScenarios(this.endpoint, this.scenarios);
+    return await fetchInputsForColumns(this.columns);
   }
 }

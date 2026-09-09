@@ -1,19 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Section from './Section';
-import { ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
-import sortScenarios from '../../utils/sortScenarios';
+import { Selection } from './Row';
+import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
+import { ColumnEditing } from '../../store/types';
+import { EditableColumn } from '../../utils/inputs/access';
+import columnHeading from '../../utils/columnHeading';
+import { heldGroups } from '../../utils/inputs/shareGroups';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 interface InputsTableProps {
+  columns: EditableColumn[];
+  editing: Record<number, ColumnEditing>;
   inputs: ScenarioIndexedInputData;
   scenarios: ScenarioIndexedScenarioData;
   inputList: Array<{ path: string[]; input_elements: any[] }>;
+  onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
+  onResetValue: (sessionID: number, inputKey: string) => void;
   openModal: (scenarioID: number, inputKey?: string) => void;
 }
 
-const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList, openModal }) => {
+const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, scenarios, inputList, onCommitValue, onResetValue, openModal }) => {
   // State for tracking expanded categories, subcategories, and sections
   const [expandedMainCategories, setExpandedMainCategories] = useState<string[]>([]);
   const [expandedSubCategories, setExpandedSubCategories] = useState<string[]>([]);
@@ -22,10 +30,32 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
   const [showAllInputs, setShowAllInputs] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
-  // Sort scenarios and extract necessary data
-  const sortedScenarios = sortScenarios(Object.values(scenarios));
-  const scenarioYears = [sortedScenarios[0].scenario.startYear, ...sortedScenarios.map(({ scenario }) => scenario.endYear)];
-  const scenarioIDs = sortedScenarios.map(({ scenario: { id } }) => id);
+  // Focus
+  const [selection, setSelection] = useState<Selection | null>(null);
+
+  const userValues = useMemo(
+    () =>
+      Object.fromEntries(
+        columns.map(({ sessionID }) => [sessionID, scenarios[sessionID].userValues || {}])
+      ),
+    [columns, scenarios]
+  );
+
+  // A closed group is 'held' until it totals 100
+  const held = useMemo(
+    () =>
+      Object.fromEntries(
+        columns.map(({ sessionID }) => [
+          sessionID,
+          heldGroups(inputs[sessionID], editing[sessionID]?.values ?? {}, userValues[sessionID]),
+        ])
+      ),
+    [columns, inputs, editing, userValues]
+  );
+
+  // Columns are already in display order, because the reducer derives the scenario list from them
+  const columnScenarios = columns.map(({ sessionID }) => scenarios[sessionID].scenario);
+  const scenarioYears = [columnScenarios[0].startYear, ...columnScenarios.map(({ endYear }) => endYear)];
 
   // Update the URL with the current state
   const updateUrlWithState = () => {
@@ -143,7 +173,7 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
 
   // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
   // Widths set for max 6 scenarios
-  const inputColWidth = 100 - (sortedScenarios.length + 2) * 8;
+  const inputColWidth = 100 - (columns.length + 2) * 8;
 
   return (
     <>
@@ -189,16 +219,22 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
             <th className={`p-2 text-left font-semibold w-[${inputColWidth}%]`}>Category/Input</th>
             <th className="p-2 text-right font-semibold w-[8%]">{translate('inputs.unit')}</th>
             <th className="w-[12%] p-2 text-right font-semibold">
-              {sortedScenarios[0].scenario.startYear}
+              {columnScenarios[0].startYear}
             </th>
-            {sortedScenarios.map(({ scenario: { id, endYear } }) => (
-              <th key={`year-${endYear}-${id}`} className="w-[8%] p-2 text-right">
+            {columns.map(({ sessionID, title }, index) => (
+              <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right group">
                 <button
-                  onClick={() => openModal(id)}
-                  className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-midnight-700 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+                  type="button"
+                  aria-label="Open scenario in pop up"
+                  label="Open scenario in pop up"
+                  onClick={() => openModal(sessionID)}
+                  className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                 >
-                  {endYear}
+                  {columnHeading(title, columnScenarios[index].endYear)}
                 </button>
+                <div className="absolute transform translate-y-1/2 mb-2 hidden group-hover:block px-3 py-1 text-sm font-normal text-black bg-white rounded-md shadow-lg border border-gray-200 whitespace-nowrap z-50">
+                  Open scenario in pop up
+                </div>
               </th>
             ))}
           </tr>
@@ -241,8 +277,14 @@ const InputsTable: React.FC<InputsTableProps> = ({ inputs, scenarios, inputList,
                               <Section
                                 slide={definition}
                                 inputData={inputs}
-                                scenarioIDs={scenarioIDs}
-                                onInputClick={openModal}
+                                columns={columns}
+                                editing={editing}
+                                onCommitValue={onCommitValue}
+                                onResetValue={onResetValue}
+                                onSelect={setSelection}
+                                selection={selection}
+                                held={held}
+                                userValues={userValues}
                               />
                             )}
                           </React.Fragment>

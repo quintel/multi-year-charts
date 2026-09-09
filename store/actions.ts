@@ -1,4 +1,5 @@
-import { ActionTypes, TypeKeys } from './types';
+import { InputValue } from '../utils/api/types';
+import { ActionTypes, CollectionState, Column, TypeKeys } from './types';
 
 /**
  * Adds one or more query keys to the list of queries which should be fetched
@@ -19,11 +20,68 @@ export const removeQueries = (queries: string[]): ActionTypes => ({
 });
 
 /**
- * Sets the list of scenarios which are to be fetched from ETEngine.
+ * Sets the collection currently being viewed.
  */
-export const setScenarios = (scenarios: number[]): ActionTypes => ({
-  type: TypeKeys.SET_SCENARIOS,
-  payload: scenarios,
+export const setCollection = (collection: CollectionState): ActionTypes => ({
+  type: TypeKeys.SET_COLLECTION,
+  payload: collection,
+});
+
+/**
+ * Sets the collection's columns, which is also the list of scenarios fetched from ETEngine
+ */
+export const setColumns = (columns: Column[]): ActionTypes => ({
+  type: TypeKeys.SET_COLUMNS,
+  payload: columns,
+});
+
+/** The signed-in user. Editing needs one. */
+export const setUserID = (userID: string | null): ActionTypes => ({
+  type: TypeKeys.SET_USER_ID,
+  payload: userID,
+});
+
+/** Records a typed value and sends it to the column's session. */
+export const commitInputValue = (
+  sessionID: number,
+  inputKey: string,
+  value: InputValue
+): ActionTypes => ({
+  type: TypeKeys.COMMIT_INPUT_VALUE,
+  payload: { sessionID, inputKey, value },
+});
+
+export const resetInputValues = (sessionID: number, inputKeys: string[]): ActionTypes => ({
+  type: TypeKeys.RESET_INPUT_VALUES,
+  payload: { sessionID, inputKeys },
+});
+
+// Somebody else changed a member session
+export const remoteChange = (sessionID: number, stamp?: string): ActionTypes => ({
+  type: TypeKeys.REMOTE_CHANGE,
+  payload: { sessionID, stamp },
+});
+
+export const writeStarted = (sessionID: number): ActionTypes => ({
+  type: TypeKeys.WRITE_STARTED,
+  payload: { sessionID },
+});
+
+export const writeSucceeded = (
+  sessionID: number,
+  sent: Record<string, InputValue>
+): ActionTypes => ({
+  type: TypeKeys.WRITE_SUCCEEDED,
+  payload: { sessionID, sent },
+});
+
+export const writeFailed = (
+  sessionID: number,
+  sent: Record<string, InputValue>,
+  message: string
+): ActionTypes => ({
+  type: TypeKeys.WRITE_FAILED,
+  payload: { sessionID, sent, message },
 });
 
 /**
@@ -38,13 +96,13 @@ export const swapQueries = (add: string[], remove: string[]): ActionTypes => ({
 /**
  * Requests a fresh set of data from the ETEngine API.
  */
-export const apiFetch = () => ({
+export const apiFetch = (): ActionTypes => ({
   type: TypeKeys.API_FETCH,
 });
 
 /**
  * Requests the list of inputs and values from the ETEngine API.
  */
-export const fetchInputs = () => ({
+export const fetchInputs = (): ActionTypes => ({
   type: TypeKeys.FETCH_INPUTS,
 });
