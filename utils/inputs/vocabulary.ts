@@ -9,8 +9,8 @@ export const controlTypeFor = (unit: string): ControlType => {
   return 'numeric';
 };
 
-export const displayUnit = (unit: string): string =>
-  controlTypeFor(unit) === 'numeric' ? unit : '';
+export const displayUnit = (unit: string, label?: string): string =>
+  controlTypeFor(unit) === 'numeric' ? label || unit : '';
 
 const decimalsToShow = (value: number): number => {
   const [, fraction] = value.toString().split('.');

@@ -112,7 +112,7 @@ export default function Row({
           __html: sanitizeHtml(unsanitizedInputName, { allowedTags: ['sub', 'sup'] }),
         }}
       ></td>
-      <td className="px-2 py-2 text-right">{displayUnit(unit)}</td>
+      <td className="px-2 py-2 text-right">{displayUnit(unit, input.unit)}</td>
       <td className="px-2 py-2 text-right">
         {firstInputData.coupling_disabled
           ? '-'
