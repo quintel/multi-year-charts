@@ -29,7 +29,8 @@ function NumericCell({ input, isSet, onCommit, onSelect, refusal, value, ...flag
   useEffect(() => setDraft(String(value)), [value]);
 
   const commit = () => {
-    const typed = parseFloat(draft);
+    // Replace commas with decimals to handle Dutch inputs
+    const typed = parseFloat(draft.replace(',', '.'));
 
     if (isNaN(typed)) {
       setDraft(String(value));
