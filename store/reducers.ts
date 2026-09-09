@@ -185,6 +185,7 @@ export default function reducer(state = initialState, action: ActionTypes) {
 
       return editColumn(state, sessionID, (editing) => ({
         ...editing,
+        values: without(editing.values, inputKeys),
         refused: without(editing.refused, inputKeys),
       }));
     }
