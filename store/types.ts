@@ -37,7 +37,6 @@ export enum TypeKeys {
 /** One member of the collection, as shown in the interface. */
 export interface Column {
   sessionID: number;
-  title: string | null;
 }
 
 /** What a column is doing between a typed value and the engine's answer. */

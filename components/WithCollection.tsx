@@ -43,9 +43,7 @@ const WithCollection = ({
 
     setCollection({ id: collection.id, title: collection.title });
     setUserID(user?.id ?? null);
-    setColumns(
-      collection.members.map(({ scenarioID, title }) => ({ sessionID: scenarioID, title }))
-    );
+    setColumns(collection.members.map(({ scenarioID }) => ({ sessionID: scenarioID })));
   }, [collection, user, loading, setCollection, setColumns, setUserID]);
 
   const watching = columns.map(({ sessionID }) => sessionID).join(',');

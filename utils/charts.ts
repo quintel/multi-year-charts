@@ -2,8 +2,6 @@ import { ScenarioIndexedScenarioData, ScenarioData } from './api/types';
 
 import sortScenarios from './sortScenarios';
 
-import columnHeading from './columnHeading';
-import { Column } from '../store/types';
 import { ChartSchema, FlattenedChartSchema } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
 import { createScalingFormatter, UnitFormatter } from './units';
@@ -11,7 +9,7 @@ import { createDefaultUnitConverter, UnitConverter } from './units';
 import { namespacedTranslate } from './translate';
 
 export interface ChartSeries {
-  categories: (string | number)[];
+  categories: number[];
   data: { name: string; data: number[] }[];
   formatter: UnitFormatter;
   converter: UnitConverter;
@@ -62,17 +60,13 @@ const maxValueFromScenarios = (scenarios: ScenarioData[], gqueries: string[]) =>
   return maxValue;
 };
 
-const titleOf = (columns: Column[], scenarioID: number) =>
-  columns.find(({ sessionID }) => sessionID === scenarioID)?.title ?? null;
-
 /**
  * Given a collection of ScenarioJSON and the key of a gquery, transformed
  * the scenario data into data for a single axis in an Apex chart.
  */
 export const scenariosToChartData = (
   scenarios: ScenarioIndexedScenarioData,
-  gqueries: string[],
-  columns: Column[]
+  gqueries: string[]
 ): ChartSeries => {
   const sorted = sortScenarios(Object.values(scenarios));
   const firstScenario = Object.values(scenarios)[0];
@@ -85,9 +79,7 @@ export const scenariosToChartData = (
   return {
     categories: [
       firstScenario.scenario.startYear,
-      ...sorted.map(({ scenario }) =>
-        columnHeading(titleOf(columns, scenario.id), scenario.endYear)
-      ),
+      ...sorted.map(({ scenario }) => scenario.endYear),
     ],
     data: gqueries.map((gquery) => ({
       name: gquery,
@@ -182,7 +174,7 @@ export const translateChartData = (series: ChartSeries, translate: TranslateFunc
 /**
  * Converts a chart to CSV
  */
-// A saved scenario title is free text, so a comma in it would otherwise split the column.
+// A translated series name is free text, so a comma in it would otherwise split the row.
 const csvField = (value: string | number): string => {
   const text = String(value);
 
