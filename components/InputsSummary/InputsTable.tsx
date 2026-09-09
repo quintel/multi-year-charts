@@ -226,7 +226,6 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
                 <button
                   type="button"
                   aria-label="Open scenario in pop up"
-                  label="Open scenario in pop up"
                   onClick={() => openModal(sessionID)}
                   className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
                 >
