@@ -12,9 +12,9 @@ import Loading from '../Loading';
 import OutputBreadcrumb from '../OutputBreadcrumb';
 import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
+import pageGutter from '../pageGutter';
 
 import DownloadCSVButton from './DownloadCSVButton';
-import UnitToggle from './UnitToggle';
 
 interface ChartWrapperProps {
   activeVariant?: string;
@@ -26,7 +26,7 @@ interface ChartWrapperProps {
 }
 
 const Wrapper = ({ title, children }: { title: React.ReactElement; children: React.ReactNode }) => (
-  <div className="container mx-auto mt-6 mb-6">
+  <div className={`${pageGutter} mt-6 mb-6`}>
     {title}
     {children}
   </div>
@@ -59,7 +59,6 @@ const ChartTitle = ({
     <OutputBreadcrumb charts={charts} />
     <div className="flex-1"></div>
     <DownloadCSVButton chart={chart} scenarios={scenarios} />
-    <UnitToggle currentChart={chart.chartKey} />
   </div>
 );
 

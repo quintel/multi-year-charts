@@ -3,7 +3,10 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import AreaInformation from './AreaInformation';
 import LocaleMessage from './LocaleMessage';
+import UnitToggle from './ChartWrapper/UnitToggle';
+import pageGutter from './pageGutter';
 
 import { ChartSchema } from '../data/charts';
 import useLinkHelper from '../utils/useLinkHelper';
@@ -24,6 +27,9 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
   const collection = String(router.query.collectionID ?? router.query.scenarioIDs ?? '');
   const [firstChart] = charts;
 
+  const chartSlug = String(router.query.chartSlug ?? '');
+  const currentChart = charts.find((chart) => chart.slug === chartSlug) ?? firstChart;
+
   // Recorded on the way out
   useEffect(() => {
     const record = () => rememberVisit(collection, section);
@@ -39,8 +45,12 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
 
   return (
     <div className="bg-gray-800 text-sm text-white">
-      <nav id="subnav" className="container mx-auto flex py-2">
-        <div className="-ml-1 flex gap-1 rounded bg-gray-900/40 p-1">
+      <nav id="subnav" className={`${pageGutter} flex items-center py-2`}>
+        <div className="flex flex-1 justify-start">
+          <AreaInformation />
+        </div>
+
+        <div className="flex gap-1 rounded bg-gray-900/40 p-1">
           <Link
             href={inputsHref}
             className={tabClass(inputsActive)}
@@ -55,6 +65,10 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
           >
             <LocaleMessage id="app.outputs" />
           </Link>
+        </div>
+
+        <div className="flex flex-1 justify-end">
+          {inputsActive ? null : <UnitToggle currentChart={currentChart.key} />}
         </div>
       </nav>
     </div>

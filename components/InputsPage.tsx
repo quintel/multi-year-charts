@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import InputsSummary from './InputsSummary/InputsSummary';
 import WithCollection from './WithCollection';
+import pageGutter from './pageGutter';
 import useTranslate from '../utils/useTranslate';
 
 const InputsPage: NextPage = () => {
@@ -18,7 +19,7 @@ const InputsPage: NextPage = () => {
           <link rel="icon" href="/favicon.svg" />
         </Head>
 
-        <div className="container mx-auto my-6">
+        <div className={`${pageGutter} my-6`}>
           <InputsSummary />
         </div>
       </div>

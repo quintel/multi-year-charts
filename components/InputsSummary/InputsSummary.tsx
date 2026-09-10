@@ -121,7 +121,7 @@ function InputsSummary({ apiFetch, fetchInputs, ...props }: InputsSummaryProps) 
   }, [dispatch, fetchInputs, apiFetch]);
 
   return (
-    <div className="container">
+    <div>
       {inputList &&
       covers(props.inputData, props.columns) &&
       covers(props.scenarioData, props.columns) ? (

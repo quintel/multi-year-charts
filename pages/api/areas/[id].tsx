@@ -11,6 +11,12 @@ const AreaProxy = async function (req: NextApiRequest, res: NextApiResponse) {
   });
 
   const json = await response.json();
+
+  // Areas are static so a reload doesn't need to refetch for at least a day
+  if (response.ok) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+  }
+
   return res.status(response.status).json(json);
 };
 
