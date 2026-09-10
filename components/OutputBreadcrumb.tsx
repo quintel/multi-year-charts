@@ -19,7 +19,6 @@ const theme = {
   components: {
     Breadcrumb: {
       fontSize: 20,
-      fontHeight: 30,
       itemColor: '#4b5563',
       lastItemColor: '#1f2937',
     },
