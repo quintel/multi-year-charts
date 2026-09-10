@@ -6,7 +6,7 @@ const optionClasses = {
   unchecked: 'px-2 py-1 rounded cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white transition',
 };
 
-function Option({ checked, children, disabled }: { checked: boolean; children: React.ReactNode; disabled: boolean }) {
+export function Option({ checked, children, disabled }: { checked: boolean; children: React.ReactNode; disabled: boolean }) {
   return (
     <div
       className={`${optionClasses[checked ? 'checked' : 'unchecked']} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}

@@ -15,9 +15,9 @@
   "misc.no": "No",
   "misc.year": "Year",
 
-  "inputs.compare": "Compare slider settings",
-  "inputs.modified": "Show modified only",
-  "inputs.all": "Show all inputs",
+  "inputs.compare": "Input settings",
+  "inputs.modified": "Edited",
+  "inputs.all": "All",
   "inputs.collapse": "Collapse all",
   "inputs.expand": "Expand all",
   "inputs.unit": "Unit",
