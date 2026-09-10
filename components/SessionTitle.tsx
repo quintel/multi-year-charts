@@ -8,7 +8,7 @@ function SessionTitle({ title }: { title: string | null }) {
   }
 
   return (
-    <h1 className="ml-3 min-w-0 truncate border-l border-gray-600 pl-3 font-semibold text-gray-100">
+    <h1 className="min-w-0 truncate px-3 font-semibold text-gray-200">
       {title}
     </h1>
   );
