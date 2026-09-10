@@ -137,14 +137,21 @@ export default function reducer(state = initialState, action: ActionTypes) {
     }
 
     case TypeKeys.UPDATE_API_DATA: {
-      for (const [scenarioId, scenario] of Object.entries(action.payload)) {
-        scenario.order = orderOf(state.columns, Number(scenarioId));
-      }
+      const scenarioData = Object.fromEntries(
+        Object.entries(action.payload).map(([scenarioId, scenario]) => [
+          scenarioId,
+          {
+            ...scenario,
+            order: orderOf(state.columns, Number(scenarioId)),
+            gqueries: {
+              ...state.scenarioData[Number(scenarioId)]?.gqueries,
+              ...scenario.gqueries,
+            },
+          },
+        ])
+      );
 
-      return {
-        ...state,
-        scenarioData: action.payload,
-      };
+      return { ...state, scenarioData };
     }
 
     case TypeKeys.UPDATE_INPUT_DATA: {

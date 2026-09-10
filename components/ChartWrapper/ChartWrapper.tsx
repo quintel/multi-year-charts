@@ -1,17 +1,15 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
-import { ChevronRightIcon } from '@heroicons/react/solid';
-
 import { AppState } from '../../store/types';
-import { FlattenedChartSchema } from '../../data/charts';
+import charts, { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
-import LocaleContext from '../../utils/LocaleContext';
 
 import Chart from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
+import OutputBreadcrumb from '../OutputBreadcrumb';
 import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
 
@@ -52,33 +50,18 @@ const canRenderChart = (chart: FlattenedChartSchema, scenarios: ScenarioIndexedS
 
 const ChartTitle = ({
   chart,
-  children,
   scenarios,
 }: {
   chart: FlattenedChartSchema;
   scenarios: ScenarioIndexedScenarioData;
-  children?: React.ReactNode;
-}) => {
-  const { translate } = useContext(LocaleContext);
-
-  return (
-    <h2 className="mb-5 flex items-center">
-      <span className="flex items-center text-xl font-medium">
-        <span>{translate(`chart.${chart.chartKey}`)}</span>
-        {chart.numVariants > 1 ? (
-          <Fragment>
-            <ChevronRightIcon className="h-5 w-5 text-gray-500" />
-            <span>{translate(`chart.variant.${chart.variantKey}`)}</span>
-          </Fragment>
-        ) : null}
-      </span>
-      {children}
-      <div className="flex-1"></div>
-      <DownloadCSVButton chart={chart} scenarios={scenarios} />
-      <UnitToggle currentChart={chart.chartKey} />
-    </h2>
-  );
-};
+}) => (
+  <div className="mb-5 flex items-center">
+    <OutputBreadcrumb charts={charts} />
+    <div className="flex-1"></div>
+    <DownloadCSVButton chart={chart} scenarios={scenarios} />
+    <UnitToggle currentChart={chart.chartKey} />
+  </div>
+);
 
 function ChartWrapper({
   addQueries,

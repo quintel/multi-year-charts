@@ -1,148 +1,61 @@
-import { Fragment, forwardRef, ForwardedRef } from 'react';
+import { useEffect } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { AdjustmentsIcon, ChevronDownIcon } from '@heroicons/react/solid';
-
 import LocaleMessage from './LocaleMessage';
-import Menu from './Menu';
-import NavLink from './NavLink';
 
 import { ChartSchema } from '../data/charts';
-import useIsActiveURL from '../utils/useIsActiveURL';
 import useLinkHelper from '../utils/useLinkHelper';
+import { lastVisit, rememberVisit, Section } from '../utils/lastVisited';
 
-const MenuLink = forwardRef(
-  (
-    { href, children, ...rest }: React.ComponentProps<typeof NavLink> & { href: string },
-    ref: ForwardedRef<HTMLAnchorElement>
-  ) => {
-    return (
-      <Link href={href} passHref legacyBehavior>
-        <NavLink ref={ref} {...rest}>
-          {children}
-        </NavLink>
-      </Link>
-    );
-  }
-);
+const tabClass = (isActive: boolean) =>
+  `rounded px-4 py-1 font-medium transition ${
+    isActive ? 'bg-gray-200 text-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+  }`;
 
-MenuLink.displayName = 'MenuLink';
-
-const SingleVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
-  const { linkTo } = useLinkHelper();
-
-  return (
-    <Link passHref key={`subnav-chart-${chart.slug}`} href={linkTo(`/charts/${chart.slug}`)} legacyBehavior>
-      <NavLink
-        className="my-3 rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
-        activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
-      >
-        <LocaleMessage id={`chart.${chart.key}`} />
-      </NavLink>
-    </Link>
-  );
-};
-
-const MenuButton = ({ children, isActive }: { children: React.ReactNode; isActive: boolean }) => {
-  return (
-    <Menu.Button className="group my-3 flex items-center rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 hover:bg-gray-700 hover:text-white">
-      <span
-        className={`-my-1 -ml-2 mr-0 inline-block rounded py-1 pl-2 ${
-          isActive ? 'bg-gray-200 !text-gray-800' : ''
-        }`}
-      >
-        <span
-          className={`border-r border-r-gray-600 pr-2 ${isActive ? '!border-r-transparent' : ''}`}
-        >
-          {children}
-        </span>
-      </span>
-      <ChevronDownIcon className="-my-1 -mr-1 ml-1 h-5 w-5" />
-    </Menu.Button>
-  );
-};
-
-const MultiVariantChartItem = ({ chart }: { chart: ChartSchema }) => {
-  const { linkTo } = useLinkHelper();
-
-  const isActive = useIsActiveURL(linkTo(`/charts/${chart.slug}`));
-
-  // Get the full path so that we can show which variant is currently active in the menu.
-  const router = useRouter();
-  const fullPath = router.asPath;
-
-  let prevGroup: string | undefined = undefined;
-
-  const variantItems = chart.variants.map((variant) => {
-    const url = linkTo(`/charts/${chart.slug}/${variant.slug}`);
-    let group = null;
-
-    if (prevGroup !== variant.group) {
-      group = (
-        <Fragment>
-          <Menu.SectionHeader>
-            <LocaleMessage id={`chart.group.${variant.group}`} />
-          </Menu.SectionHeader>
-        </Fragment>
-      );
-    }
-
-    prevGroup = variant.group;
-
-    return (
-      <Fragment key={url}>
-        {group}
-        <Menu.SelectableItem as={MenuLink} href={url} value={url} onClick={() => {}}>
-          <LocaleMessage id={`chart.variant.${variant.key}`} />
-        </Menu.SelectableItem>
-      </Fragment>
-    );
-  });
-
-  return (
-    <Menu
-      button={
-        <MenuButton isActive={isActive}>
-          <LocaleMessage id={`chart.${chart.key}`} />
-        </MenuButton>
-      }
-    >
-      <Menu.SelectionGroup value={fullPath} onChange={() => {}}>
-        {variantItems}
-      </Menu.SelectionGroup>
-    </Menu>
-  );
-};
-
-const chartItem = (chart: ChartSchema) => {
-  const key = `subnav-chart-${chart.slug}`;
-
-  if (chart.variants.length > 1) {
-    return <MultiVariantChartItem chart={chart} key={key} />;
-  }
-
-  return <SingleVariantChartItem chart={chart} key={key} />;
-};
-
-const SubNav = ({ charts }: { charts: ChartSchema[] }) => {
+const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string | null }) => {
   const router = useRouter();
   const { linkTo } = useLinkHelper();
+
+  const onInputs = router.pathname.endsWith('/inputs');
+  const section: Section = onInputs ? 'inputs' : 'outputs';
+  const inputsActive = pending ? pending.split('?')[0].endsWith('/inputs') : onInputs;
+  const collection = String(router.query.collectionID ?? router.query.scenarioIDs ?? '');
+  const [firstChart] = charts;
+
+  // Recorded on the way out
+  useEffect(() => {
+    const record = () => rememberVisit(collection, section);
+
+    router.events.on('routeChangeStart', record);
+    return () => router.events.off('routeChangeStart', record);
+  }, [router.events, collection, section]);
+
+  const inputsHref = lastVisit(collection, 'inputs') || linkTo('/inputs');
+  const outputsHref =
+    lastVisit(collection, 'outputs') ||
+    linkTo(`/charts/${firstChart.slug}/${firstChart.variants[0].slug}`);
 
   return (
     <div className="bg-gray-800 text-sm text-white">
-      <nav id="subnav" className="container mx-auto flex gap-3">
-        {charts.map(chartItem)}
-        <Link href={linkTo('/inputs')} passHref legacyBehavior>
-          <NavLink
-            className="my-3 ml-auto flex items-center rounded py-1 px-2 font-medium text-gray-300 transition first:-ml-2 last:-mr-2 hover:bg-gray-700 hover:text-white"
-            activeClassName="!text-gray-800 bg-gray-200 hover:!bg-gray-200"
+      <nav id="subnav" className="container mx-auto flex py-2">
+        <div className="-ml-1 flex gap-1 rounded bg-gray-900/40 p-1">
+          <Link
+            href={inputsHref}
+            className={tabClass(inputsActive)}
+            aria-current={inputsActive ? 'page' : undefined}
           >
-            <AdjustmentsIcon className="mr-1 h-5 w-5 rotate-90" />
-            <LocaleMessage id="app.sliderSettings" />
-          </NavLink>
-        </Link>
+            <LocaleMessage id="app.inputs" />
+          </Link>
+          <Link
+            href={outputsHref}
+            className={tabClass(!inputsActive)}
+            aria-current={inputsActive ? undefined : 'page'}
+          >
+            <LocaleMessage id="app.outputs" />
+          </Link>
+        </div>
       </nav>
     </div>
   );

@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}', './utils/**/*.ts'],
@@ -11,11 +13,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // fontFamily: {
-      //   sans: ['Montserrat', 'Segoe UI', 'Roboto', 'Oxygen',
-      // 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      // 'sans-serif'],
-      // },
+      fontFamily: {
+        sans: ['Montserrat Variable', 'Montserrat', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         // Midnight sits at the midpoint between blue and indigo desaturated by 20%. Blue was a bit
         // too blue, indigo was a bit too purple.

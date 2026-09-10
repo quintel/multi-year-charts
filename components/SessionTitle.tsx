@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 
-import AreaInformation from './AreaInformation';
 import { AppState } from '../store/types';
 
 function SessionTitle({ title }: { title: string | null }) {
@@ -9,14 +8,9 @@ function SessionTitle({ title }: { title: string | null }) {
   }
 
   return (
-    <div className="bg-slate-800 pt-4 text-slate-300">
-      <div className="container mx-auto flex border-b border-b-slate-700 pb-2">
-        <h1 className="text-xl font-semibold">{title}</h1>
-        <div className="ml-auto flex items-center">
-          <AreaInformation />
-        </div>
-      </div>
-    </div>
+    <h1 className="ml-3 min-w-0 truncate border-l border-gray-600 pl-3 font-semibold text-gray-100">
+      {title}
+    </h1>
   );
 }
 

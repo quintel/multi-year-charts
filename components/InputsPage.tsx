@@ -13,7 +13,7 @@ const InputsPage: NextPage = () => {
       <div>
         <Head>
           <title>
-            {translate('app.sliderSettings')} - {translate('app.title')}
+            {translate('app.inputs')} - {translate('app.title')}
           </title>
           <link rel="icon" href="/favicon.svg" />
         </Head>

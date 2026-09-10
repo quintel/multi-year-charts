@@ -1,7 +1,8 @@
 {
   "app.title": "Collections",
   "app.backToETM": "Back to the ETM",
-  "app.sliderSettings": "Slider settings",
+  "app.inputs": "Inputs",
+  "app.outputs": "Outputs",
   "app.language": "Language",
   "app.by_the": "by the",
   "app.etm": "Energy Transition Model",

@@ -1,7 +1,8 @@
 {
   "app.title": "Collecties",
   "app.backToETM": "Terug naar het ETM",
-  "app.sliderSettings": "Invoervelden",
+  "app.inputs": "Invoervelden",
+  "app.outputs": "Uitkomsten",
   "app.language": "Taal",
   "app.by_the": "door het",
   "app.etm": "Energietransitiemodel",
