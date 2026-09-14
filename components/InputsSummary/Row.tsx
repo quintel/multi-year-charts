@@ -12,6 +12,7 @@ import { EditableColumn } from '../../utils/inputs/access';
 import { toStep } from '../../utils/inputs/coerce';
 import { toneClass } from '../../utils/inputs/appearance';
 import { groupRefusal } from '../../utils/inputs/shareGroups';
+import { stickyName } from '../../utils/inputs/layout';
 import useTranslate from '../../utils/useTranslate';
 import Cell from './Cell';
 
@@ -102,7 +103,7 @@ export default function Row({
   const { unit } = firstInputData;
   const unsanitizedInputName = input.name;
   const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group || input.group_name;
-  const nameClass = hasGroup ? "p-2 pl-12 text-left text-gray-600" : "p-2 pl-8 text-left text-gray-600"
+  const nameClass = `${stickyName} p-2 text-left text-gray-600 ${hasGroup ? 'pl-12' : 'pl-8'}`
 
   return (
     <tr className="border-b border-b-gray-300">

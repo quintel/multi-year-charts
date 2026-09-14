@@ -5,6 +5,7 @@ import { InputData, InputValue } from '../../utils/api/types';
 import { CellFlags, chromeClass, toneClass } from '../../utils/inputs/appearance';
 import { coerceValue } from '../../utils/inputs/coerce';
 import { controlTypeFor, formatInputValue } from '../../utils/inputs/vocabulary';
+import { valueColumnWidth } from '../../utils/inputs/layout';
 
 interface CellProps extends CellFlags {
   input: InputData;
@@ -17,6 +18,8 @@ interface CellProps extends CellFlags {
   translate: (id: string) => string;
   value: InputValue;
 }
+
+const controlStyle = { maxWidth: valueColumnWidth };
 
 const controlClasses = (isSet: boolean, flags: CellFlags) =>
   'w-full rounded border bg-transparent px-1 py-0.5 text-right ' +
@@ -48,6 +51,7 @@ function NumericCell({ input, isSet, onCommit, onSelect, refusal, value, ...flag
       type="text"
       inputMode="decimal"
       className={controlClasses(isSet, flags)}
+      style={controlStyle}
       title={refusal}
       value={draft}
       onChange={(event) => setDraft(event.target.value)}
@@ -83,6 +87,7 @@ function EnumCell({ input, isSet, onCommit, onSelect, translate, value, ...flags
   return (
     <select
       className={`${controlClasses(isSet, flags)} appearance-none`}
+      style={controlStyle}
       value={String(value)}
       onFocus={onSelect}
       onChange={(event) => onCommit(event.target.value)}

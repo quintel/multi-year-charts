@@ -4,6 +4,7 @@ import { ScenarioIndexedInputData } from '../../utils/api/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { enabledMembers, groupRefusal, groupTotal } from '../../utils/inputs/shareGroups';
 import { formatInputValue } from '../../utils/inputs/vocabulary';
+import { stickyName } from '../../utils/inputs/layout';
 import useTranslate from '../../utils/useTranslate';
 
 const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
@@ -52,7 +53,7 @@ export default function GroupTotalRow({
 
   return (
     <tr className="border-b border-b-gray-300">
-      <td className="p-2 pl-12 text-left text-gray-500">
+      <td className={`${stickyName} p-2 pl-12 text-left text-gray-500`}>
         {translate('inputs.total')}
         {refusal ? <span className="ml-2 text-red-600">{refusal}</span> : null}
       </td>

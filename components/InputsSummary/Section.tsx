@@ -3,6 +3,7 @@ import GroupTotalRow from './GroupTotalRow';
 import Row from './Row';
 
 import { ScenarioIndexedInputData } from '../../utils/api/types';
+import { stickyName } from '../../utils/inputs/layout';
 
 interface SectionProps {
   columns: ComponentProps<typeof Row>['columns'];
@@ -35,7 +36,7 @@ const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioInd
 const shareGroupHeader = (group_name?: string) => {
   return (
     <tr className="border-b border-b-gray-300">
-      <td className="p-2 pl-8 text-left">
+      <td className={`${stickyName} p-2 pl-8 text-left`}>
         {group_name}
       </td>
     </tr>
