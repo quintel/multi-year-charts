@@ -1,6 +1,15 @@
 import { Menu as HeadlessMenu } from '@headlessui/react';
 
 /**
+ * TypeScript can't verify that a rest-spread of a generic `as`-prop bag still satisfies the
+ * same generic instantiation when re-spread into a sibling polymorphic component, so this
+ * narrows the widened rest type back down.
+ */
+export function asPolymorphicProps<P>(props: object): P {
+  return props as P;
+}
+
+/**
  * An Item may have an "as" prop, which will cause it to be rendered as an element of the specified
  * type. Any props from the "as" type are permitted and will be passed through to the component.
  */
@@ -45,7 +54,7 @@ export default function Item<T extends React.ElementType>({
 }: ItemProps<T>) {
   return (
     <BaseItem<T>
-      {...(rest as ItemProps<T>)}
+      {...asPolymorphicProps<ItemProps<T>>(rest)}
       className={`${className} text-gray-600`}
       activeClassName={`${className} bg-midnight-500 text-white`}
     >

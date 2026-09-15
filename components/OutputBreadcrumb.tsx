@@ -43,7 +43,10 @@ export default function OutputBreadcrumb({ charts }: { charts: ChartSchema[] }) 
   const translate = useTranslate();
   const { linkTo } = useLinkHelper();
 
-  const slug = (key: 'chartSlug' | 'variantSlug') => [router.query[key]].flat()[0];
+  const slug = (key: 'chartSlug' | 'variantSlug') => {
+    const value = router.query[key];
+    return Array.isArray(value) ? value[0] : value;
+  };
 
   const chart = charts.find((candidate) => candidate.slug === slug('chartSlug')) || charts[0];
   const variant =

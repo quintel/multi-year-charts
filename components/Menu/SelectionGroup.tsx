@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 
 import { CheckIcon } from '@heroicons/react/solid';
-import Item, { BaseItem, ItemProps } from './Item';
+import Item, { asPolymorphicProps, BaseItem, ItemProps } from './Item';
 
 /**
  * A selectable item must have a value and an onClick handler
@@ -22,7 +22,7 @@ export function ActiveItem<T extends React.ElementType>({
 }: SelectableItemProps<T>) {
   return (
     <BaseItem<T>
-      {...(rest as SelectableItemProps<T>)}
+      {...asPolymorphicProps<SelectableItemProps<T>>(rest)}
       className="pointer-events-none text-emerald-600"
       activeClassName="pointer-events-none text-emerald-600"
       disabled
@@ -38,7 +38,7 @@ export function InactiveItem<T extends React.ElementType>({
   ...rest
 }: SelectableItemProps<T>) {
   return (
-    <Item<T> {...(rest as SelectableItemProps<T>)}>
+    <Item<T> {...asPolymorphicProps<SelectableItemProps<T>>(rest)}>
       <div className="mr-2 h-px w-4"></div> {children}
     </Item>
   );
@@ -52,11 +52,14 @@ export function SelectableItem<T extends React.ElementType>({
   const { value: groupValue, onChange } = useContext(GroupContext);
 
   if (value === groupValue) {
-    return <ActiveItem<T> {...(rest as SelectableItemProps<T>)}>{children}</ActiveItem>;
+    return <ActiveItem<T> {...asPolymorphicProps<SelectableItemProps<T>>(rest)}>{children}</ActiveItem>;
   }
 
   return (
-    <InactiveItem<T> {...(rest as SelectableItemProps<T>)} onClick={() => onChange(value)}>
+    <InactiveItem<T>
+      {...asPolymorphicProps<SelectableItemProps<T>>(rest)}
+      onClick={() => onChange(value)}
+    >
       {children}
     </InactiveItem>
   );
