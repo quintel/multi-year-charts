@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import AreaInformation from './AreaInformation';
+import InputsToggle from './InputsToggle';
 import LocaleMessage from './LocaleMessage';
 import UnitToggle from './ChartWrapper/UnitToggle';
 import pageGutter from './pageGutter';
@@ -11,6 +12,8 @@ import pageGutter from './pageGutter';
 import { ChartSchema } from '../data/charts';
 import useLinkHelper from '../utils/useLinkHelper';
 import { lastVisit, rememberVisit, Section } from '../utils/lastVisited';
+
+const INPUTS_SEGMENT = /\/inputs(\/|$)/;
 
 const tabClass = (isActive: boolean) =>
   `rounded px-4 py-1 font-medium transition ${
@@ -21,9 +24,9 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
   const router = useRouter();
   const { linkTo } = useLinkHelper();
 
-  const onInputs = router.pathname.endsWith('/inputs');
+  const onInputs = INPUTS_SEGMENT.test(router.pathname);
   const section: Section = onInputs ? 'inputs' : 'outputs';
-  const inputsActive = pending ? pending.split('?')[0].endsWith('/inputs') : onInputs;
+  const inputsActive = pending ? INPUTS_SEGMENT.test(pending.split('?')[0]) : onInputs;
   const collection = String(router.query.collectionID ?? router.query.scenarioIDs ?? '');
   const [firstChart] = charts;
 
@@ -68,7 +71,7 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
         </div>
 
         <div className="flex flex-1 justify-end">
-          {inputsActive ? null : <UnitToggle currentChart={currentChart.key} />}
+          {inputsActive ? <InputsToggle /> : <UnitToggle currentChart={currentChart.key} />}
         </div>
       </nav>
     </div>

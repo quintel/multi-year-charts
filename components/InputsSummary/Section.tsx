@@ -2,8 +2,8 @@ import { ComponentProps, Fragment } from 'react';
 import GroupTotalRow from './GroupTotalRow';
 import Row from './Row';
 
-import { ScenarioIndexedInputData } from '../../utils/api/types';
 import { stickyName } from '../../utils/inputs/layout';
+import { renderableInputs } from '../../utils/inputs/visibility';
 
 interface SectionProps {
   columns: ComponentProps<typeof Row>['columns'];
@@ -21,18 +21,6 @@ interface SectionProps {
   };
 }
 
-/**
- * Given a slide, returns a list of input definitions representing inputs for which the scenario
- * creator has specified a custom value.
- */
-const modifiedInputs = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
-  return inputElements.filter((definition) => {
-    return Object.values(inputData).some((byScenario) => {
-      return byScenario[definition.key] && byScenario[definition.key].hasOwnProperty('user');
-    });
-  });
-};
-
 const shareGroupHeader = (group_name?: string) => {
   return (
     <tr className="border-b border-b-gray-300">
@@ -44,13 +32,6 @@ const shareGroupHeader = (group_name?: string) => {
 };
 
 /**
- * Allows a parent component to avoid rendering a section if it has no modified inputs.
- */
-Section.shouldShow = (inputElements: { key: string }[], inputData: ScenarioIndexedInputData) => {
-  return modifiedInputs(inputElements, inputData).length > 0;
-};
-
-/**
  * Outputs a table of each input element in a section ("slide" in ETM nomenclature) which has a
  * user-modified value.
  */
@@ -58,16 +39,18 @@ export default function Section({ slide, ...rest }: SectionProps) {
   const { columns, editing, held, inputData, selection } = rest;
   const groupOf = (key: string) => inputData[columns[0].sessionID][key]?.share_group;
 
-  const rows = slide.input_elements.map((element, index) => {
+  const elements = renderableInputs(slide.input_elements, inputData, columns);
+
+  const rows = elements.map((element, index) => {
     // We can possibly simplfy this once all ETModel interface items with a share group, have
     // a interface_group set as well, passing on the translated title in group_name here
     const group = groupOf(element.key) || element.group_name;
     const group_name = element.group_name || groupOf(element.key);
     const opensGroup = group !== undefined && (
-      group !== groupOf(slide.input_elements[index - 1]?.key) &&
-      group !== slide.input_elements[index - 1]?.group_name
+      group !== groupOf(elements[index - 1]?.key) &&
+      group !== elements[index - 1]?.group_name
     );
-    const closesGroup = group !== undefined && group !== groupOf(slide.input_elements[index + 1]?.key);
+    const closesGroup = group !== undefined && group !== groupOf(elements[index + 1]?.key);
 
     const groupCouplingDisabled = columns.every(
       ({ sessionID }) =>

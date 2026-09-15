@@ -1,4 +1,4 @@
-import sanitizeHtml from 'sanitize-html';
+import Markup from '../Markup';
 
 import {
   InputCollectionData,
@@ -101,18 +101,14 @@ export default function Row({
   }
 
   const { unit } = firstInputData;
-  const unsanitizedInputName = input.name;
   const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group || input.group_name;
   const nameClass = `${stickyName} p-2 text-left text-gray-600 ${hasGroup ? 'pl-12' : 'pl-8'}`
 
   return (
     <tr className="border-b border-b-gray-300">
-      <td
-        className={nameClass}
-        dangerouslySetInnerHTML={{
-          __html: sanitizeHtml(unsanitizedInputName, { allowedTags: ['sub', 'sup'] }),
-        }}
-      ></td>
+      <td className={nameClass}>
+        <Markup>{input.name}</Markup>
+      </td>
       <td className="px-2 py-2 text-right">{displayUnit(unit, input.unit)}</td>
       <td className="px-2 py-2 text-right">
         {firstInputData.coupling_disabled

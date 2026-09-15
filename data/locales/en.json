@@ -15,11 +15,9 @@
   "misc.no": "No",
   "misc.year": "Year",
 
-  "inputs.compare": "Input settings",
   "inputs.modified": "Edited",
   "inputs.all": "All",
-  "inputs.collapse": "Collapse all",
-  "inputs.expand": "Expand all",
+  "inputs.none": "No edited inputs in this section",
   "inputs.unit": "Unit",
   "inputs.total": "Total",
   "inputs.reset": "Reset",
