@@ -50,7 +50,7 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
           <AreaInformation />
         </div>
 
-        <div className="flex gap-1 rounded bg-gray-900/40 p-1">
+        <div className="flex gap-1 rounded bg-gray-500/40 p-1">
           <Link
             href={inputsHref}
             className={tabClass(inputsActive)}

@@ -42,7 +42,7 @@ function UnitToggle({ currentChart }: { currentChart: string }) {
     <RadioGroup
       value={value}
       onChange={handleChange}
-      className={`flex select-none items-center gap-1 rounded bg-gray-900/40 p-1 text-sm font-medium ${
+      className={`flex select-none items-center gap-1 rounded bg-gray-500/40 p-1 text-sm font-medium ${
         isGreyedOut ? 'opacity-50' : ''
       }`}
       disabled={isGreyedOut} // Disables the entire RadioGroup when greyed out

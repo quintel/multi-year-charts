@@ -61,13 +61,15 @@ function AreaInformation({ scenarios }: { scenarios: AppState['scenarioData'] })
   }
 
   const areas = Object.values(scenarios).map((data) => data.scenario.areaCode);
-  const uniqueAreas = new Set(areas);
+  const uniqueAreas = [...new Set(areas)];
 
-  if (uniqueAreas.size !== 1) {
-    return null;
-  }
-
-  return <FetchedAreaInformation areaCode={areas[0]} />;
+  return (
+    <div className="flex items-center gap-3">
+      {uniqueAreas.map((areaCode) => (
+        <FetchedAreaInformation key={areaCode} areaCode={areaCode} />
+      ))}
+    </div>
+  );
 }
 
 const mapStateToProps = (state: AppState) => ({
