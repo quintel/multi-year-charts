@@ -1,15 +1,19 @@
 import { ComponentProps } from 'react';
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
+import { ChevronRightIcon } from '@heroicons/react/solid';
 
 import Section from './Section';
-import { LevelNode } from '../../utils/inputs/hierarchy';
+import Markup from '../Markup';
+import { LevelNode, slugOf, visibleLevels } from '../../utils/inputs/hierarchy';
 import { stickyName } from '../../utils/inputs/layout';
+import { withAllInputs } from '../../utils/inputs/urls';
+import useLinkHelper from '../../utils/useLinkHelper';
 
 interface HierarchyLevelProps {
   node: LevelNode;
-  depth?: number;
-  expandedKeys: string[];
-  onToggle: (key: string) => void;
+  depth: number;
+  path: string;
+  showAll: boolean;
   slideProps: Omit<ComponentProps<typeof Section>, 'slide'>;
   valueColumns: number;
 }
@@ -26,47 +30,48 @@ const LEVEL_CLASSES = [
 
 const classesFor = (depth: number) => LEVEL_CLASSES[Math.min(depth, LEVEL_CLASSES.length - 1)];
 
-interface HeadingRowProps {
+function HeadingRow({
+  depth,
+  href,
+  label,
+  valueColumns,
+}: {
   depth: number;
-  expanded: boolean;
+  href: string;
   label: string;
-  onToggle: () => void;
   valueColumns: number;
-}
-
-// The clickable heading which opens or closes a level
-function HeadingRow({ depth, expanded, label, onToggle, valueColumns }: HeadingRowProps) {
-  const Icon = expanded ? ChevronDownIcon : ChevronRightIcon;
+}) {
   const { row, name } = classesFor(depth);
 
   return (
-    <tr className={`cursor-pointer border-b border-b-gray-300 ${row}`} onClick={onToggle}>
+    <tr className={`border-b border-b-gray-300 ${row}`}>
       <th className={name}>
-        <span dangerouslySetInnerHTML={{ __html: label }} />{' '}
-        <Icon className="ml-0.5 -mr-1 inline-block h-5 w-5 align-middle" />
+        <Link href={href} className="hover:underline">
+          <Markup>{label}</Markup>{' '}
+          <ChevronRightIcon className="ml-0.5 -mr-1 inline-block h-5 w-5 align-middle" />
+        </Link>
       </th>
       <td colSpan={valueColumns}></td>
     </tr>
   );
 }
 
-export default function HierarchyLevel({ node, depth = 0, ...level }: HierarchyLevelProps) {
-  const expanded = level.expandedKeys.includes(node.key);
+export default function HierarchyLevel({ node, depth, path, ...level }: HierarchyLevelProps) {
+  const { linkTo } = useLinkHelper();
+  const href = `${path}/${slugOf(node)}`;
 
   return (
     <>
       <HeadingRow
         depth={depth}
-        expanded={expanded}
+        href={linkTo(withAllInputs(href, level.showAll))}
         label={node.label}
-        onToggle={() => level.onToggle(node.key)}
         valueColumns={level.valueColumns}
       />
-      {expanded && node.slide && <Section slide={node.slide} {...level.slideProps} />}
-      {expanded &&
-        node.children.map((child) => (
-          <HierarchyLevel key={child.key} node={child} depth={depth + 1} {...level} />
-        ))}
+      {node.slide && <Section slide={node.slide} {...level.slideProps} />}
+      {visibleLevels(node.children, level.showAll).map((child) => (
+        <HierarchyLevel key={child.key} node={child} depth={depth + 1} path={href} {...level} />
+      ))}
     </>
   );
 }

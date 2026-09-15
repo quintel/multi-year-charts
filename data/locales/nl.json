@@ -15,11 +15,9 @@
   "misc.no": "Nee",
   "misc.year": "Jaar",
 
-  "inputs.compare": "Input settings",
   "inputs.modified": "Bewerkt",
   "inputs.all": "Alle",
-  "inputs.collapse": "Alles inklappen",
-  "inputs.expand": "Alles uitklappen",
+  "inputs.none": "Geen bewerkte invoer in dit onderdeel",
   "inputs.unit": "Eenheid",
   "inputs.total": "Totaal",
   "inputs.reset": "Reset",

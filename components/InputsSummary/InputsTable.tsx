@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import Section from './Section';
 import HierarchyLevel from './HierarchyLevel';
 import { Selection } from './Row';
-import { Option } from '../ChartWrapper/UnitToggle'
+import InputsBreadcrumb from '../InputsBreadcrumb';
 import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
-import { allKeys, buildHierarchy, groupedByName, keysByLevel, Slide } from '../../utils/inputs/hierarchy';
+import { buildHierarchy, scopeContents, Slide } from '../../utils/inputs/hierarchy';
 import { heldGroups } from '../../utils/inputs/shareGroups';
 import { maxTableWidth, minTableWidth, nameColumnWidth, stickyName, valueColumnCount } from '../../utils/inputs/layout';
+import { scopePath, showingAllInputs, withAllInputs } from '../../utils/inputs/urls';
+import { hasEdits, hasRows } from '../../utils/inputs/visibility';
+import useLinkHelper from '../../utils/useLinkHelper';
 import useTranslate from '../../utils/useTranslate';
-import { serializeTableState, parseTableState} from '../../utils/tableState';
-import { RadioGroup } from '@headlessui/react';
 
 interface InputsTableProps {
   columns: EditableColumn[];
@@ -25,13 +27,15 @@ interface InputsTableProps {
 }
 
 const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, scenarios, inputList, onCommitValue, onResetValue, openModal }) => {
-  const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
-  const [allExpanded, setAllExpanded] = useState(false);
-  const [showAllInputs, setShowAllInputs] = useState(false);
-  const [hasMounted, setHasMounted] = useState(false);
+  const router = useRouter();
+  const translate = useTranslate();
+  const { linkTo } = useLinkHelper();
 
   // Focus
   const [selection, setSelection] = useState<Selection | null>(null);
+
+  const showAllInputs = showingAllInputs(router.query);
+  const scope = [router.query.scope].flat().filter(Boolean) as string[];
 
   const userValues = useMemo(
     () =>
@@ -56,74 +60,28 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
   // Columns are already in display order, because the reducer derives the scenario list from them
   const columnScenarios = columns.map(({ sessionID }) => scenarios[sessionID].scenario);
   const valueColumns = valueColumnCount(columns.length);
-  const allLevels = useMemo(() => buildHierarchy(inputList), [inputList]);
 
-  const levels = useMemo(
+  const structure = useMemo(
     () =>
       buildHierarchy(
         inputList,
-        (slide) => showAllInputs || Section.shouldShow(slide.input_elements, inputs)
+        (slide) => hasRows(slide.input_elements, inputs, columns),
+        (slide) => hasEdits(slide.input_elements, inputs)
       ),
-    [inputList, showAllInputs, inputs]
+    [inputList, inputs, columns]
   );
 
-  const groupedForState = useMemo(() => groupedByName(levels), [levels]);
+  const { trail, slide, levels } = scopeContents(structure, scope, showAllInputs);
 
-  const toggleKey = (key: string) =>
-    setExpandedKeys((keys) =>
-      keys.includes(key) ? keys.filter((each) => each !== key) : [...keys, key]
-    );
+  const resolvedHref = linkTo(withAllInputs(scopePath(trail), showAllInputs));
+  const unresolved = structure.length > 0 && trail.length < scope.length;
 
-  // Update the URL with the current state
-  const updateUrlWithState = () => {
-      const [categories, subCategories, sections] = keysByLevel(expandedKeys);
-
-      const stateString = serializeTableState(
-        sections,
-        subCategories,
-        categories,
-        groupedForState,
-        showAllInputs
-      );
-
-      const url = new URL(window.location.href);
-      url.searchParams.set('state', stateString);
-      window.history.replaceState(null, '', url.toString());
-    };
-
-  // Effect to update URL when expanded sections change
+  // A slug naming no level, from a stale link or a locale switch, drops back to the nearest level
   useEffect(() => {
-    if (hasMounted) {
-      updateUrlWithState();
-    } else {
-      setHasMounted(true);
+    if (unresolved) {
+      router.replace(resolvedHref);
     }
-  }, [expandedKeys, showAllInputs]);
-
-  // Effect to restore state from URL on component mount
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const stateString = params.get('state');
-
-    if (stateString) {
-      const { expandedMainCategories, expandedSubCategories, expandedSections, showAllInputs } =
-        parseTableState(stateString, groupedForState);
-      setExpandedKeys([...expandedMainCategories, ...expandedSubCategories, ...expandedSections]);
-      setShowAllInputs(showAllInputs);
-    }
-  }, [inputList]);
-
-  // Toggle between showing all inputs and modified inputs only
-  const toggleShowAllInputs = () => {
-    setShowAllInputs(prevState => !prevState);
-  };
-
-  const expandAll = (shouldExpand: boolean) => {
-    setAllExpanded(shouldExpand);
-    setExpandedKeys(shouldExpand ? allKeys(allLevels) : []);
-  };
-
-  const translate = useTranslate()
+  }, [router, unresolved, resolvedHref]);
 
   // Everything a section needs to render its input rows, minus the slide it renders
   const slideProps = {
@@ -140,29 +98,8 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
 
   return (
     <>
-      <div className='flex'>
-      <span className='text-xl font-medium'>{ translate('inputs.compare') }</span>
-      {/* Button to toggle showing all inputs */}
-      <RadioGroup
-        value={ showAllInputs ? 'all' : 'mod' }
-        onChange={toggleShowAllInputs}
-        className="mb-5 mr-3 ml-auto flex select-none items-center gap-1 rounded-md p-1 text-sm font-medium bg-gray-100"
-      >
-        <RadioGroup.Label className="sr-only"></RadioGroup.Label>
-        <RadioGroup.Option value="mod">
-         {({ checked }) => <Option checked={checked} disabled={ false }>{ translate('inputs.modified') }</Option>}
-        </RadioGroup.Option>
-        <RadioGroup.Option value="all">
-         {({ checked }) => <Option checked={checked} disabled={ false }>{ translate('inputs.all') }</Option>}
-        </RadioGroup.Option>
-      </RadioGroup>
-      {/* Button to expand/collapse all categories, subcategories, and sections */}
-      <button
-        onClick={() => expandAll(!allExpanded)}
-        className='mb-5 items-center text-sm px-2 py-1 rounded bg-midnight-500 bg-gradient-to-b from-white/20 to-transparent text-white shadow transition hover:bg-midnight-600 active:bg-midnight-700 active:shadow-inner'
-      >
-        {allExpanded ? translate('inputs.collapse') : translate('inputs.expand')}
-      </button>
+      <div className="mb-5 flex items-center">
+        <InputsBreadcrumb roots={structure} showAll={showAllInputs} trail={trail} />
       </div>
 
       {/* Table structure to display the inputs */}
@@ -199,12 +136,21 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
           </tr>
         </thead>
         <tbody>
+          {!slide && levels.length === 0 && (
+            <tr className="border-b border-b-gray-300">
+              <td className="p-2 text-left text-gray-600" colSpan={valueColumns + 1}>
+                {translate('inputs.none')}
+              </td>
+            </tr>
+          )}
+          {slide && <Section slide={slide} {...slideProps} />}
           {levels.map((level) => (
             <HierarchyLevel
               key={level.key}
               node={level}
-              expandedKeys={expandedKeys}
-              onToggle={toggleKey}
+              depth={trail.length}
+              path={scopePath(trail)}
+              showAll={showAllInputs}
               slideProps={slideProps}
               valueColumns={valueColumns}
             />
