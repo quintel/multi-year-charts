@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 
 import ChartWrapper from './ChartWrapper/ChartWrapper';
 import WithCollection from './WithCollection';
@@ -10,6 +11,7 @@ import useLinkHelper from '../utils/useLinkHelper';
 
 import charts from '../data/charts';
 import { ChartSchema } from '../data/charts';
+import { AppState } from '../store/types';
 
 function findChart(activeChart?: string): ChartSchema {
   let chart;
@@ -36,6 +38,7 @@ const ChartPage: NextPage = () => {
   const router = useRouter();
   const translate = useTranslate();
   const { linkTo } = useLinkHelper();
+  const collectionTitle = useSelector((state: AppState) => state.collection.title);
 
   const chartSlug = [router.query.chartSlug].flat()[0];
   const variantSlug = [router.query.variantSlug].flat()[0];
@@ -56,7 +59,9 @@ const ChartPage: NextPage = () => {
     <WithCollection>
       <Head>
         <title>
-          {pageTitle(flattened, translate)} - {translate('app.title')}
+          {[pageTitle(flattened, translate), collectionTitle, translate('app.title')]
+            .filter(Boolean)
+            .join(' - ')}
         </title>
         <link rel="icon" href="/favicon.svg" />
       </Head>
