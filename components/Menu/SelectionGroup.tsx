@@ -21,8 +21,8 @@ export function ActiveItem<T extends React.ElementType>({
   ...rest
 }: SelectableItemProps<T>) {
   return (
-    <BaseItem
-      {...rest}
+    <BaseItem<T>
+      {...(rest as SelectableItemProps<T>)}
       className="pointer-events-none text-emerald-600"
       activeClassName="pointer-events-none text-emerald-600"
       disabled
@@ -38,7 +38,7 @@ export function InactiveItem<T extends React.ElementType>({
   ...rest
 }: SelectableItemProps<T>) {
   return (
-    <Item {...rest}>
+    <Item<T> {...(rest as SelectableItemProps<T>)}>
       <div className="mr-2 h-px w-4"></div> {children}
     </Item>
   );
@@ -52,11 +52,11 @@ export function SelectableItem<T extends React.ElementType>({
   const { value: groupValue, onChange } = useContext(GroupContext);
 
   if (value === groupValue) {
-    return <ActiveItem {...rest}>{children}</ActiveItem>;
+    return <ActiveItem<T> {...(rest as SelectableItemProps<T>)}>{children}</ActiveItem>;
   }
 
   return (
-    <InactiveItem {...rest} onClick={() => onChange(value)}>
+    <InactiveItem<T> {...(rest as SelectableItemProps<T>)} onClick={() => onChange(value)}>
       {children}
     </InactiveItem>
   );

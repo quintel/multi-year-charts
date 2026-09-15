@@ -44,8 +44,8 @@ export default function Item<T extends React.ElementType>({
   ...rest
 }: ItemProps<T>) {
   return (
-    <BaseItem
-      {...rest}
+    <BaseItem<T>
+      {...(rest as ItemProps<T>)}
       className={`${className} text-gray-600`}
       activeClassName={`${className} bg-midnight-500 text-white`}
     >
