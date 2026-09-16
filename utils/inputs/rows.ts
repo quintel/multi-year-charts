@@ -13,8 +13,8 @@ export interface Selection {
 
 export type TableRow =
   | { kind: 'level'; key: string; depth: number; label: string }
-  | { kind: 'slide'; key: string; depth: number; label: string; displayUnit?: string }
-  | { kind: 'group'; key: string; depth: number; label: string; displayUnit?: string }
+  | { kind: 'slide'; key: string; depth: number; label: string }
+  | { kind: 'group'; key: string; depth: number; label: string; unitQualifier?: string }
   | { kind: 'input'; key: string; depth: number; input: InputElement }
   | { kind: 'total'; key: string; depth: number; group: string };
 
@@ -28,11 +28,12 @@ export interface FlattenOptions {
   slides: Slide[];
 }
 
-// A heading has nothing to say in a value column
+// A heading says nothing past the unit column, but keeps a cell in each of the first three
 export const spanFor = (row: TableRow, columnIndex: number, columnCount: number) => {
   if (row.kind === 'input' || row.kind === 'total') return {};
+  if (columnIndex < 3) return {};
 
-  return columnIndex === 0 ? { colSpan: columnCount } : { colSpan: 0 };
+  return columnIndex === 3 ? { colSpan: columnCount - 3 } : { colSpan: 0 };
 };
 
 const slideKey = (slide: Slide) => slide.path.join('/');
@@ -68,14 +69,11 @@ function slideRows(slide: Slide, depth: number, options: FlattenOptions): TableR
   if (elements.length === 0) return [];
 
   const rows: TableRow[] = [
-    {
-      kind: 'slide',
-      key: slideKey(slide),
-      depth,
-      label: slideLabel(slide),
-      displayUnit: slide.display_unit || undefined,
-    },
+    { kind: 'slide', key: slideKey(slide), depth, label: slideLabel(slide) },
   ];
+
+  const slideQualifier = slide.display_unit || undefined;
+  let slideQualifierPending = slideQualifier !== undefined;
 
   elements.forEach((element, index) => {
     const previous = elements[index - 1];
@@ -83,17 +81,29 @@ function slideRows(slide: Slide, depth: number, options: FlattenOptions): TableR
     const groupId = groupIdOf(element);
     const shared = groupIn(element);
     const label = element.group_name || '';
-    const displayUnit = element.display_unit || undefined;
+    const unitQualifier = element.display_unit || undefined;
 
     // A group with neither a name nor a qualifier has nothing to say, so it draws no heading
-    if (groupId && groupId !== groupIdOf(previous) && (label || displayUnit)) {
+    if (groupId && groupId !== groupIdOf(previous) && (label || unitQualifier)) {
       rows.push({
         kind: 'group',
         key: `${slideKey(slide)}/${element.key}/group`,
         depth: depth + 1,
         label,
-        displayUnit,
+        unitQualifier,
       });
+    }
+
+    if (!groupId && slideQualifierPending) {
+      rows.push({
+        kind: 'group',
+        key: `${slideKey(slide)}/${element.key}/qualifier`,
+        depth: depth + 1,
+        label: '',
+        unitQualifier: slideQualifier,
+      });
+
+      slideQualifierPending = false;
     }
 
     rows.push({

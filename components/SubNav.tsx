@@ -48,7 +48,7 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
 
   return (
     <div className="bg-gray-800 text-sm text-white">
-      <nav id="subnav" className={`${pageGutter} sticky left-0 flex w-screen items-center py-2`}>
+      <nav id="subnav" className={`${pageGutter} sticky left-0 z-10 flex w-screen items-center py-2`}>
         <div className="flex flex-1 justify-start">
           <AreaInformation />
         </div>
