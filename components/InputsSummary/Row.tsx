@@ -62,9 +62,13 @@ export function InputName({ input, depth }: { input: InputElement; depth: number
 }
 
 export function InputDefault({ source, translate }: { source: InputData; translate: Translate }) {
-  if (source.coupling_disabled) return <>-</>;
-
-  return <>{formatInputValue(stepped(source.default, source), source.unit, translate)}</>;
+  return (
+    <span className={toneClass(false, false)}>
+      {source.coupling_disabled
+        ? '-'
+        : formatInputValue(stepped(source.default, source), source.unit, translate)}
+    </span>
+  );
 }
 
 interface InputValueCellProps {
