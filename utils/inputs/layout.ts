@@ -1,23 +1,17 @@
+// Value columns are a fixed width, so switching scope reflows nothing
+export const valueColumnWidth = 120;
 
-const NAME_CHARS = 39;
-const NAME_INDENT = '3.5rem';
-const VALUE_CHARS = 8;
-const MAX_VALUE_CHARS = 13;
-const VALUE_PADDING = '1rem';
+// Fixed so the table has a natural width to centre at
+export const nameColumnWidth = 480;
 
-export const nameColumnWidth = `calc(${NAME_CHARS}ch + ${NAME_INDENT})`;
-export const valueColumnWidth = `calc(${VALUE_CHARS}ch + ${VALUE_PADDING})`;
-export const valueColumnCount = (scenarioCount: number) => scenarioCount + 2;
-// Keeps a row identifiable while the table is scrolled sideways for small screens
-export const stickyName = 'sticky left-0 bg-white';
+const valueColumnCount = (scenarioCount: number) => scenarioCount + 2;
 
-const tableWidth = (scenarioCount: number, columnWidth: string) =>
-  `calc(${nameColumnWidth} + ${valueColumnCount(scenarioCount)} * ${columnWidth})`;
+// What the table wants to be
+export const tableWidth = (scenarioCount: number) =>
+  nameColumnWidth + valueColumnCount(scenarioCount) * valueColumnWidth;
 
-// The width below which the table scrolls sideways
-export const minTableWidth = (scenarioCount: number) =>
-  tableWidth(scenarioCount, valueColumnWidth);
+// What antd's sticky header offsets itself by
+export const breadcrumbHeight = 52;
 
-// The width above which a value column is spacing so the table centres instead
-export const maxTableWidth = (scenarioCount: number) =>
-  tableWidth(scenarioCount, `calc(${MAX_VALUE_CHARS}ch + ${VALUE_PADDING})`);
+// One step per level of the scoped tree, for every row kind
+export const indentFor = (depth: number) => depth * 16;

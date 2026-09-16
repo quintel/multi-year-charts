@@ -3,6 +3,7 @@ import {
   resolveScope,
   scopeContents,
   slugOf,
+  visibleSlides,
   Slide,
 } from '../hierarchy';
 
@@ -17,8 +18,15 @@ const slides = [
   slide(['Industry', 'Steel', 'Blast furnaces']),
 ];
 
+const nested = [
+  slide(['Demand', 'Transport', 'Passenger transport', 'Cars']),
+  slide(['Demand', 'Transport', 'Freight transport', 'Trucks']),
+  slide(['Demand', 'Transport', 'Overview']),
+  slide(['Demand', 'Households', 'Insulation']),
+];
+
 describe('slugOf', () => {
-  const slugFor = (label: string) => slugOf({ key: label, label, children: [], edited: false });
+  const slugFor = (label: string) => slugOf({ label });
 
   it('lowercases and joins the words', () => {
     expect(slugFor('Built environment')).toEqual('built-environment');
@@ -38,12 +46,40 @@ describe('slugOf', () => {
 });
 
 describe('buildHierarchy', () => {
-  it('nests the slides under their grouping segments', () => {
+  it('groups the slides under every segment but the last', () => {
     const [built] = buildHierarchy(slides);
 
     expect(built.label).toEqual('Built environment');
     expect(built.children.map((node) => node.label)).toEqual(['Heating']);
-    expect(built.children[0].children.map((node) => node.label)).toEqual(['Households', 'Offices']);
+    expect(built.children[0].slides.map((entry) => entry.slide.path[2])).toEqual([
+      'Households',
+      'Offices',
+    ]);
+  });
+
+  it('leaves the slides as content rather than as levels of their own', () => {
+    const [built] = buildHierarchy(slides);
+
+    expect(built.children[0].children).toEqual([]);
+  });
+
+  it('gives a nested sidebar item a level of its own', () => {
+    const [demand] = buildHierarchy(nested);
+    const transport = demand.children.find((node) => node.label === 'Transport');
+
+    expect(demand.children.map((node) => node.label)).toEqual(['Transport', 'Households']);
+    expect(transport?.children.map((node) => node.label)).toEqual([
+      'Passenger transport',
+      'Freight transport',
+    ]);
+  });
+
+  it('lets a level hold its own slides and its children at once', () => {
+    const [demand] = buildHierarchy(nested);
+    const transport = demand.children[0];
+
+    expect(transport.slides.map((entry) => entry.slide.path[2])).toEqual(['Overview']);
+    expect(transport.children).toHaveLength(2);
   });
 
   it('marks a level as edited when any slide below it is', () => {
@@ -54,14 +90,42 @@ describe('buildHierarchy', () => {
     );
 
     expect(built.edited).toBe(true);
-    expect(built.children[0].children.map((node) => node.edited)).toEqual([false, true]);
+    expect(built.children[0].slides.map((entry) => entry.edited)).toEqual([false, true]);
     expect(industry.edited).toBe(false);
+  });
+
+  it('marks every level above an edited slide, however deep', () => {
+    const [demand] = buildHierarchy(
+      nested,
+      () => true,
+      (each) => each.path.includes('Cars')
+    );
+
+    expect(demand.edited).toBe(true);
+    expect(demand.children[0].edited).toBe(true);
+    expect(demand.children[0].children[0].edited).toBe(true);
+    expect(demand.children[0].children[1].edited).toBe(false);
   });
 
   it('leaves out the slides the filter rejects', () => {
     const built = buildHierarchy(slides, (each) => !each.path.includes('Industry'));
 
     expect(built.map((node) => node.label)).toEqual(['Built environment']);
+  });
+});
+
+describe('visibleSlides', () => {
+  const entries = [
+    { slide: slides[0], edited: false },
+    { slide: slides[1], edited: true },
+  ];
+
+  it('keeps every slide when showing all', () => {
+    expect(visibleSlides(entries, true)).toHaveLength(2);
+  });
+
+  it('keeps only the edited slides otherwise', () => {
+    expect(visibleSlides(entries, false)).toEqual([slides[1]]);
   });
 });
 
@@ -79,6 +143,14 @@ describe('resolveScope', () => {
     expect(resolveScope(roots, ['built-environment', 'nonsense', 'heating']).map(slugOf)).toEqual([
       'built-environment',
     ]);
+  });
+
+  it('walks the extra level a nested sidebar item adds', () => {
+    const roots = buildHierarchy(nested);
+
+    expect(resolveScope(roots, ['demand', 'transport', 'passenger-transport']).map(slugOf)).toEqual(
+      ['demand', 'transport', 'passenger-transport']
+    );
   });
 });
 
@@ -107,24 +179,22 @@ describe('scopeContents', () => {
     expect(levels.map((node) => node.label)).toEqual(['Built environment']);
   });
 
-  it('gives the scoped slide when the level holds one', () => {
-    const { slide: scoped } = scopeContents(
-      roots,
-      ['built-environment', 'heating', 'offices'],
-      true
-    );
+  it('gives the slides the scoped level holds', () => {
+    const { slides: scoped } = scopeContents(roots, ['built-environment', 'heating'], true);
 
-    expect(scoped?.path).toEqual(['Built environment', 'Heating', 'Offices']);
+    expect(scoped.map((each) => each.path[2])).toEqual(['Households', 'Offices']);
   });
 
-  it('withholds an unedited slide when not showing all', () => {
-    const { slide: scoped } = scopeContents(
-      roots,
-      ['built-environment', 'heating', 'households'],
-      false
-    );
+  it('withholds the unedited slides when not showing all', () => {
+    const { slides: scoped } = scopeContents(roots, ['built-environment', 'heating'], false);
 
-    expect(scoped).toBeUndefined();
+    expect(scoped.map((each) => each.path[2])).toEqual(['Offices']);
+  });
+
+  it('gives no slides at the root, where only levels live', () => {
+    const { slides: scoped } = scopeContents(roots, [], true);
+
+    expect(scoped).toEqual([]);
   });
 
   it('reports the trail it could resolve, so the caller can repair the URL', () => {

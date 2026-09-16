@@ -1,4 +1,5 @@
 import Markup from '../Markup';
+import Cell from './Cell';
 
 import {
   InputCollectionData,
@@ -6,38 +7,20 @@ import {
   InputValue,
   ScenarioIndexedInputData,
 } from '../../utils/api/types';
-import { currentValue, displayUnit, formatInputValue } from '../../utils/inputs/vocabulary';
+import { currentValue, formatInputValue } from '../../utils/inputs/vocabulary';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { toStep } from '../../utils/inputs/coerce';
 import { toneClass } from '../../utils/inputs/appearance';
+import { indentFor } from '../../utils/inputs/layout';
 import { groupRefusal } from '../../utils/inputs/shareGroups';
-import { stickyName } from '../../utils/inputs/layout';
-import useTranslate from '../../utils/useTranslate';
-import Cell from './Cell';
+import { Selection } from '../../utils/inputs/rows';
+import { Slide } from '../../utils/inputs/hierarchy';
 
 type Translate = (id: string) => string;
+type InputElement = Slide['input_elements'][number];
 
-const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
-
-// The share group being worked on in one column
-export interface Selection {
-  sessionID: number;
-  shareGroup: string;
-}
-
-interface RowProps {
-  columns: EditableColumn[];
-  editing: Record<number, ColumnEditing>;
-  input: { name: string; group_name?: string; key: string; unit: string };
-  inputData: ScenarioIndexedInputData;
-  onCommitValue: (sessionID: number, inputKey: string, value: InputValue) => void;
-  onResetValue: (sessionID: number, inputKey: string) => void;
-  onSelect: (selection: Selection | null) => void;
-  selection: Selection | null;
-  held: Record<number, Set<string>>;
-  userValues: Record<number, Record<string, InputValue>>;
-}
+export const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
 
 // Never shows more precision than the input's step allows
 const stepped = (value: InputValue, input: InputData): InputValue =>
@@ -61,104 +44,86 @@ function ReadOnlyCell({
   isSet: boolean;
   translate: Translate;
 }) {
-  if (input.coupling_disabled) {
-    return <span className="text-gray-400">-</span>;
-  }
-
-  return (
+  return input.coupling_disabled ? (
+    <span className="text-gray-400">-</span>
+  ) : (
     <span className={toneClass(false, isSet)}>
       {formatInputValue(stepped(currentValue(input), input), input.unit, translate)}
     </span>
   );
 }
 
-/**
- * Creates a single row in the table, describing an input and its values in each scenario.
- */
-export default function Row({
-  columns,
+export function InputName({ input, depth }: { input: InputElement; depth: number }) {
+  return (
+    <span className="block text-gray-600" style={{ paddingLeft: indentFor(depth) }}>
+      <Markup>{input.name}</Markup>
+    </span>
+  );
+}
+
+export function InputDefault({ source, translate }: { source: InputData; translate: Translate }) {
+  if (source.coupling_disabled) return <>-</>;
+
+  return <>{formatInputValue(stepped(source.default, source), source.unit, translate)}</>;
+}
+
+interface InputValueCellProps {
+  column: EditableColumn;
+  editing: ColumnEditing;
+  held: Set<string> | undefined;
+  input: InputElement;
+  inputs: InputCollectionData;
+  onCommit: (value: InputValue) => void;
+  onReset: () => void;
+  onSelect: (selection: Selection | null) => void;
+  selection: Selection | null;
+  translate: Translate;
+  userValues: Record<string, InputValue>;
+}
+
+/** One scenario's value for one input: an editable control, or the value it inherited. */
+export function InputValueCell({
+  column,
   editing,
   held,
   input,
-  inputData,
-  onCommitValue,
-  onResetValue,
+  inputs,
+  onCommit,
+  onReset,
   onSelect,
   selection,
+  translate,
   userValues,
-}: RowProps) {
-  const translate = useTranslate();
-  const firstInputData = inputData[columns[0].sessionID][input.key];
-  const allCouplingDisabled = columns.every(
-    ({ sessionID }) =>
-      inputData[sessionID][input.key] != undefined &&
-      inputData[sessionID][input.key].coupling_disabled
-  );
+}: InputValueCellProps) {
+  const scenarioInput = inputs[input.key];
 
-  if (!firstInputData || allCouplingDisabled) {
-    // The input doesn't exist in ETEngine or is disabled by coupling; skip it.
-    return null;
+  if (!scenarioInput) return null;
+
+  const typed = editing.values[input.key];
+  const value = stepped(typed ?? currentValue(scenarioInput), scenarioInput);
+  const isSet = userValues[input.key] !== undefined;
+  const shareGroup = scenarioInput.share_group;
+
+  if (!column.editable || scenarioInput.coupling_disabled) {
+    return <ReadOnlyCell input={scenarioInput} isSet={isSet} translate={translate} />;
   }
 
-  const { unit } = firstInputData;
-  const hasGroup = inputData[columns[0].sessionID][input.key]?.share_group || input.group_name;
-  const nameClass = `${stickyName} p-2 text-left text-gray-600 ${hasGroup ? 'pl-12' : 'pl-8'}`
+  const refusal = cellRefusal(inputs, editing.refused, input.key, shareGroup);
 
   return (
-    <tr className="border-b border-b-gray-300">
-      <td className={nameClass}>
-        <Markup>{input.name}</Markup>
-      </td>
-      <td className="px-2 py-2 text-right">{displayUnit(unit, input.unit)}</td>
-      <td className="px-2 py-2 text-right">
-        {firstInputData.coupling_disabled
-          ? '-'
-          : formatInputValue(stepped(firstInputData.default, firstInputData), unit, translate)}
-      </td>
-
-      {columns.map((column) => {
-        const scenarioInput = inputData[column.sessionID][input.key];
-        const columnEditing = editing[column.sessionID] || NOT_EDITING;
-        const typed = columnEditing.values[input.key];
-        const value = stepped(typed ?? currentValue(scenarioInput), scenarioInput);
-        const editable = column.editable && !scenarioInput.coupling_disabled;
-        const isSet = userValues[column.sessionID]?.[input.key] !== undefined;
-        const shareGroup = scenarioInput.share_group;
-        const selected =
-          selection?.sessionID === column.sessionID && selection?.shareGroup === shareGroup;
-
-        const refusal = cellRefusal(
-          inputData[column.sessionID],
-          columnEditing.refused,
-          input.key,
-          shareGroup
-        );
-
-        return (
-          <td key={column.sessionID} className="px-2 text-right">
-            {editable ? (
-              <Cell
-                input={scenarioInput}
-                isSet={isSet}
-                pending={columnEditing.pending && typed === undefined}
-                refusal={refusal}
-                refused={refusal !== undefined}
-                selected={selected}
-                held={shareGroup !== undefined && (held[column.sessionID]?.has(shareGroup) || false)}
-                translate={translate}
-                value={value}
-                onCommit={(next) => onCommitValue(column.sessionID, input.key, next)}
-                onReset={() => onResetValue(column.sessionID, input.key)}
-                onSelect={() =>
-                  onSelect(shareGroup ? { sessionID: column.sessionID, shareGroup } : null)
-                }
-              />
-            ) : (
-              <ReadOnlyCell input={scenarioInput} isSet={isSet} translate={translate} />
-            )}
-          </td>
-        );
-      })}
-    </tr>
+    <Cell
+      input={scenarioInput}
+      isSet={isSet}
+      pending={editing.pending && typed === undefined}
+      refusal={refusal}
+      refused={refusal !== undefined}
+      selected={selection?.sessionID === column.sessionID && selection?.shareGroup === shareGroup}
+      held={shareGroup !== undefined && (held?.has(shareGroup) || false)}
+      translate={translate}
+      value={value}
+      onCommit={onCommit}
+      onReset={onReset}
+      onSelect={() => onSelect(shareGroup ? { sessionID: column.sessionID, shareGroup } : null)}
+    />
   );
 }

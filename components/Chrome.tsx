@@ -24,11 +24,11 @@ function Chrome({
   }
 
   return (
-    <>
+    <div className="w-max min-w-full">
       <MainNav />
       <SubNav charts={charts} pending={pending} />
       {slow ? <PageLoading /> : children}
-    </>
+    </div>
   );
 }
 

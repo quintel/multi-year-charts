@@ -49,11 +49,18 @@ export default function useInputDefinitions() {
   const [definitions, setDefinitions] = useState<InputData | null>(null);
 
   useEffect(() => {
+    let current = true;
+
     const fetcher = async () => {
-      setDefinitions(await fetchInputs(locale));
+      const fetched = await fetchInputs(locale);
+      if (current) setDefinitions(fetched);
     };
 
     fetcher();
+
+    return () => {
+      current = false;
+    };
   }, [locale]);
 
   return definitions;

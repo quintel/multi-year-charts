@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Breadcrumb as AntBreadcrumb, ConfigProvider } from 'antd';
+import { Breadcrumb as AntBreadcrumb } from 'antd';
 import type { BreadcrumbProps, MenuProps } from 'antd';
 
 import { ChevronDownIcon } from '@heroicons/react/solid';
@@ -16,6 +16,7 @@ export interface CrumbOption {
   label: string;
   href: string;
   group?: string;
+  options?: CrumbOption[];
 }
 
 export interface Crumb {
@@ -25,18 +26,6 @@ export interface Crumb {
   selectedKey?: string;
   options?: CrumbOption[];
 }
-
-const theme = {
-  token: { fontFamily: 'inherit' },
-  components: {
-    Breadcrumb: {
-      fontSize: 20,
-      fontHeight: 30,
-      itemColor: '#4b5563',
-      lastItemColor: '#1f2937',
-    },
-  },
-};
 
 function groupRuns(options: CrumbOption[]): CrumbOption[][] {
   return options.reduce<CrumbOption[][]>((runs, option) => {
@@ -61,7 +50,11 @@ export default function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
 
   const menuItems = (options: CrumbOption[]): MenuItems =>
     groupRuns(options).flatMap((run): MenuItems => {
-      const items = run.map(({ key, label, href }) => ({ key, label: link(href, label) }));
+      const items = run.map(({ key, label, href, options: below }) => ({
+        key,
+        label: link(href, label),
+        ...(below?.length ? { children: menuItems(below) } : {}),
+      }));
       const { group } = run[0];
 
       return group ? [{ key: group, type: 'group', label: group, children: items }] : items;
@@ -87,15 +80,13 @@ export default function Breadcrumb({ crumbs }: { crumbs: Crumb[] }) {
   });
 
   return (
-    <ConfigProvider theme={theme}>
-      <AntBreadcrumb
-        separator=""
-        classNames={{ root: 'font-semibold', item: 'mr-4 cursor-pointer last:mr-0' }}
-        items={items}
-        dropdownIcon={
-          <ChevronDownIcon aria-hidden className="ml-1 inline-block h-4 w-4 align-middle" />
-        }
-      />
-    </ConfigProvider>
+    <AntBreadcrumb
+      separator=""
+      classNames={{ root: 'font-semibold', item: 'mr-4 cursor-pointer last:mr-0' }}
+      items={items}
+      dropdownIcon={
+        <ChevronDownIcon aria-hidden className="ml-1 inline-block h-4 w-4 align-middle" />
+      }
+    />
   );
 }

@@ -1,16 +1,32 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import Section from './Section';
-import HierarchyLevel from './HierarchyLevel';
-import { Selection } from './Row';
+import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+
 import InputsBreadcrumb from '../InputsBreadcrumb';
-import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
+import Markup from '../Markup';
+import { InputName, InputDefault, InputValueCell, NOT_EDITING } from './Row';
+import { TotalName, TotalValue } from './GroupTotalRow';
+
+import {
+  InputValue,
+  ScenarioIndexedInputData,
+  ScenarioIndexedScenarioData,
+} from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { buildHierarchy, scopeContents, Slide } from '../../utils/inputs/hierarchy';
+import { flattenRows, spanFor, Selection, TableRow } from '../../utils/inputs/rows';
 import { heldGroups } from '../../utils/inputs/shareGroups';
-import { maxTableWidth, minTableWidth, nameColumnWidth, stickyName, valueColumnCount } from '../../utils/inputs/layout';
+import {
+  breadcrumbHeight,
+  indentFor,
+  nameColumnWidth,
+  tableWidth,
+  valueColumnWidth,
+} from '../../utils/inputs/layout';
 import { scopePath, showingAllInputs, withAllInputs } from '../../utils/inputs/urls';
+import { displayUnit } from '../../utils/inputs/vocabulary';
 import { hasEdits, hasRows } from '../../utils/inputs/visibility';
 import useLinkHelper from '../../utils/useLinkHelper';
 import useTranslate from '../../utils/useTranslate';
@@ -26,16 +42,63 @@ interface InputsTableProps {
   openModal: (scenarioID: number, inputKey?: string) => void;
 }
 
-const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, scenarios, inputList, onCommitValue, onResetValue, openModal }) => {
+type HeadingRow = Extract<TableRow, { kind: 'level' | 'slide' | 'group' }>;
+
+// Depth sets the indent for every row kind; kind and depth together set the type
+const headingClass = (row: HeadingRow) => {
+  if (row.kind === 'level') {
+    return row.depth === 0
+      ? 'text-xs font-semibold uppercase tracking-wide text-gray-500'
+      : 'font-semibold text-gray-700';
+  }
+
+  return row.kind === 'slide' ? 'font-medium text-gray-700' : 'text-gray-600';
+};
+
+// Heading rows span the table, so the subheader rides beside the label
+function HeadingCell({ row }: { row: HeadingRow }) {
+  const subheader = row.kind === 'level' ? undefined : row.displayUnit;
+
+  return (
+    <span className={`block ${headingClass(row)}`} style={{ paddingLeft: indentFor(row.depth) }}>
+      <Markup>{row.label}</Markup>
+      {subheader ? (
+        <>
+          {row.label ? <span className="mx-2 text-gray-400">·</span> : null}
+          <span className="text-xs font-normal normal-case tracking-normal text-gray-500">
+            {subheader}
+          </span>
+        </>
+      ) : null}
+    </span>
+  );
+}
+
+const rowClassName = (row: TableRow) => {
+  if (row.kind === 'input' || row.kind === 'total') return 'inputs-row';
+  if (row.kind === 'slide') return 'inputs-heading inputs-heading-slide';
+  if (row.kind === 'level' && row.depth === 0) return 'inputs-heading inputs-heading-top';
+
+  return 'inputs-heading';
+};
+
+const InputsTable: React.FC<InputsTableProps> = ({
+  columns,
+  editing,
+  inputs,
+  scenarios,
+  inputList,
+  onCommitValue,
+  onResetValue,
+  openModal,
+}) => {
   const router = useRouter();
   const translate = useTranslate();
   const { linkTo } = useLinkHelper();
-
-  // Focus
   const [selection, setSelection] = useState<Selection | null>(null);
-
   const showAllInputs = showingAllInputs(router.query);
-  const scope = [router.query.scope].flat().filter(Boolean) as string[];
+  const scopeKey = [router.query.scope].flat().filter(Boolean).join('/');
+  const scope = useMemo(() => (scopeKey ? scopeKey.split('/') : []), [scopeKey]);
 
   const userValues = useMemo(
     () =>
@@ -58,8 +121,10 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
   );
 
   // Columns are already in display order, because the reducer derives the scenario list from them
-  const columnScenarios = columns.map(({ sessionID }) => scenarios[sessionID].scenario);
-  const valueColumns = valueColumnCount(columns.length);
+  const columnScenarios = useMemo(
+    () => columns.map(({ sessionID }) => scenarios[sessionID].scenario),
+    [columns, scenarios]
+  );
 
   const structure = useMemo(
     () =>
@@ -71,7 +136,24 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
     [inputList, inputs, columns]
   );
 
-  const { trail, slide, levels } = scopeContents(structure, scope, showAllInputs);
+  const { trail, slides, levels } = useMemo(
+    () => scopeContents(structure, scope, showAllInputs),
+    [structure, scope, showAllInputs]
+  );
+
+  const rows = useMemo(
+    () =>
+      flattenRows({
+        columns,
+        held,
+        inputData: inputs,
+        levels,
+        selection,
+        showAll: showAllInputs,
+        slides,
+      }),
+    [columns, held, inputs, levels, selection, showAllInputs, slides]
+  );
 
   const resolvedHref = linkTo(withAllInputs(scopePath(trail), showAllInputs));
   const unresolved = structure.length > 0 && trail.length < scope.length;
@@ -83,82 +165,144 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
     }
   }, [router, unresolved, resolvedHref]);
 
-  // Everything a section needs to render its input rows, minus the slide it renders
-  const slideProps = {
+  const tableColumns = useMemo<ColumnsType<TableRow>>(() => {
+    const count = columns.length + 3;
+    const cellFor = (index: number) => (row: TableRow) => spanFor(row, index, count);
+
+    return [
+      {
+        key: 'name',
+        title: translate('inputs.name'),
+        width: nameColumnWidth,
+        onCell: cellFor(0),
+        render: (_: unknown, row: TableRow) => {
+          if (row.kind === 'input') return <InputName input={row.input} depth={row.depth} />;
+
+          if (row.kind === 'total') {
+            return (
+              <TotalName
+                columns={columns}
+                depth={row.depth}
+                editing={editing}
+                group={row.group}
+                inputData={inputs}
+                translate={translate}
+              />
+            );
+          }
+
+          return <HeadingCell row={row} />;
+        },
+      },
+      {
+        key: 'unit',
+        title: translate('inputs.unit'),
+        align: 'right',
+        width: valueColumnWidth,
+        onCell: cellFor(1),
+        // The subheader qualifies the whole group, so it rides on the group heading like in etmodel
+        render: (_: unknown, row: TableRow) =>
+          row.kind === 'input'
+            ? displayUnit(inputs[columns[0].sessionID][row.input.key].unit, row.input.unit)
+            : null,
+      },
+      {
+        key: 'default',
+        title: columnScenarios[0].startYear,
+        align: 'right',
+        width: valueColumnWidth,
+        onCell: cellFor(2),
+        render: (_: unknown, row: TableRow) =>
+          row.kind === 'input' ? (
+            <InputDefault
+              source={inputs[columns[0].sessionID][row.input.key]}
+              translate={translate}
+            />
+          ) : null,
+      },
+      ...columns.map((column, index) => ({
+        key: `scenario-${column.sessionID}`,
+        align: 'right' as const,
+        width: valueColumnWidth,
+        onCell: cellFor(index + 3),
+        title: (
+          <button
+            type="button"
+            aria-label="Open scenario in pop up"
+            title="Open scenario in pop up"
+            onClick={() => openModal(column.sessionID)}
+            className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+          >
+            {columnScenarios[index].endYear}
+          </button>
+        ),
+        render: (_: unknown, row: TableRow) => {
+          if (row.kind === 'total') {
+            return (
+              <TotalValue
+                column={column}
+                editing={editing[column.sessionID] || NOT_EDITING}
+                group={row.group}
+                held={held[column.sessionID]}
+                inputs={inputs[column.sessionID]}
+                translate={translate}
+              />
+            );
+          }
+
+          if (row.kind !== 'input') return null;
+
+          return (
+            <InputValueCell
+              column={column}
+              editing={editing[column.sessionID] || NOT_EDITING}
+              held={held[column.sessionID]}
+              input={row.input}
+              inputs={inputs[column.sessionID]}
+              onCommit={(value) => onCommitValue(column.sessionID, row.input.key, value)}
+              onReset={() => onResetValue(column.sessionID, row.input.key)}
+              onSelect={setSelection}
+              selection={selection}
+              translate={translate}
+              userValues={userValues[column.sessionID]}
+            />
+          );
+        },
+      })),
+    ];
+  }, [
     columns,
+    columnScenarios,
     editing,
     held,
-    inputData: inputs,
+    inputs,
     onCommitValue,
     onResetValue,
-    onSelect: setSelection,
+    openModal,
     selection,
+    translate,
     userValues,
-  };
+  ]);
 
+  // Wider than the viewport the table overflows to the right, narrower the auto margins centre it
   return (
-    <>
-      <div className="mb-5 flex items-center">
+    <div className="mx-auto w-fit">
+      <div className="inputs-breadcrumb sticky top-0 z-30 flex items-center bg-white">
         <InputsBreadcrumb roots={structure} showAll={showAllInputs} trail={trail} />
       </div>
 
-      {/* Table structure to display the inputs */}
-      <div className="overflow-x-auto">
-      <table
-        className="mx-auto w-full text-sm"
-        style={{
-          minWidth: minTableWidth(columns.length),
-          maxWidth: maxTableWidth(columns.length),
-        }}
-      >
-        <thead>
-          <tr className='border-b-2 border-b-gray-300'>
-            <th className={`${stickyName} p-2 text-left font-semibold`} style={{ width: nameColumnWidth }}>Category/Input</th>
-            <th className="p-2 text-right font-semibold">{translate('inputs.unit')}</th>
-            <th className="p-2 text-right font-semibold">
-              {columnScenarios[0].startYear}
-            </th>
-            {columns.map(({ sessionID }, index) => (
-              <th key={`year-${sessionID}`} className="p-2 text-right group">
-                <button
-                  type="button"
-                  aria-label="Open scenario in pop up"
-                  onClick={() => openModal(sessionID)}
-                  className="-my-1 -mx-2 cursor-pointer rounded py-1 px-2 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
-                >
-                  {columnScenarios[index].endYear}
-                </button>
-                <div className="absolute transform translate-y-1/2 mb-2 hidden group-hover:block px-3 py-1 text-sm font-normal text-black bg-white rounded-md shadow-lg border border-gray-200 whitespace-nowrap z-50">
-                  Open scenario in pop up
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {!slide && levels.length === 0 && (
-            <tr className="border-b border-b-gray-300">
-              <td className="p-2 text-left text-gray-600" colSpan={valueColumns + 1}>
-                {translate('inputs.none')}
-              </td>
-            </tr>
-          )}
-          {slide && <Section slide={slide} {...slideProps} />}
-          {levels.map((level) => (
-            <HierarchyLevel
-              key={level.key}
-              node={level}
-              depth={trail.length}
-              path={scopePath(trail)}
-              showAll={showAllInputs}
-              slideProps={slideProps}
-              valueColumns={valueColumns}
-            />
-          ))}
-        </tbody>
-      </table>
-      </div>
-    </>
+      <Table<TableRow>
+        columns={tableColumns}
+        dataSource={rows}
+        rowKey="key"
+        rowClassName={rowClassName}
+        size="small"
+        pagination={false}
+        sticky={{ offsetHeader: breadcrumbHeight }}
+        locale={{ emptyText: translate('inputs.none') }}
+        style={{ width: tableWidth(columns.length) }}
+      />
+    </div>
   );
 };
 

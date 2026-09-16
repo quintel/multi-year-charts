@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 
 import { Provider } from 'react-redux';
+import { ConfigProvider } from 'antd';
 
 import store from '../store';
 import LocaleContext, { TranslateFunc } from '../utils/LocaleContext';
@@ -16,6 +17,28 @@ import enTranslations from '../data/locales/en.json';
 
 import '../styles/globals.css';
 import '@fontsource-variable/montserrat';
+
+// Every antd component is themed here
+const antTheme = {
+  token: { fontFamily: 'inherit' },
+  components: {
+    Breadcrumb: {
+      fontSize: 20,
+      fontHeight: 30,
+      itemColor: '#4b5563',
+      lastItemColor: '#1f2937',
+    },
+    Table: {
+      cellPaddingBlockSM: 8,
+      cellPaddingInlineSM: 8,
+      borderColor: '#d1d5db',
+      headerBg: 'transparent',
+      headerSplitColor: 'transparent',
+      rowHoverBg: 'transparent',
+      headerBorderRadius: 0,
+    },
+  },
+};
 
 const curryTranslate = (messages: Record<string, string>) => {
   const curried: TranslateFunc = (id: string, values = {}) => {
@@ -70,17 +93,18 @@ function App({ Component, pageProps }: AppProps) {
   // The shared HttpOnly session cookie is the session: no SessionProvider or silent-SSO probe.
   return (
     <Provider store={store}>
-      <LocaleContext.Provider
-        value={{
-          translate:
-            translate ||
-            curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
-          currentLocale: locale,
-          setLocale: onSetLocale,
-        }}
-      >
-        <Component {...pageProps} unit={unit} />
-      </LocaleContext.Provider>
+      <ConfigProvider theme={antTheme}>
+        <LocaleContext.Provider
+          value={{
+            translate:
+              translate || curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations),
+            currentLocale: locale,
+            setLocale: onSetLocale,
+          }}
+        >
+          <Component {...pageProps} unit={unit} />
+        </LocaleContext.Provider>
+      </ConfigProvider>
     </Provider>
   );
 }
