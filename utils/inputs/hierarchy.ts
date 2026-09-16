@@ -1,21 +1,37 @@
 /** A slide in ETModel */
 export interface Slide {
   path: string[];
-  input_elements: { key: string; name: string; unit: string; group_name?: string }[];
+  display_unit?: string | null;
+  input_elements: {
+    key: string;
+    name: string;
+    unit: string;
+    display_unit?: string | null;
+    group_name?: string | null;
+    interface_group?: string | null;
+  }[];
+}
+
+// A slide directly in a level, and whether it holds an edit
+export interface SlideEntry {
+  slide: Slide;
+  edited: boolean;
 }
 
 export interface LevelNode {
   key: string;
   label: string;
   children: LevelNode[];
-  slide?: Slide;
+  slides: SlideEntry[];
   edited: boolean;
 }
 
 const LEVEL_SEPARATOR = ' → ';
-const GROUPING_DEPTH = 2;
 
 const pathKey = (path: string[]) => path.join(LEVEL_SEPARATOR);
+
+// Every segment but the last, which names the slide rather than a level
+const groupingOf = (slide: Slide) => slide.path.slice(0, -1);
 
 const findOrAdd = (nodes: LevelNode[], path: string[]): LevelNode => {
   const key = pathKey(path);
@@ -23,32 +39,32 @@ const findOrAdd = (nodes: LevelNode[], path: string[]): LevelNode => {
 
   if (found) return found;
 
-  const added = { key, label: path[path.length - 1], children: [], edited: false };
+  const added = { key, label: path[path.length - 1], children: [], slides: [], edited: false };
   nodes.push(added);
 
   return added;
 };
 
-const leaf = (slide: Slide, edited: boolean): LevelNode => ({
-  key: pathKey(slide.path),
-  label: pathKey(slide.path.slice(GROUPING_DEPTH)),
-  children: [],
-  slide,
-  edited,
-});
+// Walks the grouping segments, marking each as edited, and returns the level the slide sits in
+const levelFor = (roots: LevelNode[], grouping: string[], edited: boolean): LevelNode => {
+  let nodes = roots;
+  let level!: LevelNode;
+
+  grouping.forEach((_, index) => {
+    level = findOrAdd(nodes, grouping.slice(0, index + 1));
+    level.edited = level.edited || edited;
+    nodes = level.children;
+  });
+
+  return level;
+};
 
 const addSlide = (roots: LevelNode[], slide: Slide, edited: boolean): LevelNode[] => {
-  const grouping = slide.path.slice(0, GROUPING_DEPTH);
+  const grouping = groupingOf(slide);
 
-  // Walking the grouping segments leaves us holding the children of the innermost group
-  const siblings = grouping.reduce((nodes, _, index) => {
-    const node = findOrAdd(nodes, grouping.slice(0, index + 1));
-    node.edited = node.edited || edited;
-
-    return node.children;
-  }, roots);
-
-  siblings.push(leaf(slide, edited));
+  if (grouping.length > 0) {
+    levelFor(roots, grouping, edited).slides.push({ slide, edited });
+  }
 
   return roots;
 };
@@ -64,7 +80,7 @@ export const buildHierarchy = (
     .reduce((roots, slide) => addSlide(roots, slide, isEdited(slide)), [] as LevelNode[]);
 
 // Slugs come from translated labels, so a URL built in one locale will not resolve in another
-export const slugOf = ({ label }: LevelNode) => {
+export const slugOf = ({ label }: { label: string }) => {
   const plain = label
     .replace(/<[^>]*>/g, '')
     .normalize('NFD')
@@ -93,13 +109,16 @@ export const resolveScope = (roots: LevelNode[], scope: string[]): LevelNode[] =
 export const visibleLevels = (nodes: LevelNode[], showAll: boolean) =>
   showAll ? nodes : nodes.filter((node) => node.edited);
 
+export const visibleSlides = (entries: SlideEntry[], showAll: boolean) =>
+  (showAll ? entries : entries.filter((entry) => entry.edited)).map((entry) => entry.slide);
+
 export const scopeContents = (roots: LevelNode[], scope: string[], showAll: boolean) => {
   const trail = resolveScope(roots, scope);
   const scoped = trail[trail.length - 1];
 
   return {
     trail,
-    slide: scoped && (showAll || scoped.edited) ? scoped.slide : undefined,
+    slides: visibleSlides(scoped ? scoped.slides : [], showAll),
     levels: visibleLevels(scoped ? scoped.children : roots, showAll),
   };
 };

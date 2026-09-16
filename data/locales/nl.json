@@ -18,6 +18,7 @@
   "inputs.modified": "Bewerkt",
   "inputs.all": "Alle",
   "inputs.none": "Geen bewerkte invoer in dit onderdeel",
+  "inputs.name": "Categorie/Invoer",
   "inputs.unit": "Eenheid",
   "inputs.total": "Totaal",
   "inputs.reset": "Reset",

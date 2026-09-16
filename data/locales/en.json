@@ -18,6 +18,7 @@
   "inputs.modified": "Edited",
   "inputs.all": "All",
   "inputs.none": "No edited inputs in this section",
+  "inputs.name": "Category/Input",
   "inputs.unit": "Unit",
   "inputs.total": "Total",
   "inputs.reset": "Reset",
