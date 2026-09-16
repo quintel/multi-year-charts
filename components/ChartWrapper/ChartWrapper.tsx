@@ -26,7 +26,7 @@ interface ChartWrapperProps {
 }
 
 const Wrapper = ({ title, children }: { title: React.ReactElement; children: React.ReactNode }) => (
-  <div className={`${pageGutter} mt-6 mb-6`}>
+  <div className={`${pageGutter} mt-6 mb-6 w-screen`}>
     {title}
     {children}
   </div>

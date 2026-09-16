@@ -55,23 +55,19 @@ const headingClass = (row: HeadingRow) => {
   return row.kind === 'slide' ? 'font-medium text-gray-700' : 'text-gray-600';
 };
 
-// Heading rows span the table, so the subheader rides beside the label
 function HeadingCell({ row }: { row: HeadingRow }) {
-  const subheader = row.kind === 'level' ? undefined : row.displayUnit;
-
   return (
     <span className={`block ${headingClass(row)}`} style={{ paddingLeft: indentFor(row.depth) }}>
       <Markup>{row.label}</Markup>
-      {subheader ? (
-        <>
-          {row.label ? <span className="mx-2 text-gray-400">·</span> : null}
-          <span className="text-xs font-normal normal-case tracking-normal text-gray-500">
-            {subheader}
-          </span>
-        </>
-      ) : null}
     </span>
   );
+}
+
+// Sits over the unit column it qualifies, as in etmodel
+function UnitQualifier({ row }: { row: TableRow }) {
+  if (row.kind !== 'group' || !row.unitQualifier) return null;
+
+  return <span className="text-xs font-normal text-gray-500">{row.unitQualifier}</span>;
 }
 
 const rowClassName = (row: TableRow) => {
@@ -200,11 +196,12 @@ const InputsTable: React.FC<InputsTableProps> = ({
         align: 'right',
         width: valueColumnWidth,
         onCell: cellFor(1),
-        // The subheader qualifies the whole group, so it rides on the group heading like in etmodel
         render: (_: unknown, row: TableRow) =>
-          row.kind === 'input'
-            ? displayUnit(inputs[columns[0].sessionID][row.input.key].unit, row.input.unit)
-            : null,
+          row.kind === 'input' ? (
+            displayUnit(inputs[columns[0].sessionID][row.input.key].unit, row.input.unit)
+          ) : (
+            <UnitQualifier row={row} />
+          ),
       },
       {
         key: 'default',
