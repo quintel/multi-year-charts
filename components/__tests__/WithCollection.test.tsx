@@ -4,9 +4,11 @@ import { createStore } from 'redux';
 
 import WithCollection from '../WithCollection';
 import rootReducer from '../../store/reducers';
+import { setCollection, setColumns } from '../../store/actions';
 import type { Resolution } from '../../utils/useResolvedCollection';
 
 let resolution: Resolution;
+let query: Record<string, string>;
 
 jest.mock('../../utils/useResolvedCollection', () => ({
   __esModule: true,
@@ -17,7 +19,7 @@ jest.mock('../../utils/useResolvedCollection', () => ({
 jest.mock('next/router', () => ({
   useRouter: () => ({
     pathname: '/',
-    query: {},
+    query,
     asPath: '/',
     events: { on: jest.fn(), off: jest.fn() },
     replace: jest.fn(),
@@ -32,12 +34,13 @@ jest.mock('../../utils/useCurrentUser', () => ({
 }));
 
 beforeEach(() => {
+  query = {};
   global.fetch = jest.fn().mockResolvedValue({ ok: false, json: async () => ({ user: null }) });
 });
 
-const renderGuard = () =>
+const renderGuard = (store = createStore(rootReducer)) =>
   render(
-    <Provider store={createStore(rootReducer)}>
+    <Provider store={store}>
       <WithCollection>
         <div>the charts</div>
       </WithCollection>
@@ -77,5 +80,33 @@ it('does not claim the scenarios are missing while it is still resolving', () =>
   renderGuard();
 
   expect(screen.queryByText('missingScenarios.title')).toBeNull();
+  expect(screen.queryByText('the charts')).toBeNull();
+});
+
+// A route change remounts the guard, so the resolver starts over at 'loading' even though the store
+// still holds the collection. Blanking the page then makes every navigation flash a spinner
+it('keeps rendering the children while re-resolving a collection the store already holds', () => {
+  const store = createStore(rootReducer);
+
+  store.dispatch(setCollection({ id: 42, title: 'A collection' }));
+  store.dispatch(setColumns([{ sessionID: 1 }, { sessionID: 2 }]));
+
+  query = { collectionID: '42' };
+  resolution = { status: 'loading', collection: null };
+  renderGuard(store);
+
+  expect(screen.queryByText('the charts')).not.toBeNull();
+});
+
+it('does not stand the held collection in for a different one', () => {
+  const store = createStore(rootReducer);
+
+  store.dispatch(setCollection({ id: 42, title: 'A collection' }));
+  store.dispatch(setColumns([{ sessionID: 1 }, { sessionID: 2 }]));
+
+  query = { collectionID: '43' };
+  resolution = { status: 'loading', collection: null };
+  renderGuard(store);
+
   expect(screen.queryByText('the charts')).toBeNull();
 });

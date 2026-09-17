@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import MainNav from '../components/MainNav';
 import SubNav from '../components/SubNav';
 import MissingScenarios from '../components/MissingScenarios';
-import PageLoading from '../components/PageLoading';
 
 import charts from '../data/charts';
 
@@ -17,7 +16,7 @@ function Chrome({
   children: React.ReactNode;
   failureReason: AppState['failureReason'];
 }) {
-  const { pending, slow } = useRouteChange();
+  const pending = useRouteChange();
 
   if (failureReason) {
     return <MissingScenarios />;
@@ -27,7 +26,7 @@ function Chrome({
     <div className="w-max min-w-full">
       <MainNav />
       <SubNav charts={charts} pending={pending} />
-      {slow ? <PageLoading /> : children}
+      {children}
     </div>
   );
 }
