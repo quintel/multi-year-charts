@@ -40,6 +40,12 @@ afterEach(() => {
 });
 
 describe('/api/scenarios/[id]/inputs', () => {
+  it('cannot walk out of the scenarios path', async () => {
+    await handler(reqWith({ id: '../../admin' }), makeRes());
+
+    expect(requestedURL()).toBe(`${ENGINE}/api/v3/scenarios/..%2F..%2Fadmin/inputs.json?defaults=original`);
+  });
+
   it('forwards the session cookie as a bearer token', async () => {
     const req = {
       ...reqWith({}),

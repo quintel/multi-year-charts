@@ -16,7 +16,7 @@ const upstreamQuery = (query: NextApiRequest['query']) => {
 };
 
 const InputsProxy = async function (req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+  const id = encodeURIComponent(first(req.query.id) ?? '');
 
   return proxyToEngine(req, res, `/api/v3/scenarios/${id}/inputs.json?${upstreamQuery(req.query)}`);
 };
