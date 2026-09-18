@@ -37,6 +37,8 @@ module.exports = {
           600: "#fdece0",
           // dark text
           800: "#462c34",
+          // dark collections
+          850: "#24201d",
           // brand colors (blue)
           900: "#4e7be4",
           910: "#89a9ec",
