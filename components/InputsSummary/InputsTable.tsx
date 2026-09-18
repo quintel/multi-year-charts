@@ -30,6 +30,7 @@ import { displayUnit } from '../../utils/inputs/vocabulary';
 import { hasEdits, hasRows } from '../../utils/inputs/visibility';
 import useLinkHelper from '../../utils/useLinkHelper';
 import useTranslate from '../../utils/useTranslate';
+import { useNavHeight } from '../../utils/useNavHeight';
 
 interface InputsTableProps {
   columns: EditableColumn[];
@@ -45,14 +46,15 @@ interface InputsTableProps {
 type HeadingRow = Extract<TableRow, { kind: 'level' | 'slide' | 'group' }>;
 
 // Depth sets the indent for every row kind; kind and depth together set the type
+// I guess hereeee
 const headingClass = (row: HeadingRow) => {
   if (row.kind === 'level') {
     return row.depth === 0
       ? 'text-xs font-semibold uppercase tracking-wide text-gray-500'
-      : 'font-semibold text-gray-700';
+      : 'font-semibold text-myetm-800';
   }
 
-  return row.kind === 'slide' ? 'font-medium text-gray-700' : 'text-gray-600';
+  return row.kind === 'slide' ? 'font-medium text-myetm-800' : 'text-gray-600';
 };
 
 function HeadingCell({ row }: { row: HeadingRow }) {
@@ -72,10 +74,18 @@ function UnitQualifier({ row }: { row: TableRow }) {
 
 const rowClassName = (row: TableRow) => {
   if (row.kind === 'input' || row.kind === 'total') return 'inputs-row';
-  if (row.kind === 'slide') return 'inputs-heading inputs-heading-slide';
+
+  // A slide only has a heading-top row above it when depth > 0), we have to adjust for sticky
+  // header rows
+  if (row.kind === 'slide') {
+    return row.depth > 0
+      ? 'inputs-heading inputs-heading-slide inputs-heading-slide--under-top'
+      : 'inputs-heading inputs-heading-slide';
+  }
+
   if (row.kind === 'level' && row.depth === 0) return 'inputs-heading inputs-heading-top';
 
-  return 'inputs-heading';
+  return 'inputs-heading inputs-heading-group';
 };
 
 const InputsTable: React.FC<InputsTableProps> = ({
@@ -91,6 +101,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
   const router = useRouter();
   const translate = useTranslate();
   const { linkTo } = useLinkHelper();
+  const navHeight = useNavHeight();
   const [selection, setSelection] = useState<Selection | null>(null);
   const showAllInputs = showingAllInputs(router.query);
   const scopeKey = [router.query.scope].flat().filter(Boolean).join('/');
@@ -228,7 +239,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
             aria-label="Open scenario in pop up"
             title="Open scenario in pop up"
             onClick={() => openModal(column.sessionID)}
-            className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-myetm-900 hover:bg-gray-100 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
+            className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-myetm-800 bg-myetm-300 hover:bg-myetm-600 hover:text-midnight-900 active:bg-gray-200 active:text-midnight-900"
           >
             {columnScenarios[index].endYear}
           </button>
@@ -284,7 +295,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
   // Wider than the viewport the table overflows to the right, narrower the auto margins centre it
   return (
     <div className="mx-auto w-fit">
-      <div className="inputs-breadcrumb sticky top-0 z-30 flex items-center bg-white">
+      <div className="inputs-breadcrumb sticky z-30 flex items-center bg-white">
         <InputsBreadcrumb roots={structure} showAll={showAllInputs} trail={trail} />
       </div>
 
@@ -295,7 +306,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
         rowClassName={rowClassName}
         size="small"
         pagination={false}
-        sticky={{ offsetHeader: breadcrumbHeight }}
+        sticky={{ offsetHeader: navHeight + breadcrumbHeight }}
         locale={{ emptyText: translate('inputs.none') }}
         style={{ width: tableWidth(columns.length) }}
       />

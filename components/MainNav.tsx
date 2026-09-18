@@ -13,11 +13,11 @@ const MainNav = () => {
   return (
     <nav
       id="main-nav"
-      className="bg-gray-700 text-gray-100"
+      className="bg-gray-800 text-gray-100"
       role="navigation"
       aria-label="main navigation"
     >
-      <div className={`${pageGutter} sticky left-0 z-20 flex w-screen items-center gap-3 py-3`}>
+      <div className={`${pageGutter} left-0 z-20 flex w-screen items-center gap-3 py-3`}>
         <div className="flex flex-1 min-w-0 items-center justify-start">
           <div className="flex shrink-0 items-center font-semibold">
             <img src="/logo-round.svg" alt="" className="mr-1.5 h-8 w-8" />

@@ -8,6 +8,7 @@ import charts from '../data/charts';
 
 import { AppState } from '../store/types';
 import useRouteChange from '../utils/useRouteChange';
+import { usePublishNavHeight } from '../utils/useNavHeight';
 
 function Chrome({
   children,
@@ -17,6 +18,7 @@ function Chrome({
   failureReason: AppState['failureReason'];
 }) {
   const pending = useRouteChange();
+  const navRef = usePublishNavHeight<HTMLDivElement>();
 
   if (failureReason) {
     return <MissingScenarios />;
@@ -24,8 +26,10 @@ function Chrome({
 
   return (
     <div className="w-max min-w-full">
-      <MainNav />
-      <SubNav charts={charts} pending={pending} />
+      <div ref={navRef} className="sticky top-0 z-40">
+        <MainNav />
+        <SubNav charts={charts} pending={pending} />
+      </div>
       {children}
     </div>
   );
