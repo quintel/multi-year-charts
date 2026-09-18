@@ -13,7 +13,7 @@ const MainNav = () => {
   return (
     <nav
       id="main-nav"
-      className="bg-gray-800 text-gray-100"
+      className="bg-myetm-850 text-myetm-200"
       role="navigation"
       aria-label="main navigation"
     >

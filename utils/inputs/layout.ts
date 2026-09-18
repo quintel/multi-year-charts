@@ -14,4 +14,4 @@ export const tableWidth = (scenarioCount: number) =>
 export const breadcrumbHeight = 76;
 
 // One step per level of the scoped tree, for every row kind
-export const indentFor = (depth: number) => 0;
+export const indentFor = (depth: number) => depth * 16;
