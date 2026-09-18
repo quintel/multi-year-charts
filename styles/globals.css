@@ -15,6 +15,13 @@
   * {
     box-sizing: border-box;
   }
+
+  .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-group > td {
+    @apply bg-myetm-300;
+  }
+  .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-group:hover > td {
+    @apply bg-myetm-300;
+  }
 }
 
 code {
@@ -58,15 +65,40 @@ table {
   --ant-color-text: rgba(0,0,0,0.88);
   --ant-color-bg-elevated: #ffffff;
   --ant-color-link-hover: #89a9ec;
+  /* myetm-800 */
+  --ant-breadcrumb-last-item-color: #462c34;
+  --ant-breadcrumb-link-color:  #462c34;
 }
 
 :root {
-  --inputs-breadcrumb-height: 52px;
-  --inputs-header-height: 39px;
+  --nav-height: 0px;
+  /* Leading gutter above the breadcrumb, between it and the nav. */
+  --inputs-breadcrumb-lead: 1.5rem;
+  --inputs-breadcrumb-height: 2rem;
+  /* Trailing gutter below the breadcrumb, before the table starts.  */
+  --inputs-breadcrumb-gap: 1.25rem;
+  --inputs-header-height: 5rem;
+  --inputs-heading-top-height: 2rem;
+  /* Where the table's own sticky header ends */
+  --inputs-sticky-header-bottom: calc(
+    var(--nav-height) + var(--inputs-breadcrumb-lead) + var(--inputs-breadcrumb-height) +
+      var(--inputs-breadcrumb-gap) + var(--inputs-header-height)
+  );
+}
+
+.ant-breadcrumb .ant-breadcrumb-item a{
+  /* myetm-800 */
+  --ant-breadcrumb-last-item-color: #462c34;
+  --ant-breadcrumb-link-color:  #462c34;
 }
 
 .inputs-breadcrumb {
-  height: var(--inputs-breadcrumb-height);
+  height: calc(
+    var(--inputs-breadcrumb-lead) + var(--inputs-breadcrumb-height) + var(--inputs-breadcrumb-gap)
+  );
+  padding-top: var(--inputs-breadcrumb-lead);
+  padding-bottom: var(--inputs-breadcrumb-gap);
+  top: var(--nav-height);
 }
 
 /* height on a cell is a minimum, so the title stays on one line or a wrap would push the header
@@ -78,9 +110,19 @@ table {
 
 .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide > td {
   position: sticky;
-  top: calc(var(--inputs-breadcrumb-height) + var(--inputs-header-height));
+  top: var(--inputs-sticky-header-bottom);
   z-index: 2;
-  background: #ffffff;
+  @apply bg-myetm-600;
+}
+
+/* Only a slide reached through a level (flattenRows gave it depth > 0) has a real
+  inputs-heading-top row above it to leave sticky room for */
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide--under-top > td {
+  top: calc(var(--inputs-sticky-header-bottom) + var(--inputs-heading-top-height));
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide:hover > td {
+  @apply bg-myetm-600;
 }
 
 /* Inputs table rows */
@@ -90,8 +132,16 @@ table {
 }
 
 .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-top > td {
+  position: sticky;
+  top: var(--inputs-sticky-header-bottom);
+  z-index: 3;
+  height: var(--inputs-heading-top-height);
   padding-top: 32px;
-  background: #0000000a;
+  @apply bg-myetm-200;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-top:hover > td {
+  @apply bg-myetm-200;
 }
 
 .ant-table-wrapper .ant-table-tbody > tr.inputs-row:hover > td {

@@ -17,7 +17,7 @@ const INPUTS_SEGMENT = /\/inputs(\/|$)/;
 
 const tabClass = (isActive: boolean) =>
   `rounded px-4 py-1 font-medium transition ${
-    isActive ? 'bg-gray-200 text-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+    isActive ? 'bg-gray-200 text-myetm-800' : 'text-myetm-450 hover:bg-gray-700 hover:text-white'
   }`;
 
 const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string | null }) => {
@@ -47,13 +47,13 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
     linkTo(`/charts/${firstChart.slug}/${firstChart.variants[0].slug}`);
 
   return (
-    <div className="bg-gray-800 text-sm text-white">
-      <nav id="subnav" className={`${pageGutter} sticky left-0 z-10 flex w-screen items-center py-2`}>
+    <div className="bg-slate-500 text-sm text-white">
+      <nav id="subnav" className={`${pageGutter} left-0 z-10 flex w-screen items-center py-2`}>
         <div className="flex flex-1 justify-start">
           <AreaInformation />
         </div>
 
-        <div className="flex gap-1 rounded bg-gray-500/40 p-1">
+        <div className="flex gap-1 rounded bg-myetm-200 p-1">
           <Link
             href={inputsHref}
             className={tabClass(inputsActive)}

@@ -10,8 +10,8 @@ const valueColumnCount = (scenarioCount: number) => scenarioCount + 2;
 export const tableWidth = (scenarioCount: number) =>
   nameColumnWidth + valueColumnCount(scenarioCount) * valueColumnWidth;
 
-// What antd's sticky header offsets itself by
-export const breadcrumbHeight = 52;
+// What antd's sticky header offsets itself by. Sync with globals.css --inputs-breadcrumb
+export const breadcrumbHeight = 76;
 
 // One step per level of the scoped tree, for every row kind
-export const indentFor = (depth: number) => depth * 16;
+export const indentFor = (depth: number) => 0;
