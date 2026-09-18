@@ -36,6 +36,9 @@ const colors = [
   '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
 ];
 
+// Bars keep a constant share of each category slot, so they scale with the chart width
+const barCategoryGap = '40%';
+
 export interface ChartProps {
   series: ChartSeries;
 }
@@ -101,6 +104,7 @@ const Chart = ({ series }: ChartProps) => {
       name: cSeries.name,
       type: 'bar',
       stack: 'Total',
+      barCategoryGap,
       areaStyle: {},
       itemStyle: {
         opacity: 0.8,
@@ -117,6 +121,7 @@ const Chart = ({ series }: ChartProps) => {
     name: '',
     type: 'bar',
     stack: 'Total',
+    barCategoryGap,
     color: '#ffffff00',
     data: series.categories.map((_, i) =>
       '0.0000' + series.formatter(translatedSeries.data.reduce((sum, s) => sum + (s.data[i] || 0), 0))
@@ -267,14 +272,16 @@ const Chart = ({ series }: ChartProps) => {
 
   return (
     <div>
-      <ReactEChartsCore
-        echarts={echarts}
-        ref={echartRef}
-        notMerge
-        option={options}
-        style={{ height: '500px' }}
-      />
-      <div className="mx-24 pt-4">
+      <div className="h-[clamp(320px,52vh,600px)]">
+        <ReactEChartsCore
+          echarts={echarts}
+          ref={echartRef}
+          notMerge
+          option={options}
+          style={{ height: '100%' }}
+        />
+      </div>
+      <div className="pt-4">
         <Legend
           names={translatedSeries.data.map(({ name }) => name)}
           onItemClick={onLegendItemClick}

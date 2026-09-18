@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Transition } from '@headlessui/react';
 
 import { AppState } from '../store/types';
+import useArea from '../utils/useArea';
 import useCurrentLocale from '../utils/useCurrentLocale';
 
 function Loading() {
@@ -21,32 +21,12 @@ function Loading() {
 }
 
 function FetchedAreaInformation({ areaCode }: { areaCode: string }) {
-  const [area, setArea] = useState<any | null>(null);
+  const area = useArea(areaCode);
   const locale = useCurrentLocale();
 
-  useEffect(() => {
-    fetch(`/api/areas/${areaCode}`, {
-      method: 'GET',
-      headers: { Accept: 'application/json' },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to fetch area information');
-        }
-      })
-      .then((data) => {
-        setArea(data);
-      })
-      .catch((error) => {
-        setArea({ error });
-      });
-  }, [areaCode]);
-
-  if (!area) {
+  if (area === undefined) {
     return <Loading />;
-  } else if (area.error || !area.name[locale]) {
+  } else if (area === null || !area.name[locale]) {
     return null;
   }
 
@@ -81,13 +61,15 @@ function AreaInformation({ scenarios }: { scenarios: AppState['scenarioData'] })
   }
 
   const areas = Object.values(scenarios).map((data) => data.scenario.areaCode);
-  const uniqueAreas = new Set(areas);
+  const uniqueAreas = [...new Set(areas)];
 
-  if (uniqueAreas.size !== 1) {
-    return null;
-  }
-
-  return <FetchedAreaInformation areaCode={areas[0]} />;
+  return (
+    <div className="flex items-center gap-3">
+      {uniqueAreas.map((areaCode) => (
+        <FetchedAreaInformation key={areaCode} areaCode={areaCode} />
+      ))}
+    </div>
+  );
 }
 
 const mapStateToProps = (state: AppState) => ({

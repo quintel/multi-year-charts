@@ -15,7 +15,14 @@ jest.mock('../../utils/useResolvedCollection', () => ({
 
 // WithCollection renders the chrome, whose navs read the router.
 jest.mock('next/router', () => ({
-  useRouter: () => ({ query: {}, asPath: '/', replace: jest.fn(), push: jest.fn() }),
+  useRouter: () => ({
+    pathname: '/',
+    query: {},
+    asPath: '/',
+    events: { on: jest.fn(), off: jest.fn() },
+    replace: jest.fn(),
+    push: jest.fn(),
+  }),
 }));
 
 // Columns are not set until the sign-in check settles, which is a request in the real thing.

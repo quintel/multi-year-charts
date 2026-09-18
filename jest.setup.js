@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 // jsdom doesn't provide these globals, but jose (used for JWT verification in API routes) needs
 // them even when only its Node CJS build is loaded under test.

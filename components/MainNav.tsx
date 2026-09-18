@@ -1,21 +1,14 @@
 import { useContext } from 'react';
-import useCurrentUser from '../utils/useCurrentUser';
-
-import { ArrowSmLeftIcon } from '@heroicons/react/solid';
 
 import LocaleContext from '../utils/LocaleContext';
 import LocaleMessage from './LocaleMessage';
 import LocaleSwitcher from './LocaleSwitcher';
 import SessionInformation from './SessionInformation';
+import SessionTitle from './SessionTitle';
+import pageGutter from './pageGutter';
 
 const MainNav = () => {
   const { currentLocale, setLocale } = useContext(LocaleContext);
-  const { user } = useCurrentUser();
-
-  // Determine the URL based on whether the user is signed in
-  const etmUrl = user
-  ? `${process.env.NEXT_PUBLIC_MYETM_URL}/collections`  // Authenticated
-  : `${process.env.NEXT_PUBLIC_ETMODEL_URL}`;           // Default
 
   return (
     <nav
@@ -24,27 +17,24 @@ const MainNav = () => {
       role="navigation"
       aria-label="main navigation"
     >
-      <div className="container mx-auto flex items-stretch gap-3 py-3">
-        <div className="mr-auto flex items-center font-semibold">
-          <img src="/logo-round.svg" alt="" className="mr-1.5 -ml-1 h-8 w-8" />
-          <LocaleMessage id="app.title" />
-          <span className="ml-1.5 mt-1 text-xs font-normal text-gray-400">
-            <LocaleMessage id="app.by_the" />{' '}
-            <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
-              <LocaleMessage id="app.etm" />
-            </a>
-          </span>
+      <div className={`${pageGutter} flex items-center gap-3 py-3`}>
+        <div className="flex flex-1 min-w-0 items-center justify-start">
+          <div className="flex shrink-0 items-center font-semibold">
+            <img src="/logo-round.svg" alt="" className="mr-1.5 h-8 w-8" />
+            <LocaleMessage id="app.title" />
+            <span className="ml-1.5 mt-0.5 text-xs font-normal text-gray-400">
+              <LocaleMessage id="app.by_the" />{' '}
+              <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
+                <LocaleMessage id="app.etm" />
+              </a>
+            </span>
+          </div>
         </div>
-
-        <SessionInformation />
-        <LocaleSwitcher currentLocale={currentLocale} setLocale={setLocale} />
-        <a
-          className="inline-flex items-center rounded bg-emerald-600 bg-gradient-to-b from-white/20 to-transparent px-3 py-1 pl-1.5 text-xs font-medium text-white shadow transition hover:bg-emerald-500 active:bg-emerald-600 active:shadow-inner"
-          href={etmUrl}
-        >
-          <ArrowSmLeftIcon className="mr-1 h-5 w-5" />
-          <LocaleMessage id="app.backToETM" />
-        </a>
+        <SessionTitle />
+        <div className="flex flex-1 justify-end">
+          <LocaleSwitcher currentLocale={currentLocale} setLocale={setLocale} />
+          <SessionInformation />
+        </div>
       </div>
     </nav>
   );

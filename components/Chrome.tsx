@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 
 import MainNav from '../components/MainNav';
 import SubNav from '../components/SubNav';
-import SessionTitle from '../components/SessionTitle';
 import MissingScenarios from '../components/MissingScenarios';
+import PageLoading from '../components/PageLoading';
 
 import charts from '../data/charts';
 
 import { AppState } from '../store/types';
+import useRouteChange from '../utils/useRouteChange';
 
 function Chrome({
   children,
@@ -16,6 +17,8 @@ function Chrome({
   children: React.ReactNode;
   failureReason: AppState['failureReason'];
 }) {
+  const { pending, slow } = useRouteChange();
+
   if (failureReason) {
     return <MissingScenarios />;
   }
@@ -23,9 +26,8 @@ function Chrome({
   return (
     <>
       <MainNav />
-      <SessionTitle />
-      <SubNav charts={charts} />
-      {children}
+      <SubNav charts={charts} pending={pending} />
+      {slow ? <PageLoading /> : children}
     </>
   );
 }

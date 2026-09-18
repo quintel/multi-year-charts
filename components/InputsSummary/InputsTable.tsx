@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Section from './Section';
 import { Selection } from './Row';
+import { Option } from '../ChartWrapper/UnitToggle'
 import { InputValue, ScenarioIndexedInputData, ScenarioIndexedScenarioData } from '../../utils/api/types';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
@@ -8,6 +9,7 @@ import { heldGroups } from '../../utils/inputs/shareGroups';
 import useTranslate from '../../utils/useTranslate';
 import { serializeTableState, parseTableState} from '../../utils/tableState';
 import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/solid';
+import { RadioGroup } from '@headlessui/react';
 
 interface InputsTableProps {
   columns: EditableColumn[];
@@ -172,16 +174,26 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
 
   // Dynamic width for first column (Ensure possible widths are in tailwind.config.js safelist: 36%, 44%, 52%, 60%, 68%, 76%)
   // Widths set for max 6 scenarios
-  const inputColWidth = 100 - (columns.length + 2) * 8;
+  const inputColWidth = 100 - (columns.length) * 10 - 4;
 
   return (
     <>
       <div className='flex'>
       <span className='text-xl font-medium'>{ translate('inputs.compare') }</span>
       {/* Button to toggle showing all inputs */}
-      <button onClick={toggleShowAllInputs} className='mb-5 mr-3 ml-auto items-center text-sm px-2 py-1 rounded bg-midnight-500 bg-gradient-to-b from-white/20 to-transparent text-white shadow transition hover:bg-midnight-600 active:bg-midnight-700 active:shadow-inner'>
-        {showAllInputs ? translate('inputs.modified') : translate('inputs.all')}
-      </button>
+      <RadioGroup
+        value={ showAllInputs ? 'all' : 'mod' }
+        onChange={toggleShowAllInputs}
+        className="mb-5 mr-3 ml-auto flex select-none items-center gap-1 rounded-md p-1 text-sm font-medium bg-gray-100"
+      >
+        <RadioGroup.Label className="sr-only"></RadioGroup.Label>
+        <RadioGroup.Option value="mod">
+         {({ checked }) => <Option checked={checked} disabled={ false }>{ translate('inputs.modified') }</Option>}
+        </RadioGroup.Option>
+        <RadioGroup.Option value="all">
+         {({ checked }) => <Option checked={checked} disabled={ false }>{ translate('inputs.all') }</Option>}
+        </RadioGroup.Option>
+      </RadioGroup>
       {/* Button to expand/collapse all categories, subcategories, and sections */}
       <button
         onClick={() => {
@@ -216,12 +228,12 @@ const InputsTable: React.FC<InputsTableProps> = ({ columns, editing, inputs, sce
         <thead>
           <tr className='border-b-2 border-b-gray-300'>
             <th className={`p-2 text-left font-semibold w-[${inputColWidth}%]`}>Category/Input</th>
-            <th className="p-2 text-right font-semibold w-[8%]">{translate('inputs.unit')}</th>
-            <th className="w-[12%] p-2 text-right font-semibold">
+            <th className="p-2 text-right font-semibold w-[4%]">{translate('inputs.unit')}</th>
+            <th className="w-[10%] p-2 text-right font-semibold">
               {columnScenarios[0].startYear}
             </th>
             {columns.map(({ sessionID }, index) => (
-              <th key={`year-${sessionID}`} className="w-[8%] p-2 text-right group">
+              <th key={`year-${sessionID}`} className="w-[10%] p-2 text-right group">
                 <button
                   type="button"
                   aria-label="Open scenario in pop up"

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Chrome from './Chrome';
-import Loading from './Loading';
+import PageLoading from './PageLoading';
 import MissingScenarios from './MissingScenarios';
 
 import { remoteChange, setCollection, setColumns, setUserID } from '../store/actions';
@@ -82,9 +82,7 @@ const WithCollection = ({
       {ready ? (
         children
       ) : (
-        <div className="container mx-auto flex justify-center py-24 text-gray-400">
-          <Loading />
-        </div>
+        <PageLoading />
       )}
     </Chrome>
   );

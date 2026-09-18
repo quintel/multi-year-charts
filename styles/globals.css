@@ -6,9 +6,8 @@
   body {
     margin: 0;
     padding: 0;
-    font-family: InterVariable, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: 'Montserrat Variable', Montserrat, Helvetica, Arial, sans-serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 
     @apply text-gray-800;
   }
@@ -49,4 +48,14 @@ table {
 
 .first-col {
   width: 200px; /* wider first column */
+}
+
+.ant-dropdown-css-var {
+  --ant-color-primary: inherit;
+  --ant-color-link: #4e7be4;
+  --ant-font-family: inherit;
+  --ant-font-size: 14px;
+  --ant-color-text: rgba(0,0,0,0.88);
+  --ant-color-bg-elevated: #ffffff;
+  --ant-color-link-hover: #89a9ec;
 }

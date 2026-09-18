@@ -15,7 +15,7 @@ import nlTranslations from '../data/locales/nl.json';
 import enTranslations from '../data/locales/en.json';
 
 import '../styles/globals.css';
-import '@fontsource/inter/variable.css';
+import '@fontsource-variable/montserrat';
 
 const curryTranslate = (messages: Record<string, string>) => {
   const curried: TranslateFunc = (id: string, values = {}) => {
