@@ -7,6 +7,7 @@ import handler from '../../../pages/api/invalidate/sessions/[id]';
 import { read, reset, write } from '../../../utils/cache/scenarioCache';
 
 const ANSWER = { status: 200, body: { gqueries: { co2: 50 } } };
+const BEARER = 'bearer';
 
 const makeRes = () => {
   const res: Partial<NextApiResponse> = {};
@@ -24,58 +25,100 @@ beforeEach(reset);
 
 describe('a notice that a session changed', () => {
   it('drops that session and reports how much went', async () => {
-    write(3, ['co2'], ANSWER);
-    write(3, ['costs'], ANSWER);
+    write(BEARER, 3, ['co2'], ANSWER);
+    write(BEARER, 3, ['costs'], ANSWER);
 
     const res = makeRes();
     await handler(notice('3'), res);
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ evicted: 2 });
-    expect(read(3, ['co2'])).toBeUndefined();
+    expect(read(BEARER, 3, ['co2'])).toBeUndefined();
   });
 
   it('leaves another session alone', async () => {
-    write(4, ['co2'], ANSWER);
+    write(BEARER, 4, ['co2'], ANSWER);
 
     await handler(notice('3'), makeRes());
 
-    expect(read(4, ['co2'])).toEqual(ANSWER);
+    expect(read(BEARER, 4, ['co2'])).toEqual(ANSWER);
   });
 
   it('acts on a stamped notice', async () => {
-    write(3, ['co2'], ANSWER);
+    write(BEARER, 3, ['co2'], ANSWER);
 
     await handler(notice('3', { stamp: '2026-09-01T10:00:00.000Z' }), makeRes());
 
-    expect(read(3, ['co2'])).toBeUndefined();
+    expect(read(BEARER, 3, ['co2'])).toBeUndefined();
   });
 
   it('takes the stamp from updated_at too, since the envelope is not settled', async () => {
-    write(3, ['co2'], ANSWER);
+    write(BEARER, 3, ['co2'], ANSWER);
 
     await handler(notice('3', { updated_at: '2026-09-01T10:00:00.000Z' }), makeRes());
 
-    expect(read(3, ['co2'])).toBeUndefined();
+    expect(read(BEARER, 3, ['co2'])).toBeUndefined();
   });
 
   it('ignores a redelivery', async () => {
     await handler(notice('3', { stamp: '2026-09-01T10:00:00.000Z' }), makeRes());
-    write(3, ['co2'], ANSWER);
+    write(BEARER, 3, ['co2'], ANSWER);
 
     const res = makeRes();
     await handler(notice('3', { stamp: '2026-09-01T10:00:00.000Z' }), res);
 
     expect(res.json).toHaveBeenCalledWith({ evicted: 0 });
-    expect(read(3, ['co2'])).toEqual(ANSWER);
+    expect(read(BEARER, 3, ['co2'])).toEqual(ANSWER);
   });
 
   it('survives a body that is not an object', async () => {
-    write(3, ['co2'], ANSWER);
+    write(BEARER, 3, ['co2'], ANSWER);
 
     await handler(notice('3', 'nonsense'), makeRes());
 
-    expect(read(3, ['co2'])).toBeUndefined();
+    expect(read(BEARER, 3, ['co2'])).toBeUndefined();
+  });
+});
+
+describe('a notice whose stamp could not have come from ETEngine', () => {
+  const inFuture = (ms: number) => new Date(Date.now() + ms).toISOString();
+
+  it('refuses a stamp dated well ahead of now, and evicts nothing', async () => {
+    write(BEARER, 3, ['co2'], ANSWER);
+
+    const res = makeRes();
+    await handler(notice('3', { stamp: inFuture(60 * 60 * 1000) }), res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(read(BEARER, 3, ['co2'])).toEqual(ANSWER);
+  });
+
+  it('leaves the session able to be invalidated afterwards', async () => {
+    await handler(notice('3', { stamp: inFuture(60 * 60 * 1000) }), makeRes());
+    write(BEARER, 3, ['co2'], ANSWER);
+
+    const res = makeRes();
+    await handler(notice('3', { stamp: new Date().toISOString() }), res);
+
+    expect(res.json).toHaveBeenCalledWith({ evicted: 1 });
+  });
+
+  it('refuses a stamp that is not a date at all', async () => {
+    const res = makeRes();
+
+    await handler(notice('3', { stamp: 'whenever' }), res);
+
+    expect(res.status).toHaveBeenCalledWith(400);
+  });
+
+  it('allows a little clock skew between the two hosts', async () => {
+    write(BEARER, 3, ['co2'], ANSWER);
+
+    const res = makeRes();
+    await handler(notice('3', { stamp: inFuture(5000) }), res);
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(read(BEARER, 3, ['co2'])).toBeUndefined();
   });
 });
 
