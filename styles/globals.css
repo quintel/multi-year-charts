@@ -65,10 +65,10 @@ table {
   --ant-color-text: rgba(0,0,0,0.88);
   --ant-color-bg-elevated: #ffffff;
   --ant-color-link-hover: #89a9ec;
+  --ant-color-bg-text-hover: #fdece0;
   /* myetm-800 */
   --ant-breadcrumb-last-item-color: #462c34;
   --ant-breadcrumb-link-color:  #462c34;
-  --ant-color-bg-text-hover: #fdece0;
 }
 
 :root {
