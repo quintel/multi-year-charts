@@ -27,6 +27,9 @@ module.exports = {
           350: '#b7bcc5',
         },
         myetm: {
+          // collections table highlight
+          100: "#E7F2E9",
+          110: "#1E6B33",
           // light and medium background
           200: "#fdfdfd",
           300: "#fbf7f6",

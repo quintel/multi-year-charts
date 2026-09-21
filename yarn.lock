@@ -497,6 +497,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource-variable/montserrat/-/montserrat-5.3.0.tgz#4e01a00a990f8d63c1903269117f3c31d8fed10b"
   integrity sha512-7PaZoxaxrWLAyrhO46v65An9LhUhfkTExWLhfbywYZCnZEgg/W1rEHnlNmZKjNZ3nJTVYyicqxlJt10z/26yTA==
 
+"@fontsource/roboto-mono@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto-mono/-/roboto-mono-5.3.0.tgz#de1c58d490a42853389caeca05376ecdb295e7e3"
+  integrity sha512-yhwplHMHW9dCk+1pZuERfcJe+K3rosGVZEoK0XktkxRSqQ9qsipSwwiuW2/8Qmtp9lzu3Ixa/ie4BMH3i8CkZQ==
+
 "@headlessui/react@^1.6.6":
   version "1.7.19"
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.19.tgz#91c78cf5fcb254f4a0ebe96936d48421caf75f40"

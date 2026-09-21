@@ -68,6 +68,7 @@ table {
   /* myetm-800 */
   --ant-breadcrumb-last-item-color: #462c34;
   --ant-breadcrumb-link-color:  #462c34;
+  --ant-color-bg-text-hover: #fdece0;
 }
 
 :root {
@@ -158,5 +159,27 @@ table {
 }
 
 .ant-table-wrapper .ant-table-tbody > tr.inputs-row:hover > td {
-  background: #fafafa;
+  background: #E8EEF8;
+
+  &.ant-table-cell:has(input.filled-cell) {
+    @apply bg-myetm-990;
+  }
 }
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-row > td.ant-table-cell {
+  font-family: 'Roboto Mono';
+
+  &:first-child, &:nth-child(2) {
+    font-family: inherit;
+  }
+
+  &:has(input.filled-cell) {
+    @apply bg-myetm-100;
+  }
+
+  input.filled-cell {
+    /* @apply bg-myetm-100; */
+    @apply text-myetm-110;
+  }
+}
+
