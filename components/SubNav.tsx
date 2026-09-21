@@ -17,7 +17,7 @@ const INPUTS_SEGMENT = /\/inputs(\/|$)/;
 
 const tabClass = (isActive: boolean) =>
   `rounded px-4 py-2 font-medium transition ${
-    isActive ? 'bg-myetm-800 text-myetm-200 hover:cursor-default' : 'text-myetm-450 hover:bg-myetm-450 hover:text-myetm-200'
+    isActive ? 'bg-myetm-800 text-myetm-200 hover:cursor-default' : 'text-myetm-800 hover:bg-myetm-450 hover:text-myetm-200'
   }`;
 
 const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string | null }) => {

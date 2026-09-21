@@ -29,7 +29,7 @@ export default function InputsToggle() {
     <RadioGroup
       value={showAll ? 'all' : 'mod'}
       onChange={change}
-      className="flex select-none items-center gap-1 rounded bg-myetm-300 p-1 text-sm font-medium"
+      className="flex select-none items-center gap-1 rounded border-[0.5px] bg-myetm-600 p-1 text-sm font-medium"
     >
       <RadioGroup.Label className="sr-only">Which inputs to show</RadioGroup.Label>
       <RadioGroup.Option value="mod">
