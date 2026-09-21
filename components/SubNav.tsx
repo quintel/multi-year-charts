@@ -17,7 +17,7 @@ const INPUTS_SEGMENT = /\/inputs(\/|$)/;
 
 const tabClass = (isActive: boolean) =>
   `rounded px-4 py-2 font-medium transition ${
-    isActive ? 'bg-myetm-800 text-myetm-200 hover:cursor-default' : 'text-myetm-800 hover:bg-myetm-450 hover:text-myetm-200'
+    isActive ? 'bg-myetm-800 text-myetm-200 hover:cursor-default' : 'text-myetm-800 hover:bg-myetm-600 hover:text-myetm-800'
   }`;
 
 const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string | null }) => {
@@ -47,13 +47,13 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
     linkTo(`/charts/${firstChart.slug}/${firstChart.variants[0].slug}`);
 
   return (
-    <div className="bg-myetm-300 text-sm text-white border-b border-myetm-600">
+    <div className="bg-myetm-300 border-b border-myetm-600 text-sm text-white">
       <nav id="subnav" className={`${pageGutter} left-0 z-10 flex w-screen items-center py-2`}>
         <div className="flex flex-1 justify-start">
           <AreaInformation />
         </div>
 
-        <div className="flex gap-1 rounded border-[0.5px] bg-myetm-600 p-1">
+        <div className="flex gap-1 rounded border border-myetm-600 bg-myetm-200 p-1">
           <Link
             href={inputsHref}
             className={tabClass(inputsActive)}

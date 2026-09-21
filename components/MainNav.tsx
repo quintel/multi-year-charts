@@ -22,7 +22,7 @@ const MainNav = () => {
           <div className="flex shrink-0 items-center font-semibold">
             <img src="/logo-round.svg" alt="" className="mr-1.5 h-8 w-8" />
             <LocaleMessage id="app.title" />
-            <span className="ml-1.5 mt-0.5 text-xs font-normal text-gray-400">
+            <span className="ml-1.5 mt-0.5 text-xs font-normal text-myetm-400">
               <LocaleMessage id="app.by_the" />{' '}
               <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
                 <LocaleMessage id="app.etm" />

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 const optionClasses = {
   checked: 'px-2 py-1 rounded bg-myetm-800 text-myetm-200 cursor-default transition',
-  unchecked: 'px-2 py-1 rounded cursor-pointer text-myetm-800 hover:bg-myetm-450 hover:text-myetm-200 transition',
+  unchecked: 'px-2 py-1 rounded cursor-pointer text-myetm-800 hover:bg-myetm-600 transition',
 };
 
 export function Option({ checked, children, disabled }: { checked: boolean; children: React.ReactNode; disabled: boolean }) {
@@ -42,7 +42,7 @@ function UnitToggle({ currentChart }: { currentChart: string }) {
     <RadioGroup
       value={value}
       onChange={handleChange}
-      className={`flex select-none items-center gap-1 rounded border-[0.5px] bg-myetm-600 p-1 text-sm font-medium ${
+      className={`flex select-none items-center gap-1 rounded border border-myetm-600 bg-myetm-200 p-1 text-sm font-medium ${
         isGreyedOut ? 'opacity-50' : ''
       }`}
       disabled={isGreyedOut} // Disables the entire RadioGroup when greyed out

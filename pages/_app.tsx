@@ -17,6 +17,7 @@ import enTranslations from '../data/locales/en.json';
 
 import '../styles/globals.css';
 import '@fontsource-variable/montserrat';
+import '@fontsource/roboto-mono';
 
 // Every antd component is themed here
 const antTheme = {
@@ -25,8 +26,8 @@ const antTheme = {
     Breadcrumb: {
       fontSize: 20,
       fontHeight: 30,
-      itemColor: '#4b5563',
-      lastItemColor: '#1f2937',
+      itemColor: '#462c34',
+      lastItemColor: '#462c34',
     },
     Table: {
       cellPaddingBlockSM: 8,
