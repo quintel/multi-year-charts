@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart } from 'echarts/charts';
@@ -14,7 +14,6 @@ import { ChartSeries, translateChartData } from '../utils/charts';
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';
 import EChartsReact from 'echarts-for-react';
-import LocaleMessage from './LocaleMessage';
 
 // Register the echarts features.
 echarts.use([
@@ -41,6 +40,11 @@ const barCategoryGap = '40%';
 
 export interface ChartProps {
   series: ChartSeries;
+  onAllSeriesHiddenChange?: (allSeriesHidden: boolean) => void;
+}
+
+export interface ChartHandle {
+  toggleAllSeries: () => void;
 }
 
 /**
@@ -90,7 +94,7 @@ function Legend({
   );
 }
 
-const Chart = ({ series }: ChartProps) => {
+const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenChange }, ref) => {
   const echartRef = useRef<EChartsReact | null>(null);
 
   const translate = useTranslate();
@@ -268,7 +272,10 @@ const Chart = ({ series }: ChartProps) => {
 
     setHiddenSeries(updatedHiddenSeries);
     setAllSeriesHidden(newVisibilityState);
-  }, [allSeriesHidden, translatedSeries]);
+    onAllSeriesHiddenChange?.(newVisibilityState);
+  }, [allSeriesHidden, onAllSeriesHiddenChange, translatedSeries]);
+
+  useImperativeHandle(ref, () => ({ toggleAllSeries: onToggleAllSeries }), [onToggleAllSeries]);
 
   return (
     <div>
@@ -291,14 +298,10 @@ const Chart = ({ series }: ChartProps) => {
           hiddenSeries={hiddenSeries}
         />
       </div>
-      <button
-          onClick={onToggleAllSeries}
-          className="group mb-2 flex items-center rounded py-2 px-3 text-sm font-medium text-white bg-midnight-500 cursor-pointer transition hover:bg-midnight-600"
-          >
-          {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
-        </button>
     </div>
   );
-};
+});
+
+Chart.displayName = 'Chart';
 
 export default Chart;

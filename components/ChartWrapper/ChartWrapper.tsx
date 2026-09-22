@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { connect } from 'react-redux';
 
@@ -6,9 +6,10 @@ import { AppState } from '../../store/types';
 import charts, { FlattenedChartSchema } from '../../data/charts';
 import { ScenarioIndexedScenarioData } from '../../utils/api/types';
 
-import Chart from '../Chart';
+import Chart, { ChartHandle } from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
+import LocaleMessage from '../LocaleMessage';
 import OutputBreadcrumb from '../OutputBreadcrumb';
 import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
@@ -51,13 +52,25 @@ const canRenderChart = (chart: FlattenedChartSchema, scenarios: ScenarioIndexedS
 const ChartTitle = ({
   chart,
   scenarios,
+  allSeriesHidden,
+  onToggleAllSeries,
 }: {
   chart: FlattenedChartSchema;
   scenarios: ScenarioIndexedScenarioData;
+  allSeriesHidden?: boolean;
+  onToggleAllSeries?: () => void;
 }) => (
   <div className="mb-5 flex items-center">
     <OutputBreadcrumb charts={charts} />
     <div className="flex-1"></div>
+    {onToggleAllSeries ? (
+      <button
+        onClick={onToggleAllSeries}
+        className="group mr-2 flex items-center rounded py-1.5 px-3 text-sm font-medium text-myetm-200 bg-myetm-900 cursor-pointer transition hover:bg-myetm-910"
+      >
+        {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
+      </button>
+    ) : null}
     <DownloadCSVButton chart={chart} scenarios={scenarios} />
   </div>
 );
@@ -69,6 +82,9 @@ function ChartWrapper({
   removeQueries,
   scenarios,
 }: ChartWrapperProps) {
+  const chartRef = useRef<ChartHandle>(null);
+  const [allSeriesHidden, setAllSeriesHidden] = useState(false);
+
   useEffect(() => {
     const series = chart.series;
 
@@ -100,10 +116,21 @@ function ChartWrapper({
   }
 
   return (
-    <Wrapper title={<ChartTitle chart={chart} scenarios={scenarios} />}>
+    <Wrapper
+      title={
+        <ChartTitle
+          chart={chart}
+          scenarios={scenarios}
+          allSeriesHidden={allSeriesHidden}
+          onToggleAllSeries={() => chartRef.current?.toggleAllSeries()}
+        />
+      }
+    >
       <Chart
+        ref={chartRef}
         series={series}
         key={chart.chartKey}
+        onAllSeriesHiddenChange={setAllSeriesHidden}
       />
       <div className="py-12 overflow-x-scroll">
         <ChartTable series={series} colorSeries />
