@@ -239,7 +239,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
             aria-label="Open scenario in pop up"
             title="Open scenario in pop up"
             onClick={() => openModal(column.sessionID)}
-            className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-myetm-800 bg-myetm-300 hover:bg-myetm-990 hover:text-myetm-200 active:bg-gray-200 active:text-midnight-900"
+            className="-mx-2 -my-1 cursor-pointer rounded px-2 py-1 text-myetm-800 bg-myetm-300 hover:bg-myetm-940 active:bg-gray-200 active:text-midnight-900"
           >
             {columnScenarios[index].endYear}
           </button>
