@@ -66,7 +66,7 @@ const ChartTitle = ({
     {onToggleAllSeries ? (
       <button
         onClick={onToggleAllSeries}
-        className="group mr-2 flex items-center rounded py-1.5 px-3 text-sm font-medium text-myetm-200 bg-myetm-900 cursor-pointer transition hover:bg-myetm-910"
+        className="group mr-2 flex items-center border rounded py-1.5 px-3 text-sm font-medium text-myetm-800 bg-myetm-940 cursor-pointer transition hover:bg-myetm-300"
       >
         {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
       </button>

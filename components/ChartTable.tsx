@@ -95,7 +95,7 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
   return (
     <table className="chart-as-table w-full text-sm">
       <thead>
-        <tr className="sticky top-0 border-b border-gray-300 bg-white">
+        <tr className="sticky h-20 top-0 border-b border-gray-300 bg-white">
           <th className="font-semibold px-3 text-left fixed-width-cell first-col"></th>
           <th className="font-semibold px-3 text-right fixed-width-cell">{translate('series.unit')}</th>
           {series.categories.map((year, index) => (
