@@ -52,7 +52,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
     return (
       <td
       key={`series-${series.name}-${index}-${colIndex}`}
-        className="px-3 py-2 text-right align-top tabular-nums fixed-width-cell"
+        className="chart-table-value border-r border-gray-300 px-3 py-2 text-right align-top tabular-nums fixed-width-cell"
       >
         {value}
         {colIndex > 0 ? (
@@ -67,9 +67,9 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
   return (
     <tr
       key={`series-${series.name}`}
-      className={`${rowClass} border-b transition-colors [&:nth-last-child(2)]:border-b-2`}
+      className={`${rowClass} border-b transition-colors hover:bg-[#E8EEF8] [&:nth-last-child(2)]:border-0`}
     >
-      <td className="px-3 py-2 align-top text-gray-800 fixed-width-cell first-col">
+      <td className="border-l border-r border-gray-300 px-3 py-2 align-top text-gray-800 fixed-width-cell first-col">
         {index >= 0 ? (
           <span
             className="-mt-0.5 mr-1 inline-flex h-3.5 w-3.5 rounded-sm align-middle"
@@ -78,7 +78,7 @@ const renderRow = (series: Row, format: UnitFormatter, index: number) => {
         ) : null}
         {series.name}
       </td>
-      <td className="px-3 py-2 align-top text-right text-gray-800 fixed-width-cell">{format(0).split(' ')[1]}</td>
+      <td className="border-r border-gray-300 px-3 py-2 align-top text-right text-gray-800 fixed-width-cell">{format(0).split(' ')[1]}</td>
       {columns}
     </tr>
   );
@@ -95,11 +95,11 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
   return (
     <table className="chart-as-table w-full text-sm">
       <thead>
-        <tr className="sticky top-0 border-b-2 border-gray-300 bg-white">
-          <th className="px-3 text-left fixed-width-cell first-col"></th>
-          <th className="px-3 text-right fixed-width-cell">{translate('series.unit')}</th>
+        <tr className="sticky h-20 top-0 border-b border-gray-300 bg-white">
+          <th className="font-semibold px-3 text-left fixed-width-cell first-col"></th>
+          <th className="font-semibold px-3 text-right fixed-width-cell">{translate('series.unit')}</th>
           {series.categories.map((year, index) => (
-            <th key={`year-${index}`} className="p-3 text-right fixed-width-cell">
+            <th key={`year-${index}`} className="font-semibold p-3 text-right fixed-width-cell">
               {year}
             </th>
           ))}
@@ -107,15 +107,15 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       </thead>
       <tbody>
         {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
-        <tr className="transition-colors">
-          <td className="px-3 text-left fixed-width-cell first-col">{translate('series.total')}</td>
-          <td className="px-3 text-right fixed-width-cell">{series.formatter(0).split(' ')[1]}</td>
+        <tr className="bg-myetm-300 text-myetm-800 font-semibold transition-colors">
+          <td className="border-l border-b border-gray-300 px-3 text-left fixed-width-cell first-col">{translate('series.total')}</td>
+          <td className="border-b border-gray-300 px-3 text-right fixed-width-cell">{series.formatter(0).split(' ')[1]}</td>
           {series.categories.map((_, i) => {
             const total = translatedData.data.reduce((sum, s) => sum + (s.data[i] || 0), 0);
             return (
-              <td key={`year-total-${i}`} className="p-3 text-right fixed-width-cell">
+              <td key={`year-total-${i}`} className="border-b border-gray-300 chart-table-value p-3 text-right fixed-width-cell [&:last-child]:border-r">
                 {numericPart(total, series.formatter)}
-              </td> 
+              </td>
             )
           })}
         </tr>

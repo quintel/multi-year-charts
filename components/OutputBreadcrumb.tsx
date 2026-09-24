@@ -18,18 +18,23 @@ export default function OutputBreadcrumb({ charts }: { charts: ChartSchema[] }) 
   const variant =
     chart.variants.find((candidate) => candidate.slug === slug('variantSlug')) || chart.variants[0];
 
+  // A chart's variants for nested dropdown
+  const variantOptionsFor = (schema: ChartSchema): CrumbOption[] =>
+    schema.variants.map((each) => ({
+      key: each.slug,
+      label: translate(`chart.variant.${each.key}`),
+      href: `/charts/${schema.slug}/${each.slug}`,
+      group: each.group && translate(`chart.group.${each.group}`),
+    }));
+
   const chartOptions: CrumbOption[] = charts.map((each) => ({
     key: each.slug,
     label: translate(`chart.${each.key}`),
     href: `/charts/${each.slug}/${each.variants[0].slug}`,
+    options: each.variants.length > 1 ? variantOptionsFor(each) : undefined,
   }));
 
-  const variantOptions: CrumbOption[] = chart.variants.map((each) => ({
-    key: each.slug,
-    label: translate(`chart.variant.${each.key}`),
-    href: `/charts/${chart.slug}/${each.slug}`,
-    group: each.group && translate(`chart.group.${each.group}`),
-  }));
+  const variantOptions = variantOptionsFor(chart);
 
   const crumbs: Crumb[] = [
     { key: chart.slug, label: translate(`chart.${chart.key}`), options: chartOptions },

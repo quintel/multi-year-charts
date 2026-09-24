@@ -15,7 +15,7 @@ export interface CellFlags {
 
 export const chromeClass = ({ selected, held, refused }: CellFlags): string => {
   if (refused) return 'border-red-500';
-  if (held) return 'border-red-300';
+  if (held) return 'border-red-300 red-cell';
 
   return selected ? 'border-myetm-400' : 'border-transparent hover:border-myetm-400 hover:cursor-pointer';
 };

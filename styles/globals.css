@@ -47,7 +47,7 @@ table {
 }
 
 .fixed-width-cell {
-  width: 100px; /* Set the desired fixed width */
+  width: 50px; /* Set the desired fixed width */
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
@@ -162,7 +162,11 @@ table {
   background: #E8EEF8;
 
   &.ant-table-cell:has(input.filled-cell) {
-    @apply bg-myetm-990;
+    background: rgb(215, 240, 240);
+  }
+
+  &.ant-table-cell:has(input.red-cell) {
+    @apply bg-red-200;
   }
 }
 
@@ -177,9 +181,17 @@ table {
     @apply bg-myetm-100;
   }
 
+  &:has(input.red-cell) {
+    @apply bg-red-100;
+  }
+
   input.filled-cell {
-    /* @apply bg-myetm-100; */
     @apply text-myetm-110;
   }
+}
+
+/* Matches the inputs table's numeric cells, so figures read consistently across both */
+.chart-table-value {
+  font-family: 'Roboto Mono';
 }
 

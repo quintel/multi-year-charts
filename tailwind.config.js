@@ -28,30 +28,30 @@ module.exports = {
         },
         myetm: {
           // collections table highlight
-          100: "#E7F2E9",
-          110: "#1E6B33",
-          // light and medium background
-          200: "#fdfdfd",
-          300: "#fbf7f6",
-          // light gray & medium gray
-          400: "#aba8a7",
-          450: 'rgb(125, 118, 115)',
-          // dark background
-          600: "#fdece0",
-          // dark text
-          800: "#462c34",
-          // dark collections
-          850: "#24201d",
-          // brand colors (blue)
-          900: "#4e7be4",
-          910: "#89a9ec",
-          940: "#d0e0f7",
-          // brand colors (orange,)
-          950: "#f27316",
-          970: "#f4cab3",
-          // brand colors (green)
-          980: "#56b351",
-          990: "#a5e0a1"
+            100: "#d7ecea",
+            110: "#0f5f5a",
+            // light and medium background
+            200: "#ffffff",
+            300: "#f6f7f9",
+            // light gray & medium gray
+            400: "#aeb4bd",
+            450: "rgb(89, 98, 111)",
+            // dark background
+            600: "#edeff2",
+            // dark text
+            800: "#181f29",
+            // dark collections
+            850: "#181f29",
+            // brand colors (blue)
+            900: "#4e7be4",
+            910: "#89a9ec",
+            940: "#d0e0f7",
+            // brand colors (orange)
+            950: "#f27316",
+            970: "#f4cab3",
+            // brand colors (green)
+            980: "#56b351",
+            990: "#a5e0a1"
         }
       },
     },

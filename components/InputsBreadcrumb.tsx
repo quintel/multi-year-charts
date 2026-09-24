@@ -13,6 +13,7 @@ interface CrumbsOptions {
 
 /**
  * One crumb per level of the trail, each listing the whole subtree below it
+ * Each crumb level can be 'All', showing all the inputs in that section
  */
 export function crumbsFor({ roots, showAll, trail, allLabel }: CrumbsOptions): Crumb[] {
   const hrefFor = (nodes: LevelNode[]) => withAllInputs(scopePath(nodes), showAll);
@@ -25,19 +26,47 @@ export function crumbsFor({ roots, showAll, trail, allLabel }: CrumbsOptions): C
       options: optionsFor(child.children, [...path, child]),
     }));
 
-  const crumb = (node: LevelNode | null, depth: number): Crumb => {
-    const path = trail.slice(0, depth);
+  // A real crumb: its menu offers "All" back to its own parent, plus its siblings
+  const realCrumb = (node: LevelNode, depth: number): Crumb => {
+    const path = trail.slice(0, depth + 1);
+    const parentPath = trail.slice(0, depth);
+    const siblings = depth === 0 ? roots : trail[depth - 1].children;
+
+    const allOption: CrumbOption = { key: 'all', label: allLabel, href: hrefFor(parentPath) };
 
     return {
-      key: node ? node.key : 'all',
-      label: node ? node.label : allLabel,
+      key: node.key,
+      label: node.label,
       href: hrefFor(path),
-      selectedKey: trail[depth]?.key,
-      options: optionsFor(node ? node.children : roots, path),
+      selectedKey: node.key,
+      options: [allOption, ...optionsFor(siblings, parentPath)],
     };
   };
 
-  return [crumb(null, 0), ...trail.map((node, depth) => crumb(node, depth + 1))];
+  // The trailing "All": its menu offers "All" for the current scope itself, plus its children.
+  // Skipped once the trail reaches a node with no children left to choose between
+  // (e.g. Buildings, a leaf: "Demand > Buildings", nothing after)
+  const trailingAllCrumb = (): Crumb | null => {
+    const children = trail.length === 0 ? roots : trail[trail.length - 1].children;
+    const visibleChildren = visibleLevels(children, showAll);
+
+    if (trail.length > 0 && visibleChildren.length === 0) return null;
+
+    const selfOption: CrumbOption = { key: 'all', label: allLabel, href: hrefFor(trail) };
+
+    return {
+      key: 'all',
+      label: allLabel,
+      href: hrefFor(trail),
+      selectedKey: 'all',
+      options: [selfOption, ...optionsFor(children, trail)],
+    };
+  };
+
+  const realCrumbs = trail.map((node, depth) => realCrumb(node, depth));
+  const trailing = trailingAllCrumb();
+
+  return trailing ? [...realCrumbs, trailing] : realCrumbs;
 }
 
 export default function InputsBreadcrumb({
