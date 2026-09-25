@@ -4,26 +4,30 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import AreaInformation from './AreaInformation';
+import InputsToggle from './InputsToggle';
 import LocaleMessage from './LocaleMessage';
 import UnitToggle from './ChartWrapper/UnitToggle';
 import pageGutter from './pageGutter';
 
 import { ChartSchema } from '../data/charts';
+import { resolveVariantPath } from '../utils/charts';
 import useLinkHelper from '../utils/useLinkHelper';
 import { lastVisit, rememberVisit, Section } from '../utils/lastVisited';
 
+const INPUTS_SEGMENT = /\/inputs(\/|$)/;
+
 const tabClass = (isActive: boolean) =>
-  `rounded px-4 py-1 font-medium transition ${
-    isActive ? 'bg-gray-200 text-gray-800' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+  `rounded px-4 py-2 font-medium transition ${
+    isActive ? 'bg-myetm-800 text-myetm-200 hover:cursor-default' : 'text-myetm-800 hover:bg-myetm-600 hover:text-myetm-800'
   }`;
 
 const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string | null }) => {
   const router = useRouter();
   const { linkTo } = useLinkHelper();
 
-  const onInputs = router.pathname.endsWith('/inputs');
+  const onInputs = INPUTS_SEGMENT.test(router.pathname);
   const section: Section = onInputs ? 'inputs' : 'outputs';
-  const inputsActive = pending ? pending.split('?')[0].endsWith('/inputs') : onInputs;
+  const inputsActive = pending ? INPUTS_SEGMENT.test(pending.split('?')[0]) : onInputs;
   const collection = String(router.query.collectionID ?? router.query.scenarioIDs ?? '');
   const [firstChart] = charts;
 
@@ -39,18 +43,20 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
   }, [router.events, collection, section]);
 
   const inputsHref = lastVisit(collection, 'inputs') || linkTo('/inputs');
+  const defaultVariantPath = resolveVariantPath(firstChart.variants, [])
+    .map((node) => node.slug)
+    .join('/');
   const outputsHref =
-    lastVisit(collection, 'outputs') ||
-    linkTo(`/charts/${firstChart.slug}/${firstChart.variants[0].slug}`);
+    lastVisit(collection, 'outputs') || linkTo(`/charts/${firstChart.slug}/${defaultVariantPath}`);
 
   return (
-    <div className="bg-gray-800 text-sm text-white">
-      <nav id="subnav" className={`${pageGutter} flex items-center py-2`}>
+    <div className="bg-myetm-300 border-b border-myetm-600 text-sm text-white">
+      <nav id="subnav" className={`${pageGutter} left-0 z-10 flex w-screen items-center py-2`}>
         <div className="flex flex-1 justify-start">
           <AreaInformation />
         </div>
 
-        <div className="flex gap-1 rounded bg-gray-500/40 p-1">
+        <div className="flex gap-1 rounded border border-myetm-600 bg-myetm-200 p-1">
           <Link
             href={inputsHref}
             className={tabClass(inputsActive)}
@@ -68,7 +74,7 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
         </div>
 
         <div className="flex flex-1 justify-end">
-          {inputsActive ? null : <UnitToggle currentChart={currentChart.key} />}
+          {inputsActive ? <InputsToggle /> : <UnitToggle currentChart={currentChart.key} />}
         </div>
       </nav>
     </div>

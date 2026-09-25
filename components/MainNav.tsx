@@ -13,16 +13,16 @@ const MainNav = () => {
   return (
     <nav
       id="main-nav"
-      className="bg-gray-700 text-gray-100"
+      className="bg-myetm-850 text-myetm-200"
       role="navigation"
       aria-label="main navigation"
     >
-      <div className={`${pageGutter} flex items-center gap-3 py-3`}>
+      <div className={`${pageGutter} left-0 z-20 flex w-screen items-center gap-3 py-3`}>
         <div className="flex flex-1 min-w-0 items-center justify-start">
           <div className="flex shrink-0 items-center font-semibold">
             <img src="/logo-round.svg" alt="" className="mr-1.5 h-8 w-8" />
             <LocaleMessage id="app.title" />
-            <span className="ml-1.5 mt-0.5 text-xs font-normal text-gray-400">
+            <span className="ml-1.5 mt-0.5 text-xs font-normal text-myetm-400">
               <LocaleMessage id="app.by_the" />{' '}
               <a className="transition hover:text-white" href={process.env.NEXT_PUBLIC_ETMODEL_URL}>
                 <LocaleMessage id="app.etm" />

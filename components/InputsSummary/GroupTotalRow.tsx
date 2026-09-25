@@ -1,21 +1,11 @@
-import { Selection } from './Row';
 import { ColumnEditing } from '../../store/types';
-import { ScenarioIndexedInputData } from '../../utils/api/types';
+import { InputCollectionData } from '../../utils/api/types';
 import { EditableColumn } from '../../utils/inputs/access';
+import { indentFor } from '../../utils/inputs/layout';
 import { enabledMembers, groupRefusal, groupTotal } from '../../utils/inputs/shareGroups';
 import { formatInputValue } from '../../utils/inputs/vocabulary';
-import useTranslate from '../../utils/useTranslate';
 
-const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused: {} };
-
-interface GroupTotalRowProps {
-  columns: EditableColumn[];
-  editing: Record<number, ColumnEditing>;
-  group: string;
-  held: Record<number, Set<string>>;
-  inputData: ScenarioIndexedInputData;
-  selection: Selection | null;
-}
+type Translate = (id: string) => string;
 
 const totalClass = (held: boolean, pending: boolean): string => {
   if (held) return 'text-red-600';
@@ -23,62 +13,63 @@ const totalClass = (held: boolean, pending: boolean): string => {
   return pending ? 'text-gray-500 opacity-50' : 'text-gray-500';
 };
 
-const groupUnit = (inputs: Record<string, { unit: string }>, members: string[]): string =>
+const groupUnit = (inputs: InputCollectionData, members: string[]): string =>
   members.length > 0 ? inputs[members[0]].unit : '';
 
-/**
- * The sum of one share group in each column directly above the relevant share group rows
- */
-export default function GroupTotalRow({
+export function TotalName({
   columns,
+  depth,
   editing,
   group,
-  held,
   inputData,
-  selection,
-}: GroupTotalRowProps) {
-  const translate = useTranslate();
-
-  const holdingValues = columns.some(({ sessionID }) => held[sessionID]?.has(group));
-
-  if (!columns.some((column) => column.editable)) return null;
-  if (selection?.shareGroup !== group && !holdingValues) return null;
-
-  const editingFor = (sessionID: number) => editing[sessionID] || NOT_EDITING;
-
+  translate,
+}: {
+  columns: EditableColumn[];
+  depth: number;
+  editing: Record<number, ColumnEditing>;
+  group: string;
+  inputData: Record<number, InputCollectionData>;
+  translate: Translate;
+}) {
   const refusal = columns
-    .map(({ sessionID }) => groupRefusal(inputData[sessionID], editingFor(sessionID).refused, group))
+    .map(({ sessionID }) =>
+      groupRefusal(inputData[sessionID], editing[sessionID]?.refused ?? {}, group)
+    )
     .find(Boolean);
 
   return (
-    <tr className="border-b border-b-gray-300">
-      <td className="p-2 pl-12 text-left text-gray-500">
-        {translate('inputs.total')}
-        {refusal ? <span className="ml-2 text-red-600">{refusal}</span> : null}
-      </td>
-      <td className="px-2 py-2"></td>
-      <td className="px-2 py-2"></td>
+    <span className="block text-gray-500" style={{ paddingLeft: indentFor(depth) }}>
+      {translate('inputs.total')}
+      {refusal ? <span className="ml-2 text-red-600">{refusal}</span> : null}
+    </span>
+  );
+}
 
-      {columns.map((column) => {
-        if (!column.editable) return <td key={column.sessionID} className="px-2"></td>;
+// The sum of one share group in one column
+export function TotalValue({
+  column,
+  editing,
+  group,
+  held,
+  inputs,
+  translate,
+}: {
+  column: EditableColumn;
+  editing: ColumnEditing;
+  group: string;
+  held: Set<string> | undefined;
+  inputs: InputCollectionData;
+  translate: Translate;
+}) {
+  if (!column.editable) return null;
 
-        const inputs = inputData[column.sessionID];
-        const { pending, values } = editingFor(column.sessionID);
-        const isHeld = held[column.sessionID]?.has(group) || false;
-
-        return (
-          <td
-            key={column.sessionID}
-            className={`px-2 py-2 text-right ${totalClass(isHeld, pending)}`}
-          >
-            {formatInputValue(
-              groupTotal(inputs, values, group),
-              groupUnit(inputs, enabledMembers(inputs, group)),
-              translate
-            )}
-          </td>
-        );
-      })}
-    </tr>
+  return (
+    <span className={totalClass(held?.has(group) || false, editing.pending)}>
+      {formatInputValue(
+        groupTotal(inputs, editing.values, group),
+        groupUnit(inputs, enabledMembers(inputs, group)),
+        translate
+      )}
+    </span>
   );
 }

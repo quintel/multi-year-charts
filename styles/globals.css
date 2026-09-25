@@ -15,6 +15,13 @@
   * {
     box-sizing: border-box;
   }
+
+  .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-group > td {
+    @apply bg-myetm-300;
+  }
+  .ant-table-wrapper .ant-table-tbody > tr.inputs-heading-group:hover > td {
+    @apply bg-myetm-300;
+  }
 }
 
 code {
@@ -40,7 +47,7 @@ table {
 }
 
 .fixed-width-cell {
-  width: 100px; /* Set the desired fixed width */
+  width: 50px; /* Set the desired fixed width */
   white-space: nowrap; /* Prevent text from wrapping */
   overflow: hidden; /* Hide overflow text */
   text-overflow: ellipsis; /* Add ellipsis for overflow text */
@@ -58,4 +65,133 @@ table {
   --ant-color-text: rgba(0,0,0,0.88);
   --ant-color-bg-elevated: #ffffff;
   --ant-color-link-hover: #89a9ec;
+  --ant-color-bg-text-hover: #fdece0;
+  /* myetm-800 */
+  --ant-breadcrumb-last-item-color: #462c34;
+  --ant-breadcrumb-link-color:  #462c34;
 }
+
+:root {
+  --nav-height: 0px;
+  /* Leading gutter above the breadcrumb, between it and the nav. */
+  --inputs-breadcrumb-lead: 1.5rem;
+  --inputs-breadcrumb-height: 2rem;
+  /* Trailing gutter below the breadcrumb, before the table starts.  */
+  --inputs-breadcrumb-gap: 1.25rem;
+  --inputs-header-height: 4rem;
+  --inputs-heading-top-height: 2rem;
+  /* Where the table's own sticky header ends */
+  --inputs-sticky-header-bottom: calc(
+    var(--nav-height) + var(--inputs-breadcrumb-lead) + var(--inputs-breadcrumb-height) +
+      var(--inputs-breadcrumb-gap) + var(--inputs-header-height)
+  );
+}
+
+.ant-breadcrumb .ant-breadcrumb-item a{
+  /* myetm-800 */
+  --ant-breadcrumb-last-item-color: #462c34;
+  --ant-breadcrumb-link-color:  #462c34;
+}
+
+.inputs-breadcrumb {
+  height: calc(
+    var(--inputs-breadcrumb-lead) + var(--inputs-breadcrumb-height) + var(--inputs-breadcrumb-gap)
+  );
+  padding-top: var(--inputs-breadcrumb-lead);
+  padding-bottom: var(--inputs-breadcrumb-gap);
+  top: var(--nav-height);
+}
+
+/* height on a cell is a minimum, so the title stays on one line or a wrap would push the header
+  taller than the offset assumes */
+.ant-table-wrapper .ant-table-thead > tr > th {
+  height: var(--inputs-header-height);
+  white-space: nowrap;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide > td {
+  position: sticky;
+  top: var(--inputs-sticky-header-bottom);
+  z-index: 2;
+  @apply bg-myetm-600;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr > td {
+  border-right: var(--ant-line-width) var(--ant-line-type) var(--ant-table-border-color);
+
+  &:first-child {
+    border-left: var(--ant-line-width) var(--ant-line-type) var(--ant-table-border-color)
+  }
+}
+
+/* Only a slide reached through a level (flattenRows gave it depth > 0) has a real
+  inputs-heading-top row above it to leave sticky room for */
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide--under-top > td {
+  top: calc(var(--inputs-sticky-header-bottom) + var(--inputs-heading-top-height));
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-slide:hover > td {
+  @apply bg-myetm-600;
+}
+
+/* Inputs table rows */
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading > td {
+  border-bottom: none;
+  border-right: none;
+  padding-top: 20px;
+
+  &:last-child {
+    border-right: var(--ant-line-width) var(--ant-line-type) var(--ant-table-border-color)
+  }
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-top > td {
+  position: sticky;
+  top: var(--inputs-sticky-header-bottom);
+  z-index: 3;
+  height: var(--inputs-heading-top-height);
+  padding-top: 32px;
+  @apply bg-myetm-200;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-heading-top:hover > td {
+  @apply bg-myetm-200;
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-row:hover > td {
+  background: #E8EEF8;
+
+  &.ant-table-cell:has(input.filled-cell) {
+    background: rgb(215, 240, 240);
+  }
+
+  &.ant-table-cell:has(input.red-cell) {
+    @apply bg-red-200;
+  }
+}
+
+.ant-table-wrapper .ant-table-tbody > tr.inputs-row > td.ant-table-cell {
+  font-family: 'Roboto Mono';
+
+  &:first-child, &:nth-child(2) {
+    font-family: inherit;
+  }
+
+  &:has(input.filled-cell) {
+    @apply bg-myetm-100;
+  }
+
+  &:has(input.red-cell) {
+    @apply bg-red-100;
+  }
+
+  input.filled-cell {
+    @apply text-myetm-110;
+  }
+}
+
+/* Matches the inputs table's numeric cells, so figures read consistently across both */
+.chart-table-value {
+  font-family: 'Roboto Mono';
+}
+
