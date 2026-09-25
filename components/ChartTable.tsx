@@ -107,7 +107,7 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
       </thead>
       <tbody>
         {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
-        <tr className="bg-myetm-300 text-myetm-800 font-semibold transition-colors">
+        <tr className="bg-myetm-300 text-myetm-800 transition-colors">
           <td className="border-l border-b border-gray-300 px-3 text-left fixed-width-cell first-col">{translate('series.total')}</td>
           <td className="border-b border-gray-300 px-3 text-right fixed-width-cell">{series.formatter(0).split(' ')[1]}</td>
           {series.categories.map((_, i) => {

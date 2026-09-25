@@ -179,7 +179,6 @@ const InputsTable: React.FC<InputsTableProps> = ({
     return [
       {
         key: 'name',
-        title: translate('inputs.name'),
         width: nameColumnWidth,
         onCell: cellFor(0),
         render: (_: unknown, row: TableRow) => {
