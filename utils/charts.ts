@@ -2,7 +2,7 @@ import { ScenarioIndexedScenarioData, ScenarioData } from './api/types';
 
 import sortScenarios from './sortScenarios';
 
-import { ChartSchema, FlattenedChartSchema } from '../data/charts';
+import { ChartSchema, FlattenedChartSchema, VariantNode } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
 import { createScalingFormatter, UnitFormatter } from './units';
 import { createDefaultUnitConverter, UnitConverter } from './units';
@@ -15,28 +15,64 @@ export interface ChartSeries {
   converter: UnitConverter;
 }
 
+const isRenderable = (node: VariantNode): node is VariantNode & { series: string[] } =>
+  node.series !== undefined;
+
 /**
- * Given a chart and (optional) variant names, returns a new data structure
- * containing the chart and variant slug, and the series needed to render the
- * chart.
+ * The path down to the first renderable node reachable from this list of siblings: the first
+ * node itself if it already renders something, otherwise the first leaf under its first child,
+ * and so on. Used to pick a default when a path is missing, incomplete, or lands on a pure
+ * branch with nothing of its own to show.
  */
-export const flattenChart = (chart: ChartSchema, variantSlug?: string): FlattenedChartSchema => {
-  let variant;
+export const firstLeafPath = (nodes: VariantNode[]): VariantNode[] => {
+  const [first] = nodes;
 
-  if (variantSlug) {
-    variant = chart.variants.find((variant) => variant.slug === variantSlug);
-  }
+  if (!first) return [];
+  if (isRenderable(first)) return [first];
 
-  variant = variant || chart.variants[0];
+  return [first, ...firstLeafPath(first.children || [])];
+};
+
+/**
+ * Walks slugs down the variant tree one segment per level, always returning a full
+ * renderable path. Falls back to firstLeafPath.
+ */
+export const resolveVariantPath = (nodes: VariantNode[], slugs: string[]): VariantNode[] => {
+  const [slug, ...rest] = slugs;
+  const match = slug ? nodes.find((node) => node.slug === slug) : undefined;
+
+  if (!match) return firstLeafPath(nodes);
+  if (isRenderable(match) && rest.length === 0) return [match];
+
+  return [match, ...resolveVariantPath(match.children || [], rest)];
+};
+
+/**
+ * How many distinct renderable views this variant tree offers in total, across every depth.
+ */
+export const countLeaves = (nodes: VariantNode[]): number =>
+  nodes.reduce(
+    (total, node) => total + (isRenderable(node) ? 1 : 0) + countLeaves(node.children || []),
+    0
+  );
+
+/**
+ * Given a chart and the variant path segments from the URL, returns a new data structure
+ * containing the chart and full variant slug path, and the series needed to render the chart.
+ */
+export const flattenChart = (chart: ChartSchema, variantSlugs: string[] = []): FlattenedChartSchema => {
+  const path = resolveVariantPath(chart.variants, variantSlugs);
+  const leaf = path[path.length - 1];
 
   return {
-    key: `${chart.key}-${variant.key}`,
+    key: `${chart.key}-${leaf.key}`,
     chartKey: chart.key,
-    variantKey: variant.key,
-    slug: `${chart.slug}/${variant.slug}`,
-    series: variant.series,
-    displayAs: variant.displayAs || 'chart',
-    numVariants: chart.variants.length,
+    variantKey: leaf.key,
+    variantPath: path.map((node) => node.key),
+    slug: `${chart.slug}/${path.map((node) => node.slug).join('/')}`,
+    series: leaf.series || [],
+    displayAs: leaf.displayAs || 'chart',
+    hasVariants: countLeaves(chart.variants) > 1,
   };
 };
 

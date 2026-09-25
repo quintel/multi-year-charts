@@ -10,6 +10,7 @@ import UnitToggle from './ChartWrapper/UnitToggle';
 import pageGutter from './pageGutter';
 
 import { ChartSchema } from '../data/charts';
+import { resolveVariantPath } from '../utils/charts';
 import useLinkHelper from '../utils/useLinkHelper';
 import { lastVisit, rememberVisit, Section } from '../utils/lastVisited';
 
@@ -42,9 +43,11 @@ const SubNav = ({ charts, pending }: { charts: ChartSchema[]; pending?: string |
   }, [router.events, collection, section]);
 
   const inputsHref = lastVisit(collection, 'inputs') || linkTo('/inputs');
+  const defaultVariantPath = resolveVariantPath(firstChart.variants, [])
+    .map((node) => node.slug)
+    .join('/');
   const outputsHref =
-    lastVisit(collection, 'outputs') ||
-    linkTo(`/charts/${firstChart.slug}/${firstChart.variants[0].slug}`);
+    lastVisit(collection, 'outputs') || linkTo(`/charts/${firstChart.slug}/${defaultVariantPath}`);
 
   return (
     <div className="bg-myetm-300 border-b border-myetm-600 text-sm text-white">

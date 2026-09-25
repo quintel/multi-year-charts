@@ -19,8 +19,8 @@ function downloadAsCSV(
 
   let title = translate(`chart.${chart.chartKey}`);
 
-  if (chart.numVariants > 1) {
-    title += ` - ${translate(`chart.variant.${chart.variantKey}`)}`;
+  if (chart.hasVariants) {
+    title += ` - ${chart.variantPath.map((key) => translate(`chart.variant.${key}`)).join(' - ')}`;
   }
 
   el.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(csv)}`);
