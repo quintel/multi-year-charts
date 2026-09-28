@@ -7,6 +7,7 @@ import * as Sentry from '@sentry/nextjs';
  */
 export interface CollectionMember {
   scenarioID: number;
+  savedScenarioID: number | null;
   title: string | null;
 }
 
@@ -44,7 +45,8 @@ export const scenarioIDsFromQuery = (queryIDs: string): number[] => {
 const firstQueryValue = (value: string | string[] | undefined) =>
   value == null ? undefined : [value].flat()[0];
 
-export default function useResolvedCollection(): Resolution {
+//  `attempt` re-resolves when it changes
+export default function useResolvedCollection(attempt = 0): Resolution {
   const router = useRouter();
 
   const collectionID = firstQueryValue(router.query.collectionID);
@@ -59,7 +61,12 @@ export default function useResolvedCollection(): Resolution {
     }
 
     let active = true;
-    setFetched(LOADING);
+
+    // A re-resolve keeps showing what it has, even when it fails
+    const settle = (resolution: Resolution) =>
+      setFetched((current) => (attempt ? current : resolution));
+
+    settle(LOADING);
 
     fetch(`/api/collections/${encodeURIComponent(collectionID)}`, {
       headers: { Accept: 'application/json' },
@@ -81,14 +88,21 @@ export default function useResolvedCollection(): Resolution {
 
         // MyETM pairs each scenario with the saved scenario it is associated with
         const members: CollectionMember[] = Array.isArray(data?.scenarios)
-          ? data.scenarios.map((member: { scenario_id: number; title: string | null }) => ({
-              scenarioID: member.scenario_id,
-              title: member.title ?? null,
-            }))
+          ? data.scenarios.map(
+              (member: {
+                scenario_id: number;
+                saved_scenario_id?: number;
+                title: string | null;
+              }) => ({
+                scenarioID: member.scenario_id,
+                savedScenarioID: member.saved_scenario_id ?? null,
+                title: member.title ?? null,
+              })
+            )
           : [];
 
         if (!members.length) {
-          setFetched(NOT_FOUND);
+          settle(NOT_FOUND);
           return;
         }
 
@@ -100,13 +114,13 @@ export default function useResolvedCollection(): Resolution {
       .catch((error) => {
         Sentry.captureException(error);
 
-        if (active) setFetched(NOT_FOUND);
+        if (active) settle(NOT_FOUND);
       });
 
     return () => {
       active = false;
     };
-  }, [collectionID]);
+  }, [collectionID, attempt]);
 
   // Legacy route. The title is whatever the URL claims it is, which is why the new route does not
   // read it. Memoised because callers put the result into the store on change: a fresh object every
@@ -122,7 +136,7 @@ export default function useResolvedCollection(): Resolution {
       return NOT_FOUND;
     }
 
-    const members = ids.map((scenarioID) => ({ scenarioID, title: null }));
+    const members = ids.map((scenarioID) => ({ scenarioID, savedScenarioID: null, title: null }));
 
     return { status: 'ready', collection: { id: null, title: title ?? null, members } };
   }, [scenarioIDs, title]);

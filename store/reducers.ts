@@ -72,10 +72,9 @@ const orderOf = (columns: Column[], sessionID: number) =>
 
 const reordered = (scenarioData: AppState['scenarioData'], columns: Column[]) =>
   Object.fromEntries(
-    Object.entries(scenarioData).map(([id, scenario]) => [
-      id,
-      { ...scenario, order: orderOf(columns, Number(id)) },
-    ])
+    Object.entries(scenarioData)
+      .map(([id, scenario]) => [id, { ...scenario, order: orderOf(columns, Number(id)) }] as const)
+      .filter(([, scenario]) => scenario.order >= 0)
   );
 
 const editColumn = (

@@ -14,3 +14,18 @@ it('clears the failure once a request succeeds', () => {
 
   expect(finished.failureReason).toBeNull();
 });
+
+it('drops the data of a session no column reads any more', () => {
+  const withData = {
+    ...reducer(undefined, { type: '' } as any),
+    scenarioData: { 101: { order: 0 }, 5: { order: 1 } } as any,
+  };
+
+  const repointed = reducer(withData, {
+    type: TypeKeys.SET_COLUMNS,
+    payload: [{ sessionID: 202 }, { sessionID: 5 }],
+  });
+
+  expect(Object.keys(repointed.scenarioData)).toEqual(['5']);
+  expect(repointed.scenarioData[5].order).toEqual(1);
+});

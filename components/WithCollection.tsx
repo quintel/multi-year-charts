@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -8,10 +8,12 @@ import MissingScenarios from './MissingScenarios';
 
 import { remoteChange, setCollection, setColumns, setUserID } from '../store/actions';
 import { AppState, CollectionState, Column } from '../store/types';
+import { isNewer } from '../utils/api/middleware';
 import useCurrentUser from '../utils/useCurrentUser';
 import useResolvedCollection from '../utils/useResolvedCollection';
 
 const POLL_MS = 5000;
+const RESOLVE_MS = 300_000;
 
 /**
  * Resolves the collection named by the URL, puts it and its columns into the store, and renders
@@ -39,7 +41,9 @@ const WithCollection = ({
   storedCollection: CollectionState;
 }) => {
   const router = useRouter();
-  const { status, collection } = useResolvedCollection();
+  const [attempt, setAttempt] = useState(0);
+  const { status, collection } = useResolvedCollection(attempt);
+  const scenarioStamps = useRef<Record<string, string>>({});
   const { user, loading } = useCurrentUser();
 
   useEffect(() => {
@@ -51,6 +55,9 @@ const WithCollection = ({
   }, [collection, user, loading, setCollection, setColumns, setUserID]);
 
   const watching = columns.map(({ sessionID }) => sessionID).join(',');
+  const saved = collection?.members
+    .flatMap(({ savedScenarioID }) => savedScenarioID ?? [])
+    .join(',');
 
   useEffect(() => {
     if (!watching) return;
@@ -58,19 +65,32 @@ const WithCollection = ({
     const tick = async () => {
       if (document.hidden) return;
 
-      const response = await fetch(`/api/sessions/stamps?ids=${watching}`);
+      const response = await fetch(`/api/sessions/stamps?ids=${watching}&scenarios=${saved}`);
 
       if (!response.ok) return;
 
-      Object.entries<string>(await response.json()).forEach(([id, stamp]) =>
-        remoteChange(Number(id), stamp)
+      const { stamps, scenarios } = await response.json();
+
+      Object.entries<string>(stamps).forEach(([id, stamp]) => remoteChange(Number(id), stamp));
+
+      // A saved scenario that moved may be bound to another session, repoint
+      const savedElsewhere = Object.entries<string>(scenarios).some(([id, stamp]) =>
+        isNewer(stamp, scenarioStamps.current[id])
       );
+
+      scenarioStamps.current = { ...scenarioStamps.current, ...scenarios };
+
+      if (savedElsewhere) setAttempt((n) => n + 1);
     };
 
-    const timer = setInterval(tick, POLL_MS);
+    const polling = setInterval(tick, POLL_MS);
+    const resolving = setInterval(() => document.hidden || setAttempt((n) => n + 1), RESOLVE_MS);
 
-    return () => clearInterval(timer);
-  }, [watching, remoteChange]);
+    return () => {
+      clearInterval(polling);
+      clearInterval(resolving);
+    };
+  }, [watching, saved, remoteChange]);
 
   if (status === 'notFound') {
     return <MissingScenarios />;

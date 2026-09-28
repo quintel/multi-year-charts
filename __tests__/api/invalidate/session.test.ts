@@ -70,6 +70,15 @@ describe('a notice that a session changed', () => {
     expect(read(3, ['co2'])).toEqual(ANSWER);
   });
 
+  it('ignores a stamp from the future, which would mask every real one after it', async () => {
+    await handler(notice('3', { stamp: '9999-01-01T00:00:00.000Z' }), makeRes());
+    write(3, ['co2'], ANSWER);
+
+    await handler(notice('3', { stamp: '2026-09-01T10:00:00.000Z' }), makeRes());
+
+    expect(read(3, ['co2'])).toBeUndefined();
+  });
+
   it('survives a body that is not an object', async () => {
     write(3, ['co2'], ANSWER);
 

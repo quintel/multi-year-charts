@@ -17,8 +17,9 @@ interface Entry extends CachedResponse {
 
 const store = new Map<string, Entry>();
 const lastStamp = new Map<number, string>();
+const lastScenarioStamp = new Map<number, string>();
 
-// TODO: Consider TTL and Max Entries based on
+// TODO: Consider TTL and Max Entries
 const ttlMs = () => Number(process.env.COLLECTIONS_SCENARIO_CACHE_TTL_MS || 300_000);
 const maxEntries = () => Number(process.env.COLLECTIONS_SCENARIO_CACHE_MAX_ENTRIES || 500);
 
@@ -65,11 +66,15 @@ const evictOldest = () => {
   }
 };
 
-// Whether a notice is worth acting on
-const isNewer = (stamp: string, seen?: string) => {
+const MAX_SKEW_MS = 60_000;
+
+// Whether a notice is worth acting on. A stamp from the future would mask every real one after it
+export const isNewer = (stamp: string, seen?: string) => {
+  const arrived = Date.parse(stamp);
+
+  if (arrived > Date.now() + MAX_SKEW_MS) return false;
   if (seen === undefined) return true;
 
-  const arrived = Date.parse(stamp);
   const acted = Date.parse(seen);
 
   return Number.isNaN(arrived) || Number.isNaN(acted) || arrived > acted;
@@ -95,8 +100,20 @@ export const invalidate = (sessionID: number, stamp?: string): number => {
   return invalidated.length;
 };
 
+// When MyETM last said this saved scenario changed
+export const scenarioStampFor = (savedScenarioID: number) => lastScenarioStamp.get(savedScenarioID);
+
+export const recordScenarioChange = (savedScenarioID: number, stamp: string) => {
+  if (!isNewer(stamp, lastScenarioStamp.get(savedScenarioID))) return false;
+
+  lastScenarioStamp.set(savedScenarioID, stamp);
+
+  return true;
+};
+
 // Nothing currently invalidates the whole cache, used in tests
 export const reset = () => {
   store.clear();
   lastStamp.clear();
+  lastScenarioStamp.clear();
 };

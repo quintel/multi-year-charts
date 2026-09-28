@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import { SignJWT, exportJWK, generateKeyPair, createLocalJWKSet, type KeyLike } from 'jose';
 
 import { SESSION_COOKIE_NAME } from '../../utils/sessionCookie';
@@ -10,8 +10,7 @@ const KID = 'test-key';
 const ISSUER = process.env.NEXT_PUBLIC_MYETM_URL as string;
 
 let privateKey: KeyLike;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let handler: (req: NextApiRequest, res: NextApiResponse) => any;
+let handler: NextApiHandler;
 
 const makeRes = () => {
   const res: Partial<NextApiResponse> = {};
