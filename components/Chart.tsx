@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useCallback, useImperativeHandle, useRef, useState, useEffect } from 'react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart } from 'echarts/charts';
@@ -269,11 +269,12 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
         selected: updatedSelected,
       },
     });
-
     setHiddenSeries(updatedHiddenSeries);
     setAllSeriesHidden(newVisibilityState);
-    onAllSeriesHiddenChange?.(newVisibilityState);
-  }, [allSeriesHidden, onAllSeriesHiddenChange, translatedSeries]);
+  }, [allSeriesHidden, translatedSeries]);
+
+  useEffect(() => onAllSeriesHiddenChange?.(allSeriesHidden), [allSeriesHidden, onAllSeriesHiddenChange]);
+
 
   useImperativeHandle(ref, () => ({ toggleAllSeries: onToggleAllSeries }), [onToggleAllSeries]);
 
