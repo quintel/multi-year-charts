@@ -168,7 +168,7 @@ export default {
     {
       key: 'by_sector_and_carrier',
       slug: 'by-sector-and-carrier',
-      displayAs: 'table',
+      displayAs: 'table' as const,
       series: [
         'myc_final_demand_of_ammonia_in_agriculture',
         'myc_final_demand_of_ammonia_in_buildings',
