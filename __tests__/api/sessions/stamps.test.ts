@@ -4,7 +4,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import handler from '../../../pages/api/sessions/stamps';
-import { invalidate, reset } from '../../../utils/cache/scenarioCache';
+import { invalidate, recordScenarioChange, reset } from '../../../utils/cache/scenarioCache';
 import { isNewer } from '../../../utils/api/middleware';
 
 const STAMP = '2026-09-02T09:00:00.000000Z';
@@ -16,7 +16,8 @@ const makeRes = () => {
   return res as NextApiResponse;
 };
 
-const ask = (ids?: string) => ({ query: { ids } } as unknown as NextApiRequest);
+const ask = (ids?: string, scenarios?: string) =>
+  ({ query: { ids, scenarios } } as unknown as NextApiRequest);
 
 beforeEach(reset);
 
@@ -27,14 +28,23 @@ describe('the stamps a tab polls', () => {
     const res = makeRes();
     handler(ask('3,4'), res);
 
-    expect(res.json).toHaveBeenCalledWith({ 3: STAMP });
+    expect(res.json).toHaveBeenCalledWith({ stamps: { 3: STAMP }, scenarios: {} });
   });
 
   it('is happy with a missing or empty list', () => {
     const res = makeRes();
     handler(ask(), res);
 
-    expect(res.json).toHaveBeenCalledWith({});
+    expect(res.json).toHaveBeenCalledWith({ stamps: {}, scenarios: {} });
+  });
+
+  it('reports the saved scenarios MyETM has reported a change for', () => {
+    recordScenarioChange(42, STAMP);
+
+    const res = makeRes();
+    handler(ask('3001', '42,43'), res);
+
+    expect(res.json).toHaveBeenCalledWith({ stamps: {}, scenarios: { 42: STAMP } });
   });
 });
 

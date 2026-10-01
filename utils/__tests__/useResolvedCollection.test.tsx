@@ -42,8 +42,8 @@ describe('the legacy scenario-ids route', () => {
       id: null,
       title: 'From the URL',
       members: [
-        { scenarioID: 1, title: null },
-        { scenarioID: 2, title: null },
+        { scenarioID: 1, savedScenarioID: null, title: null },
+        { scenarioID: 2, savedScenarioID: null, title: null },
       ],
     });
   });
@@ -85,7 +85,7 @@ describe('the collection route', () => {
       id: 42,
       title: 'From the API',
       scenarios: [
-        { scenario_id: 3, title: 'Cold winter' },
+        { scenario_id: 3, saved_scenario_id: 1, title: 'Cold winter' },
         { scenario_id: 4, title: 'Warm winter' },
       ],
     });
@@ -97,8 +97,8 @@ describe('the collection route', () => {
       id: 42,
       title: 'From the API',
       members: [
-        { scenarioID: 3, title: 'Cold winter' },
-        { scenarioID: 4, title: 'Warm winter' },
+        { scenarioID: 3, savedScenarioID: 1, title: 'Cold winter' },
+        { scenarioID: 4, savedScenarioID: null, title: 'Warm winter' },
       ],
     });
   });
@@ -110,7 +110,9 @@ describe('the collection route', () => {
     const { result } = renderHook(() => useResolvedCollection());
 
     await waitFor(() => expect(result.current.status).toEqual('ready'));
-    expect(result.current.collection?.members).toEqual([{ scenarioID: 3, title: null }]);
+    expect(result.current.collection?.members).toEqual([
+      { scenarioID: 3, savedScenarioID: null, title: null },
+    ]);
   });
 
   it('ignores a title in the URL', async () => {

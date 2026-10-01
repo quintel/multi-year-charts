@@ -54,8 +54,8 @@ it('renders the children once the collection resolves', () => {
       id: 42,
       title: 'A collection',
       members: [
-        { scenarioID: 1, title: 'One' },
-        { scenarioID: 2, title: 'Two' },
+        { scenarioID: 1, savedScenarioID: null, title: 'One' },
+        { scenarioID: 2, savedScenarioID: null, title: 'Two' },
       ],
     },
   };

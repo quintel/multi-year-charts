@@ -1,3 +1,5 @@
+import { createRemoteJWKSet, jwtVerify, type JWTPayload } from 'jose';
+
 // MyETM owns the session cookie, so we simply redirect the browser to MyETM to sign in or out, and
 // once the cookie is set every ETM app is authenticated. `return_to` brings the user back here.
 const myetmUrl = () => process.env.NEXT_PUBLIC_MYETM_URL;
@@ -10,3 +12,26 @@ export function signIn(): void {
 export function signOut(): void {
   window.location.href = `${myetmUrl()}/identity/sign_out`;
 }
+
+// Created on first use, then cached and refreshed by jose
+let myetmKeys: ReturnType<typeof createRemoteJWKSet> | undefined;
+
+// The claims of a token MyETM signed, or null
+export const verifyMyetmToken = async (
+  token: string,
+  audience?: string
+): Promise<JWTPayload | null> => {
+  myetmKeys ??= createRemoteJWKSet(new URL('/oauth/discovery/keys', myetmUrl()));
+
+  try {
+    const { payload } = await jwtVerify(token, myetmKeys, {
+      issuer: myetmUrl(),
+      audience,
+      algorithms: ['RS256'],
+    });
+
+    return payload;
+  } catch {
+    return null;
+  }
+};

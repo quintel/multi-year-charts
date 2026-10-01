@@ -4,7 +4,7 @@ import ColumnWriter from './columnWriter';
 import Connection, { fetchInputsForScenario, updateScenario, WriteRefused } from './Connection';
 import { InputValue } from './types';
 import { writeFailed, writeStarted, writeSucceeded } from '../../store/actions';
-import { AppState, TypeKeys } from '../../store/types';
+import { AppState, Column, TypeKeys } from '../../store/types';
 import { RESET } from '../inputs/reset';
 import { absorbable, enabledMembers, isHeld } from '../inputs/shareGroups';
 
@@ -137,6 +137,19 @@ const createAPIMiddleware = () => {
 
         case TypeKeys.FETCH_INPUTS: {
           fetchInputs(conn, dispatch, getState);
+          break;
+        }
+
+        // A repoint moves a column onto an unfetched session
+        case TypeKeys.SET_COLUMNS: {
+          const shown = new Set((getState() as AppState).columns.map(({ sessionID }) => sessionID));
+
+          if (shown.size) {
+            (action.payload as Column[])
+              .filter(({ sessionID }) => !shown.has(sessionID))
+              .forEach(({ sessionID }) => refetchColumn(sessionID, dispatch, getState));
+          }
+
           break;
         }
 
