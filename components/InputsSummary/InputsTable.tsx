@@ -295,6 +295,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
   return (
     <div className="mx-auto w-fit">
       <div className="inputs-breadcrumb sticky z-30 flex items-center bg-white">
+        <span className='text-lg pr-3'>{translate('inputs.filter_by')}</span>
         <InputsBreadcrumb roots={structure} showAll={showAllInputs} trail={trail} />
       </div>
 

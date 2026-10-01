@@ -17,6 +17,7 @@
 
   "inputs.modified": "Edited",
   "inputs.all": "All",
+  "inputs.filter_by": "Filter by",
   "inputs.none": "No edited inputs in this section",
   "inputs.name": "Category/Input",
   "inputs.unit": "Unit",
@@ -35,6 +36,8 @@
   "displayAs.area": "Area chart",
   "displayAs.bar": "Bar chart",
   "displayAs.table": "Table",
+
+  "chart.filter_by": "Filter by",
 
   "chart.final_demand": "Final demand (energetic & non-energetic)",
   "chart.co2_emissions": "Primary CO2 emissions",

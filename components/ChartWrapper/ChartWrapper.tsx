@@ -11,6 +11,7 @@ import ChartTable from '../ChartTable';
 import Loading from '../Loading';
 import LocaleMessage from '../LocaleMessage';
 import OutputBreadcrumb from '../OutputBreadcrumb';
+import useTranslate from '../../utils/useTranslate';
 import { scenariosToChartData } from '../../utils/charts';
 import { addQueries, apiFetch, removeQueries } from '../../store/actions';
 import pageGutter from '../pageGutter';
@@ -61,6 +62,7 @@ const ChartTitle = ({
   onToggleAllSeries?: () => void;
 }) => (
   <div className="mb-5 flex items-center">
+    <span className='text-lg pl-2 pr-3'>{useTranslate()('chart.filter_by')}</span>
     <OutputBreadcrumb charts={charts} />
     <div className="flex-1"></div>
     {onToggleAllSeries ? (

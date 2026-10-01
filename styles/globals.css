@@ -67,8 +67,8 @@ table {
   --ant-color-link-hover: #89a9ec;
   --ant-color-bg-text-hover: #fdece0;
   /* myetm-800 */
-  --ant-breadcrumb-last-item-color: #462c34;
-  --ant-breadcrumb-link-color:  #462c34;
+  --ant-breadcrumb-last-item-color: #181f29;
+  --ant-breadcrumb-link-color:  #181f29;
 }
 
 :root {
@@ -89,8 +89,8 @@ table {
 
 .ant-breadcrumb .ant-breadcrumb-item a{
   /* myetm-800 */
-  --ant-breadcrumb-last-item-color: #462c34;
-  --ant-breadcrumb-link-color:  #462c34;
+  --ant-breadcrumb-last-item-color: #181f29;
+  --ant-breadcrumb-link-color:  #181f29;
 }
 
 .inputs-breadcrumb {

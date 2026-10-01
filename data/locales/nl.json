@@ -17,6 +17,7 @@
 
   "inputs.modified": "Bewerkt",
   "inputs.all": "Alle",
+  "inputs.filter_by": "Filter op",
   "inputs.none": "Geen bewerkte invoer in dit onderdeel",
   "inputs.name": "Categorie/Invoer",
   "inputs.unit": "Eenheid",
@@ -35,6 +36,8 @@
   "displayAs.area": "Grafiek",
   "displayAs.bar": "Staafdiagram",
   "displayAs.table": "Tabel",
+
+  "chart.filter_by": "Filter op",
 
   "chart.final_demand": "Eindgebruik energie (energetisch & non-energetisch)",
   "chart.co2_emissions": "Primaire CO2 uitstoot",
