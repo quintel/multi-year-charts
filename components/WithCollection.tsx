@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import Chrome from './Chrome';
 import PageLoading from './PageLoading';
@@ -27,6 +28,7 @@ const WithCollection = ({
   setColumns,
   setUserID,
   columns,
+  storedCollection,
 }: {
   children: React.ReactNode;
   remoteChange: (sessionID: number, stamp?: string) => void;
@@ -34,7 +36,9 @@ const WithCollection = ({
   setColumns: (columns: Column[]) => void;
   setUserID: (userID: string | null) => void;
   columns: Column[];
+  storedCollection: CollectionState;
 }) => {
+  const router = useRouter();
   const { status, collection } = useResolvedCollection();
   const { user, loading } = useCurrentUser();
 
@@ -72,10 +76,9 @@ const WithCollection = ({
     return <MissingScenarios />;
   }
 
-  // Resolved, and the store has caught up. Resolving the collection route is a round trip to
-  // MyETM, so the wait is long enough to see, and long enough for the previous collection's
-  // columns to still be in the store.
-  const ready = status === 'ready' && columns.length > 0;
+  const urlCollectionID = String(router.query.collectionID ?? '');
+  const held = urlCollectionID !== '' && urlCollectionID === String(storedCollection.id ?? '');
+  const ready = columns.length > 0 && (status === 'ready' || held);
 
   return (
     <Chrome>
@@ -90,6 +93,7 @@ const WithCollection = ({
 
 const mapStateToProps = (state: AppState) => ({
   columns: state.columns,
+  storedCollection: state.collection,
 });
 
 export default connect(mapStateToProps, { remoteChange, setCollection, setColumns, setUserID })(

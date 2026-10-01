@@ -5,14 +5,146 @@ export default {
     {
       key: 'by_sector',
       slug: 'by-sector',
-      series: [
-        'myc_final_demand_in_agriculture',
-        'myc_final_demand_in_buildings',
-        'myc_final_demand_in_households',
-        'myc_final_demand_in_industry',
-        'myc_final_demand_in_other_and_energy_sector',
-        'myc_final_demand_in_transport',
-        'myc_final_demand_in_bunkers'
+      children: [
+        {
+          key: 'by_sector_all',
+          slug: 'all',
+          series: [
+            'myc_final_demand_in_agriculture',
+            'myc_final_demand_in_buildings',
+            'myc_final_demand_in_households',
+            'myc_final_demand_in_industry',
+            'myc_final_demand_in_other_and_energy_sector',
+            'myc_final_demand_in_transport',
+            'myc_final_demand_in_bunkers'
+          ],
+        },
+        {
+          key: 'by_sector_agriculture',
+          slug: 'agriculture',
+          series: [
+            'myc_final_demand_of_ammonia_in_agriculture',
+            'myc_final_demand_of_coal_and_derivatives_in_agriculture',
+            'myc_final_demand_of_electricity_in_agriculture',
+            'myc_final_demand_of_heat_in_agriculture',
+            'myc_final_demand_of_hydrogen_in_agriculture',
+            'myc_final_demand_of_liquid_biofuels_in_agriculture',
+            'myc_final_demand_of_methanol_in_agriculture',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_agriculture',
+            'myc_final_demand_of_oil_and_derivatives_in_agriculture',
+            'myc_final_demand_of_solar_thermal_in_agriculture',
+            'myc_final_demand_of_solid_biofuels_in_agriculture',
+            'myc_final_demand_of_waste_mix_in_agriculture'
+          ]
+        },
+        {
+          key: 'by_sector_buildings',
+          slug: 'buildings',
+          series: [
+            'myc_final_demand_of_ammonia_in_buildings',
+            'myc_final_demand_of_coal_and_derivatives_in_buildings',
+            'myc_final_demand_of_electricity_in_buildings',
+            'myc_final_demand_of_heat_in_buildings',
+            'myc_final_demand_of_hydrogen_in_buildings',
+            'myc_final_demand_of_liquid_biofuels_in_buildings',
+            'myc_final_demand_of_methanol_in_buildings',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_buildings',
+            'myc_final_demand_of_oil_and_derivatives_in_buildings',
+            'myc_final_demand_of_solar_thermal_in_buildings',
+            'myc_final_demand_of_solid_biofuels_in_buildings',
+            'myc_final_demand_of_waste_mix_in_buildings'
+          ]
+        },
+        {
+          key: 'by_sector_bunkers',
+          slug: 'bunkers',
+          series: [
+            'myc_final_demand_of_ammonia_in_bunkers',
+            'myc_final_demand_of_coal_and_derivatives_in_bunkers',
+            'myc_final_demand_of_electricity_in_bunkers',
+            'myc_final_demand_of_heat_in_bunkers',
+            'myc_final_demand_of_hydrogen_in_bunkers',
+            'myc_final_demand_of_liquid_biofuels_in_bunkers',
+            'myc_final_demand_of_methanol_in_bunkers',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_bunkers',
+            'myc_final_demand_of_oil_and_derivatives_in_bunkers',
+            'myc_final_demand_of_solar_thermal_in_bunkers',
+            'myc_final_demand_of_solid_biofuels_in_bunkers',
+            'myc_final_demand_of_waste_mix_in_bunkers'
+          ]
+        },
+        {
+          key: 'by_sector_energy_and_other',
+          slug: 'energy',
+          series: [
+            'myc_final_demand_of_ammonia_in_energy_and_other',
+            'myc_final_demand_of_coal_and_derivatives_in_energy_and_other',
+            'myc_final_demand_of_electricity_in_energy_and_other',
+            'myc_final_demand_of_heat_in_energy_and_other',
+            'myc_final_demand_of_hydrogen_in_energy_and_other',
+            'myc_final_demand_of_liquid_biofuels_in_energy_and_other',
+            'myc_final_demand_of_methanol_in_energy_and_other',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_energy_and_other',
+            'myc_final_demand_of_oil_and_derivatives_in_energy_and_other',
+            'myc_final_demand_of_solar_thermal_in_energy_and_other',
+            'myc_final_demand_of_solid_biofuels_in_energy_and_other',
+            'myc_final_demand_of_waste_mix_in_energy_and_other'
+          ]
+        },
+        {
+          key: 'by_sector_households',
+          slug: 'households',
+          series: [
+            'myc_final_demand_of_ammonia_in_households',
+            'myc_final_demand_of_coal_and_derivatives_in_households',
+            'myc_final_demand_of_electricity_in_households',
+            'myc_final_demand_of_heat_in_households',
+            'myc_final_demand_of_hydrogen_in_households',
+            'myc_final_demand_of_liquid_biofuels_in_households',
+            'myc_final_demand_of_methanol_in_households',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_households',
+            'myc_final_demand_of_oil_and_derivatives_in_households',
+            'myc_final_demand_of_solar_thermal_in_households',
+            'myc_final_demand_of_solid_biofuels_in_households',
+            'myc_final_demand_of_waste_mix_in_households'
+          ]
+        },
+        {
+          key: 'by_sector_industry',
+          slug: 'industry',
+          series: [
+            'myc_final_demand_of_ammonia_in_industry',
+            'myc_final_demand_of_coal_and_derivatives_in_industry',
+            'myc_final_demand_of_electricity_in_industry',
+            'myc_final_demand_of_heat_in_industry',
+            'myc_final_demand_of_hydrogen_in_industry',
+            'myc_final_demand_of_liquid_biofuels_in_industry',
+            'myc_final_demand_of_methanol_in_industry',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_industry',
+            'myc_final_demand_of_oil_and_derivatives_in_industry',
+            'myc_final_demand_of_solar_thermal_in_industry',
+            'myc_final_demand_of_solid_biofuels_in_industry',
+            'myc_final_demand_of_waste_mix_in_industry'
+          ]
+        },
+        {
+          key: 'by_sector_transport',
+          slug: 'transport',
+          series: [
+            'myc_final_demand_of_ammonia_in_transport',
+            'myc_final_demand_of_coal_and_derivatives_in_transport',
+            'myc_final_demand_of_electricity_in_transport',
+            'myc_final_demand_of_heat_in_transport',
+            'myc_final_demand_of_hydrogen_in_transport',
+            'myc_final_demand_of_liquid_biofuels_in_transport',
+            'myc_final_demand_of_methanol_in_transport',
+            'myc_final_demand_of_natural_gas_and_derivatives_in_transport',
+            'myc_final_demand_of_oil_and_derivatives_in_transport',
+            'myc_final_demand_of_solar_thermal_in_transport',
+            'myc_final_demand_of_solid_biofuels_in_transport',
+            'myc_final_demand_of_waste_mix_in_transport'
+          ]
+        }
       ]
     },
     {
@@ -124,138 +256,5 @@ export default {
         'myc_final_demand_of_waste_mix_in_transport',
       ]
     },
-    {
-      key: 'by_carrier_agriculture',
-      slug: 'by-carrier-agriculture',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_agriculture',
-        'myc_final_demand_of_coal_and_derivatives_in_agriculture',
-        'myc_final_demand_of_electricity_in_agriculture',
-        'myc_final_demand_of_heat_in_agriculture',
-        'myc_final_demand_of_hydrogen_in_agriculture',
-        'myc_final_demand_of_liquid_biofuels_in_agriculture',
-        'myc_final_demand_of_methanol_in_agriculture',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_agriculture',
-        'myc_final_demand_of_oil_and_derivatives_in_agriculture',
-        'myc_final_demand_of_solar_thermal_in_agriculture',
-        'myc_final_demand_of_solid_biofuels_in_agriculture',
-        'myc_final_demand_of_waste_mix_in_agriculture'
-      ]
-    },
-    {
-      key: 'by_carrier_buildings',
-      slug: 'by-carrier-buildings',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_buildings',
-        'myc_final_demand_of_coal_and_derivatives_in_buildings',
-        'myc_final_demand_of_electricity_in_buildings',
-        'myc_final_demand_of_heat_in_buildings',
-        'myc_final_demand_of_hydrogen_in_buildings',
-        'myc_final_demand_of_liquid_biofuels_in_buildings',
-        'myc_final_demand_of_methanol_in_buildings',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_buildings',
-        'myc_final_demand_of_oil_and_derivatives_in_buildings',
-        'myc_final_demand_of_solar_thermal_in_buildings',
-        'myc_final_demand_of_solid_biofuels_in_buildings',
-        'myc_final_demand_of_waste_mix_in_buildings'
-      ]
-    },
-    {
-      key: 'by_carrier_bunkers',
-      slug: 'by-carrier-bunkers',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_bunkers',
-        'myc_final_demand_of_coal_and_derivatives_in_bunkers',
-        'myc_final_demand_of_electricity_in_bunkers',
-        'myc_final_demand_of_heat_in_bunkers',
-        'myc_final_demand_of_hydrogen_in_bunkers',
-        'myc_final_demand_of_liquid_biofuels_in_bunkers',
-        'myc_final_demand_of_methanol_in_bunkers',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_bunkers',
-        'myc_final_demand_of_oil_and_derivatives_in_bunkers',
-        'myc_final_demand_of_solar_thermal_in_bunkers',
-        'myc_final_demand_of_solid_biofuels_in_bunkers',
-        'myc_final_demand_of_waste_mix_in_bunkers'
-      ]
-    },
-    {
-      key: 'by_carrier_energy_and_other',
-      slug: 'by-carrier-energy',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_energy_and_other',
-        'myc_final_demand_of_coal_and_derivatives_in_energy_and_other',
-        'myc_final_demand_of_electricity_in_energy_and_other',
-        'myc_final_demand_of_heat_in_energy_and_other',
-        'myc_final_demand_of_hydrogen_in_energy_and_other',
-        'myc_final_demand_of_liquid_biofuels_in_energy_and_other',
-        'myc_final_demand_of_methanol_in_energy_and_other',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_energy_and_other',
-        'myc_final_demand_of_oil_and_derivatives_in_energy_and_other',
-        'myc_final_demand_of_solar_thermal_in_energy_and_other',
-        'myc_final_demand_of_solid_biofuels_in_energy_and_other',
-        'myc_final_demand_of_waste_mix_in_energy_and_other'
-      ]
-    },
-    {
-      key: 'by_carrier_households',
-      slug: 'by-carrier-households',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_households',
-        'myc_final_demand_of_coal_and_derivatives_in_households',
-        'myc_final_demand_of_electricity_in_households',
-        'myc_final_demand_of_heat_in_households',
-        'myc_final_demand_of_hydrogen_in_households',
-        'myc_final_demand_of_liquid_biofuels_in_households',
-        'myc_final_demand_of_methanol_in_households',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_households',
-        'myc_final_demand_of_oil_and_derivatives_in_households',
-        'myc_final_demand_of_solar_thermal_in_households',
-        'myc_final_demand_of_solid_biofuels_in_households',
-        'myc_final_demand_of_waste_mix_in_households'
-      ]
-    },
-    {
-      key: 'by_carrier_industry',
-      slug: 'by-carrier-industry',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_industry',
-        'myc_final_demand_of_coal_and_derivatives_in_industry',
-        'myc_final_demand_of_electricity_in_industry',
-        'myc_final_demand_of_heat_in_industry',
-        'myc_final_demand_of_hydrogen_in_industry',
-        'myc_final_demand_of_liquid_biofuels_in_industry',
-        'myc_final_demand_of_methanol_in_industry',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_industry',
-        'myc_final_demand_of_oil_and_derivatives_in_industry',
-        'myc_final_demand_of_solar_thermal_in_industry',
-        'myc_final_demand_of_solid_biofuels_in_industry',
-        'myc_final_demand_of_waste_mix_in_industry'
-      ]
-    },
-    {
-      key: 'by_carrier_transport',
-      slug: 'by-carrier-transport',
-      group: 'sectors_by_carrier',
-      series: [
-        'myc_final_demand_of_ammonia_in_transport',
-        'myc_final_demand_of_coal_and_derivatives_in_transport',
-        'myc_final_demand_of_electricity_in_transport',
-        'myc_final_demand_of_heat_in_transport',
-        'myc_final_demand_of_hydrogen_in_transport',
-        'myc_final_demand_of_liquid_biofuels_in_transport',
-        'myc_final_demand_of_methanol_in_transport',
-        'myc_final_demand_of_natural_gas_and_derivatives_in_transport',
-        'myc_final_demand_of_oil_and_derivatives_in_transport',
-        'myc_final_demand_of_solar_thermal_in_transport',
-        'myc_final_demand_of_solid_biofuels_in_transport',
-        'myc_final_demand_of_waste_mix_in_transport'
-      ]
-    }
   ]
 };

@@ -24,7 +24,7 @@ const InputsPage: NextPage = () => {
           <link rel="icon" href="/favicon.svg" />
         </Head>
 
-        <div className={`${pageGutter} my-6`}>
+        <div className={`${pageGutter} mb-6`}>
           <InputsSummary />
         </div>
       </div>

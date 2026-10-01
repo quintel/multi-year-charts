@@ -48,6 +48,12 @@ describe('on the legacy scenario-ids route', () => {
 
     expect(linkTo('/inputs')).toEqual('/1,2/inputs?title=A%20title');
   });
+
+  it('keeps a query the href already carries alongside the title', () => {
+    query = { scenarioIDs: '1,2', title: 'A title' };
+
+    expect(linkTo('/inputs?all=true')).toEqual('/1,2/inputs?all=true&title=A%20title');
+  });
 });
 
 describe('on a URL naming no collection', () => {

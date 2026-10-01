@@ -19,8 +19,8 @@ function downloadAsCSV(
 
   let title = translate(`chart.${chart.chartKey}`);
 
-  if (chart.numVariants > 1) {
-    title += ` - ${translate(`chart.variant.${chart.variantKey}`)}`;
+  if (chart.hasVariants) {
+    title += ` - ${chart.variantPath.map((key) => translate(`chart.variant.${key}`)).join(' - ')}`;
   }
 
   el.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(csv)}`);
@@ -47,7 +47,7 @@ export default function DownloadCSVButton({ chart, scenarios }: Props) {
 
   return (
     <button
-      className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 active:bg-gray-200`}
+      className={`${disabledClasses} -my-2 flex items-center rounded px-2 py-1.5 text-sm font-medium border border-myetm-600 bg-myetm-200 text-gray-700 transition hover:bg-myetm-300 active:bg-myetm-300`}
       onClick={() => downloadAsCSV(chart, scenarios, translate)}
     >
       <DownloadIcon className="mr-1 h-5 w-5" />

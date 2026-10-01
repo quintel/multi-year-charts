@@ -24,14 +24,15 @@ function findChart(activeChart?: string): ChartSchema {
 }
 
 function pageTitle(chart: ReturnType<typeof flattenChart>, t: ReturnType<typeof useTranslate>) {
-  const chartKey = `chart.${chart.chartKey}`;
-  const variantKey = `chart.variant.${chart.variantKey}`;
+  const chartLabel = t(`chart.${chart.chartKey}`);
 
-  if (chart.numVariants > 1) {
-    return `${t(chartKey)} (${t(variantKey)})`;
+  if (!chart.hasVariants) {
+    return chartLabel;
   }
 
-  return t(chartKey);
+  const variantLabel = chart.variantPath.map((key) => t(`chart.variant.${key}`)).join(' - ');
+
+  return `${chartLabel} (${variantLabel})`;
 }
 
 const ChartPage: NextPage = () => {
@@ -41,19 +42,21 @@ const ChartPage: NextPage = () => {
   const collectionTitle = useSelector((state: AppState) => state.collection.title);
 
   const chartSlug = [router.query.chartSlug].flat()[0];
-  const variantSlug = [router.query.variantSlug].flat()[0];
+  const variantSlugs = [router.query.variantSlug].flat().filter(Boolean) as string[];
 
   if (!chartSlug) {
     return <div>Invalid URL</div>;
   }
 
   const chart = findChart(chartSlug);
+  const flattened = flattenChart(chart, variantSlugs);
 
-  if (chart.variants.length > 1 && !variantSlug) {
-    router.replace(linkTo(`/charts/${chart.slug}/${chart.variants[0].slug}`));
+  // Missing, incomplete, or invalid variant urls all resolve to a canonical path
+  const currentPath = [chart.slug, ...variantSlugs].join('/');
+
+  if (currentPath !== flattened.slug) {
+    router.replace(linkTo(`/charts/${flattened.slug}`));
   }
-
-  const flattened = flattenChart(chart, variantSlug);
 
   return (
     <WithCollection>

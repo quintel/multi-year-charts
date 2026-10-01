@@ -39,7 +39,7 @@ function FetchedAreaInformation({ areaCode }: { areaCode: string }) {
       enterTo="opacity-100"
       key="area-information"
     >
-      <div className="flex items-center gap-2 font-medium">
+      <div className="flex items-center gap-2 p-3 font-medium text-myetm-800 bg-myetm-200 border border-myetm-600 rounded-md">
         {area.icon ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 
 import charts from '../data/charts';
+import { resolveVariantPath } from '../utils/charts';
 import useLinkHelper from '../utils/useLinkHelper';
 
 /**
@@ -9,7 +10,12 @@ import useLinkHelper from '../utils/useLinkHelper';
 const CollectionIndex: NextPage = () => {
   const { useReplaceUrlWithCollection } = useLinkHelper();
 
-  useReplaceUrlWithCollection(`/charts/${charts[0].slug}/${charts[0].variants[0].slug}`);
+  const [firstChart] = charts;
+  const defaultVariantPath = resolveVariantPath(firstChart.variants, [])
+    .map((node) => node.slug)
+    .join('/');
+
+  useReplaceUrlWithCollection(`/charts/${firstChart.slug}/${defaultVariantPath}`);
 
   return <></>;
 };

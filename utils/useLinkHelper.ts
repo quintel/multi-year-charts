@@ -21,16 +21,18 @@ function basePath(router: Router) {
 
 function linkTo(router: Router, href: string) {
   const base = basePath(router);
-  const path = href.startsWith('/') ? href : `/${href}`;
+  const [path, search] = (href.startsWith('/') ? href : `/${href}`).split('?');
+  const params = new URLSearchParams(search);
 
   // The legacy URLs carry their title as a query param, so it has to survive navigation. The
   // collection route reads its title from the API instead, and ignores the param.
-  const title =
-    router.query.collectionID == null && typeof router.query.title === 'string'
-      ? `?title=${encodeURIComponent(router.query.title)}`
-      : '';
+  if (router.query.collectionID == null && typeof router.query.title === 'string') {
+    params.set('title', router.query.title);
+  }
 
-  return `${base ?? ''}${path}${title}`;
+  const query = params.toString().replace(/\+/g, '%20');
+
+  return `${base ?? ''}${path}${query ? `?${query}` : ''}`;
 }
 
 export default function useLinkHelper() {

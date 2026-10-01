@@ -35,7 +35,7 @@ const covers = (data: Record<number, unknown>, columns: Column[]) =>
  */
 function InputSummaryLoading() {
   return (
-    <div className="flex h-[400px] items-center justify-center text-gray-500">
+    <div className="mt-6 flex h-[400px] items-center justify-center text-gray-500">
       <Loading />
     </div>
   );
