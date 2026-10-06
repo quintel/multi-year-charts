@@ -1,5 +1,6 @@
 import co2Emissions from './charts/co2Emissions';
-import finalDemand from './charts/finalDemand';
+import finalEnergyConsumption from './charts/finalEnergyConsumption';
+import finalEnergyConsumptionEUTarget from './charts/finalEnergyConsumptionEUTarget';
 import renewables from './charts/renewables';
 import installedProductionCapacity from './charts/installedProductionCapacity';
 import flexibleCapacity from './charts/flexibleCapacity';
@@ -13,6 +14,8 @@ export interface VariantNode {
   slug: string;
   series?: string[];
   displayAs?: 'chart' | 'table';
+  // Heading of this node's tier in the variant menus (e.g. "Sector"), looked up as chart.group.<group>
+  group?: string;
   children?: VariantNode[];
 }
 
@@ -35,4 +38,12 @@ export interface FlattenedChartSchema {
   hasVariants: boolean;
 }
 
-export default [finalDemand, co2Emissions, renewables, flexibleCapacity, primaryDemand, installedProductionCapacity];
+export default [
+  finalEnergyConsumption,
+  finalEnergyConsumptionEUTarget,
+  co2Emissions,
+  renewables,
+  flexibleCapacity,
+  primaryDemand,
+  installedProductionCapacity,
+];
