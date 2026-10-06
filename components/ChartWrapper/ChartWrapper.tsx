@@ -10,6 +10,7 @@ import Chart, { ChartHandle } from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
 import LocaleMessage from '../LocaleMessage';
+import Markup from '../Markup';
 import OutputBreadcrumb from '../OutputBreadcrumb';
 import useTranslate from '../../utils/useTranslate';
 import { scenariosToChartData } from '../../utils/charts';
@@ -50,6 +51,24 @@ const canRenderChart = (chart: FlattenedChartSchema, scenarios: ScenarioIndexedS
   );
 };
 
+/**
+ * Explains what a chart does and doesn't include, e.g. how the EU target definition differs from
+ * the full final energy consumption. Only shown for charts with a chart.note.<key> translation.
+ */
+const ChartNote = ({ chart }: { chart: FlattenedChartSchema }) => {
+  const translate = useTranslate();
+  const noteKey = `chart.note.${chart.chartKey}`;
+  const note = translate(noteKey);
+
+  if (note === noteKey) return null;
+
+  return (
+    <p className="-mt-2 mb-5 pl-2 text-sm text-gray-600">
+      <Markup>{note}</Markup>
+    </p>
+  );
+};
+
 const ChartTitle = ({
   chart,
   scenarios,
@@ -61,20 +80,23 @@ const ChartTitle = ({
   allSeriesHidden?: boolean;
   onToggleAllSeries?: () => void;
 }) => (
-  <div className="mb-5 flex items-center">
-    <span className='text-lg pl-2 pr-3'>{useTranslate()('chart.filter_by')}</span>
-    <OutputBreadcrumb charts={charts} />
-    <div className="flex-1"></div>
-    {onToggleAllSeries ? (
-      <button
-        onClick={onToggleAllSeries}
-        className="group mr-2 flex items-center border rounded py-1.5 px-3 text-sm font-medium text-myetm-800 bg-myetm-940 cursor-pointer transition hover:bg-myetm-300"
-      >
-        {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
-      </button>
-    ) : null}
-    <DownloadCSVButton chart={chart} scenarios={scenarios} />
-  </div>
+  <>
+    <div className="mb-5 flex items-center">
+      <span className='text-lg pl-2 pr-3'>{useTranslate()('chart.filter_by')}</span>
+      <OutputBreadcrumb charts={charts} />
+      <div className="flex-1"></div>
+      {onToggleAllSeries ? (
+        <button
+          onClick={onToggleAllSeries}
+          className="group mr-2 flex items-center border rounded py-1.5 px-3 text-sm font-medium text-myetm-800 bg-myetm-940 cursor-pointer transition hover:bg-myetm-300"
+        >
+          {allSeriesHidden ? <LocaleMessage id="series.all" /> : <LocaleMessage id="series.hide" />}
+        </button>
+      ) : null}
+      <DownloadCSVButton chart={chart} scenarios={scenarios} />
+    </div>
+    <ChartNote chart={chart} />
+  </>
 );
 
 function ChartWrapper({

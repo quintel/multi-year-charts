@@ -157,6 +157,29 @@ const translateSubstr = (
 };
 
 /**
+ * Final energy consumption series, e.g. myc_sector_final_consumption_of_electricity_in_households_total.
+ * The breakdown token (sector or carrier) is the dimension the chart was navigated by, so the
+ * other dimension is what varies between the series: a sector shows its carriers, a carrier its
+ * sectors. The trailing use type (total, energetic, non_energetic) is the same for every series.
+ */
+const FINAL_CONSUMPTION_SERIES =
+  /^myc_(sector|carrier)_final_consumption_(?:of_(.+?)_in_(.+?)|of_(.+?)|from_(.+?))_(?:total|energetic|non_energetic)$/;
+
+const translateFinalConsumptionSeries = (name: string, translate: TranslateFunc) => {
+  const match = name.match(FINAL_CONSUMPTION_SERIES);
+
+  if (!match) return undefined;
+
+  const [, breakdown, carrierInSector, sectorOfCarrier, carrier, sector] = match;
+
+  if (carrierInSector) {
+    return translate(breakdown === 'sector' ? carrierInSector : sectorOfCarrier);
+  }
+
+  return translate(carrier || sector);
+};
+
+/**
  * Given the name of a series and a translation function, attempts to translate
  * the name of the series to a human-readable name.
  *
@@ -166,6 +189,10 @@ const translateSubstr = (
  */
 const translateSeries = (name: string, translate: TranslateFunc) => {
   let translated = translate(name);
+
+  if (name === translated) {
+    translated = translateFinalConsumptionSeries(name, translate) ?? translated;
+  }
 
   if (name === translated) {
     // No specific translation found, so we infer from looking for _of_ and

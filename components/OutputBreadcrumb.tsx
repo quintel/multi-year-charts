@@ -26,6 +26,7 @@ export default function OutputBreadcrumb({ charts }: { charts: ChartSchema[] }) 
       key: node.key,
       label: translate(`chart.variant.${node.key}`),
       href: `/charts/${chartSlug}/${[...parentSlugs, node.slug].join('/')}`,
+      group: node.group ? translate(`chart.group.${node.group}`) : undefined,
       options: node.children?.length
         ? variantOptionsFor(chartSlug, node.children, [...parentSlugs, node.slug])
         : undefined,
