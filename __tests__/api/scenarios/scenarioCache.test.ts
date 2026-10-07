@@ -5,8 +5,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import handler from '../../../pages/api/scenarios/[id]';
 import { reset } from '../../../utils/cache/scenarioCache';
+import { SESSION_COOKIE_NAME } from '../../../utils/sessionCookie';
 
 const ENGINE = 'http://engine.test';
+
+const SIGNED_IN = { [SESSION_COOKIE_NAME]: 'token-for-me' };
+const SOMEBODY_ELSE = { [SESSION_COOKIE_NAME]: 'token-for-you' };
 
 const makeRes = () => {
   const res: Partial<NextApiResponse> = {};
@@ -17,18 +21,18 @@ const makeRes = () => {
   return res as NextApiResponse;
 };
 
-const readReq = (id: string, gqueries: string[]) =>
+const readReq = (id: string, gqueries: string[], cookies: Record<string, string> = {}) =>
   ({
     method: 'PUT',
-    cookies: {},
+    cookies,
     query: { id },
     body: { gqueries },
   } as unknown as NextApiRequest);
 
-const writeReq = (id: string, gqueries: string[]) =>
+const writeReq = (id: string, gqueries: string[], cookies = SIGNED_IN) =>
   ({
     method: 'PUT',
-    cookies: {},
+    cookies,
     query: { id },
     body: { gqueries, scenario: { user_values: { foo: 1 } } },
   } as unknown as NextApiRequest);
@@ -74,17 +78,30 @@ describe('a chart read', () => {
     expect(res.json).toHaveBeenCalledWith({ gqueries: { co2: 50 } });
   });
 
-  it('shares one entry between two callers, which is the point of holding it server side', async () => {
+  it('does not serve one bearer an entry another primed', async () => {
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
+    await handler(readReq('3', ['co2'], SOMEBODY_ELSE), makeRes());
+
+    expect(calls()).toHaveLength(2);
+  });
+
+  it('does not serve a signed-out caller an entry a signed-in one primed', async () => {
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
+
+    const res = makeRes();
+    await handler(readReq('3', ['co2']), res);
+
+    expect(headerFor(res)).toBe('miss');
+  });
+
+  it('does share between two signed-out callers', async () => {
     await handler(readReq('3', ['co2']), makeRes());
 
-    const other = {
-      ...readReq('3', ['co2']),
-      cookies: { somebody: 'else' },
-    } as unknown as NextApiRequest;
-
-    await handler(other, makeRes());
+    const res = makeRes();
+    await handler(readReq('3', ['co2']), res);
 
     expect(calls()).toHaveLength(1);
+    expect(headerFor(res)).toBe('hit');
   });
 
   it('does not confuse two sessions', async () => {
@@ -155,6 +172,21 @@ describe('two callers arriving on a cold entry', () => {
     expect(secondRes.json).toHaveBeenCalledWith({ gqueries: { co2: 50 } });
   });
 
+  it('does not coalesce two bearers', async () => {
+    const gate = deferred();
+    global.fetch = jest.fn().mockReturnValue(gate.promise) as any;
+
+    const both = Promise.all([
+      handler(readReq('3', ['co2'], SIGNED_IN), makeRes()),
+      handler(readReq('3', ['co2'], SOMEBODY_ELSE), makeRes()),
+    ]);
+
+    gate.resolve({ status: 200, text: async () => JSON.stringify({ gqueries: { co2: 50 } }) });
+    await both;
+
+    expect(calls()).toHaveLength(2);
+  });
+
   it('does not coalesce two different sessions', async () => {
     const gate = deferred();
     global.fetch = jest.fn().mockReturnValue(gate.promise) as any;
@@ -188,7 +220,7 @@ describe('two callers arriving on a cold entry', () => {
 
 describe('a write', () => {
   it('always reaches the engine, never the cache', async () => {
-    await handler(readReq('3', ['co2']), makeRes());
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
     await handler(writeReq('3', ['co2']), makeRes());
 
     expect(calls()).toHaveLength(2);
@@ -196,15 +228,25 @@ describe('a write', () => {
   });
 
   it('drops what it just made stale', async () => {
-    await handler(readReq('3', ['co2']), makeRes());
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
     await handler(writeReq('3', ['co2']), makeRes());
-    await handler(readReq('3', ['co2']), makeRes());
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
 
     expect(calls()).toHaveLength(3);
   });
 
+  it('drops what another bearer had cached for the same session', async () => {
+    await handler(readReq('3', ['co2'], SOMEBODY_ELSE), makeRes());
+    await handler(writeReq('3', ['co2']), makeRes());
+
+    const res = makeRes();
+    await handler(readReq('3', ['co2'], SOMEBODY_ELSE), res);
+
+    expect(headerFor(res)).toBe('miss');
+  });
+
   it('that the engine refused leaves the entry alone, because nothing changed', async () => {
-    await handler(readReq('3', ['co2']), makeRes());
+    await handler(readReq('3', ['co2'], SIGNED_IN), makeRes());
 
     global.fetch = jest.fn().mockResolvedValue({
       status: 422,
@@ -214,17 +256,39 @@ describe('a write', () => {
     await handler(writeReq('3', ['co2']), makeRes());
 
     const res = makeRes();
-    await handler(readReq('3', ['co2']), res);
+    await handler(readReq('3', ['co2'], SIGNED_IN), res);
 
     expect(headerFor(res)).toBe('hit');
   });
 
   it('leaves another session cached', async () => {
-    await handler(readReq('4', ['co2']), makeRes());
+    await handler(readReq('4', ['co2'], SIGNED_IN), makeRes());
     await handler(writeReq('3', ['co2']), makeRes());
-    await handler(readReq('4', ['co2']), makeRes());
+    await handler(readReq('4', ['co2'], SIGNED_IN), makeRes());
 
     expect(calls()).toHaveLength(2);
+  });
+});
+
+describe('a signed-out caller', () => {
+  it('may still read', async () => {
+    await handler(readReq('3', ['co2']), makeRes());
+
+    expect(calls()).toHaveLength(1);
+  });
+});
+
+describe('an id that is not a session ID', () => {
+  it('cannot walk out of the scenarios path with the viewer\'s token', async () => {
+    const req = {
+      method: 'GET',
+      cookies: SIGNED_IN,
+      query: { id: '../../users' },
+    } as unknown as NextApiRequest;
+
+    await handler(req, makeRes());
+
+    expect(calls()[0][0]).toBe(`${ENGINE}/api/v3/scenarios/..%2F..%2Fusers`);
   });
 });
 

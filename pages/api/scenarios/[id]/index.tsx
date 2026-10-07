@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { bearerOf } from '../../../../utils/api/bearer';
 import proxyToEngine, {
   EngineResponse,
   fetchFromEngine,
@@ -26,8 +27,13 @@ const fetchScenario = (req: NextApiRequest, sessionID: number) =>
 // One engine call per key at a time
 const inFlight = new Map<string, Promise<EngineResponse>>();
 
-const fetchOnce = (req: NextApiRequest, sessionID: number, gqueries: string[]) => {
-  const key = cache.cacheKey(sessionID, gqueries);
+const fetchOnce = (
+  req: NextApiRequest,
+  bearer: string,
+  sessionID: number,
+  gqueries: string[]
+) => {
+  const key = cache.cacheKey(bearer, sessionID, gqueries);
   const waiting = inFlight.get(key);
 
   if (waiting) return waiting;
@@ -43,19 +49,20 @@ const fetchOnce = (req: NextApiRequest, sessionID: number, gqueries: string[]) =
 const serveRead = async (
   req: NextApiRequest,
   res: NextApiResponse,
+  bearer: string,
   sessionID: number,
   gqueries: string[]
 ) => {
-  const hit = cache.read(sessionID, gqueries);
+  const hit = cache.read(bearer, sessionID, gqueries);
 
   if (hit) {
     res.setHeader('X-Collections-Cache', 'hit');
     return respondWith(res, hit);
   }
 
-  const answer = await fetchOnce(req, sessionID, gqueries);
+  const answer = await fetchOnce(req, bearer, sessionID, gqueries);
 
-  cache.write(sessionID, gqueries, answer);
+  cache.write(bearer, sessionID, gqueries, answer);
   res.setHeader('X-Collections-Cache', 'miss');
 
   return respondWith(res, answer);
@@ -67,7 +74,7 @@ const ScenarioProxy = async function (req: NextApiRequest, res: NextApiResponse)
   const gqueries = readQueries(req);
 
   if (!Number.isInteger(sessionID)) {
-    return proxyToEngine(req, res, `/api/v3/scenarios/${id}`);
+    return proxyToEngine(req, res, `/api/v3/scenarios/${encodeURIComponent(String(id ?? ''))}`);
   }
 
   if (gqueries === undefined) {
@@ -81,7 +88,7 @@ const ScenarioProxy = async function (req: NextApiRequest, res: NextApiResponse)
     return respondWith(res, answer);
   }
 
-  return serveRead(req, res, sessionID, gqueries);
+  return serveRead(req, res, bearerOf(req), sessionID, gqueries);
 };
 
 export default ScenarioProxy;
