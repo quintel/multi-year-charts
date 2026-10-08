@@ -10,29 +10,30 @@ export default {
     {
       key: 'fec_total',
       slug: 'total',
-      group: 'fec_use',
       children: [
         {
           key: 'fec_total_per_sector',
           slug: 'per-sector',
-          group: 'fec_breakdown',
-          series: [
-            'myc_sector_final_consumption_from_households_total',
-            'myc_sector_final_consumption_from_buildings_total',
-            'myc_sector_final_consumption_from_national_transport_total',
-            'myc_sector_final_consumption_from_international_transport_total',
-            'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_total',
-            'myc_sector_final_consumption_from_industry_ict_total',
-            'myc_sector_final_consumption_from_industry_refineries_total',
-            'myc_sector_final_consumption_from_agriculture_total',
-            'myc_sector_final_consumption_from_energy_total',
-            'myc_sector_final_consumption_from_other_total',
-          ],
           children: [
+            {
+              key: 'fec_total_sector_all',
+              slug: 'all',
+              series: [
+                'myc_sector_final_consumption_from_households_total',
+                'myc_sector_final_consumption_from_buildings_total',
+                'myc_sector_final_consumption_from_national_transport_total',
+                'myc_sector_final_consumption_from_international_transport_total',
+                'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_total',
+                'myc_sector_final_consumption_from_industry_ict_total',
+                'myc_sector_final_consumption_from_industry_refineries_total',
+                'myc_sector_final_consumption_from_agriculture_total',
+                'myc_sector_final_consumption_from_energy_total',
+                'myc_sector_final_consumption_from_other_total',
+              ],
+            },
             {
               key: 'fec_total_sector_households',
               slug: 'households',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_households_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_households_total',
@@ -54,7 +55,6 @@ export default {
             {
               key: 'fec_total_sector_buildings',
               slug: 'buildings',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_buildings_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_buildings_total',
@@ -76,7 +76,6 @@ export default {
             {
               key: 'fec_total_sector_national_transport',
               slug: 'national-transport',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_national_transport_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_national_transport_total',
@@ -98,29 +97,31 @@ export default {
             {
               key: 'fec_total_sector_international_transport',
               slug: 'international-transport',
-              group: 'fec_sector',
-              series: [
-                'myc_sector_final_consumption_of_coal_and_coal_products_in_international_transport_total',
-                'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_international_transport_total',
-                'myc_sector_final_consumption_of_oil_and_oil_products_in_international_transport_total',
-                'myc_sector_final_consumption_of_liquid_biofuels_in_international_transport_total',
-                'myc_sector_final_consumption_of_gaseous_biofuels_in_international_transport_total',
-                'myc_sector_final_consumption_of_solid_biofuels_in_international_transport_total',
-                'myc_sector_final_consumption_of_solar_thermal_in_international_transport_total',
-                'myc_sector_final_consumption_of_geothermal_in_international_transport_total',
-                'myc_sector_final_consumption_of_renewable_waste_in_international_transport_total',
-                'myc_sector_final_consumption_of_non_renewable_waste_in_international_transport_total',
-                'myc_sector_final_consumption_of_heat_in_international_transport_total',
-                'myc_sector_final_consumption_of_electricity_in_international_transport_total',
-                'myc_sector_final_consumption_of_hydrogen_in_international_transport_total',
-                'myc_sector_final_consumption_of_ammonia_in_international_transport_total',
-                'myc_sector_final_consumption_of_methanol_in_international_transport_total',
-              ],
               children: [
+                {
+                  key: 'fec_total_sector_international_transport_all',
+                  slug: 'all',
+                  series: [
+                    'myc_sector_final_consumption_of_coal_and_coal_products_in_international_transport_total',
+                    'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_international_transport_total',
+                    'myc_sector_final_consumption_of_oil_and_oil_products_in_international_transport_total',
+                    'myc_sector_final_consumption_of_liquid_biofuels_in_international_transport_total',
+                    'myc_sector_final_consumption_of_gaseous_biofuels_in_international_transport_total',
+                    'myc_sector_final_consumption_of_solid_biofuels_in_international_transport_total',
+                    'myc_sector_final_consumption_of_solar_thermal_in_international_transport_total',
+                    'myc_sector_final_consumption_of_geothermal_in_international_transport_total',
+                    'myc_sector_final_consumption_of_renewable_waste_in_international_transport_total',
+                    'myc_sector_final_consumption_of_non_renewable_waste_in_international_transport_total',
+                    'myc_sector_final_consumption_of_heat_in_international_transport_total',
+                    'myc_sector_final_consumption_of_electricity_in_international_transport_total',
+                    'myc_sector_final_consumption_of_hydrogen_in_international_transport_total',
+                    'myc_sector_final_consumption_of_ammonia_in_international_transport_total',
+                    'myc_sector_final_consumption_of_methanol_in_international_transport_total',
+                  ],
+                },
                 {
                   key: 'fec_total_sector_bunkers_international_aviation',
                   slug: 'international-aviation',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_bunkers_international_aviation_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_bunkers_international_aviation_total',
@@ -142,7 +143,6 @@ export default {
                 {
                   key: 'fec_total_sector_bunkers_international_navigation',
                   slug: 'international-navigation',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_bunkers_international_navigation_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_bunkers_international_navigation_total',
@@ -166,29 +166,31 @@ export default {
             {
               key: 'fec_total_sector_industry_ex_ict_and_refineries',
               slug: 'industry-ex-ict-and-refineries',
-              group: 'fec_sector',
-              series: [
-                'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_total',
-                'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_total',
-              ],
               children: [
+                {
+                  key: 'fec_total_sector_industry_all',
+                  slug: 'all',
+                  series: [
+                    'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_total',
+                    'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_total',
+                  ],
+                },
                 {
                   key: 'fec_total_sector_industry_aluminium',
                   slug: 'aluminium',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_aluminium_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_aluminium_total',
@@ -210,7 +212,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_steel',
                   slug: 'steel',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_steel_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_steel_total',
@@ -232,7 +233,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_other_metals',
                   slug: 'other-metals',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_metals_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_metals_total',
@@ -254,7 +254,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_other_chemical',
                   slug: 'other-chemical',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_chemical_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_chemical_total',
@@ -276,7 +275,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_fertilizers',
                   slug: 'fertilizers',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_fertilizers_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_fertilizers_total',
@@ -298,7 +296,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_paper',
                   slug: 'paper',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_paper_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_paper_total',
@@ -320,7 +317,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_food',
                   slug: 'food',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_food_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_food_total',
@@ -342,7 +338,6 @@ export default {
                 {
                   key: 'fec_total_sector_industry_other_non_specified',
                   slug: 'other-non-specified',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_non_specified_total',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_non_specified_total',
@@ -366,7 +361,6 @@ export default {
             {
               key: 'fec_total_sector_industry_ict',
               slug: 'industry-ict',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ict_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ict_total',
@@ -388,7 +382,6 @@ export default {
             {
               key: 'fec_total_sector_industry_refineries',
               slug: 'industry-refineries',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_refineries_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_refineries_total',
@@ -410,7 +403,6 @@ export default {
             {
               key: 'fec_total_sector_agriculture',
               slug: 'agriculture',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_agriculture_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_agriculture_total',
@@ -432,7 +424,6 @@ export default {
             {
               key: 'fec_total_sector_energy',
               slug: 'energy',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_energy_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_energy_total',
@@ -454,7 +445,6 @@ export default {
             {
               key: 'fec_total_sector_other',
               slug: 'other',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_other_total',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_other_total',
@@ -478,29 +468,31 @@ export default {
         {
           key: 'fec_total_per_carrier',
           slug: 'per-carrier',
-          group: 'fec_breakdown',
-          series: [
-            'myc_carrier_final_consumption_of_coal_and_coal_products_total',
-            'myc_carrier_final_consumption_of_natural_gas_and_gas_products_total',
-            'myc_carrier_final_consumption_of_oil_and_oil_products_total',
-            'myc_carrier_final_consumption_of_liquid_biofuels_total',
-            'myc_carrier_final_consumption_of_gaseous_biofuels_total',
-            'myc_carrier_final_consumption_of_solid_biofuels_total',
-            'myc_carrier_final_consumption_of_solar_thermal_total',
-            'myc_carrier_final_consumption_of_geothermal_total',
-            'myc_carrier_final_consumption_of_renewable_waste_total',
-            'myc_carrier_final_consumption_of_non_renewable_waste_total',
-            'myc_carrier_final_consumption_of_heat_total',
-            'myc_carrier_final_consumption_of_electricity_total',
-            'myc_carrier_final_consumption_of_hydrogen_total',
-            'myc_carrier_final_consumption_of_ammonia_total',
-            'myc_carrier_final_consumption_of_methanol_total',
-          ],
           children: [
+            {
+              key: 'fec_total_carrier_all',
+              slug: 'all',
+              series: [
+                'myc_carrier_final_consumption_of_coal_and_coal_products_total',
+                'myc_carrier_final_consumption_of_natural_gas_and_gas_products_total',
+                'myc_carrier_final_consumption_of_oil_and_oil_products_total',
+                'myc_carrier_final_consumption_of_liquid_biofuels_total',
+                'myc_carrier_final_consumption_of_gaseous_biofuels_total',
+                'myc_carrier_final_consumption_of_solid_biofuels_total',
+                'myc_carrier_final_consumption_of_solar_thermal_total',
+                'myc_carrier_final_consumption_of_geothermal_total',
+                'myc_carrier_final_consumption_of_renewable_waste_total',
+                'myc_carrier_final_consumption_of_non_renewable_waste_total',
+                'myc_carrier_final_consumption_of_heat_total',
+                'myc_carrier_final_consumption_of_electricity_total',
+                'myc_carrier_final_consumption_of_hydrogen_total',
+                'myc_carrier_final_consumption_of_ammonia_total',
+                'myc_carrier_final_consumption_of_methanol_total',
+              ],
+            },
             {
               key: 'fec_total_carrier_coal_and_coal_products',
               slug: 'coal-and-coal-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_households_total',
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_buildings_total',
@@ -517,7 +509,6 @@ export default {
             {
               key: 'fec_total_carrier_natural_gas_and_gas_products',
               slug: 'natural-gas-and-gas-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_households_total',
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_buildings_total',
@@ -534,7 +525,6 @@ export default {
             {
               key: 'fec_total_carrier_oil_and_oil_products',
               slug: 'oil-and-oil-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_households_total',
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_buildings_total',
@@ -551,7 +541,6 @@ export default {
             {
               key: 'fec_total_carrier_liquid_biofuels',
               slug: 'liquid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_households_total',
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_buildings_total',
@@ -568,7 +557,6 @@ export default {
             {
               key: 'fec_total_carrier_gaseous_biofuels',
               slug: 'gaseous-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_households_total',
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_buildings_total',
@@ -585,7 +573,6 @@ export default {
             {
               key: 'fec_total_carrier_solid_biofuels',
               slug: 'solid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solid_biofuels_in_households_total',
                 'myc_carrier_final_consumption_of_solid_biofuels_in_buildings_total',
@@ -602,7 +589,6 @@ export default {
             {
               key: 'fec_total_carrier_solar_thermal',
               slug: 'solar-thermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solar_thermal_in_households_total',
                 'myc_carrier_final_consumption_of_solar_thermal_in_buildings_total',
@@ -619,7 +605,6 @@ export default {
             {
               key: 'fec_total_carrier_geothermal',
               slug: 'geothermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_geothermal_in_households_total',
                 'myc_carrier_final_consumption_of_geothermal_in_buildings_total',
@@ -636,7 +621,6 @@ export default {
             {
               key: 'fec_total_carrier_renewable_waste',
               slug: 'renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_renewable_waste_in_households_total',
                 'myc_carrier_final_consumption_of_renewable_waste_in_buildings_total',
@@ -653,7 +637,6 @@ export default {
             {
               key: 'fec_total_carrier_non_renewable_waste',
               slug: 'non-renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_households_total',
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_buildings_total',
@@ -670,7 +653,6 @@ export default {
             {
               key: 'fec_total_carrier_heat',
               slug: 'heat',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_heat_in_households_total',
                 'myc_carrier_final_consumption_of_heat_in_buildings_total',
@@ -687,7 +669,6 @@ export default {
             {
               key: 'fec_total_carrier_electricity',
               slug: 'electricity',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_electricity_in_households_total',
                 'myc_carrier_final_consumption_of_electricity_in_buildings_total',
@@ -704,7 +685,6 @@ export default {
             {
               key: 'fec_total_carrier_hydrogen',
               slug: 'hydrogen',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_hydrogen_in_households_total',
                 'myc_carrier_final_consumption_of_hydrogen_in_buildings_total',
@@ -721,7 +701,6 @@ export default {
             {
               key: 'fec_total_carrier_ammonia',
               slug: 'ammonia',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_ammonia_in_households_total',
                 'myc_carrier_final_consumption_of_ammonia_in_buildings_total',
@@ -738,7 +717,6 @@ export default {
             {
               key: 'fec_total_carrier_methanol',
               slug: 'methanol',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_methanol_in_households_total',
                 'myc_carrier_final_consumption_of_methanol_in_buildings_total',
@@ -759,29 +737,30 @@ export default {
     {
       key: 'fec_energetic',
       slug: 'energetic',
-      group: 'fec_use',
       children: [
         {
           key: 'fec_energetic_per_sector',
           slug: 'per-sector',
-          group: 'fec_breakdown',
-          series: [
-            'myc_sector_final_consumption_from_households_energetic',
-            'myc_sector_final_consumption_from_buildings_energetic',
-            'myc_sector_final_consumption_from_national_transport_energetic',
-            'myc_sector_final_consumption_from_international_transport_energetic',
-            'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_energetic',
-            'myc_sector_final_consumption_from_industry_ict_energetic',
-            'myc_sector_final_consumption_from_industry_refineries_energetic',
-            'myc_sector_final_consumption_from_agriculture_energetic',
-            'myc_sector_final_consumption_from_energy_energetic',
-            'myc_sector_final_consumption_from_other_energetic',
-          ],
           children: [
+            {
+              key: 'fec_energetic_sector_all',
+              slug: 'all',
+              series: [
+                'myc_sector_final_consumption_from_households_energetic',
+                'myc_sector_final_consumption_from_buildings_energetic',
+                'myc_sector_final_consumption_from_national_transport_energetic',
+                'myc_sector_final_consumption_from_international_transport_energetic',
+                'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_energetic',
+                'myc_sector_final_consumption_from_industry_ict_energetic',
+                'myc_sector_final_consumption_from_industry_refineries_energetic',
+                'myc_sector_final_consumption_from_agriculture_energetic',
+                'myc_sector_final_consumption_from_energy_energetic',
+                'myc_sector_final_consumption_from_other_energetic',
+              ],
+            },
             {
               key: 'fec_energetic_sector_households',
               slug: 'households',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_households_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_households_energetic',
@@ -803,7 +782,6 @@ export default {
             {
               key: 'fec_energetic_sector_buildings',
               slug: 'buildings',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_buildings_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_buildings_energetic',
@@ -825,7 +803,6 @@ export default {
             {
               key: 'fec_energetic_sector_national_transport',
               slug: 'national-transport',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_national_transport_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_national_transport_energetic',
@@ -847,29 +824,31 @@ export default {
             {
               key: 'fec_energetic_sector_international_transport',
               slug: 'international-transport',
-              group: 'fec_sector',
-              series: [
-                'myc_sector_final_consumption_of_coal_and_coal_products_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_oil_and_oil_products_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_liquid_biofuels_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_gaseous_biofuels_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_solid_biofuels_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_solar_thermal_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_geothermal_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_renewable_waste_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_non_renewable_waste_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_heat_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_electricity_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_hydrogen_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_ammonia_in_international_transport_energetic',
-                'myc_sector_final_consumption_of_methanol_in_international_transport_energetic',
-              ],
               children: [
+                {
+                  key: 'fec_energetic_sector_bunkers_all',
+                  slug: 'all',
+                  series: [
+                    'myc_sector_final_consumption_of_coal_and_coal_products_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_oil_and_oil_products_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_liquid_biofuels_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_gaseous_biofuels_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_solid_biofuels_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_solar_thermal_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_geothermal_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_renewable_waste_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_non_renewable_waste_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_heat_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_electricity_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_hydrogen_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_ammonia_in_international_transport_energetic',
+                    'myc_sector_final_consumption_of_methanol_in_international_transport_energetic',
+                  ],
+                },
                 {
                   key: 'fec_energetic_sector_bunkers_international_aviation',
                   slug: 'international-aviation',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_bunkers_international_aviation_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_bunkers_international_aviation_energetic',
@@ -891,7 +870,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_bunkers_international_navigation',
                   slug: 'international-navigation',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_bunkers_international_navigation_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_bunkers_international_navigation_energetic',
@@ -915,29 +893,31 @@ export default {
             {
               key: 'fec_energetic_sector_industry_ex_ict_and_refineries',
               slug: 'industry-ex-ict-and-refineries',
-              group: 'fec_sector',
-              series: [
-                'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_energetic',
-                'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_energetic',
-              ],
               children: [
+                {
+                  key: 'fec_energetic_sector_industry_all',
+                  slug: 'all',
+                  series: [
+                    'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_energetic',
+                    'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_energetic',
+                  ],
+                },
                 {
                   key: 'fec_energetic_sector_industry_aluminium',
                   slug: 'aluminium',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_aluminium_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_aluminium_energetic',
@@ -959,7 +939,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_steel',
                   slug: 'steel',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_steel_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_steel_energetic',
@@ -981,7 +960,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_other_metals',
                   slug: 'other-metals',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_metals_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_metals_energetic',
@@ -1003,7 +981,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_other_chemical',
                   slug: 'other-chemical',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_chemical_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_chemical_energetic',
@@ -1025,7 +1002,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_fertilizers',
                   slug: 'fertilizers',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_fertilizers_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_fertilizers_energetic',
@@ -1047,7 +1023,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_paper',
                   slug: 'paper',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_paper_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_paper_energetic',
@@ -1069,7 +1044,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_food',
                   slug: 'food',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_food_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_food_energetic',
@@ -1091,7 +1065,6 @@ export default {
                 {
                   key: 'fec_energetic_sector_industry_other_non_specified',
                   slug: 'other-non-specified',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_non_specified_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_non_specified_energetic',
@@ -1115,7 +1088,6 @@ export default {
             {
               key: 'fec_energetic_sector_industry_ict',
               slug: 'industry-ict',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ict_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ict_energetic',
@@ -1137,7 +1109,6 @@ export default {
             {
               key: 'fec_energetic_sector_industry_refineries',
               slug: 'industry-refineries',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_refineries_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_refineries_energetic',
@@ -1159,7 +1130,6 @@ export default {
             {
               key: 'fec_energetic_sector_agriculture',
               slug: 'agriculture',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_agriculture_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_agriculture_energetic',
@@ -1181,7 +1151,6 @@ export default {
             {
               key: 'fec_energetic_sector_energy',
               slug: 'energy',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_energy_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_energy_energetic',
@@ -1203,7 +1172,6 @@ export default {
             {
               key: 'fec_energetic_sector_other',
               slug: 'other',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_other_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_other_energetic',
@@ -1227,29 +1195,31 @@ export default {
         {
           key: 'fec_energetic_per_carrier',
           slug: 'per-carrier',
-          group: 'fec_breakdown',
-          series: [
-            'myc_carrier_final_consumption_of_coal_and_coal_products_energetic',
-            'myc_carrier_final_consumption_of_natural_gas_and_gas_products_energetic',
-            'myc_carrier_final_consumption_of_oil_and_oil_products_energetic',
-            'myc_carrier_final_consumption_of_liquid_biofuels_energetic',
-            'myc_carrier_final_consumption_of_gaseous_biofuels_energetic',
-            'myc_carrier_final_consumption_of_solid_biofuels_energetic',
-            'myc_carrier_final_consumption_of_solar_thermal_energetic',
-            'myc_carrier_final_consumption_of_geothermal_energetic',
-            'myc_carrier_final_consumption_of_renewable_waste_energetic',
-            'myc_carrier_final_consumption_of_non_renewable_waste_energetic',
-            'myc_carrier_final_consumption_of_heat_energetic',
-            'myc_carrier_final_consumption_of_electricity_energetic',
-            'myc_carrier_final_consumption_of_hydrogen_energetic',
-            'myc_carrier_final_consumption_of_ammonia_energetic',
-            'myc_carrier_final_consumption_of_methanol_energetic',
-          ],
           children: [
+            {
+              key: 'fec_energetic_carrier_all',
+              slug: 'all',
+              series: [
+                'myc_carrier_final_consumption_of_coal_and_coal_products_energetic',
+                'myc_carrier_final_consumption_of_natural_gas_and_gas_products_energetic',
+                'myc_carrier_final_consumption_of_oil_and_oil_products_energetic',
+                'myc_carrier_final_consumption_of_liquid_biofuels_energetic',
+                'myc_carrier_final_consumption_of_gaseous_biofuels_energetic',
+                'myc_carrier_final_consumption_of_solid_biofuels_energetic',
+                'myc_carrier_final_consumption_of_solar_thermal_energetic',
+                'myc_carrier_final_consumption_of_geothermal_energetic',
+                'myc_carrier_final_consumption_of_renewable_waste_energetic',
+                'myc_carrier_final_consumption_of_non_renewable_waste_energetic',
+                'myc_carrier_final_consumption_of_heat_energetic',
+                'myc_carrier_final_consumption_of_electricity_energetic',
+                'myc_carrier_final_consumption_of_hydrogen_energetic',
+                'myc_carrier_final_consumption_of_ammonia_energetic',
+                'myc_carrier_final_consumption_of_methanol_energetic',
+              ],
+            },
             {
               key: 'fec_energetic_carrier_coal_and_coal_products',
               slug: 'coal-and-coal-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_households_energetic',
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_buildings_energetic',
@@ -1266,7 +1236,6 @@ export default {
             {
               key: 'fec_energetic_carrier_natural_gas_and_gas_products',
               slug: 'natural-gas-and-gas-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_households_energetic',
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_buildings_energetic',
@@ -1283,7 +1252,6 @@ export default {
             {
               key: 'fec_energetic_carrier_oil_and_oil_products',
               slug: 'oil-and-oil-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_households_energetic',
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_buildings_energetic',
@@ -1300,7 +1268,6 @@ export default {
             {
               key: 'fec_energetic_carrier_liquid_biofuels',
               slug: 'liquid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_households_energetic',
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_buildings_energetic',
@@ -1317,7 +1284,6 @@ export default {
             {
               key: 'fec_energetic_carrier_gaseous_biofuels',
               slug: 'gaseous-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_households_energetic',
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_buildings_energetic',
@@ -1334,7 +1300,6 @@ export default {
             {
               key: 'fec_energetic_carrier_solid_biofuels',
               slug: 'solid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solid_biofuels_in_households_energetic',
                 'myc_carrier_final_consumption_of_solid_biofuels_in_buildings_energetic',
@@ -1351,7 +1316,6 @@ export default {
             {
               key: 'fec_energetic_carrier_solar_thermal',
               slug: 'solar-thermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solar_thermal_in_households_energetic',
                 'myc_carrier_final_consumption_of_solar_thermal_in_buildings_energetic',
@@ -1368,7 +1332,6 @@ export default {
             {
               key: 'fec_energetic_carrier_geothermal',
               slug: 'geothermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_geothermal_in_households_energetic',
                 'myc_carrier_final_consumption_of_geothermal_in_buildings_energetic',
@@ -1385,7 +1348,6 @@ export default {
             {
               key: 'fec_energetic_carrier_renewable_waste',
               slug: 'renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_renewable_waste_in_households_energetic',
                 'myc_carrier_final_consumption_of_renewable_waste_in_buildings_energetic',
@@ -1402,7 +1364,6 @@ export default {
             {
               key: 'fec_energetic_carrier_non_renewable_waste',
               slug: 'non-renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_households_energetic',
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_buildings_energetic',
@@ -1419,7 +1380,6 @@ export default {
             {
               key: 'fec_energetic_carrier_heat',
               slug: 'heat',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_heat_in_households_energetic',
                 'myc_carrier_final_consumption_of_heat_in_buildings_energetic',
@@ -1436,7 +1396,6 @@ export default {
             {
               key: 'fec_energetic_carrier_electricity',
               slug: 'electricity',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_electricity_in_households_energetic',
                 'myc_carrier_final_consumption_of_electricity_in_buildings_energetic',
@@ -1453,7 +1412,6 @@ export default {
             {
               key: 'fec_energetic_carrier_hydrogen',
               slug: 'hydrogen',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_hydrogen_in_households_energetic',
                 'myc_carrier_final_consumption_of_hydrogen_in_buildings_energetic',
@@ -1470,7 +1428,6 @@ export default {
             {
               key: 'fec_energetic_carrier_ammonia',
               slug: 'ammonia',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_ammonia_in_households_energetic',
                 'myc_carrier_final_consumption_of_ammonia_in_buildings_energetic',
@@ -1487,7 +1444,6 @@ export default {
             {
               key: 'fec_energetic_carrier_methanol',
               slug: 'methanol',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_methanol_in_households_energetic',
                 'myc_carrier_final_consumption_of_methanol_in_buildings_energetic',
@@ -1508,23 +1464,24 @@ export default {
     {
       key: 'fec_non_energetic',
       slug: 'non-energetic',
-      group: 'fec_use',
       children: [
         {
           key: 'fec_non_energetic_per_sector',
           slug: 'per-sector',
-          group: 'fec_breakdown',
-          series: [
-            'myc_sector_final_consumption_from_national_transport_non_energetic',
-            'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_non_energetic',
-            'myc_sector_final_consumption_from_industry_refineries_non_energetic',
-            'myc_sector_final_consumption_from_other_non_energetic',
-          ],
           children: [
+            {
+              key: 'fec_non_energetic_sector_all',
+              slug: 'all',
+              series: [
+                'myc_sector_final_consumption_from_national_transport_non_energetic',
+                'myc_sector_final_consumption_from_industry_ex_ict_and_refineries_non_energetic',
+                'myc_sector_final_consumption_from_industry_refineries_non_energetic',
+                'myc_sector_final_consumption_from_other_non_energetic',
+              ],
+            },
             {
               key: 'fec_non_energetic_sector_national_transport',
               slug: 'national-transport',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_national_transport_non_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_national_transport_non_energetic',
@@ -1546,29 +1503,31 @@ export default {
             {
               key: 'fec_non_energetic_sector_industry_ex_ict_and_refineries',
               slug: 'industry-ex-ict-and-refineries',
-              group: 'fec_sector',
-              series: [
-                'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_non_energetic',
-                'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_non_energetic',
-              ],
               children: [
+                {
+                  key: 'fec_non_energetic_sector_industry_all',
+                  slug: 'all',
+                  series: [
+                    'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_heat_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_non_energetic',
+                    'myc_sector_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_non_energetic',
+                  ],
+                },
                 {
                   key: 'fec_non_energetic_sector_industry_other_chemical',
                   slug: 'other-chemical',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_chemical_non_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_chemical_non_energetic',
@@ -1590,7 +1549,6 @@ export default {
                 {
                   key: 'fec_non_energetic_sector_industry_fertilizers',
                   slug: 'fertilizers',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_fertilizers_non_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_fertilizers_non_energetic',
@@ -1612,7 +1570,6 @@ export default {
                 {
                   key: 'fec_non_energetic_sector_industry_other_non_specified',
                   slug: 'other-non-specified',
-                  group: 'fec_subsector',
                   series: [
                     'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_other_non_specified_non_energetic',
                     'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_other_non_specified_non_energetic',
@@ -1636,7 +1593,6 @@ export default {
             {
               key: 'fec_non_energetic_sector_industry_refineries',
               slug: 'industry-refineries',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_industry_refineries_non_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_industry_refineries_non_energetic',
@@ -1658,7 +1614,6 @@ export default {
             {
               key: 'fec_non_energetic_sector_other',
               slug: 'other',
-              group: 'fec_sector',
               series: [
                 'myc_sector_final_consumption_of_coal_and_coal_products_in_other_non_energetic',
                 'myc_sector_final_consumption_of_natural_gas_and_gas_products_in_other_non_energetic',
@@ -1682,29 +1637,31 @@ export default {
         {
           key: 'fec_non_energetic_per_carrier',
           slug: 'per-carrier',
-          group: 'fec_breakdown',
-          series: [
-            'myc_carrier_final_consumption_of_coal_and_coal_products_non_energetic',
-            'myc_carrier_final_consumption_of_natural_gas_and_gas_products_non_energetic',
-            'myc_carrier_final_consumption_of_oil_and_oil_products_non_energetic',
-            'myc_carrier_final_consumption_of_liquid_biofuels_non_energetic',
-            'myc_carrier_final_consumption_of_gaseous_biofuels_non_energetic',
-            'myc_carrier_final_consumption_of_solid_biofuels_non_energetic',
-            'myc_carrier_final_consumption_of_solar_thermal_non_energetic',
-            'myc_carrier_final_consumption_of_geothermal_non_energetic',
-            'myc_carrier_final_consumption_of_renewable_waste_non_energetic',
-            'myc_carrier_final_consumption_of_non_renewable_waste_non_energetic',
-            'myc_carrier_final_consumption_of_heat_non_energetic',
-            'myc_carrier_final_consumption_of_electricity_non_energetic',
-            'myc_carrier_final_consumption_of_hydrogen_non_energetic',
-            'myc_carrier_final_consumption_of_ammonia_non_energetic',
-            'myc_carrier_final_consumption_of_methanol_non_energetic',
-          ],
           children: [
+            {
+              key: 'fec_non_energetic_carrier_all',
+              slug: 'all',
+              series: [
+                'myc_carrier_final_consumption_of_coal_and_coal_products_non_energetic',
+                'myc_carrier_final_consumption_of_natural_gas_and_gas_products_non_energetic',
+                'myc_carrier_final_consumption_of_oil_and_oil_products_non_energetic',
+                'myc_carrier_final_consumption_of_liquid_biofuels_non_energetic',
+                'myc_carrier_final_consumption_of_gaseous_biofuels_non_energetic',
+                'myc_carrier_final_consumption_of_solid_biofuels_non_energetic',
+                'myc_carrier_final_consumption_of_solar_thermal_non_energetic',
+                'myc_carrier_final_consumption_of_geothermal_non_energetic',
+                'myc_carrier_final_consumption_of_renewable_waste_non_energetic',
+                'myc_carrier_final_consumption_of_non_renewable_waste_non_energetic',
+                'myc_carrier_final_consumption_of_heat_non_energetic',
+                'myc_carrier_final_consumption_of_electricity_non_energetic',
+                'myc_carrier_final_consumption_of_hydrogen_non_energetic',
+                'myc_carrier_final_consumption_of_ammonia_non_energetic',
+                'myc_carrier_final_consumption_of_methanol_non_energetic',
+              ],
+            },
             {
               key: 'fec_non_energetic_carrier_coal_and_coal_products',
               slug: 'coal-and-coal-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_coal_and_coal_products_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1715,7 +1672,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_natural_gas_and_gas_products',
               slug: 'natural-gas-and-gas-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_natural_gas_and_gas_products_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1726,7 +1682,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_oil_and_oil_products',
               slug: 'oil-and-oil-products',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_oil_and_oil_products_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1737,7 +1692,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_liquid_biofuels',
               slug: 'liquid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_liquid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1748,7 +1702,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_gaseous_biofuels',
               slug: 'gaseous-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_gaseous_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1759,7 +1712,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_solid_biofuels',
               slug: 'solid-biofuels',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solid_biofuels_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_solid_biofuels_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1770,7 +1722,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_solar_thermal',
               slug: 'solar-thermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_solar_thermal_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_solar_thermal_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1781,7 +1732,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_geothermal',
               slug: 'geothermal',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_geothermal_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_geothermal_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1792,7 +1742,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_renewable_waste',
               slug: 'renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_renewable_waste_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1803,7 +1752,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_non_renewable_waste',
               slug: 'non-renewable-waste',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_non_renewable_waste_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1814,7 +1762,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_heat',
               slug: 'heat',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_heat_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_heat_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1825,7 +1772,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_electricity',
               slug: 'electricity',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_electricity_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_electricity_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1836,7 +1782,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_hydrogen',
               slug: 'hydrogen',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_hydrogen_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_hydrogen_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1847,7 +1792,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_ammonia',
               slug: 'ammonia',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_ammonia_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_ammonia_in_industry_ex_ict_and_refineries_non_energetic',
@@ -1858,7 +1802,6 @@ export default {
             {
               key: 'fec_non_energetic_carrier_methanol',
               slug: 'methanol',
-              group: 'fec_carrier',
               series: [
                 'myc_carrier_final_consumption_of_methanol_in_national_transport_non_energetic',
                 'myc_carrier_final_consumption_of_methanol_in_industry_ex_ict_and_refineries_non_energetic',
