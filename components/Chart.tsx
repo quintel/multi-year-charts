@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useImperativeHandle, useRef, useState, useEffect } from 'react';
+import { forwardRef, useCallback, useId, useImperativeHandle, useMemo, useRef, useState, useEffect } from 'react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import * as echarts from 'echarts/core';
 import { BarChart } from 'echarts/charts';
@@ -11,6 +11,7 @@ import {
 import { SVGRenderer } from 'echarts/renderers';
 
 import { ChartSeries, translateChartData } from '../utils/charts';
+import { chartColors as colors } from '../utils/chartColors';
 import { namespacedTranslate } from '../utils/translate';
 import useTranslate from '../utils/useTranslate';
 import EChartsReact from 'echarts-for-react';
@@ -25,18 +26,13 @@ echarts.use([
   SVGRenderer,
 ]);
 
-// Expanded colors array to support more series.
-const colors = [
-  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
-  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
-  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
-  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
-  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
-  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
-];
-
 // Bars keep a constant share of each category slot, so they scale with the chart width
 const barCategoryGap = '40%';
+
+// Echarts renders its own text (axis labels via SVG, the tooltip as a separately styled div)
+// rather than inheriting the page's CSS
+const fontFamily =
+  "'Montserrat Variable', Montserrat, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
 
 export interface ChartProps {
   series: ChartSeries;
@@ -103,6 +99,14 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
   const [hiddenSeries, setHiddenSeries] = useState<Record<string, boolean>>({});
   const [allSeriesHidden, setAllSeriesHidden] = useState<boolean>(false);
 
+  // Which series the mouse is directly over, kept in a ref (not state) so reading it from inside
+  // the tooltip formatter below never waits on - or triggers - a React re-render
+  const hoveredSeriesName = useRef<string | null>(null);
+
+  // Identifies this chart's own tooltip root in the DOM, so the hover can find and restyle the
+  // matching row directly. Echarts won't re-run the formatter just because this ref changed
+  const tooltipId = useId();
+
   const echartSeries = translatedSeries.data.map((cSeries, index) => {
     return {
       name: cSeries.name,
@@ -136,10 +140,69 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
     color: colors,
     animationDuration: 0,
     animationDurationUpdate: 300,
+    textStyle: { fontFamily },
     tooltip: {
       trigger: 'axis',
-      valueFormatter: (v: any) => typeof v === 'string' ? v.substring(6) : series.formatter(v, true),
       transitionDuration: 0,
+      textStyle: { fontFamily },
+      // appendTo lets confine measure against the actual viewport
+      appendTo: 'body',
+      confine: true,
+      extraCssText: 'max-height: 80vh; max-width: 90vw; overflow-y: auto;',
+      // The formatter removes the zero-entries and creates two columns when there are many entries
+      // for legibility
+      formatter: (rawParams: unknown) => {
+        const params = (Array.isArray(rawParams) ? rawParams : [rawParams]) as Array<{
+          axisValueLabel: string;
+          marker: string;
+          seriesName: string;
+          value: number | string;
+        }>;
+
+        const formatValue = (v: number | string) =>
+          typeof v === 'string' ? v.substring(6) : series.formatter(v, true);
+
+        // The "total" helper series (empty name, string value) always shows, even when zero
+        const visible = params.filter((p) => typeof p.value === 'string' || !/^-?0(\s|$)/.test(formatValue(p.value)));
+
+        if (visible.length === 0) return '';
+
+        // The "total" row always renders on its own, full-width, below the real series
+        const isTotalRow = (p: { value: number | string }) => typeof p.value === 'string';
+        const realRows = visible.filter((p) => !isTotalRow(p));
+        const totalRow = visible.find(isTotalRow);
+
+        // Make sure the label wraps on one line, even when hovered, use inline style to help against echarts overwrites
+        const row = (p: (typeof visible)[number], isTotal: boolean) => {
+          const isHovered = !isTotal && p.seriesName === hoveredSeriesName.current;
+
+          return (
+            `<div${isTotal ? '' : ` data-series="${p.seriesName}"`} style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 3px 4px; border-radius: 4px;${
+              isHovered ? ' background: #f3f4f6;' : ''
+            }${isTotal ? ' border-top: 1px solid #e5e7eb; margin-top: 4px; padding-top: 6px; font-weight: 600;' : ''}">` +
+            `<span class="tooltip-row-label" style="min-width: 0; white-space: normal; overflow-wrap: break-word;${isHovered ? ' font-weight: 600;' : ''}">${isTotal ? '' : `${p.marker}${p.seriesName}`}</span>` +
+            `<span style="flex-shrink: 0; font-weight: 600;">${formatValue(p.value)}</span>` +
+            `</div>`
+          );
+        };
+
+        // Chunked into fixed-width columns manually because content inside gets updated by echarts, so we can't rely
+        // on flex
+        const columnCount = Math.max(1, Math.ceil(realRows.length / 15));
+        const rowsPerColumn = Math.ceil(realRows.length / columnCount);
+        const columnsHtml = Array.from({ length: columnCount }, (_, i) => {
+          const chunk = realRows.slice(i * rowsPerColumn, (i + 1) * rowsPerColumn);
+          return `<div style="width: 308px; padding: 0 8px; box-sizing: border-box;">${chunk.map((p) => row(p, false)).join('')}</div>`;
+        }).join('');
+
+        return (
+          `<div id="${tooltipId}">` +
+          `<div style="font-weight: 700; margin-bottom: 4px;">${params[0]?.axisValueLabel ?? ''}</div>` +
+          `<div style="display: flex; flex-wrap: wrap; gap: 24px;">${columnsHtml}</div>` +
+          (totalRow ? row(totalRow, true) : '') +
+          `</div>`
+        );
+      },
       axisPointer: {
         type: 'cross',
         lineStyle: {
@@ -152,6 +215,7 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
         },
         label: {
           backgroundColor: '#6a7985',
+          fontFamily,
           formatter: ({ axisDimension, value }: { axisDimension: 'x' | 'y'; value: number }) => {
             if (axisDimension === 'y') {
               return series.formatter(value, true).replace(/\.[^\s]*/, '');
@@ -278,6 +342,42 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
 
   useImperativeHandle(ref, () => ({ toggleAllSeries: onToggleAllSeries }), [onToggleAllSeries]);
 
+  // When hovering the series-block in the chart, hover the label/row in the tooltip
+  const applyTooltipHighlight = useCallback(
+    (name: string | null) => {
+      const tooltip = document.getElementById(tooltipId);
+      if (!tooltip) return;
+
+      tooltip.querySelectorAll<HTMLElement>('[data-series]').forEach((row) => {
+        const isHovered = name !== null && row.dataset.series === name;
+        row.style.background = isHovered ? '#f3f4f6' : '';
+
+        const label = row.querySelector<HTMLElement>('.tooltip-row-label');
+        if (label) label.style.fontWeight = isHovered ? '600' : '';
+      });
+    },
+    [tooltipId]
+  );
+
+  // Track which series the mouse is directly over on the chart itself to highlight the matching row.
+  const chartEvents = useMemo(
+    () => ({
+      mouseover: (params: { componentType: string; seriesName: string }) => {
+        if (params.componentType === 'series') {
+          hoveredSeriesName.current = params.seriesName;
+          applyTooltipHighlight(params.seriesName);
+        }
+      },
+      mouseout: (params: { componentType: string; seriesName: string }) => {
+        if (params.componentType === 'series' && hoveredSeriesName.current === params.seriesName) {
+          hoveredSeriesName.current = null;
+          applyTooltipHighlight(null);
+        }
+      },
+    }),
+    [applyTooltipHighlight]
+  );
+
   return (
     <div>
       <div className="h-[clamp(320px,52vh,600px)]">
@@ -286,6 +386,7 @@ const Chart = forwardRef<ChartHandle, ChartProps>(({ series, onAllSeriesHiddenCh
           ref={echartRef}
           notMerge
           option={options}
+          onEvents={chartEvents}
           style={{ height: '100%' }}
         />
       </div>

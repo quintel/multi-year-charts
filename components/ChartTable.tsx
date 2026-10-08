@@ -5,21 +5,13 @@ import LocaleContext from '../utils/LocaleContext';
 import { namespacedTranslate } from '../utils/translate';
 
 import { translateChartData } from '../utils/charts';
+import { chartColors as colors } from '../utils/chartColors';
 import { UnitFormatter } from '../utils/units';
 
 interface Row {
   name: string;
   data: number[];
 }
-
-const colors = [
-  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
-  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
-  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea',
-  '#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272',
-  '#fc8452', '#9a60b4', '#ea7ccc', '#c65470', '#75cc91', '#5858fa',
-  '#66eecc', '#de7373', '#a23b72', '#52fc84', '#b49a60', '#cc7cea'
-];
 
 const numericPart = (value: number, format: UnitFormatter) => {
   return format(value).split(' ')[0];
