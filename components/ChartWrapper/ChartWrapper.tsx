@@ -10,7 +10,6 @@ import Chart, { ChartHandle } from '../Chart';
 import ChartTable from '../ChartTable';
 import Loading from '../Loading';
 import LocaleMessage from '../LocaleMessage';
-import Markup from '../Markup';
 import OutputBreadcrumb from '../OutputBreadcrumb';
 import useTranslate from '../../utils/useTranslate';
 import { scenariosToChartData } from '../../utils/charts';
@@ -64,7 +63,7 @@ const ChartNote = ({ chart }: { chart: FlattenedChartSchema }) => {
 
   return (
     <p className="-mt-2 mb-5 pl-2 text-sm text-gray-600">
-      <Markup>{note}</Markup>
+      {note}
     </p>
   );
 };
