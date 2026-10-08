@@ -157,6 +157,9 @@ const translateSubstr = (
 };
 
 /**
+ * TODO: this is highly specific for final demand charts, we might want to use an extra
+ * attribute on charts for a translation key instead.
+ *
  * Final energy consumption series, e.g. myc_sector_final_consumption_of_electricity_in_households_total.
  * The breakdown token (sector or carrier) is the dimension the chart was navigated by, so the
  * other dimension is what varies between the series: a sector shows its carriers, a carrier its
