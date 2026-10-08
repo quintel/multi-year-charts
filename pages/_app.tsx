@@ -59,13 +59,13 @@ function App({ Component, pageProps }: AppProps) {
     curryTranslate(initialLocale === 'en' ? enTranslations : nlTranslations)
   );
 
-  const [unit, setUnit] = useState<'J' | 'Wh'>(() => {
-    return (localStorage.getItem('defaultUnit') as 'J' | 'Wh') || 'J';
+  const [unit, setUnit] = useState<'J' | 'Wh' | 'toe'>(() => {
+    return (localStorage.getItem('defaultUnit') as 'J' | 'Wh' | 'toe') || 'J';
   });
 
   useEffect(() => {
     const handleUnitChange = () => {
-      const updatedUnit = localStorage.getItem('defaultUnit') as 'J' | 'Wh';
+      const updatedUnit = localStorage.getItem('defaultUnit') as 'J' | 'Wh' | 'toe';
       setUnit(updatedUnit);
     };
 

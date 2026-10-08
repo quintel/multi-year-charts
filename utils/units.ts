@@ -66,6 +66,7 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'tonne', displayName: 'T' },
   { name: 'W' },
   { name: 'Wh' },
+  { name: 'toe' },
 ];
 
 /**
@@ -74,6 +75,8 @@ const BASE_UNITS: BaseUnit[] = [
 const specificConversionFactors: { [key: string]: number } = {
   'J-Wh': 2.77777778e-4, // Joules to Watt hours
   'Wh-J': 3600, // Watt hours to Joules
+  'J-toe': 2.38845897e-11, // Joules to tonnes of oil equivalent (1 toe = 41,868,000,000 J)
+  'toe-J': 41868000000, // Tonnes of oil equivalent to Joules
 };
 
 const convertValue = (value: number, fromUnit: string, toUnit: string): number => {
@@ -296,7 +299,7 @@ function getBaseUnit(unitName: string): string {
  * @returns {boolean} - True if needs conversion.
  */
 function unitNeedsConversion(unitName: string): boolean {
-  return getBaseUnit(unitName) === 'J' && getDefaultUnit() === 'Wh';
+  return getBaseUnit(unitName) === 'J' && getBaseUnit(getDefaultUnit()) !== 'J';
 }
 
 /**
