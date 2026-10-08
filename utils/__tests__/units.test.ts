@@ -31,6 +31,15 @@ describe('Quantity class', () => {
     expect(defaultUnit.unitName).toBe('Wh');
   });
 
+  it('should convert to toe when it is the default unit', () => {
+    setDefaultUnit('toe');
+    const quantity = new Quantity(5000, 'PJ');
+    const defaultUnit = quantity.toDefault();
+    // 5000 PJ = 5e18 J, times the (rounded) J-to-toe factor
+    expect(defaultUnit.value).toBeCloseTo(119422948.5);
+    expect(defaultUnit.unitName).toBe('toe');
+  });
+
   it('should smart scale the quantity', () => {
     const quantity = new Quantity(5000000, 'J');
     const scaled = quantity.smartScale();
@@ -107,5 +116,19 @@ describe('getDefaultUnit and setDefaultUnit functions', () => {
   it('should set and retrieve the default unit', () => {
     setDefaultUnit('TWh');
     expect(getDefaultUnit()).toBe('TWh');
+  });
+});
+
+describe('createScalingFormatter function with toe as the default unit', () => {
+  beforeEach(() => {
+    setDefaultUnit('toe');
+  });
+
+  it('converts joules to toe', () => {
+    const formatter = createScalingFormatter(41868000000, 'J');
+
+    // 41,868,000,000 J is exactly 1 toe by definition
+    expect(formatter(41868000000)).toEqual('1 toe');
+    expect(formatter(20934000000)).toEqual('0.5 toe');
   });
 });

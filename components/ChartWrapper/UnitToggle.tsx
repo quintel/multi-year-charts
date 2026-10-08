@@ -17,7 +17,7 @@ export function Option({ checked, children, disabled }: { checked: boolean; chil
 }
 
 function UnitToggle({ currentChart }: { currentChart: string }) {
-  const [value, setValue] = useState<'J' | 'Wh'>('J');
+  const [value, setValue] = useState<'J' | 'Wh' | 'toe'>('J');
 
   // Charts that should grey out the toggle
   const greyedOutCharts = ['co2_emissions', 'installed_production_capacity', 'flexible_capacity'];
@@ -26,11 +26,11 @@ function UnitToggle({ currentChart }: { currentChart: string }) {
   useEffect(() => {
     const savedUnit = localStorage.getItem('defaultUnit');
     if (savedUnit) {
-      setValue(savedUnit as 'J' | 'Wh');
+      setValue(savedUnit as 'J' | 'Wh' | 'toe');
     }
   }, []);
 
-  const handleChange = (newValue: 'J' | 'Wh') => {
+  const handleChange = (newValue: 'J' | 'Wh' | 'toe') => {
     if (!isGreyedOut) {
       setValue(newValue);
       localStorage.setItem('defaultUnit', newValue);
@@ -53,6 +53,9 @@ function UnitToggle({ currentChart }: { currentChart: string }) {
       </RadioGroup.Option>
       <RadioGroup.Option value="Wh" disabled={isGreyedOut}>
         {({ checked }) => <Option checked={checked} disabled={isGreyedOut}>Wh</Option>}
+      </RadioGroup.Option>
+      <RadioGroup.Option value="toe" disabled={isGreyedOut}>
+        {({ checked }) => <Option checked={checked} disabled={isGreyedOut}>toe</Option>}
       </RadioGroup.Option>
     </RadioGroup>
   );
