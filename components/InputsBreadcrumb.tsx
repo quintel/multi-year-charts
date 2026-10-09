@@ -18,28 +18,35 @@ interface CrumbsOptions {
 export function crumbsFor({ roots, showAll, trail, allLabel }: CrumbsOptions): Crumb[] {
   const hrefFor = (nodes: LevelNode[]) => withAllInputs(scopePath(nodes), showAll);
 
-  const optionsFor = (nodes: LevelNode[], path: LevelNode[]): CrumbOption[] =>
-    visibleLevels(nodes, showAll).map((child) => ({
+  // Every level offers an "All" containing all the inputs of the options below combined
+  const optionsFor = (nodes: LevelNode[], path: LevelNode[]): CrumbOption[] => {
+    const children = visibleLevels(nodes, showAll);
+
+    if (children.length === 0) return [];
+
+    const allOption: CrumbOption = { key: 'all', label: allLabel, href: hrefFor(path) };
+    const childOptions = children.map((child) => ({
       key: child.key,
       label: child.label,
       href: hrefFor([...path, child]),
       options: optionsFor(child.children, [...path, child]),
     }));
 
-  // A real crumb: its menu offers "All" back to its own parent, plus its siblings
+    return [allOption, ...childOptions];
+  };
+
+  // A real crumb: its menu offers "All" to show all siblings in one overview, plus its siblings
   const realCrumb = (node: LevelNode, depth: number): Crumb => {
     const path = trail.slice(0, depth + 1);
     const parentPath = trail.slice(0, depth);
     const siblings = depth === 0 ? roots : trail[depth - 1].children;
-
-    const allOption: CrumbOption = { key: 'all', label: allLabel, href: hrefFor(parentPath) };
 
     return {
       key: node.key,
       label: node.label,
       href: hrefFor(path),
       selectedKey: node.key,
-      options: [allOption, ...optionsFor(siblings, parentPath)],
+      options: optionsFor(siblings, parentPath),
     };
   };
 
@@ -52,14 +59,12 @@ export function crumbsFor({ roots, showAll, trail, allLabel }: CrumbsOptions): C
 
     if (trail.length > 0 && visibleChildren.length === 0) return null;
 
-    const selfOption: CrumbOption = { key: 'all', label: allLabel, href: hrefFor(trail) };
-
     return {
       key: 'all',
       label: allLabel,
       href: hrefFor(trail),
       selectedKey: 'all',
-      options: [selfOption, ...optionsFor(children, trail)],
+      options: optionsFor(children, trail),
     };
   };
 
