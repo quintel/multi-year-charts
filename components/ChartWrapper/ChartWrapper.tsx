@@ -81,7 +81,7 @@ const ChartTitle = ({
 }) => (
   <>
     <div className="mb-5 flex items-center">
-      <span className='text-lg pl-2 pr-3'>{useTranslate()('chart.filter_by')}</span>
+      <span className='text-base pl-2 pr-3'>{useTranslate()('chart.filter_by')}</span>
       <OutputBreadcrumb charts={charts} />
       <div className="flex-1"></div>
       {onToggleAllSeries ? (
