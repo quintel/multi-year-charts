@@ -44,7 +44,7 @@ describe('Quantity class', () => {
     const quantity = new Quantity(5000000, 'J');
     const scaled = quantity.smartScale();
     expect(scaled.value).toBe(5000);
-    expect(scaled.unitName).toBe('KJ');
+    expect(scaled.unitName).toBe('kJ');
   });
 
   it('should handle NaN in format', () => {
