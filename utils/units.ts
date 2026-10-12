@@ -22,7 +22,7 @@ interface CompiledUnit {
 export type UnitFormatter = (val: number, fromChart?: boolean) => string;
 
 /**
- * Represent a function which can be called to only convert a query value with 
+ * Represent a function which can be called to only convert a query value with
  * the unit.
  */
 export type UnitConverter = (val: number) => number;
@@ -53,7 +53,7 @@ const POWERS: Power[] = [
   { prefix: 'T', multiple: 1e12 },
   { prefix: 'G', multiple: 1e9 },
   { prefix: 'M', multiple: 1e6 },
-  { prefix: 'K', multiple: 1e3 },
+  { prefix: 'k', multiple: 1e3 },
   { prefix: '', multiple: 1 },
 ];
 
@@ -332,7 +332,7 @@ function unitNeedsConversion(unitName: string): boolean {
 /**
  * Creates a function to exclusively convert when the unit needs conversion.
  * This is used to convert the values before passing them to the chart so the split line values are rounded.
- * 
+ *
  * @param {number} value - The source value.
  * @param {string} unitName - The source unit name.
  * @returns {number} - The value converted to Wh if necessary.
