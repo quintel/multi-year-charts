@@ -75,10 +75,10 @@ table {
   --nav-height: 0px;
   /* Leading gutter above the breadcrumb, between it and the nav. */
   --inputs-breadcrumb-lead: 1.5rem;
-  --inputs-breadcrumb-height: 2rem;
+  --inputs-breadcrumb-height: 1.5rem;
   /* Trailing gutter below the breadcrumb, before the table starts.  */
-  --inputs-breadcrumb-gap: 1.25rem;
-  --inputs-header-height: 4rem;
+  --inputs-breadcrumb-gap: 0.5rem;
+  --inputs-header-height: 2.75rem;
   --inputs-heading-top-height: 2rem;
   /* Where the table's own sticky header ends */
   --inputs-sticky-header-bottom: calc(

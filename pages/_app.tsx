@@ -24,8 +24,8 @@ const antTheme = {
   token: { fontFamily: 'inherit' },
   components: {
     Breadcrumb: {
-      fontSize: 20,
-      fontHeight: 30,
+      fontSize: 16,
+      fontHeight: 24,
       itemColor: '#462c34',
       lastItemColor: '#462c34',
     },
