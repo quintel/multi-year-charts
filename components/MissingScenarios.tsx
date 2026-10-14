@@ -8,7 +8,7 @@ import { signIn, signOut } from '../utils/auth';
 import LocaleMessage from '../components/LocaleMessage';
 
 const MissingScenarios = () => {
-  const { user } = useCurrentUser();
+  const { user, loading } = useCurrentUser();
 
   setTimeout(() => {
     const loader = document.getElementById('overlay-wait');
@@ -49,7 +49,7 @@ const MissingScenarios = () => {
               <LocaleMessage id="missingScenarios.explanation" />
             </Balancer>
           </p>
-          {!user && (
+          {!user && !loading && (
             <p className="mt-4 text-gray-500">
               <Balancer>
                 <LocaleMessage id="missingScenarios.signInPrompt" />
@@ -72,7 +72,7 @@ const MissingScenarios = () => {
                 <LocaleMessage id="session.signOut" />
                 &hellip;
               </button>
-            ) : (
+            ) : !loading && (
               <button
                 onClick={() => signIn()}
                 className="rounded-md bg-emerald-600 px-3.5 py-2 font-medium text-white transition hover:bg-emerald-700 active:bg-emerald-800"
