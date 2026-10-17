@@ -23,7 +23,9 @@ function Button({ children }: { children: React.ReactNode }) {
 }
 
 const SessionInformation = () => {
-  const { user } = useCurrentUser();
+  const { user, loading } = useCurrentUser();
+
+  if (loading) return null;
 
   return (
     <div className="flex space-x-2">
