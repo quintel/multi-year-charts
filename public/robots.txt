@@ -1,0 +1,5 @@
+# Collections renders charts for arbitrary combinations of scenario IDs.
+# The URL space is combinatorial by construction and none of it is
+# meaningful to a search engine.
+User-agent: *
+Disallow: /
