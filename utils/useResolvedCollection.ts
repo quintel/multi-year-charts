@@ -3,12 +3,14 @@ import { useRouter } from 'next/router';
 import * as Sentry from '@sentry/nextjs';
 
 /**
- * One scenario of a collection. The title is the saved scenario's or null
+ * One scenario of a collection. The title is the saved scenario's or null. Access is the level the
+ * viewer's role grants on it, null without one, and unknown on the route by Session IDs.
  */
 export interface CollectionMember {
   scenarioID: number;
   savedScenarioID: number | null;
   title: string | null;
+  access?: 'read' | 'write' | null;
 }
 
 /**
@@ -93,10 +95,12 @@ export default function useResolvedCollection(attempt = 0): Resolution {
                 scenario_id: number;
                 saved_scenario_id?: number;
                 title: string | null;
+                access?: 'read' | 'write' | null;
               }) => ({
                 scenarioID: member.scenario_id,
                 savedScenarioID: member.saved_scenario_id ?? null,
                 title: member.title ?? null,
+                access: member.access,
               })
             )
           : [];
