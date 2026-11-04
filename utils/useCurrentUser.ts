@@ -4,6 +4,7 @@ export interface CurrentUser {
   id: string;
   name?: string;
   email?: string;
+  access: { read: number[]; write: number[] };
 }
 
 // Survives remounts, which every page switch causes, so the nav does not flash signed out
