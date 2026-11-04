@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 import Chrome from './Chrome';
 import PageLoading from './PageLoading';
@@ -9,6 +9,7 @@ import MissingScenarios from './MissingScenarios';
 import { remoteChange, setCollection, setColumns, setUserID } from '../store/actions';
 import { AppState, CollectionState, Column } from '../store/types';
 import { isNewer } from '../utils/api/middleware';
+import { grantBounceUrl } from '../utils/grantBounce';
 import useCurrentUser from '../utils/useCurrentUser';
 import useResolvedCollection from '../utils/useResolvedCollection';
 
@@ -48,6 +49,13 @@ const WithCollection = ({
 
   useEffect(() => {
     if (!collection || loading) return;
+
+    const bounce = grantBounceUrl(collection.members, user, Router);
+
+    if (bounce) {
+      window.location.assign(bounce);
+      return;
+    }
 
     setCollection({ id: collection.id, title: collection.title });
     setUserID(user?.id ?? null);
