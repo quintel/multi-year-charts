@@ -6,13 +6,11 @@ agent:
     os_image: ubuntu2404
 
 # Image tag, deploy path and the NEXT_PUBLIC_* URLs are derived from the branch name and must
-# match the instance in the ansible stable group_vars: branch 2027-01 -> image
-# quintel/collections:2027_01, deployed from /var/www/collections_2027_01, talking to
-# https://2027-01.engine.energytransitionmodel.com and https://2027-01.energytransitionmodel.com.
+# match the instance in the ansible stable group_vars: branch 2027-stable -> image
+# quintel/collections:2027_stable, deployed from /var/www/collections_2027_stable, talking to
+# https://2027.engine.energytransitionmodel.com and https://2027.energytransitionmodel.com.
 # NEXT_PUBLIC_* values are inlined into the client bundle at build time, so a URL change requires
 # a rebuild here, not a redeploy.
-#
-# The Sentry release is "stable-<branch>": stable shares its Sentry project with latest.
 blocks:
   - name: Docker
     task:
@@ -39,9 +37,12 @@ blocks:
           commands:
             - checkout
             - export TAG="${SEMAPHORE_GIT_BRANCH//-/_}"
-            - export NEXT_PUBLIC_ETENGINE_URL="https://${SEMAPHORE_GIT_BRANCH}.engine.energytransitionmodel.com"
-            - export NEXT_PUBLIC_ETMODEL_URL="https://${SEMAPHORE_GIT_BRANCH}.energytransitionmodel.com"
-            - export NEXT_PUBLIC_SENTRY_RELEASE="stable-${SEMAPHORE_GIT_BRANCH}"
+            # The hosts are the branch name without "-stable": 2027-stable -> 2027.
+            - export HOST="${SEMAPHORE_GIT_BRANCH%-stable}"
+            - export NEXT_PUBLIC_ETENGINE_URL="https://${HOST}.engine.energytransitionmodel.com"
+            - export NEXT_PUBLIC_ETMODEL_URL="https://${HOST}.energytransitionmodel.com"
+            # The Sentry release is the branch name, instead of latest's release.
+            - export NEXT_PUBLIC_SENTRY_RELEASE="${SEMAPHORE_GIT_BRANCH}"
             - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
             # SENTRY_AUTH_TOKEN comes from the Sentry credentials secret and enters the
             # build as a BuildKit secret (never an ARG/ENV, so it isn't stored in a layer).
@@ -66,4 +67,4 @@ blocks:
     run:
       when: >-
         branch = '2025-01' or
-        branch = '2027-01'
+        branch = '2027-stable'
