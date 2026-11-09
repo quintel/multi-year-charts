@@ -15,10 +15,9 @@ const openSessionsUrl = (sessionIDs: number[]) => {
   const returnTo = new URL(window.location.href);
   returnTo.searchParams.set('granted', '1');
 
-  const query = new URLSearchParams({
-    session_ids: sessionIDs.join(','),
-    return_to: returnTo.href,
-  });
+  const query = new URLSearchParams({ return_to: returnTo.href });
+  sessionIDs.forEach((id) => query.append('session_ids[]', String(id)));
+
   return `${process.env.NEXT_PUBLIC_MYETM_URL}/saved_scenarios/open?${query}`;
 };
 

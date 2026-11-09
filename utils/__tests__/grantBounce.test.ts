@@ -24,7 +24,7 @@ it('sends a signed-in viewer to MyETM with the members lacking a grant at their 
   const members = [member(1), member(2), member(3, 'write'), member(4, null)];
   const url = new URL(grantBounceUrl(members, user, routerWith()) ?? '');
 
-  expect(url.searchParams.get('session_ids')).toEqual('2,3');
+  expect(url.searchParams.getAll('session_ids[]')).toEqual(['2', '3']);
   expect(url.searchParams.get('return_to')).toEqual(
     'http://localhost/collections/42?locale=en&granted=1'
   );
