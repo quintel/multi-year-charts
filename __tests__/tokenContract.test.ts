@@ -35,6 +35,15 @@ describe('token contract with MyETM', () => {
     );
   });
 
+  it("groups the scenario_access claim by Version tag, as /api/me reads it", async () => {
+    const { payload } = await jwtVerify(contract.granted_token, jwks, verifyOptions);
+
+    expect(payload.scenario_access).toEqual({
+      latest: { write: [648695], read: [612000] },
+      '2025.01': { write: [612000] },
+    });
+  });
+
   it('is audienced at Collections', async () => {
     const collections = contract.session_audience.find((url) => url.includes('collections'));
     expect(collections).toBeTruthy();

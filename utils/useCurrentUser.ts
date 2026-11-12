@@ -4,6 +4,7 @@ export interface CurrentUser {
   id: string;
   name?: string;
   email?: string;
+  access: { read: number[]; write: number[] };
 }
 
 // Replaces NextAuth's useSession. Fetches the signed-in user from /api/me, which reads the shared
