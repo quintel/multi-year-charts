@@ -98,15 +98,15 @@ const ChartTable: FC<Omit<ChartProps, 'style' | 'type'> & { colorSeries?: boolea
         </tr>
       </thead>
       <tbody>
-        {translatedData.data.map((d, i) => renderRow(d, series.formatter, colorSeries ? i : -1))}
+        {translatedData.data.map((d, i) => renderRow(d, series.tableFormatter, colorSeries ? i : -1))}
         <tr className="bg-myetm-300 text-myetm-800 transition-colors">
           <td className="border-l border-b border-gray-300 px-3 text-left fixed-width-cell first-col">{translate('series.total')}</td>
-          <td className="border-b border-gray-300 px-3 text-right fixed-width-cell">{series.formatter(0).split(' ')[1]}</td>
+          <td className="border-b border-gray-300 px-3 text-right fixed-width-cell">{series.tableFormatter(0).split(' ')[1]}</td>
           {series.categories.map((_, i) => {
             const total = translatedData.data.reduce((sum, s) => sum + (s.data[i] || 0), 0);
             return (
               <td key={`year-total-${i}`} className="border-b border-gray-300 chart-table-value p-3 text-right fixed-width-cell [&:last-child]:border-r">
-                {numericPart(total, series.formatter)}
+                {numericPart(total, series.tableFormatter)}
               </td>
             )
           })}

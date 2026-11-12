@@ -4,7 +4,7 @@ import sortScenarios from './sortScenarios';
 
 import { ChartSchema, FlattenedChartSchema, VariantNode } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
-import { createScalingFormatter, UnitFormatter } from './units';
+import { createScalingFormatter, createTableFormatter, UnitFormatter } from './units';
 import { createDefaultUnitConverter, UnitConverter } from './units';
 import { namespacedTranslate } from './translate';
 
@@ -12,6 +12,7 @@ export interface ChartSeries {
   categories: number[];
   data: { name: string; data: number[] }[];
   formatter: UnitFormatter;
+  tableFormatter: UnitFormatter;
   converter: UnitConverter;
 }
 
@@ -124,6 +125,7 @@ export const scenariosToChartData = (
       ),
     })),
     formatter,
+    tableFormatter: createTableFormatter(maxValue, unit),
     converter,
   };
 };
@@ -278,9 +280,10 @@ export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): strin
   const headers = ['Subject', 'Units', ...series.categories.map(csvField)].join(',');
   const rows = translated.data.map((seriesData) => {
     const convertedData = seriesData.data.map((value) => {
-      const formattedValue = series.formatter(value);
+      const formattedValue = series.tableFormatter(value);
       const [valuePart, unitPart] = formattedValue.split(' ');
-      return { valuePart, unitPart };
+      // Drop the thousands separators of full counts so spreadsheets read a plain number
+      return { valuePart: valuePart.replace(/,/g, ''), unitPart };
     });
 
     const unit = convertedData.length > 0 ? convertedData[0].unitPart : '';
