@@ -8,6 +8,7 @@ import MissingScenarios from '../components/MissingScenarios';
 import charts from '../data/charts';
 
 import { AppState } from '../store/types';
+import useGrantBounce from '../utils/grantBounce';
 
 function Chrome({
   children,
@@ -16,6 +17,8 @@ function Chrome({
   children: React.ReactNode;
   failureReason: AppState['failureReason'];
 }) {
+  useGrantBounce(failureReason);
+
   if (failureReason) {
     return <MissingScenarios />;
   }
