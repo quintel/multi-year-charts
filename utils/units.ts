@@ -67,6 +67,7 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'W' },
   { name: 'Wh' },
   { name: 'toe' },
+  { name: '#' },
 ];
 
 /**
@@ -314,7 +315,7 @@ function unitNeedsConversion(unitName: string): boolean {
  */
  export const createScalingFormatter = (maxValue: number, unitName: string) => {
   return (value: number, fromChart?: boolean) => {
-    if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W") {
+    if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W" || getBaseUnit(unitName) === "#") {
       const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
       return new Quantity(value, unitName).to(bestUnit).format();
     }

@@ -225,13 +225,38 @@ const translateSeries = (name: string, translate: TranslateFunc) => {
 };
 
 /**
+ * Number of residences series, e.g. number_of_apartments_before_1945. The same query appears in
+ * a type chart (labelled by its period) and in a period chart (labelled by its type), so the
+ * label depends on the other series: when they all share one type, the period is what varies.
+ */
+const RESIDENCE_SERIES =
+  /^number_of_(apartments|detached_houses|semi_detached_houses|terraced_houses|residences)(?:_(before_1945|1945_1964|1965_1984|1985_2004|2005_present|future))?$/;
+
+const translateResidenceSeries = (names: string[], translate: TranslateFunc) => {
+  const matches = names.map((name) => name.match(RESIDENCE_SERIES));
+
+  if (!matches.every(Boolean)) return undefined;
+
+  const sameType = new Set(matches.map((match) => match![1])).size === 1;
+
+  return (matches as RegExpMatchArray[]).map(([, type, period]) =>
+    translate(sameType && period ? `residences_${period}` : type)
+  );
+};
+
+/**
  * Given chart data, returns a copy of the data with the name of each series
  * translated to a human-readable text.
  */
 export const translateChartData = (series: ChartSeries, translate: TranslateFunc): ChartSeries => {
-  const newData = series.data.map((seriesData) => ({
+  const residenceNames = translateResidenceSeries(
+    series.data.map(({ name }) => name),
+    translate
+  );
+
+  const newData = series.data.map((seriesData, index) => ({
     ...seriesData,
-    name: translateSeries(seriesData.name, translate),
+    name: residenceNames?.[index] ?? translateSeries(seriesData.name, translate),
   }));
 
   return { ...series, data: newData };
