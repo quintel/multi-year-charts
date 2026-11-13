@@ -58,7 +58,27 @@ describe('/api/me', () => {
 
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
-      user: { id: '42', name: 'Ada', email: 'a@b.c' },
+      user: { id: '42', name: 'Ada', email: 'a@b.c', access: { read: [], write: [] } },
+    });
+  });
+
+  it("returns this Version's grants from the cookie", async () => {
+    process.env.VERSION_TAG = '2025.01';
+
+    const token = await jwtFor({
+      sub: '42',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+      user: {},
+      scenario_access: { latest: { write: [1] }, '2025.01': { read: [2], write: [3] } },
+    });
+    const res = makeRes();
+
+    await handler(reqWith({ [SESSION_COOKIE_NAME]: token }), res);
+
+    delete process.env.VERSION_TAG;
+
+    expect(res.json).toHaveBeenCalledWith({
+      user: expect.objectContaining({ access: { read: [3, 2], write: [3] } }),
     });
   });
 
