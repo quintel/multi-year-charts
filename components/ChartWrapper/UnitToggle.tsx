@@ -20,7 +20,7 @@ function UnitToggle({ currentChart }: { currentChart: string }) {
   const [value, setValue] = useState<'J' | 'Wh' | 'toe'>('J');
 
   // Charts that should grey out the toggle
-  const greyedOutCharts = ['co2_emissions', 'installed_production_capacity', 'flexible_capacity'];
+  const greyedOutCharts = ['co2_emissions', 'installed_production_capacity', 'flexible_capacity', 'number_of_residences'];
   const isGreyedOut = greyedOutCharts.includes(currentChart);
 
   useEffect(() => {

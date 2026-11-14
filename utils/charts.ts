@@ -4,7 +4,7 @@ import sortScenarios from './sortScenarios';
 
 import { ChartSchema, FlattenedChartSchema, VariantNode } from '../data/charts';
 import { TranslateFunc } from '../utils/LocaleContext';
-import { createScalingFormatter, UnitFormatter } from './units';
+import { createScalingFormatter, createTableFormatter, UnitFormatter } from './units';
 import { createDefaultUnitConverter, UnitConverter } from './units';
 import { namespacedTranslate } from './translate';
 
@@ -12,6 +12,7 @@ export interface ChartSeries {
   categories: number[];
   data: { name: string; data: number[] }[];
   formatter: UnitFormatter;
+  tableFormatter: UnitFormatter;
   converter: UnitConverter;
 }
 
@@ -124,6 +125,7 @@ export const scenariosToChartData = (
       ),
     })),
     formatter,
+    tableFormatter: createTableFormatter(maxValue, unit),
     converter,
   };
 };
@@ -225,13 +227,38 @@ const translateSeries = (name: string, translate: TranslateFunc) => {
 };
 
 /**
+ * Number of residences series, e.g. number_of_apartments_before_1945. The same query appears in
+ * a type chart (labelled by its period) and in a period chart (labelled by its type), so the
+ * label depends on the other series: when they all share one type, the period is what varies.
+ */
+const RESIDENCE_SERIES =
+  /^number_of_(apartments|detached_houses|semi_detached_houses|terraced_houses|residences)(?:_(before_1945|1945_1964|1965_1984|1985_2004|2005_present|future))?$/;
+
+const translateResidenceSeries = (names: string[], translate: TranslateFunc) => {
+  const matches = names.map((name) => name.match(RESIDENCE_SERIES));
+
+  if (!matches.every(Boolean)) return undefined;
+
+  const sameType = new Set(matches.map((match) => match![1])).size === 1;
+
+  return (matches as RegExpMatchArray[]).map(([, type, period]) =>
+    translate(sameType && period ? `residences_${period}` : type)
+  );
+};
+
+/**
  * Given chart data, returns a copy of the data with the name of each series
  * translated to a human-readable text.
  */
 export const translateChartData = (series: ChartSeries, translate: TranslateFunc): ChartSeries => {
-  const newData = series.data.map((seriesData) => ({
+  const residenceNames = translateResidenceSeries(
+    series.data.map(({ name }) => name),
+    translate
+  );
+
+  const newData = series.data.map((seriesData, index) => ({
     ...seriesData,
-    name: translateSeries(seriesData.name, translate),
+    name: residenceNames?.[index] ?? translateSeries(seriesData.name, translate),
   }));
 
   return { ...series, data: newData };
@@ -253,9 +280,10 @@ export const chartToCSV = (series: ChartSeries, translate: TranslateFunc): strin
   const headers = ['Subject', 'Units', ...series.categories.map(csvField)].join(',');
   const rows = translated.data.map((seriesData) => {
     const convertedData = seriesData.data.map((value) => {
-      const formattedValue = series.formatter(value);
+      const formattedValue = series.tableFormatter(value);
       const [valuePart, unitPart] = formattedValue.split(' ');
-      return { valuePart, unitPart };
+      // Drop the thousands separators of full counts so spreadsheets read a plain number
+      return { valuePart: valuePart.replace(/,/g, ''), unitPart };
     });
 
     const unit = convertedData.length > 0 ? convertedData[0].unitPart : '';

@@ -5,6 +5,7 @@ import {
   resolveVariantPath,
   scenariosToChartData,
   translateChartData,
+  chartToCSV,
 } from '../charts';
 import { ChartSchema } from '../../data/charts';
 
@@ -192,5 +193,58 @@ describe('translateChartData', () => {
         'myc_carrier_final_consumption_of_electricity_in_industry_ict_non_energetic',
       ])
     ).toEqual(['OTHER', 'ELECTRICITY', 'NON_RENEWABLE_WASTE', 'INDUSTRY_ICT']);
+  });
+});
+
+describe('translateChartData for residences', () => {
+  const names = (seriesNames: string[]) => {
+    const series = {
+      categories: [2019],
+      data: seriesNames.map((name) => ({ name, data: [1] })),
+      formatter: (value: number) => String(value),
+      converter: (value: number) => value,
+    };
+
+    return translateChartData(series as never, (key: string) => key).data.map(({ name }) => name);
+  };
+
+  it('labels a type breakdown by its periods', () => {
+    expect(names(['number_of_apartments_before_1945', 'number_of_apartments_future'])).toEqual([
+      'residences_before_1945',
+      'residences_future',
+    ]);
+  });
+
+  it('labels a period breakdown by its types', () => {
+    expect(
+      names(['number_of_apartments_before_1945', 'number_of_terraced_houses_before_1945'])
+    ).toEqual(['apartments', 'terraced_houses']);
+  });
+
+  it('labels the overviews', () => {
+    expect(names(['number_of_apartments', 'number_of_terraced_houses'])).toEqual([
+      'apartments',
+      'terraced_houses',
+    ]);
+    expect(names(['number_of_residences_before_1945', 'number_of_residences_future'])).toEqual([
+      'residences_before_1945',
+      'residences_future',
+    ]);
+  });
+});
+
+describe('chartToCSV', () => {
+  it('exports full counts as plain numbers', () => {
+    const series = {
+      categories: [2019, 2050],
+      data: [{ name: 'number_of_apartments', data: [1_234_567, 8_512_345] }],
+      formatter: () => '8.5 M',
+      tableFormatter: (value: number) => `${value.toLocaleString('en-US')} #`,
+      converter: (value: number) => value,
+    };
+
+    expect(chartToCSV(series, (key: string) => key)).toEqual(
+      'Subject,Units,2019,2050\napartments,#,1234567,8512345'
+    );
   });
 });
