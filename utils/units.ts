@@ -67,6 +67,8 @@ const BASE_UNITS: BaseUnit[] = [
   { name: 'W' },
   { name: 'Wh' },
   { name: 'toe' },
+  // Counts (e.g. residences) only get a scale prefix: "1.2 M", "350 k"
+  { name: '#', displayName: '' },
 ];
 
 /**
@@ -96,7 +98,7 @@ const minPower = POWERS[POWERS.length - 1];
 BASE_UNITS.forEach((base) => {
   POWERS.forEach((power) => {
     const name = `${power.prefix}${base.name}`;
-    const displayName = `${power.prefix}${base.displayName || base.name}`;
+    const displayName = `${power.prefix}${base.displayName ?? base.name}`;
 
     compiledUnits[name] = { name, displayName, base, power };
   });
@@ -261,7 +263,7 @@ export class Quantity {
       fixedValue = `${decimal}.${strippedFraction}`;
     }
 
-    return `${fixedValue} ${this.unit.displayName || this.unit.name}`;
+    return `${fixedValue} ${this.unit.displayName ?? this.unit.name}`;
   }
 
   toString() {
@@ -314,7 +316,7 @@ function unitNeedsConversion(unitName: string): boolean {
  */
  export const createScalingFormatter = (maxValue: number, unitName: string) => {
   return (value: number, fromChart?: boolean) => {
-    if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W") {
+    if (unitName === getDefaultUnit() || getBaseUnit(unitName) === "tonne" || getBaseUnit(unitName) === "W" || getBaseUnit(unitName) === "#") {
       const bestUnit = new Quantity(maxValue, unitName).smartScale().unit.name;
       return new Quantity(value, unitName).to(bestUnit).format();
     }
@@ -343,3 +345,12 @@ export const createDefaultUnitConverter = (unitName: string) => {
   }
   return (value: number) => value;
 }
+
+/**
+ * Formatter for the chart table: like createScalingFormatter, except that counts are shown in
+ * full ("1,234,567 #") since a table has room for the exact number.
+ */
+export const createTableFormatter = (maxValue: number, unitName: string): UnitFormatter =>
+  unitName === '#'
+    ? (value: number) => `${Math.round(value).toLocaleString('en-US')} #`
+    : createScalingFormatter(maxValue, unitName);

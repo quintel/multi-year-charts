@@ -1,4 +1,4 @@
-import { Quantity, createScalingFormatter, getDefaultUnit, setDefaultUnit } from '../units';
+import { Quantity, createScalingFormatter, createTableFormatter, getDefaultUnit, setDefaultUnit } from '../units';
 
 describe('Quantity class', () => {
 
@@ -130,5 +130,23 @@ describe('createScalingFormatter function with toe as the default unit', () => {
     // 41,868,000,000 J is exactly 1 toe by definition
     expect(formatter(41868000000)).toEqual('1 toe');
     expect(formatter(20934000000)).toEqual('0.5 toe');
+  });
+});
+
+describe('createScalingFormatter with counts', () => {
+  it('scales counts with a prefix only', () => {
+    expect(createScalingFormatter(12_000_000, '#')(8_500_000)).toEqual('8.5 M');
+    expect(createScalingFormatter(5000, '#')(5000)).toEqual('5000 ');
+  });
+});
+
+describe('createTableFormatter', () => {
+  it('shows counts in full', () => {
+    expect(createTableFormatter(12_000_000, '#')(8_512_345.4)).toEqual('8,512,345 #');
+  });
+
+  it('scales other units like the chart', () => {
+    setDefaultUnit('PJ');
+    expect(createTableFormatter(10, 'MJ')(0.5)).toEqual('0.5 MJ');
   });
 });

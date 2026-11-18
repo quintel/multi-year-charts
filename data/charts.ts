@@ -5,6 +5,7 @@ import renewables from './charts/renewables';
 import installedProductionCapacity from './charts/installedProductionCapacity';
 import flexibleCapacity from './charts/flexibleCapacity';
 import primaryDemand from './charts/primaryDemand';
+import numberOfResidences from './charts/numberOfResidences';
 
 // A node in a chart's variant tree. `series` makes it directly renderable (a chart lives at its
 // own path); `children` makes it drillable further. A node may be neither, either, or both — e.g.
@@ -46,4 +47,5 @@ export default [
   flexibleCapacity,
   primaryDemand,
   installedProductionCapacity,
+  numberOfResidences,
 ];
