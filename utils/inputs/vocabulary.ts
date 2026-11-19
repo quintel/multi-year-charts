@@ -18,6 +18,11 @@ const decimalsToShow = (value: number): number => {
   return fraction ? Math.min(fraction.length, 2) : 0;
 };
 
+// Fine enough to reveal values stored between steps, which can hold a share group off 100
+export const FINE_DECIMALS = 6;
+
+export const toFine = (value: number): number => Number(value.toFixed(FINE_DECIMALS));
+
 export const formatInputValue = (
   value: InputValue,
   unit: string,

@@ -7,14 +7,14 @@ import {
   InputValue,
   ScenarioIndexedInputData,
 } from '../../utils/api/types';
-import { currentValue, formatInputValue } from '../../utils/inputs/vocabulary';
+import { currentValue, formatInputValue, toFine } from '../../utils/inputs/vocabulary';
 import { ColumnEditing } from '../../store/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { toStep } from '../../utils/inputs/coerce';
 import { toneClass } from '../../utils/inputs/appearance';
 import { indentFor } from '../../utils/inputs/layout';
 import { groupRefusal } from '../../utils/inputs/shareGroups';
-import { Selection } from '../../utils/inputs/rows';
+import { isSelected, Selection } from '../../utils/inputs/rows';
 import { Slide } from '../../utils/inputs/hierarchy';
 
 type Translate = (id: string) => string;
@@ -25,6 +25,10 @@ export const NOT_EDITING: ColumnEditing = { pending: false, values: {}, refused:
 // Never shows more precision than the input's step allows
 const stepped = (value: InputValue, input: InputData): InputValue =>
   typeof value === 'number' ? toStep(value, input) : value;
+
+// A selected share group shows its members finer than the step, so values between steps can be typed over
+const shown = (value: InputValue, input: InputData, fine: boolean): InputValue =>
+  fine && typeof value === 'number' ? toFine(value) : stepped(value, input);
 
 // A refusal covering a whole group belongs to the group, and is shown on its total row instead
 const cellRefusal = (
@@ -104,9 +108,10 @@ export function InputValueCell({
   if (!scenarioInput) return null;
 
   const typed = editing.values[input.key];
-  const value = stepped(typed ?? currentValue(scenarioInput), scenarioInput);
-  const isSet = userValues[input.key] !== undefined;
   const shareGroup = scenarioInput.share_group;
+  const selected = isSelected(selection, column.sessionID, shareGroup);
+  const value = shown(typed ?? currentValue(scenarioInput), scenarioInput, selected);
+  const isSet = userValues[input.key] !== undefined;
 
   if (!column.editable || scenarioInput.coupling_disabled) {
     return <ReadOnlyCell input={scenarioInput} isSet={isSet} translate={translate} />;
@@ -121,7 +126,7 @@ export function InputValueCell({
       pending={editing.pending && typed === undefined}
       refusal={refusal}
       refused={refusal !== undefined}
-      selected={selection?.sessionID === column.sessionID && selection?.shareGroup === shareGroup}
+      selected={selected}
       held={shareGroup !== undefined && (held?.has(shareGroup) || false)}
       translate={translate}
       value={value}

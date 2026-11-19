@@ -252,6 +252,7 @@ const InputsTable: React.FC<InputsTableProps> = ({
                 group={row.group}
                 held={held[column.sessionID]}
                 inputs={inputs[column.sessionID]}
+                selection={selection}
                 translate={translate}
               />
             );

@@ -2,8 +2,9 @@ import { ColumnEditing } from '../../store/types';
 import { InputCollectionData } from '../../utils/api/types';
 import { EditableColumn } from '../../utils/inputs/access';
 import { indentFor } from '../../utils/inputs/layout';
+import { isSelected, Selection } from '../../utils/inputs/rows';
 import { enabledMembers, groupRefusal, groupTotal } from '../../utils/inputs/shareGroups';
-import { formatInputValue } from '../../utils/inputs/vocabulary';
+import { formatInputValue, toFine } from '../../utils/inputs/vocabulary';
 
 type Translate = (id: string) => string;
 
@@ -52,6 +53,7 @@ export function TotalValue({
   group,
   held,
   inputs,
+  selection,
   translate,
 }: {
   column: EditableColumn;
@@ -59,17 +61,18 @@ export function TotalValue({
   group: string;
   held: Set<string> | undefined;
   inputs: InputCollectionData;
+  selection: Selection | null;
   translate: Translate;
 }) {
   if (!column.editable) return null;
 
+  const total = groupTotal(inputs, editing.values, group);
+
   return (
     <span className={totalClass(held?.has(group) || false, editing.pending)}>
-      {formatInputValue(
-        groupTotal(inputs, editing.values, group),
-        groupUnit(inputs, enabledMembers(inputs, group)),
-        translate
-      )}
+      {isSelected(selection, column.sessionID, group)
+        ? String(toFine(total))
+        : formatInputValue(total, groupUnit(inputs, enabledMembers(inputs, group)), translate)}
     </span>
   );
 }

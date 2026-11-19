@@ -34,7 +34,7 @@ function NumericCell({ input, isSet, onCommit, onSelect, refusal, value, ...flag
   const commit = () => {
     const typed = parseFloat(draft);
 
-    if (isNaN(typed)) {
+    if (isNaN(typed) || typed === value) {
       setDraft(String(value));
       return;
     }
