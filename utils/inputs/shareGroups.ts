@@ -1,4 +1,5 @@
 import { InputCollectionData, InputData, InputValue } from '../api/types';
+import { toStep } from './coerce';
 
 export const GROUP_TOTAL = 100;
 
@@ -13,16 +14,29 @@ export const enabledMembers = (inputs: InputCollectionData, group: string): stri
   );
 
 /**
- * Mirrors the engine's precedence of user, balanced, default, and sums the values the engine holds rather than the step-rounded ones the cells show.
- * rather than the step-rounded ones shown client side.
+ * Once a group is touched its untyped members are coerced to their step values so a group is balanced when sent
  */
+export const memberValue = (
+  input: InputData,
+  typed: InputValue | undefined,
+  touched: boolean
+): InputValue => {
+  if (typed !== undefined) return typed;
+
+  const held = input.user ?? input.default;
+
+  return touched && typeof held === 'number' ? toStep(held, input) : held;
+};
+
 export const groupTotal = (
   inputs: InputCollectionData,
   values: Record<string, InputValue>,
   group: string
 ): number => {
-  const sum = enabledMembers(inputs, group).reduce(
-    (total, key) => total + Number(values[key] ?? inputs[key].user ?? inputs[key].default),
+  const members = enabledMembers(inputs, group);
+  const touched = members.some((key) => values[key] !== undefined);
+  const sum = members.reduce(
+    (total, key) => total + Number(memberValue(inputs[key], values[key], touched)),
     0
   );
 
