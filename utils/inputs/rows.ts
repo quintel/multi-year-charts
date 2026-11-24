@@ -11,15 +11,6 @@ export interface Selection {
   shareGroup: string;
 }
 
-export const isSelected = (
-  selection: Selection | null,
-  sessionID: number,
-  shareGroup: string | undefined
-): boolean =>
-  shareGroup !== undefined &&
-  selection?.sessionID === sessionID &&
-  selection.shareGroup === shareGroup;
-
 export type TableRow =
   | { kind: 'level'; key: string; depth: number; label: string }
   | { kind: 'slide'; key: string; depth: number; label: string }
