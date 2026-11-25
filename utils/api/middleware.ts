@@ -6,7 +6,7 @@ import { InputValue } from './types';
 import { writeFailed, writeStarted, writeSucceeded } from '../../store/actions';
 import { AppState, Column, TypeKeys } from '../../store/types';
 import { RESET } from '../inputs/reset';
-import { absorbable, enabledMembers, isHeld } from '../inputs/shareGroups';
+import { absorbable, enabledMembers, isHeld, memberValue } from '../inputs/shareGroups';
 
 /**
  * Handles fetching data from ETEngine and dispatching events back to Redux.
@@ -106,7 +106,7 @@ const sendOrHold = (
 
   if (isHeld(inputs, values, userValues, group)) return;
 
-  members.forEach((key) => writer.write(key, values[key] ?? inputs[key].user ?? inputs[key].default));
+  members.forEach((key) => writer.write(key, memberValue(inputs[key], values[key], true)));
 };
 
 /**
